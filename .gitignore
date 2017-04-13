@@ -1,6 +1,9 @@
-/vendor
+# Test related files
 tests/DoctrineTest/doctrine_tests/*
 *TestCase.php
+/tests/test.yml
+
+/vendor/
 /composer.lock
 /tests/test.yml
 /tests/tmp/
