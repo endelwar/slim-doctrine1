@@ -7,7 +7,7 @@ spl_autoload_register(array('Doctrine_Core', 'autoload'));
 require_once dirname(__FILE__) . '/classes.php';
 require_once dirname(__FILE__) . '/../models/location.php';
 
-print "<pre>";
+print '<pre>';
 
 $manager = Doctrine_Manager::getInstance();
 $dbh = Doctrine_Db::getConnection('sqlite::memory:');

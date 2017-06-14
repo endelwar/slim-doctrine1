@@ -189,9 +189,9 @@ class DoctrineTest
         $time = $endTime - $startTime;
 
         if (PHP_SAPI === 'cli') {
-          echo "\nTests ran in " . $time . " seconds and used " . (memory_get_peak_usage() / 1024) . " KB of memory\n\n";
+          echo "\nTests ran in " . $time . ' seconds and used ' . (memory_get_peak_usage() / 1024) . " KB of memory\n\n";
         } else {
-          echo "<p>Tests ran in " . $time . " seconds and used " . (memory_get_peak_usage() / 1024) . " KB of memory</p>";
+          echo '<p>Tests ran in ' . $time . ' seconds and used ' . (memory_get_peak_usage() / 1024) . ' KB of memory</p>';
         }
 
         return $result;
@@ -207,7 +207,7 @@ class DoctrineTest
 
         foreach($models as $key => $file) {
             if ($file->isFile() && ! $file->isDot()) {
-                $e = explode('.', $file->getFileName());
+                $e = explode('.', $file->getFilename());
 
                 if (end($e) === 'php') {
                     require_once $file->getPathname();
@@ -267,7 +267,7 @@ class DoctrineTest
         }
 
         $dir = array_shift($e);
-        $file = $dir . '_' . substr(implode('_', $e), 0, -(strlen('_TestCase'))) . 'TestCase.php';
+        $file = $dir . '_' . substr(implode('_', $e), 0, -strlen('_TestCase')) . 'TestCase.php';
         $file = str_replace('_', (($count > 3) ? DIRECTORY_SEPARATOR : ''), $file);
 
         // create a test case file if it doesn't exist
@@ -282,7 +282,7 @@ class DoctrineTest
             file_put_contents($file, $contents);
         }
 
-        require_once($file);
+        require_once $file;
 
         return true;
     }
