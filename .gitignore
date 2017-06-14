@@ -2,8 +2,6 @@
 tests/DoctrineTest/doctrine_tests/*
 *TestCase.php
 /tests/test.yml
-
+/tests/tmp/
 /vendor/
 /composer.lock
-/tests/test.yml
-/tests/tmp/
