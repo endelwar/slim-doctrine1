@@ -1,8 +1,8 @@
 <?php
 
-$_SERVER['DOCTRINE_DIR'] = realpath(dirname(__FILE__).'/../');
+$_SERVER['DOCTRINE_DIR'] = realpath(dirname(__FILE__) . '/../');
 
-require 'bootstrap.php';
+require dirname(__FILE__) . '/bootstrap.php';
 
 $test = new DoctrineTest();
 
@@ -25,7 +25,7 @@ foreach ($ticketTestCases as $testCase)
     $fileInfo = pathinfo($testCase);
     $name = str_replace('TestCase', '', $fileInfo['filename']);
 
-    if ( ! in_array($name, $excludeTickets)) {
+    if ( ! in_array($name, $excludeTickets, true)) {
         $name = sprintf('Doctrine_Ticket_%s_TestCase', $name);
         $tickets->addTestCase(new $name());
     }
