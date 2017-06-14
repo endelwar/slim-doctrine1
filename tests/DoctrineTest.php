@@ -272,7 +272,7 @@ class DoctrineTest
 
         // create a test case file if it doesn't exist
         if ( ! file_exists($file)) {
-            $contents = file_get_contents(DOCTRINE_DIR.'/tests/template.tpl');
+            $contents = file_get_contents(DOCTRINE_DIR . '/tests/template.tpl');
             $contents = sprintf($contents, $class, $class);
 
             if ( ! file_exists($dir)) {
