@@ -1,6 +1,11 @@
 sudo: false
 language: php
 dist: trusty
+
+cache:
+  directories:
+    - $HOME/.composer/cache
+
 php:
   - 5.4
   - 5.5
@@ -17,6 +22,12 @@ matrix:
   fast_finish: true
   allow_failures:
     - php: nightly
+    - php: hhvm
+
+before_script:
+  - travis_retry composer self-update
+  - travis_retry composer install --no-interaction --prefer-source
+  - if [[ "$(phpenv version-name)" != "hhvm" ]]; then echo 'error_reporting = E_ALL' >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini; fi
 
 script:
   - cd tests && php -dshort_open_tag=Off -dmagic_quotes_gpc=Off index.php
