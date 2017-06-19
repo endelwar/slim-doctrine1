@@ -10,6 +10,9 @@ $test = new DoctrineTest();
 $tickets = new GroupTest('Tickets Tests', 'tickets');
 
 $excludeTickets = array(
+    // Skipped tests
+    '1289', '1674', '1725', '1783', 'DC825',
+
     '1830', // MySQL specific error
     '1876b',
     '1935',
