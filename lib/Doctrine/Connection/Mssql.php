@@ -128,8 +128,8 @@ class Doctrine_Connection_Mssql extends Doctrine_Connection_Common
             throw new Doctrine_Connection_Exception("OFFSET cannot be used in MSSQL without ORDER BY due to emulation reasons.");
         }
 
-        $limit = intval($limit);
-        $offset = intval($offset);
+        $limit = (int)$limit;
+        $offset = (int)$offset;
 
         if ($offset < 0) {
             throw new Doctrine_Connection_Exception("LIMIT argument offset=$offset is not valid");

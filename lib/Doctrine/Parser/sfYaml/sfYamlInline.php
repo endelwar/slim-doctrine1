@@ -408,7 +408,7 @@ class sfYamlInline
       case 0 === strpos($scalar, '0x'):
         return hexdec($scalar);
       case is_numeric($scalar):
-        return floatval($scalar);
+        return (float)$scalar;
       case 0 == strcasecmp($scalar, '.inf'):
       case 0 == strcasecmp($scalar, '.NaN'):
         return -log(0);
@@ -417,8 +417,8 @@ class sfYamlInline
       case preg_match('/^(-|\+)?[0-9,]+(\.\d+)?$/', $scalar):
         $replaced = str_replace(',', '', $scalar);
         $replaced = str_replace('+', '', $replaced);
-        $floatval = floatval($replaced);
-        $intval = intval($replaced);
+        $floatval = (float)$replaced;
+        $intval = (int)$replaced;
         return $floatval == $intval ? $intval : $floatval;
       case preg_match(self::getTimestampRegex(), $scalar):
         return strtotime($scalar);
