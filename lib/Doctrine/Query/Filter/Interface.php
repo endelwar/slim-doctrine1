@@ -40,6 +40,7 @@ interface Doctrine_Query_Filter_Interface
      * hooking into the query building procedure, doing any custom / specialized
      * query building procedures that are neccessary.
      *
+     * @param Doctrine_Query $query
      * @return void
      */
     public function preQuery(Doctrine_Query $query);
@@ -51,6 +52,7 @@ interface Doctrine_Query_Filter_Interface
      * to hook into the query building procedure, doing any custom / specialized
      * post query procedures (for example logging) that are neccessary.
      *
+     * @param Doctrine_Query $query
      * @return void
      */
     public function postQuery(Doctrine_Query $query);

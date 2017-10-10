@@ -50,7 +50,7 @@ class Doctrine_Import_Mssql extends Doctrine_Import
     /**
      * lists table relations
      *
-     * Expects an array of this format to be returned with all the relationships in it where the key is 
+     * Expects an array of this format to be returned with all the relationships in it where the key is
      * the name of the foreign table, and the value is an array containing the local and foreign column
      * name
      *
@@ -63,8 +63,9 @@ class Doctrine_Import_Mssql extends Doctrine_Import
      *     )
      * )
      *
-     * @param string $table     database table name
+     * @param string $tableName
      * @return array
+     * @internal param string $table database table name
      */
     public function listTableRelations($tableName)
     {
@@ -169,6 +170,7 @@ class Doctrine_Import_Mssql extends Doctrine_Import
     /**
      * lists all triggers
      *
+     * @param null $database
      * @return array
      */
     public function listTriggers($database = null)

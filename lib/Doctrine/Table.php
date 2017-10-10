@@ -300,8 +300,10 @@ class Doctrine_Table extends Doctrine_Configurable implements Countable, Seriali
 
     /**
      * Initializes the in-memory table definition.
-     *
-     * @param string $name
+     * @return mixed
+     * @throws Doctrine_Exception
+     * @throws Doctrine_Table_Exception
+     * @internal param string $name
      */
     public function initDefinition()
     {
@@ -655,8 +657,9 @@ class Doctrine_Table extends Doctrine_Configurable implements Countable, Seriali
      * keys are tableName, columns (@see $_columns) and options.
      * The options subarray contains 'primary' and 'foreignKeys'.
      *
-     * @param boolean $parseForeignKeys     whether to include foreign keys definition in the options
+     * @param boolean $parseForeignKeys whether to include foreign keys definition in the options
      * @return array
+     * @throws Doctrine_Table_Exception
      */
     public function getExportableFormat($parseForeignKeys = true)
     {
@@ -800,6 +803,7 @@ class Doctrine_Table extends Doctrine_Configurable implements Countable, Seriali
      * </code>
      *
      * @param string $option
+     * @return bool
      */
     public function __isset($option)
     {
@@ -922,10 +926,11 @@ class Doctrine_Table extends Doctrine_Configurable implements Countable, Seriali
      * and validate the values on save. The UNIQUE index is not created in the
      * database until you use @see export().
      *
-     * @param array $fields     values are fieldnames
-     * @param array $options    array of options for unique validator
-     * @param bool $createUniqueIndex  Whether or not to create a unique index in the database
+     * @param array $fields values are fieldnames
+     * @param array $options array of options for unique validator
+     * @param bool $createdUniqueIndex
      * @return void
+     * @internal param bool $createUniqueIndex Whether or not to create a unique index in the database
      */
     public function unique($fields, $options = array(), $createdUniqueIndex = true)
     {
@@ -961,11 +966,10 @@ class Doctrine_Table extends Doctrine_Configurable implements Countable, Seriali
 
     /**
      * Binds One-to-One aggregate relation
-     *
-     * @param string $componentName     the name of the related component
-     * @param string $options           relation options
+     * @return Doctrine_Record this object
+     * @internal param string $componentName the name of the related component
+     * @internal param string $options relation options
      * @see Doctrine_Relation::_$definition
-     * @return Doctrine_Record          this object
      */
     public function hasOne()
     {
@@ -974,11 +978,10 @@ class Doctrine_Table extends Doctrine_Configurable implements Countable, Seriali
 
     /**
      * Binds One-to-Many / Many-to-Many aggregate relation
-     *
-     * @param string $componentName     the name of the related component
-     * @param string $options           relation options
+     * @return Doctrine_Record this object
+     * @internal param string $componentName the name of the related component
+     * @internal param string $options relation options
      * @see Doctrine_Relation::_$definition
-     * @return Doctrine_Record          this object
      */
     public function hasMany()
     {
@@ -1004,7 +1007,8 @@ class Doctrine_Table extends Doctrine_Configurable implements Countable, Seriali
     /**
      * Retrieves a relation object for this component.
      *
-     * @param string $alias      relation alias; @see hasRelation()
+     * @param string $alias relation alias; @see hasRelation()
+     * @param bool $recursive
      * @return Doctrine_Relation
      */
     public function getRelation($alias, $recursive = true)
@@ -1065,9 +1069,10 @@ class Doctrine_Table extends Doctrine_Configurable implements Countable, Seriali
      * allow flexible method chaining.
      *
      * @see Doctrine_Table::$_options   for available options
-     * @param string $name              the name of the option to set
-     * @param mixed $value              the value of the option
-     * @return Doctrine_Table           this object
+     * @param string $name the name of the option to set
+     * @param mixed $value the value of the option
+     * @return Doctrine_Table this object
+     * @throws Doctrine_Table_Exception
      */
     public function setOption($name, $value)
     {
@@ -1121,9 +1126,9 @@ class Doctrine_Table extends Doctrine_Configurable implements Countable, Seriali
      * Process an order by statement to be prefixed with the passed alias and
      * field names converted to column names if the 3rd argument is true.
      *
-     * @param string $alias        The alias to prefix columns with
-     * @param string $orderBy      The order by to process
-     * @param string $columnNames  Whether or not to convert field names to column names
+     * @param string $alias The alias to prefix columns with
+     * @param string $orderBy The order by to process
+     * @param bool|string $columnNames Whether or not to convert field names to column names
      * @return string $orderBy
      */
     public function processOrderBy($alias, $orderBy, $columnNames = false)
@@ -1163,8 +1168,9 @@ class Doctrine_Table extends Doctrine_Configurable implements Countable, Seriali
      * If the actual name for the alias cannot be found
      * this method returns the given alias.
      *
-     * @param string $alias         column alias
-     * @return string               column name
+     * @param $fieldName
+     * @return string column name
+     * @internal param string $alias column alias
      */
     public function getColumnName($fieldName)
     {
@@ -1224,8 +1230,9 @@ class Doctrine_Table extends Doctrine_Configurable implements Countable, Seriali
      *     }
      *
      * @param string $columnName
-     * @param array $validators
+     * @param array $options
      * @return void
+     * @internal param array $validators
      */
     public function setColumnOptions($columnName, array $options)
     {
@@ -1429,8 +1436,9 @@ class Doctrine_Table extends Doctrine_Configurable implements Countable, Seriali
     /**
      * Retrieves the default value (if any) for a given column.
      *
-     * @param string $fieldName     column name
-     * @return mixed                default value as set in definition
+     * @param string $fieldName column name
+     * @return mixed default value as set in definition
+     * @throws Doctrine_Table_Exception
      */
     public function getDefaultValueOf($fieldName)
     {
@@ -1525,11 +1533,11 @@ class Doctrine_Table extends Doctrine_Configurable implements Countable, Seriali
      * this component. The record is not created in the database until you
      * call Doctrine_Record::save().
      *
-     * @param $array             an array where keys are field names and
+     * @param an|array $array an array where keys are field names and
      *                           values representing field values. Can contain
      *                           also related components;
-     *                           @see Doctrine_Record::fromArray()
-     * @return Doctrine_Record   the created record object
+     * @return Doctrine_Record the created record object
+     * @see Doctrine_Record::fromArray()
      */
     public function create(array $array = array())
     {
@@ -1584,14 +1592,13 @@ class Doctrine_Table extends Doctrine_Configurable implements Countable, Seriali
      * $table->find(11, Doctrine_Core::HYDRATE_RECORD);
      * $table->find('namedQueryForYearArchive', array(2009), Doctrine_Core::HYDRATE_ARRAY);
      * </code>
-     *
-     * @param mixed $name         Database Row ID or Query Name defined previously as a NamedQuery
-     * @param mixed $params       This argument is the hydration mode (Doctrine_Core::HYDRATE_ARRAY or
+     * @return mixed Doctrine_Collection, array, Doctrine_Record or false if no result
+     * @internal param mixed $name Database Row ID or Query Name defined previously as a NamedQuery
+     * @internal param mixed $params This argument is the hydration mode (Doctrine_Core::HYDRATE_ARRAY or
      *                            Doctrine_Core::HYDRATE_RECORD) if first param is a Database Row ID.
      *                            Otherwise this argument expect an array of query params.
-     * @param int $hydrationMode  Optional Doctrine_Core::HYDRATE_ARRAY or Doctrine_Core::HYDRATE_RECORD if
+     * @internal param int $hydrationMode Optional Doctrine_Core::HYDRATE_ARRAY or Doctrine_Core::HYDRATE_RECORD if
      *                            first argument is a NamedQuery
-     * @return mixed              Doctrine_Collection, array, Doctrine_Record or false if no result
      */
     public function find()
     {
@@ -1694,10 +1701,11 @@ class Doctrine_Table extends Doctrine_Configurable implements Countable, Seriali
     /**
      * Find records basing on a field.
      *
-     * @param string $column            field for the WHERE clause
-     * @param string $value             prepared statement parameter
-     * @param int $hydrationMode        Doctrine_Core::HYDRATE_ARRAY or Doctrine_Core::HYDRATE_RECORD
-     * @return Doctrine_Collection|array
+     * @param $fieldName
+     * @param string $value prepared statement parameter
+     * @param int $hydrationMode Doctrine_Core::HYDRATE_ARRAY or Doctrine_Core::HYDRATE_RECORD
+     * @return array|Doctrine_Collection
+     * @internal param string $column field for the WHERE clause
      */
     public function findBy($fieldName, $value, $hydrationMode = null)
     {
@@ -1709,10 +1717,11 @@ class Doctrine_Table extends Doctrine_Configurable implements Countable, Seriali
     /**
      * Finds the first record that satisfy the clause.
      *
-     * @param string $column            field for the WHERE clause
-     * @param string $value             prepared statement parameter
-     * @param int $hydrationMode        Doctrine_Core::HYDRATE_ARRAY or Doctrine_Core::HYDRATE_RECORD
+     * @param $fieldName
+     * @param string $value prepared statement parameter
+     * @param int $hydrationMode Doctrine_Core::HYDRATE_ARRAY or Doctrine_Core::HYDRATE_RECORD
      * @return Doctrine_Record
+     * @internal param string $column field for the WHERE clause
      */
     public function findOneBy($fieldName, $value, $hydrationMode = null)
     {
@@ -2206,6 +2215,7 @@ class Doctrine_Table extends Doctrine_Configurable implements Countable, Seriali
     /**
      * Returns an array containing all the column names.
      *
+     * @param array|null $fieldNames
      * @return array numeric array
      */
     public function getColumnNames(array $fieldNames = null)
@@ -2332,14 +2342,15 @@ class Doctrine_Table extends Doctrine_Configurable implements Countable, Seriali
      * $table->prepareValue($field, $value); // Doctrine_Null
      * </code>
      *
-     * @throws Doctrine_Table_Exception     if unserialization of array/object typed column fails or
-     * @throws Doctrine_Table_Exception     if uncompression of gzip typed column fails         *
-     * @param string $field     the name of the field
-     * @param string $value     field value
-     * @param string $typeHint  Type hint used to pass in the type of the value to prepare
+     *
+     * @param $fieldName
+     * @param string $value field value
+     * @param string $typeHint Type hint used to pass in the type of the value to prepare
      *                          if it is already known. This enables the method to skip
      *                          the type determination. Used i.e. during hydration.
-     * @return mixed            prepared value
+     * @return mixed if unserialization of array/object typed column fails or
+     * @throws Doctrine_Table_Exception if uncompression of gzip typed column fails
+     * @internal param string $field the name of the field
      */
     public function prepareValue($fieldName, $value, $typeHint = null)
     {
@@ -2521,6 +2532,7 @@ class Doctrine_Table extends Doctrine_Configurable implements Countable, Seriali
      *
      * @param string $generator
      * @return Doctrine_Record_Generator $generator
+     * @throws Doctrine_Table_Exception
      */
     public function getGenerator($generator)
     {
@@ -2740,6 +2752,7 @@ class Doctrine_Table extends Doctrine_Configurable implements Countable, Seriali
      *
      * @param string $a
      * @param string $b
+     * @return int
      */
     private function isGreaterThan($a, $b)
     {
@@ -2883,13 +2896,13 @@ class Doctrine_Table extends Doctrine_Configurable implements Countable, Seriali
      * of queries inside a transaction to assure the atomicity of the operation.
      *
      *
-     * @param array $fields     an associative array that describes the fields and the
+     * @param array $fields an associative array that describes the fields and the
      *                          values that will be inserted or updated in the specified table. The
      *                          indexes of the array are the names of all the fields of the table.
      *
      *                          The values of the array are values to be assigned to the specified field.
      *
-     * @param mixed $keys       an array containing all key fields (primary key fields
+     * @param mixed $keys an array containing all key fields (primary key fields
      *                          or unique index fields) for this table
      *
      *                          the uniqueness of a row will be determined according to
@@ -2897,6 +2910,7 @@ class Doctrine_Table extends Doctrine_Configurable implements Countable, Seriali
      *
      *                          this method will fail if no key fields are specified
      *
+     * @return int
      * @throws Doctrine_Connection_Exception        if this driver doesn't support replace
      * @throws Doctrine_Connection_Exception        if some of the key values was null
      * @throws Doctrine_Connection_Exception        if there were no key fields
@@ -2915,7 +2929,10 @@ class Doctrine_Table extends Doctrine_Configurable implements Countable, Seriali
      * findByColumnName, findByRelationAlias
      * findById, findByContactId, etc.
      *
+     * @param $method
+     * @param $arguments
      * @return the result of the finder
+     * @throws Doctrine_Table_Exception
      */
     public function __call($method, $arguments)
     {

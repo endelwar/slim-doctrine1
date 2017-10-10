@@ -124,6 +124,7 @@ class Doctrine_Data
      *
      * Set the array/string of directories or yml file paths
      *
+     * @param $directory
      * @return void
      */
     public function setDirectory($directory)
@@ -173,6 +174,7 @@ class Doctrine_Data
      *
      * Set/Get whether or not to export individual files
      *
+     * @param null $bool
      * @return bool $_exportIndividualFiles
      */
     public function exportIndividualFiles($bool = null)
@@ -201,8 +203,8 @@ class Doctrine_Data
      *
      * @param string $directory
      * @param string $format
-     * @param string $models
-     * @param string $_exportIndividualFiles
+     * @param array|string $models
+     * @param bool|string $_exportIndividualFiles
      * @return void
      */
     public function exportData($directory, $format = 'yml', $models = array(), $_exportIndividualFiles = false)
@@ -222,7 +224,9 @@ class Doctrine_Data
      *
      * @param string $directory
      * @param string $format
-     * @param string $models
+     * @param array|string $models
+     * @param bool $append
+     * @param string $charset
      * @return void
      */
     public function importData($directory, $format = 'yml', $models = array(), $append = false, $charset = 'UTF-8')
@@ -240,9 +244,10 @@ class Doctrine_Data
      *
      * Check if a fieldName on a Doctrine_Record is a relation, if it is we return that relationData
      *
-     * @param string $Doctrine_Record
+     * @param Doctrine_Record $record
      * @param string $fieldName
      * @return void
+     * @internal param string $Doctrine_Record
      */
     public function isRelation(Doctrine_Record $record, $fieldName)
     {

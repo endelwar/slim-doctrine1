@@ -82,8 +82,11 @@ class Doctrine_Adapter_Oracle implements Doctrine_Adapter_Interface
      * Doctrine_Manager::connection(array('oracle:dbname=SID;charset=NLS_CHARACTERSET;persistent=true','usr', 'pass'),"doctrine_connection_name")
      * </code>
      *
-     * @param string $name
-     * @return void
+     * @param array $config
+     * @param null $username
+     * @param null $password
+     * @throws Doctrine_Adapter_Exception
+     * @internal param string $name
      */
     public function __construct($config = array(), $username = null, $password = null)
     {
@@ -190,8 +193,8 @@ class Doctrine_Adapter_Oracle implements Doctrine_Adapter_Interface
 
     /**
      * Get the id of the last inserted record
-     *
-     * @return integer $id
+     * @return int $id
+     * @throws Doctrine_Adapter_Exception
      */
     public function lastInsertId()
     {
@@ -233,8 +236,9 @@ class Doctrine_Adapter_Oracle implements Doctrine_Adapter_Interface
      * Set connection attribute
      *
      * @param integer $attribute
-     * @param mixed $value                  the value of given attribute
-     * @return boolean                      Returns TRUE on success or FALSE on failure.
+     * @param mixed $value the value of given attribute
+     * @return bool Returns TRUE on success or FALSE on failure.
+     * @throws Doctrine_Adapter_Exception
      */
     public function setAttribute($attribute, $value)
     {

@@ -369,8 +369,9 @@ class Doctrine_Transaction extends Doctrine_Connection_Module
      * releaseSavePoint
      * creates a new savepoint
      *
-     * @param string $savepoint     name of a savepoint to create
+     * @param string $savepoint name of a savepoint to create
      * @return void
+     * @throws Doctrine_Transaction_Exception
      */
     protected function createSavePoint($savepoint)
     {
@@ -381,8 +382,9 @@ class Doctrine_Transaction extends Doctrine_Connection_Module
      * releaseSavePoint
      * releases given savepoint
      *
-     * @param string $savepoint     name of a savepoint to release
+     * @param string $savepoint name of a savepoint to release
      * @return void
+     * @throws Doctrine_Transaction_Exception
      */
     protected function releaseSavePoint($savepoint)
     {
@@ -393,8 +395,9 @@ class Doctrine_Transaction extends Doctrine_Connection_Module
      * rollbackSavePoint
      * releases given savepoint
      *
-     * @param string $savepoint     name of a savepoint to rollback to
+     * @param string $savepoint name of a savepoint to rollback to
      * @return void
+     * @throws Doctrine_Transaction_Exception
      */
     protected function rollbackSavePoint($savepoint)
     {
@@ -498,12 +501,14 @@ class Doctrine_Transaction extends Doctrine_Connection_Module
     {
         throw new Doctrine_Transaction_Exception('Fetching transaction isolation level not supported by this driver.');
     }
-    
+
     /**
      * Initiates a transaction.
      *
      * This method must only be used by Doctrine itself to initiate transactions.
      * Userland-code must use {@link beginTransaction()}.
+     * @param null $savepoint
+     * @return int
      */
     public function beginInternalTransaction($savepoint = null)
     {

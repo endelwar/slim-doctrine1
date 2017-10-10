@@ -62,6 +62,7 @@ abstract class Doctrine_Record_Abstract extends Doctrine_Access
      * addListener
      *
      * @param Doctrine_EventListener_Interface|Doctrine_Overloadable $listener
+     * @param null $name
      * @return Doctrine_Record
      */
     public function addListener($listener, $name = null)
@@ -220,11 +221,10 @@ abstract class Doctrine_Record_Abstract extends Doctrine_Access
 
     /**
      * Binds One-to-One aggregate relation
-     *
-     * @param string $componentName     the name of the related component
-     * @param string $options           relation options
+     * @return Doctrine_Record this object
+     * @internal param string $componentName the name of the related component
+     * @internal param string $options relation options
      * @see Doctrine_Relation::_$definition
-     * @return Doctrine_Record          this object
      */
     public function hasOne()
     {
@@ -235,11 +235,10 @@ abstract class Doctrine_Record_Abstract extends Doctrine_Access
 
     /**
      * Binds One-to-Many / Many-to-Many aggregate relation
-     *
-     * @param string $componentName     the name of the related component
-     * @param string $options           relation options
+     * @return Doctrine_Record this object
+     * @internal param string $componentName the name of the related component
+     * @internal param string $options relation options
      * @see Doctrine_Relation::_$definition
-     * @return Doctrine_Record          this object
      */
     public function hasMany()
     {
@@ -290,9 +289,11 @@ abstract class Doctrine_Record_Abstract extends Doctrine_Access
      *         ));
      *     }
      *
-     * @param string $columnName 
-     * @param array $validators 
+     * @param $name
+     * @param array $options
      * @return void
+     * @internal param string $columnName
+     * @internal param array $validators
      */
     public function setColumnOptions($name, array $options)
     {

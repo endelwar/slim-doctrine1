@@ -58,7 +58,6 @@ class Doctrine_AuditLog extends Doctrine_Record_Generator
      * Accepts array of options to configure the AuditLog
      *
      * @param   array $options An array of options
-     * @return  void
      */
     public function __construct(array $options = array())
     {

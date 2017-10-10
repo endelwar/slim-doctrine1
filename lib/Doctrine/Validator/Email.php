@@ -84,12 +84,13 @@ class Doctrine_Validator_Email extends Doctrine_Validator_Driver
         
         return (bool) preg_match("!^$addrSpec$!D", $value);
     }
-    
+
     /**
      * Check DNS Records for MX type
      *
      * @param string $host Host name
-     * @return boolean
+     * @return bool
+     * @throws Doctrine_Exception
      */
     private function _checkMX($host)
     {

@@ -59,10 +59,9 @@ class Doctrine_Migration_Diff
      * $diff->generateMigrationClasses();
      * </code>
      *
-     * @param string $from      The from schema information source
-     * @param string $to        The to schema information source
-     * @param mixed  $migration Instance of Doctrine_Migration or path to migration classes
-     * @return void
+     * @param string $from The from schema information source
+     * @param string $to The to schema information source
+     * @param mixed $migration Instance of Doctrine_Migration or path to migration classes
      */
     public function __construct($from, $to, $migration)
     {

@@ -75,7 +75,7 @@ class Doctrine_Connection_Oracle extends Doctrine_Connection_Common
 
     /**
      * Sets up the date/time format
-     *
+     * @param string $format
      */
     public function setDateFormat($format = 'YYYY-MM-DD HH24:MI:SS')
     {
@@ -85,10 +85,11 @@ class Doctrine_Connection_Oracle extends Doctrine_Connection_Common
     /**
      * Adds an driver-specific LIMIT clause to the query
      *
-     * @param string $query         query to modify
-     * @param integer $limit        limit the number of rows
-     * @param integer $offset       start reading from given offset
-     * @return string               the modified query
+     * @param string $query query to modify
+     * @param bool|int $limit limit the number of rows
+     * @param bool|int $offset start reading from given offset
+     * @param bool $isManip
+     * @return string the modified query
      */
     public function modifyLimitQuery($query, $limit = false, $offset = false, $isManip = false)
     {
@@ -120,10 +121,17 @@ class Doctrine_Connection_Oracle extends Doctrine_Connection_Common
         }
         return $query;
     }
-    
+
     /**
      * Creates the SQL for Oracle that can be used in the subquery for the limit-subquery
      * algorithm.
+     * @param Doctrine_Table $rootTable
+     * @param $query
+     * @param bool $limit
+     * @param bool $offset
+     * @param bool $isManip
+     * @return string
+     * @throws Doctrine_Connection_Exception
      */
     public function modifyLimitSubquery(Doctrine_Table $rootTable, $query, $limit = false,
             $offset = false, $isManip = false)
@@ -146,6 +154,9 @@ class Doctrine_Connection_Oracle extends Doctrine_Connection_Common
     /**
      * Override quote behaviour for boolean to fix issues with quoting of
      * boolean values.
+     * @param mixed $input
+     * @param null $type
+     * @return int|null|string
      */
     public function quote($input, $type = null)
     {

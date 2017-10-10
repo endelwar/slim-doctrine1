@@ -181,10 +181,11 @@ abstract class Doctrine_Migration_Base
     /**
      * Add a create constraint change.
      *
-     * @param string $tableName         Name of the table.
-     * @param string $constraintname    Name of the constraint.
-     * @param array  $definition        Array for the constraint definition.
+     * @param string $tableName Name of the table.
+     * @param $constraintName
+     * @param array $definition Array for the constraint definition.
      * @return void
+     * @internal param string $constraintname Name of the constraint.
      */
     public function createConstraint($tableName, $constraintName, array $definition)
     {
@@ -194,9 +195,11 @@ abstract class Doctrine_Migration_Base
     /**
      * Add a drop constraint change.
      *
-     * @param string $tableName         Name of the table.
-     * @param string $constraintname    Name of the constraint.
+     * @param string $tableName Name of the table.
+     * @param $constraintName
+     * @param bool $primary
      * @return void
+     * @internal param string $constraintname Name of the constraint.
      */
     public function dropConstraint($tableName, $constraintName, $primary = false)
     {

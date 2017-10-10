@@ -49,7 +49,9 @@ class Doctrine_Search_Query
     protected $_condition;
 
     /**
-     * @param Doctrine_Table $_table        the index table
+     * @param $table
+     * @throws Doctrine_Search_Exception
+     * @internal param Doctrine_Table $_table the index table
      */
     public function __construct($table)
     {

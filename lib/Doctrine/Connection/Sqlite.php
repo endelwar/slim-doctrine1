@@ -42,7 +42,8 @@ class Doctrine_Connection_Sqlite extends Doctrine_Connection_Common
      * the constructor
      *
      * @param Doctrine_Manager $manager
-     * @param PDO $pdo                          database handle
+     * @param Doctrine_Adapter_Interface|PDO $adapter
+     * @internal param PDO $pdo database handle
      */
     public function __construct(Doctrine_Manager $manager, $adapter)
     {
@@ -97,8 +98,8 @@ class Doctrine_Connection_Sqlite extends Doctrine_Connection_Common
 
     /**
      * createDatabase
-     *
      * @return void
+     * @throws Doctrine_Connection_Exception
      */
     public function createDatabase()
     {
@@ -113,8 +114,8 @@ class Doctrine_Connection_Sqlite extends Doctrine_Connection_Common
 
     /**
      * dropDatabase
-     *
      * @return void
+     * @throws Doctrine_Connection_Exception
      */
     public function dropDatabase()
     {

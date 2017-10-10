@@ -55,7 +55,6 @@ class Doctrine_Template_Versionable extends Doctrine_Template
      * __construct
      *
      * @param array $options
-     * @return void
      */
     public function __construct(array $options = array())
     {

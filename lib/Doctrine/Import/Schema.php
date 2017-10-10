@@ -257,12 +257,12 @@ class Doctrine_Import_Schema
      *
      * A method to import a Schema and translate it into a Doctrine_Record object
      *
-     * @param  string $schema       The file containing the XML schema
-     * @param  string $format       Format of the schema file
-     * @param  string $directory    The directory where the Doctrine_Record class will be written
-     * @param  array  $models       Optional array of models to import
-     *
+     * @param  string $schema The file containing the XML schema
+     * @param  string $format Format of the schema file
+     * @param  string $directory The directory where the Doctrine_Record class will be written
+     * @param  array $models Optional array of models to import
      * @return void
+     * @throws Doctrine_Import_Exception
      */
     public function importSchema($schema, $format = 'yml', $directory = null, $models = array())
     {
@@ -539,7 +539,8 @@ class Doctrine_Import_Schema
      * Find the base super class for this inheritance child. We need to move all levels of children to the
      * top most parent.
      *
-     * @param  array  $array  Array of schema information
+     * @param  array $array Array of schema information
+     * @param $class
      * @return string $class  Class to get find the parent for
      */
     protected function _findBaseSuperClass($array, $class)
@@ -742,9 +743,12 @@ class Doctrine_Import_Schema
     /**
      * _validateSchemaElement
      *
-     * @param string $name 
-     * @param string $value 
+     * @param string $name
+     * @param $element
+     * @param $path
      * @return void
+     * @throws Doctrine_Import_Exception
+     * @internal param string $value
      */
     protected function _validateSchemaElement($name, $element, $path)
     {

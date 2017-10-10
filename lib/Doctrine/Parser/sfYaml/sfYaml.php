@@ -46,24 +46,24 @@ class sfYaml
     return self::$spec;
   }
 
-  /**
-   * Loads YAML into a PHP array.
-   *
-   * The load method, when supplied with a YAML stream (string or file),
-   * will do its best to convert YAML in a file into a PHP array.
-   *
-   *  Usage:
-   *  <code>
-   *   $array = sfYaml::load('config.yml');
-   *   print_r($array);
-   *  </code>
-   *
-   * @param string $input Path of YAML file or string containing YAML
-   *
-   * @return array The YAML converted to a PHP array
-   *
-   * @throws InvalidArgumentException If the YAML is not valid
-   */
+    /**
+     * Loads YAML into a PHP array.
+     *
+     * The load method, when supplied with a YAML stream (string or file),
+     * will do its best to convert YAML in a file into a PHP array.
+     *
+     *  Usage:
+     *  <code>
+     *   $array = sfYaml::load('config.yml');
+     *   print_r($array);
+     *  </code>
+     *
+     * @param string $input Path of YAML file or string containing YAML
+     *
+     * @param string $encoding
+     * @return array The YAML converted to a PHP array
+     *
+     */
   public static function load($input, $encoding = 'UTF-8')
   {
     $file = '';

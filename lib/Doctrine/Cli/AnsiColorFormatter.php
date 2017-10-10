@@ -67,10 +67,12 @@ class Doctrine_Cli_AnsiColorFormatter extends Doctrine_Cli_Formatter
     /**
      * Formats a text according to the given style or parameters.
      *
-     * @param  string The test to style
-     * @param  mixed  An array of options or a style name
-     *
+     * @param string $text The test to style
+     * @param array $parameters
+     * @param A|bool|resource|string $stream
      * @return string The styled text
+     * @internal param An $mixed array of options or a style name
+     *
      */
     public function format($text = '', $parameters = array(), $stream = STDOUT)
     {
@@ -110,6 +112,7 @@ class Doctrine_Cli_AnsiColorFormatter extends Doctrine_Cli_Formatter
      * @param string  The section name
      * @param string  The text message
      * @param integer The maximum size allowed for a line (65 by default)
+     * @return string
      */
     public function formatSection($section, $text, $size = null)
     {

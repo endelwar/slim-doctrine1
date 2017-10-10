@@ -512,7 +512,6 @@ class Doctrine_Core
     /**
      * __construct
      *
-     * @return void
      * @throws Doctrine_Exception
      */
     public function __construct()
@@ -594,6 +593,8 @@ class Doctrine_Core
     /**
      * Load an individual model name and path in to the model loading registry
      *
+     * @param $className
+     * @param null $path
      * @return null
      */
     public static function loadModel($className, $path = null)
@@ -628,10 +629,12 @@ class Doctrine_Core
     /**
      * Recursively load all models from a directory or array of directories
      *
-     * @param  string   $directory      Path to directory of models or array of directory paths
-     * @param  integer  $modelLoading   Pass value of Doctrine_Core::ATTR_MODEL_LOADING to force a certain style of model loading
+     * @param  string $directory Path to directory of models or array of directory paths
+     * @param  integer $modelLoading Pass value of Doctrine_Core::ATTR_MODEL_LOADING to force a certain style of model loading
      *                                  Allowed Doctrine_Core::MODEL_LOADING_AGGRESSIVE(default) or Doctrine_Core::MODEL_LOADING_CONSERVATIVE
-     * @param  string  $classPrefix     The class prefix of the models to load. This is useful if the class name and file name are not the same
+     * @param  string $classPrefix The class prefix of the models to load. This is useful if the class name and file name are not the same
+     * @return array
+     * @throws Doctrine_Exception
      */
     public static function loadModels($directory, $modelLoading = null, $classPrefix = null)
     {
@@ -723,8 +726,9 @@ class Doctrine_Core
      * Will filter through an array of classes and return the Doctrine_Records out of them.
      * If you do not specify $classes it will return all of the currently loaded Doctrine_Records
      *
-     * @param classes  Array of classes to filter through, otherwise uses get_declared_classes()
-     * @return array   $loadedModels
+     * @param array|null $classes
+     * @return array $loadedModels
+     * @internal param array $classes of classes to filter through, otherwise uses get_declared_classes()
      */
     public static function getLoadedModels($classes = null)
     {
@@ -778,8 +782,9 @@ class Doctrine_Core
      * Filter through an array of classes and return all the classes that are valid models.
      * This will inflect the class, causing it to be loaded in to memory.
      *
-     * @param classes  Array of classes to filter through, otherwise uses get_declared_classes()
-     * @return array   $loadedModels
+     * @param array $classes
+     * @return array $loadedModels
+     * @internal param array $classes of classes to filter through, otherwise uses get_declared_classes()
      */
     public static function filterInvalidModels($classes)
     {
@@ -866,8 +871,9 @@ class Doctrine_Core
      *
      * @param string $yamlPath Path to write oyur yaml schema file to
      * @param array $connections Array of connection names to generate yaml for
-     * @param array  $options Array of options
+     * @param array $options Array of options
      * @return void
+     * @throws Doctrine_Exception
      */
     public static function generateYamlFromDb($yamlPath, array $connections = array(), array $options = array())
     {
@@ -975,7 +981,7 @@ class Doctrine_Core
     /**
      * Creates databases for connections
      *
-     * @param string $specifiedConnections Array of connections you wish to create the database for
+     * @param array|string $specifiedConnections Array of connections you wish to create the database for
      * @return void
      */
     public static function createDatabases($specifiedConnections = array())
@@ -986,7 +992,7 @@ class Doctrine_Core
     /**
      * Drops databases for connections
      *
-     * @param string $specifiedConnections Array of connections you wish to drop the database for
+     * @param array|string $specifiedConnections Array of connections you wish to drop the database for
      * @return void
      */
     public static function dropDatabases($specifiedConnections = array())
@@ -998,7 +1004,7 @@ class Doctrine_Core
      * Dump data to a yaml fixtures file
      *
      * @param string $yamlPath Path to write the yaml data fixtures to
-     * @param string $individualFiles Whether or not to dump data to individual fixtures files
+     * @param bool|string $individualFiles Whether or not to dump data to individual fixtures files
      * @return void
      */
     public static function dumpData($yamlPath, $individualFiles = false)
@@ -1013,7 +1019,8 @@ class Doctrine_Core
      * The output of dumpData can be fed to loadData
      *
      * @param string $yamlPath Path to your yaml data fixtures
-     * @param string $append Whether or not to append the data
+     * @param bool|string $append Whether or not to append the data
+     * @param string $charset
      * @return void
      */
     public static function loadData($yamlPath, $append = false, $charset = 'UTF-8')
@@ -1043,6 +1050,7 @@ class Doctrine_Core
      *
      * @param string $className Name of the Migration class to generate
      * @param string $migrationsPath Path to directory which contains your migration classes
+     * @return mixed
      */
     public static function generateMigrationClass($className, $migrationsPath)
     {

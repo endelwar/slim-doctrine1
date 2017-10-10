@@ -36,8 +36,8 @@ class Doctrine_Validator_Regexp extends Doctrine_Validator_Driver
      * checks if given value satisfies a regular expression
      *
      * @param mixed $value
-     * @param mixed $args
-     * @return boolean
+     * @return bool
+     * @internal param mixed $args
      */
     public function validate($value)
     {

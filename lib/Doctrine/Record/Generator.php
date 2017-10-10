@@ -60,6 +60,7 @@ abstract class Doctrine_Record_Generator extends Doctrine_Record_Abstract
      * An alias for getOption
      *
      * @param string $option
+     * @return mixed|null
      */
     public function __get($option)
     {
@@ -73,6 +74,7 @@ abstract class Doctrine_Record_Generator extends Doctrine_Record_Abstract
      * __isset
      *
      * @param string $option
+     * @return bool
      */
     public function __isset($option) 
     {
@@ -82,8 +84,10 @@ abstract class Doctrine_Record_Generator extends Doctrine_Record_Abstract
     /**
      * Returns the value of an option
      *
-     * @param $option       the name of the option to retrieve
-     * @return mixed        the value of the option
+     * @param $name
+     * @return mixed the value of the option
+     * @throws Doctrine_Exception
+     * @internal param the $option name of the option to retrieve
      */
     public function getOption($name)
     {
@@ -97,9 +101,10 @@ abstract class Doctrine_Record_Generator extends Doctrine_Record_Abstract
     /**
      * Sets given value to an option
      *
-     * @param $option       the name of the option to be changed
+     * @param $name
      * @param $value        the value of the option
-     * @return Doctrine_Plugin  this object
+     * @return Doctrine_Plugin this object
+     * @internal param the $option name of the option to be changed
      */
     public function setOption($name, $value)
     {
@@ -240,8 +245,8 @@ abstract class Doctrine_Record_Generator extends Doctrine_Record_Abstract
 
     /**
      * Build the child behavior definitions that are attached to this generator
-     *
      * @return void
+     * @throws Doctrine_Record_Exception
      */
     public function buildChildDefinitions()
     {
@@ -438,9 +443,10 @@ abstract class Doctrine_Record_Generator extends Doctrine_Record_Abstract
     /**
      * Generates the class definition for plugin class
      *
-     * @param array $definition  Definition array defining columns, relations and options
+     * @param array $definition Definition array defining columns, relations and options
      *                           for the model
      * @return void
+     * @throws Doctrine_Record_Exception
      */
     public function generateClass(array $definition = array())
     {

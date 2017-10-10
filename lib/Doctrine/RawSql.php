@@ -95,10 +95,14 @@ class Doctrine_RawSql extends Doctrine_Query_Abstract
      	}
      	return $this;
     }
-    
+
     /**
      * Adds a DQL query part. Overrides Doctrine_Query_Abstract::_addDqlQueryPart().
      * This implementation for RawSql parses the new parts right away, generating the SQL.
+     * @param string $queryPartName
+     * @param string $queryPart
+     * @param bool $append
+     * @return $this|Doctrine_Query
      */
     protected function _addDqlQueryPart($queryPartName, $queryPart, $append = false)
     {
@@ -185,7 +189,9 @@ class Doctrine_RawSql extends Doctrine_Query_Abstract
      * getSqlQuery
      * builds the sql query.
      *
-     * @return string       the built sql query
+     * @param array $params
+     * @return string the built sql query
+     * @throws Doctrine_RawSql_Exception
      */
     public function getSqlQuery($params = array())
     {        
@@ -286,11 +292,12 @@ class Doctrine_RawSql extends Doctrine_Query_Abstract
         return $q;
     }
 
-	/**
+    /**
      * getCountQuery
      * builds the count query.
      *
-     * @return string       the built sql query
+     * @param array $params
+     * @return string the built sql query
      */
 	public function getCountSqlQuery($params = array())
     {
@@ -377,8 +384,9 @@ class Doctrine_RawSql extends Doctrine_Query_Abstract
      * addComponent
      *
      * @param string $tableAlias
-     * @param string $componentName
+     * @param $path
      * @return Doctrine_RawSql
+     * @internal param string $componentName
      */
     public function addComponent($tableAlias, $path)
     {

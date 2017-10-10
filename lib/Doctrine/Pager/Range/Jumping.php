@@ -41,8 +41,8 @@ class Doctrine_Pager_Range_Jumping extends Doctrine_Pager_Range
      * _initialize
      *
      * Initialize Doctrine_Pager_Range_Jumping and does custom assignments
-     *
      * @return void
+     * @throws Doctrine_Pager_Exception
      */
     protected function _initialize()
     {
@@ -82,8 +82,8 @@ class Doctrine_Pager_Range_Jumping extends Doctrine_Pager_Range
      * rangeAroundPage
      *
      * Calculate and returns an array representing the range around the current page
-     *
      * @return array
+     * @throws Doctrine_Pager_Exception
      */
     public function rangeAroundPage()
     {

@@ -35,8 +35,8 @@ class Doctrine_Template_I18n extends Doctrine_Template
     /**
      * __construct
      *
-     * @param string $array 
-     * @return void
+     * @param array $options
+     * @internal param string $array
      */
     public function __construct(array $options = array())
     {

@@ -54,6 +54,7 @@ class Doctrine_Query_Filter_Chain
      *
      * @param mixed $key
      * @return mixed
+     * @throws Doctrine_Query_Exception
      */
     public function get($key)
     {
@@ -82,6 +83,7 @@ class Doctrine_Query_Filter_Chain
      * hooking into the query building procedure, doing any custom / specialized
      * query building procedures that are neccessary.
      *
+     * @param Doctrine_Query $query
      * @return void
      */
     public function preQuery(Doctrine_Query $query)
@@ -98,6 +100,7 @@ class Doctrine_Query_Filter_Chain
      * to hook into the query building procedure, doing any custom / specialized
      * post query procedures (for example logging) that are neccessary.
      *
+     * @param Doctrine_Query $query
      * @return void
      */
     public function postQuery(Doctrine_Query $query)

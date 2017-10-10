@@ -46,7 +46,7 @@
  *              This would also largely reduce the currently huge interface of Doctrine_Query(_Abstract)
  *              and better hide all these transformation internals from the public Query API.
  *
- * @internal    The lifecycle of a Query object is the following:
+ * @internals   The lifecycle of a Query object is the following:
  *              After construction the query object is empty. Through using the fluent
  *              query interface the user fills the query object with DQL parts and query parameters.
  *              These get collected in {@link $_dqlParts} and {@link $_params}, respectively.
@@ -259,7 +259,7 @@ class Doctrine_Query extends Doctrine_Query_Abstract implements Countable
      * fetchArray
      * Convenience method to execute using array fetching as hydration mode.
      *
-     * @param string $params
+     * @param array|string $params
      * @return array
      */
     public function fetchArray($params = array())
@@ -272,9 +272,9 @@ class Doctrine_Query extends Doctrine_Query_Abstract implements Countable
      * Convenience method to execute the query and return the first item
      * of the collection.
      *
-     * @param string $params        Query parameters
-     * @param int $hydrationMode    Hydration mode: see Doctrine_Core::HYDRATE_* constants
-     * @return array|Doctrine_Record      Array or Doctrine_Record, depending on hydration mode. False if no result.
+     * @param array|string $params Query parameters
+     * @param int $hydrationMode Hydration mode: see Doctrine_Core::HYDRATE_* constants
+     * @return array|Doctrine_Record Array or Doctrine_Record, depending on hydration mode. False if no result.
      */
     public function fetchOne($params = array(), $hydrationMode = null)
     {
@@ -323,8 +323,9 @@ class Doctrine_Query extends Doctrine_Query_Abstract implements Countable
     /**
      * getSqlAggregateAlias
      *
-     * @param string $dqlAlias      the dql alias of an aggregate value
+     * @param string $dqlAlias the dql alias of an aggregate value
      * @return string
+     * @throws Doctrine_Query_Exception
      */
     public function getSqlAggregateAlias($dqlAlias)
     {
@@ -362,7 +363,7 @@ class Doctrine_Query extends Doctrine_Query_Abstract implements Countable
 
     /**
      * Adjust the processed param index for "foo.bar IN ?" support
-     *
+     * @param $index
      */
     public function adjustProcessedParam($index)
     {
@@ -388,7 +389,7 @@ class Doctrine_Query extends Doctrine_Query_Abstract implements Countable
      * var_dump($q->getDqlPart('where'));
      * // array(2) { [0] => string(8) 'name = ?' [1] => string(8) 'date > ?' }
      * </code>
-     * @param string $queryPart     the name of the query part; can be:
+     * @param string $queryPart the name of the query part; can be:
      *     array from, containing strings;
      *     array select, containg string;
      *     boolean forUpdate;
@@ -401,6 +402,7 @@ class Doctrine_Query extends Doctrine_Query_Abstract implements Countable
      *     array limit, containing numerics;
      *     array offset, containing numerics;
      * @return array
+     * @throws Doctrine_Query_Exception
      */
     public function getDqlPart($queryPart)
     {
@@ -696,7 +698,9 @@ class Doctrine_Query extends Doctrine_Query_Abstract implements Countable
      * 4. Quotes all identifiers
      * 5. Parses nested clauses and subqueries recursively
      *
-     * @return string   SQL string
+     * @param $clause
+     * @return string SQL string
+     * @throws Doctrine_Query_Exception
      * @todo Description: What is a 'dql clause' (and what not)?
      *       Refactor: Too long & nesting level
      */
@@ -922,8 +926,8 @@ class Doctrine_Query extends Doctrine_Query_Abstract implements Countable
     /**
      * processPendingAggregates
      * processes pending aggregate values for given component alias
-     *
      * @return void
+     * @throws Doctrine_Query_Exception
      * @todo Better description. i.e. What is a 'pending aggregate'? What does 'processed' mean?
      */
     public function processPendingAggregates()
@@ -1022,7 +1026,8 @@ class Doctrine_Query extends Doctrine_Query_Abstract implements Countable
      * _buildSqlFromPart
      * builds the from part of the query and returns it
      *
-     * @return string   the query sql from part
+     * @param bool $ignorePending
+     * @return string the query sql from part
      */
     protected function _buildSqlFromPart($ignorePending = false)
     {
@@ -1591,8 +1596,8 @@ class Doctrine_Query extends Doctrine_Query_Abstract implements Countable
      * Checks whether the query has an ORDER BY on a column of a joined table.
      * This information is needed in special scenarios like the limit-offset when its
      * used with an Oracle database.
-     *
-     * @return boolean  TRUE if the query is ordered by a joined column, FALSE otherwise.
+     * @return bool TRUE if the query is ordered by a joined column, FALSE otherwise.
+     * @throws Doctrine_Query_Exception
      */
     private function _isOrderedByJoinedColumn() {
         if ( ! $this->_queryComponents) {
@@ -1682,8 +1687,10 @@ class Doctrine_Query extends Doctrine_Query_Abstract implements Countable
 
     /**
      * @todo Describe & refactor... too long and nested.
-     * @param string $path          component alias
+     * @param string $path component alias
      * @param boolean $loadFields
+     * @return
+     * @throws Doctrine_Query_Exception
      */
     public function load($path, $loadFields = true)
     {
@@ -2190,7 +2197,8 @@ class Doctrine_Query extends Doctrine_Query_Abstract implements Countable
     /**
      * Copies a Doctrine_Query object.
      *
-     * @return Doctrine_Query  Copy of the Doctrine_Query instance.
+     * @param Doctrine_Query|null $query
+     * @return Doctrine_Query Copy of the Doctrine_Query instance.
      */
     public function copy(Doctrine_Query $query = null)
     {

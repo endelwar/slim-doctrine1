@@ -42,7 +42,8 @@ class Doctrine_Connection_Pgsql extends Doctrine_Connection_Common
      * the constructor
      *
      * @param Doctrine_Manager $manager
-     * @param PDO $pdo                          database handle
+     * @param Doctrine_Adapter_Interface|PDO $adapter
+     * @internal param PDO $pdo database handle
      */
     public function __construct(Doctrine_Manager $manager, $adapter)
     {
@@ -122,11 +123,11 @@ class Doctrine_Connection_Pgsql extends Doctrine_Connection_Common
     /**
      * Changes a query string for various DBMS specific reasons
      *
-     * @param string $query         query to modify
-     * @param integer $limit        limit the number of rows
-     * @param integer $offset       start reading from given offset
-     * @param boolean $isManip      if the query is a DML query
-     * @return string               modified query
+     * @param string $query query to modify
+     * @param bool|int $limit limit the number of rows
+     * @param bool|int $offset start reading from given offset
+     * @param boolean $isManip if the query is a DML query
+     * @return string modified query
      */
     public function modifyLimitQuery($query, $limit = false, $offset = false, $isManip = false)
     {
@@ -159,8 +160,8 @@ class Doctrine_Connection_Pgsql extends Doctrine_Connection_Common
     /**
      * return version information about the server
      *
-     * @param string $native    determines if the raw version string should be returned
-     * @return array|string     an array or string with version information
+     * @param bool|string $native determines if the raw version string should be returned
+     * @return array|string an array or string with version information
      */
     public function getServerVersion($native = false)
     {
@@ -197,10 +198,11 @@ class Doctrine_Connection_Pgsql extends Doctrine_Connection_Common
     /**
      * Inserts a table row with specified data.
      *
-     * @param Doctrine_Table $table     The table to insert data into.
-     * @param array $values             An associative array containing column-value pairs.
+     * @param Doctrine_Table $table The table to insert data into.
+     * @param array $fields
+     * @return int the number of affected rows. Boolean false if empty value array was given,
+     * @internal param array $values An associative array containing column-value pairs.
      *                                  Values can be strings or Doctrine_Expression instances.
-     * @return integer                  the number of affected rows. Boolean false if empty value array was given,
      */
     public function insert(Doctrine_Table $table, array $fields)
     {

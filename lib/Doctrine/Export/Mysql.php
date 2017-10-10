@@ -36,9 +36,9 @@ class Doctrine_Export_Mysql extends Doctrine_Export
     /**
      * drop existing constraint
      *
-     * @param string    $table        name of table that should be used in method
-     * @param string    $name         name of the constraint to be dropped
-     * @param string    $primary      hint if the constraint is primary
+     * @param string $table name of table that should be used in method
+     * @param string $name name of the constraint to be dropped
+     * @param bool|string $primary hint if the constraint is primary
      * @return void
      */
     public function dropConstraint($table, $name, $primary = false)
@@ -83,8 +83,8 @@ class Doctrine_Export_Mysql extends Doctrine_Export
     /**
      * create a new table
      *
-     * @param string $name   Name of the database that should be created
-     * @param array $fields  Associative array that contains the definition of each field of the new table
+     * @param string $name Name of the database that should be created
+     * @param array $fields Associative array that contains the definition of each field of the new table
      *                       The indexes of the array entries are the names of the fields of the table an
      *                       the array entry values are associative arrays like those that are meant to be
      *                       passed with the field definitions to get[Type]Declaration() functions.
@@ -104,15 +104,15 @@ class Doctrine_Export_Mysql extends Doctrine_Export
      *                                  'length' => 12
      *                              )
      *                          );
-     * @param array $options  An associative array of table options:
+     * @param array $options An associative array of table options:
      *                          array(
      *                              'comment' => 'Foo',
      *                              'charset' => 'utf8',
      *                              'collate' => 'utf8_unicode_ci',
      *                              'type'    => 'innodb',
      *                          );
-     *
      * @return void
+     * @throws Doctrine_Export_Exception
      */
     public function createTableSql($name, array $fields, array $options = array()) 
     {
@@ -230,8 +230,8 @@ class Doctrine_Export_Mysql extends Doctrine_Export
      * Obtain DBMS specific SQL code portion needed to declare a generic type
      * field to be used in statements like CREATE TABLE.
      *
-     * @param string $name   name the field to be declared.
-     * @param array  $field  associative array with the name of the properties
+     * @param string $name name the field to be declared.
+     * @param array $field associative array with the name of the properties
      *      of the field being declared as array indexes. Currently, the types
      *      of supported field properties are as follows:
      *
@@ -254,9 +254,9 @@ class Doctrine_Export_Mysql extends Doctrine_Export
      *          unique constraint
      *      check
      *          column check constraint
-     *
-     * @return string  DBMS specific SQL code portion that should be used to
+     * @return string DBMS specific SQL code portion that should be used to
      *      declare the specified field.
+     * @throws Doctrine_Exception
      */
     public function getDeclaration($name, array $field)
     {
@@ -299,8 +299,8 @@ class Doctrine_Export_Mysql extends Doctrine_Export
     /**
      * alter an existing table
      *
-     * @param string $name         name of the table that is intended to be changed.
-     * @param array $changes     associative array that contains the details of each type
+     * @param string $name name of the table that is intended to be changed.
+     * @param array $changes associative array that contains the details of each type
      *                             of change that is intended to be performed. The types of
      *                             changes that are currently supported are defined as follows:
      *
@@ -379,10 +379,11 @@ class Doctrine_Export_Mysql extends Doctrine_Export
      *                                    )
      *                                )
      *
-     * @param boolean $check     indicates whether the function should just check if the DBMS driver
+     * @param boolean $check indicates whether the function should just check if the DBMS driver
      *                           can perform the requested table alterations if the value is true or
      *                           actually perform them otherwise.
-     * @return boolean
+     * @return bool
+     * @throws Doctrine_Export_Exception
      */
     public function alterTableSql($name, array $changes, $check = false)
     {
@@ -479,16 +480,17 @@ class Doctrine_Export_Mysql extends Doctrine_Export
     /**
      * create sequence
      *
-     * @param string    $sequenceName name of the sequence to be created
-     * @param string    $start        start value of the sequence; default is 1
-     * @param array     $options  An associative array of table options:
+     * @param string $sequenceName name of the sequence to be created
+     * @param int|string $start start value of the sequence; default is 1
+     * @param array $options An associative array of table options:
      *                          array(
      *                              'comment' => 'Foo',
      *                              'charset' => 'utf8',
      *                              'collate' => 'utf8_unicode_ci',
      *                              'type'    => 'innodb',
      *                          );
-     * @return boolean
+     * @return bool
+     * @throws Doctrine_Export_Exception
      */
     public function createSequence($sequenceName, $start = 1, array $options = array())
     {
@@ -556,9 +558,9 @@ class Doctrine_Export_Mysql extends Doctrine_Export
      * Get the stucture of a field into an array
      *
      * @author Leoncx
-     * @param string    $table         name of the table on which the index is to be created
-     * @param string    $name          name of the index to be created
-     * @param array     $definition    associative array that defines properties of the index to be created.
+     * @param string $table name of the table on which the index is to be created
+     * @param string $name name of the index to be created
+     * @param array $definition associative array that defines properties of the index to be created.
      *                                 Currently, only one property named FIELDS is supported. This property
      *                                 is also an associative with the names of the index fields as array
      *                                 indexes. Each entry of this array is set to another type of associative
@@ -583,8 +585,7 @@ class Doctrine_Export_Mysql extends Doctrine_Export
      *                                            'last_login' => array()
      *                                        )
      *                                    )
-     * @throws PDOException
-     * @return void
+     * @throws Doctrine_Export_Exception
      */
     public function createIndexSql($table, $name, array $definition)
     {
@@ -652,12 +653,14 @@ class Doctrine_Export_Mysql extends Doctrine_Export
     }
 
     /**
-     * Obtain DBMS specific SQL code portion needed to set an index 
+     * Obtain DBMS specific SQL code portion needed to set an index
      * declaration to be used in statements like CREATE TABLE.
      *
-     * @param string $charset       name of the index
-     * @param array $definition     index definition
-     * @return string  DBMS specific SQL code portion needed to set an index
+     * @param string $name
+     * @param array $definition index definition
+     * @return string DBMS specific SQL code portion needed to set an index
+     * @throws Doctrine_Export_Exception
+     * @internal param string $charset name of the index
      */
     public function getIndexDeclaration($name, array $definition)
     {
@@ -695,7 +698,9 @@ class Doctrine_Export_Mysql extends Doctrine_Export
      * Obtain DBMS specific SQL code portion needed to set an index
      * declaration to be used in statements like CREATE TABLE.
      *
+     * @param array $fields
      * @return string
+     * @throws Doctrine_Export_Exception
      */
     public function getIndexFieldDeclarationList(array $fields)
     {

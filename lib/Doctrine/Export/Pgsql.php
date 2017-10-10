@@ -52,6 +52,7 @@ class Doctrine_Export_Pgsql extends Doctrine_Export
      * drop an existing database
      *
      * @param string $name name of the database that should be dropped
+     * @return string|void
      * @throws PDOException
      * @access public
      */
@@ -99,13 +100,14 @@ class Doctrine_Export_Pgsql extends Doctrine_Export
     /**
      * generates the sql for altering an existing table on postgresql
      *
-     * @param string $name          name of the table that is intended to be changed.
-     * @param array $changes        associative array that contains the details of each type      *
-     * @param boolean $check        indicates whether the function should just check if the DBMS driver
+     * @param string $name name of the table that is intended to be changed.
+     * @param array $changes associative array that contains the details of each type      *
+     * @param boolean $check indicates whether the function should just check if the DBMS driver
      *                              can perform the requested table alterations if the value is true or
      *                              actually perform them otherwise.
-     * @see Doctrine_Export::alterTable()
      * @return array
+     * @throws Doctrine_Export_Exception
+     * @see Doctrine_Export::alterTable()
      */
     public function alterTableSql($name, array $changes, $check = false)
     {
@@ -283,16 +285,17 @@ class Doctrine_Export_Pgsql extends Doctrine_Export
     /**
      * return RDBMS specific create sequence statement
      *
-     * @throws Doctrine_Connection_Exception     if something fails at database level
-     * @param string    $seqName        name of the sequence to be created
-     * @param string    $start          start value of the sequence; default is 1
-     * @param array     $options  An associative array of table options:
+     *
+     * @param string $sequenceName
+     * @param int|string $start start value of the sequence; default is 1
+     * @param array $options An associative array of table options:
      *                          array(
      *                              'comment' => 'Foo',
      *                              'charset' => 'utf8',
      *                              'collate' => 'utf8_unicode_ci',
      *                          );
-     * @return string
+     * @return string if something fails at database level
+     * @internal param string $seqName name of the sequence to be created
      */
     public function createSequenceSql($sequenceName, $start = 1, array $options = array())
     {
@@ -305,6 +308,7 @@ class Doctrine_Export_Pgsql extends Doctrine_Export
      * drop existing sequence
      *
      * @param string $sequenceName name of the sequence to be dropped
+     * @return string|void
      */
     public function dropSequenceSql($sequenceName)
     {
@@ -319,6 +323,7 @@ class Doctrine_Export_Pgsql extends Doctrine_Export
      * @param array $fields
      * @param array $options
      * @return unknown
+     * @throws Doctrine_Export_Exception
      */
     public function createTableSql($name, array $fields, array $options = array())
     {

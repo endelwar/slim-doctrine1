@@ -49,6 +49,7 @@ class Doctrine_Table_Repository_None extends Doctrine_Table_Repository implement
      * get
      *
      * @param integer $oid
+     * @return mixed|void
      * @throws Doctrine_Table_Repository_Exception
      */
     public function get($oid)

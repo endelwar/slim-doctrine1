@@ -53,9 +53,10 @@ class Doctrine_Parser_Xml extends Doctrine_Parser
     /**
      * arrayToXml
      *
-     * @param  string $array        Array to convert to xml
+     * @param  string $array Array to convert to xml
      * @param  string $rootNodeName Name of the root node
-     * @param  string $xml          SimpleXmlElement
+     * @param  string $xml SimpleXmlElement
+     * @param null $charset
      * @return string $asXml        String of xml built from array
      */
     public static function arrayToXml($array, $rootNodeName = 'data', $xml = null, $charset = null)
@@ -99,8 +100,9 @@ class Doctrine_Parser_Xml extends Doctrine_Parser
      *
      * Load xml file and return array of data
      *
-     * @param  string $path  Path to load xml data from
-     * @return array  $array Array of data converted from xml
+     * @param  string $path Path to load xml data from
+     * @param string $charset
+     * @return array $array Array of data converted from xml
      */
     public function loadData($path, $charset = 'UTF-8')
     {

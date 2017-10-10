@@ -46,10 +46,9 @@ abstract class Doctrine_Pager_Range
     /**
      * __construct
      *
-     * @param array $options     Custom subclass implementation options.
+     * @param array $options Custom subclass implementation options.
      *                           Default is a blank array
-     * @param Doctrine_Pager $pager     Optional Doctrine_Pager object to be associated
-     * @return void
+     * @param Doctrine_Pager $pager Optional Doctrine_Pager object to be associated
      */
     final public function __construct($options = array(), $pager = null)
     {
@@ -108,7 +107,9 @@ abstract class Doctrine_Pager_Range
      *
      * Returns the custom Doctrine_Pager_Range implementation offset option
      *
-     * @return array        Custom Doctrine_Pager_Range implementation options
+     * @param $option
+     * @return array Custom Doctrine_Pager_Range implementation options
+     * @throws Doctrine_Pager_Exception
      */
     public function getOption($option)
     {

@@ -45,8 +45,7 @@ class Doctrine_Template_Listener_SoftDelete extends Doctrine_Record_Listener
     /**
      * __construct
      *
-     * @param string $options 
-     * @return void
+     * @param array|string $options
      */
     public function __construct(array $options)
     {

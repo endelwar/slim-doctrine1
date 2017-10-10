@@ -133,7 +133,8 @@ class Doctrine_Expression_Sqlite extends Doctrine_Expression_Driver
      * Return string to call a variable with the current timestamp inside an SQL statement
      * There are three special variables for current date and time.
      *
-     * @return string       sqlite function as string
+     * @param string $type
+     * @return string sqlite function as string
      */
     public function now($type = 'timestamp')
     {

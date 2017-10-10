@@ -51,8 +51,11 @@ class Doctrine_Sequence extends Doctrine_Connection_Module
      * Returns the autoincrement ID if supported or $id or fetches the current
      * ID in a sequence called: $table.(empty($field) ? '' : '_'.$field)
      *
-     * @param   string  name of the table into which a new row was inserted
-     * @param   string  name of the field into which a new row was inserted
+     * @param null $table
+     * @param null $field
+     * @throws Doctrine_Sequence_Exception
+     * @internal param name $string of the table into which a new row was inserted
+     * @internal param name $string of the field into which a new row was inserted
      */
     public function lastInsertId($table = null, $field = null)
     {

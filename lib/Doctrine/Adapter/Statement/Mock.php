@@ -102,20 +102,21 @@ class Doctrine_Adapter_Statement_Mock implements Doctrine_Adapter_Statement_Inte
      * of stored procedures that return data as output parameters, and some also as input/output
      * parameters that both send in data and are updated to receive it.
      *
-     * @param mixed $param          Parameter identifier. For a prepared statement using named placeholders,
-     *                              this will be a parameter name of the form :name. For a prepared statement
-     *                              using question mark placeholders, this will be the 1-indexed position of the parameter
+     * @param $column
+     * @param mixed $variable Name of the PHP variable to bind to the SQL statement parameter.
      *
-     * @param mixed $variable       Name of the PHP variable to bind to the SQL statement parameter.
-     *
-     * @param integer $type         Explicit data type for the parameter using the Doctrine_Core::PARAM_* constants. To return
+     * @param integer $type Explicit data type for the parameter using the Doctrine_Core::PARAM_* constants. To return
      *                              an INOUT parameter from a stored procedure, use the bitwise OR operator to set the
      *                              Doctrine_Core::PARAM_INPUT_OUTPUT bits for the data_type parameter.
      *
-     * @param integer $length       Length of the data type. To indicate that a parameter is an OUT parameter
+     * @param integer $length Length of the data type. To indicate that a parameter is an OUT parameter
      *                              from a stored procedure, you must explicitly set the length.
      * @param mixed $driverOptions
-     * @return boolean              Returns TRUE on success or FALSE on failure.
+     * @return bool Returns TRUE on success or FALSE on failure.
+     * @internal param mixed $param Parameter identifier. For a prepared statement using named placeholders,
+     *                              this will be a parameter name of the form :name. For a prepared statement
+     *                              using question mark placeholders, this will be the 1-indexed position of the parameter
+     *
      */
     public function bindParam($column, &$variable, $type = null, $length = null, $driverOptions = array())
     {
@@ -213,14 +214,15 @@ class Doctrine_Adapter_Statement_Mock implements Doctrine_Adapter_Statement_Inte
      *
      * Returns an array containing all of the result set rows
      *
-     * @param integer $fetchStyle           Controls how the next row will be returned to the caller.
+     * @param int $fetchMode
+     * @return array
+     * @internal param int $fetchStyle Controls how the next row will be returned to the caller.
      *                                      This value must be one of the Doctrine_Core::FETCH_* constants,
      *                                      defaulting to Doctrine_Core::FETCH_BOTH
      *
-     * @param integer $columnIndex          Returns the indicated 0-indexed column when the value of $fetchStyle is
+     * @internal param int $columnIndex Returns the indicated 0-indexed column when the value of $fetchStyle is
      *                                      Doctrine_Core::FETCH_COLUMN. Defaults to 0.
      *
-     * @return array
      */
     public function fetchAll($fetchMode = Doctrine_Core::FETCH_BOTH)
     {
@@ -371,8 +373,10 @@ class Doctrine_Adapter_Statement_Mock implements Doctrine_Adapter_Statement_Inte
      *
      * Set the default fetch mode for this statement
      *
-     * @param integer $mode                 The fetch mode must be one of the Doctrine_Core::FETCH_* constants.
-     * @return boolean                      Returns 1 on success or FALSE on failure.
+     * @param integer $mode The fetch mode must be one of the Doctrine_Core::FETCH_* constants.
+     * @param null $arg1
+     * @param null $arg2
+     * @return bool Returns 1 on success or FALSE on failure.
      */
     public function setFetchMode($mode, $arg1 = null, $arg2 = null)
     { }

@@ -241,7 +241,8 @@ class Doctrine_Manager extends Doctrine_Configurable implements Countable, Itera
     /**
      * Sets the query registry
      *
-     * @return Doctrine_Manager     this object
+     * @param Doctrine_Query_Registry $registry
+     * @return Doctrine_Manager this object
      */
     public function setQueryRegistry(Doctrine_Query_Registry $registry)
     {
@@ -274,11 +275,11 @@ class Doctrine_Manager extends Doctrine_Configurable implements Countable, Itera
     /**
      * Opens a new connection and saves it to Doctrine_Manager->connections
      *
-     * @param PDO|Doctrine_Adapter_Interface $adapter   database driver
-     * @param string $name                              name of the connection, if empty numeric key is used
-     * @throws Doctrine_Manager_Exception               if trying to bind a connection with an existing name
-     * @throws Doctrine_Manager_Exception               if trying to open connection for unknown driver
-     * @return Doctrine_Connection
+     * @param PDO|Doctrine_Adapter_Interface $adapter database driver
+     * @param string $name name of the connection, if empty numeric key is used
+     * @param bool $setCurrent
+     * @return Doctrine_Connection if trying to bind a connection with an existing name
+     * @throws Doctrine_Manager_Exception if trying to open connection for unknown driver
      */
     public function openConnection($adapter, $name = null, $setCurrent = true)
     {
@@ -400,6 +401,7 @@ class Doctrine_Manager extends Doctrine_Configurable implements Countable, Itera
      * @see parseDsn()
      * @param string $dsn
      * @return array $parts
+     * @throws Doctrine_Manager_Exception
      */
     protected function _buildDsnPartsArray($dsn)
     {
@@ -431,6 +433,7 @@ class Doctrine_Manager extends Doctrine_Configurable implements Countable, Itera
      *
      * @param string $dsn
      * @return array Parsed contents of DSN
+     * @throws Doctrine_Manager_Exception
      * @todo package:dbal
      */
     public function parseDsn($dsn)
@@ -609,9 +612,8 @@ class Doctrine_Manager extends Doctrine_Configurable implements Countable, Itera
     /**
      * Sets the current connection to $key
      *
-     * @param mixed $key                        the connection key
-     * @throws InvalidKeyException
-     * @return void
+     * @param mixed $key the connection key
+     * @throws Doctrine_Manager_Exception
      */
     public function setCurrentConnection($key)
     {
@@ -671,7 +673,7 @@ class Doctrine_Manager extends Doctrine_Configurable implements Countable, Itera
     /**
      * Creates databases for all existing connections
      *
-     * @param string $specifiedConnections Array of connections you wish to create the database for
+     * @param array|string $specifiedConnections Array of connections you wish to create the database for
      * @return void
      * @todo package:dbal
      */
@@ -693,7 +695,7 @@ class Doctrine_Manager extends Doctrine_Configurable implements Countable, Itera
     /**
      * Drops databases for all existing connections
      *
-     * @param string $specifiedConnections Array of connections you wish to drop the database for
+     * @param array|string $specifiedConnections Array of connections you wish to drop the database for
      * @return void
      * @todo package:dbal
      */
@@ -785,6 +787,8 @@ class Doctrine_Manager extends Doctrine_Configurable implements Countable, Itera
     /**
      * Register a new driver for hydration
      *
+     * @param $name
+     * @param $class
      * @return void
      */
     public function registerHydrator($name, $class)
@@ -805,6 +809,8 @@ class Doctrine_Manager extends Doctrine_Configurable implements Countable, Itera
     /**
      * Register a custom connection driver
      *
+     * @param $name
+     * @param $class
      * @return void
      */
     public function registerConnectionDriver($name, $class)
@@ -839,8 +845,7 @@ class Doctrine_Manager extends Doctrine_Configurable implements Countable, Itera
 
     /**
      * Get all registered Doctrine extensions
-     *
-     * @return $extensions
+     * @return array $extensions
      */
     public function getExtensions()
     {

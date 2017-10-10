@@ -38,8 +38,10 @@ class Doctrine_Compiler
      * including the compiled file instead of multiple files (in worst
      * cases dozens of files) can improve performance by an order of magnitude
      *
-     * @throws Doctrine_Compiler_Exception      if something went wrong during the compile operation
-     * @return $target Path the compiled file was written to
+     * @param null $target
+     * @param array $includedDrivers
+     * @return null|string if something went wrong during the compile operation
+     * @throws Doctrine_Compiler_Exception if something went wrong during the compile operation
      */
     public static function compile($target = null, $includedDrivers = array())
     {

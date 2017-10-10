@@ -39,6 +39,7 @@ class Doctrine_Query_Filter implements Doctrine_Query_Filter_Interface
      * hooking into the query building procedure, doing any custom / specialized
      * query building procedures that are neccessary.
      *
+     * @param Doctrine_Query $query
      * @return void
      */
     public function preQuery(Doctrine_Query $query)

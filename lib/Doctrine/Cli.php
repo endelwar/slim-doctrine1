@@ -71,8 +71,8 @@ class Doctrine_Cli
     /**
      * __construct
      *
-     * @param array [$config=array()]
-     * @param object|null [$formatter=null] Doctrine_Cli_Formatter
+     * @param array $config [$config=array()]
+     * @param Doctrine_Cli_Formatter|null $formatter
      */
     public function __construct(array $config = array(), Doctrine_Cli_Formatter $formatter = null)
     {
@@ -98,7 +98,7 @@ class Doctrine_Cli
     }
 
     /**
-     * @param object $formatter Doctrine_Cli_Formatter
+     * @param Doctrine_Cli_Formatter|object $formatter Doctrine_Cli_Formatter
      */
     public function setFormatter(Doctrine_Cli_Formatter $formatter)
     {
@@ -216,7 +216,7 @@ class Doctrine_Cli
     }
 
     /**
-     * @param object $task Doctrine_Task
+     * @param Doctrine_Task|object $task Doctrine_Task
      */
     public function setTaskInstance(Doctrine_Task $task)
     {
@@ -364,11 +364,11 @@ class Doctrine_Cli
 
     /**
      * Creates, and returns, a new instance of the specified Task class
-     * 
+     *
      * Displays a message, and returns FALSE, if there were problems instantiating the class
-     * 
+     *
      * @param string $className
-     * @param object $cli Doctrine_Cli
+     * @param Doctrine_Cli|object $cli Doctrine_Cli
      * @return object Doctrine_Task
      */
     protected function createTaskInstance($className, Doctrine_Cli $cli)
@@ -500,8 +500,8 @@ class Doctrine_Cli
 
     /**
      * Executes the task with the specified _prepared_ arguments
-     * 
-     * @param object $task Doctrine_Task
+     *
+     * @param Doctrine_Task|object $task Doctrine_Task
      * @param array $preparedArguments
      * @throws Doctrine_Cli_Exception If required arguments are missing
      */
@@ -605,7 +605,7 @@ class Doctrine_Cli
     /**
      * @param array $argumentsDescriptions
      * @param array $config
-     * @param object $formatter Doctrine_Cli_Formatter
+     * @param Doctrine_Cli_Formatter|object $formatter Doctrine_Cli_Formatter
      * @return string
      */
     protected function assembleArgumentList(array $argumentsDescriptions, array $config, Doctrine_Cli_Formatter $formatter)
@@ -648,8 +648,10 @@ class Doctrine_Cli
 
     /**
      * Old method retained for backwards compatibility
-     * 
+     *
      * @deprecated
+     * @param null $directory
+     * @return array
      */
     public function loadTasks($directory = null)
     {
@@ -659,8 +661,10 @@ class Doctrine_Cli
 
     /**
      * Old method retained for backwards compatibility
-     * 
+     *
      * @deprecated
+     * @param array $args
+     * @return string
      */
     protected function _getTaskClassFromArgs(array $args)
     {

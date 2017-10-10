@@ -35,10 +35,10 @@ class Doctrine_Sequence_Oracle extends Doctrine_Sequence
     /**
      * Returns the next free id of a sequence
      *
-     * @param string $seqName   name of the sequence
-     * @param bool onDemand     when true missing sequences are automatic created
-     *
-     * @return integer          next id in the given sequence
+     * @param string $seqName name of the sequence
+     * @param bool $onDemand onDemand     when true missing sequences are automatic created
+     * @return int next id in the given sequence
+     * @throws Doctrine_Sequence_Exception
      */
     public function nextID($seqName, $onDemand = true)
     {
@@ -70,6 +70,7 @@ class Doctrine_Sequence_Oracle extends Doctrine_Sequence
      *
      * @param   string  name of the table into which a new row was inserted
      * @param   string  name of the field into which a new row was inserted
+     * @return mixed|void
      */
     public function lastInsertID($table = null, $field = null)
     {

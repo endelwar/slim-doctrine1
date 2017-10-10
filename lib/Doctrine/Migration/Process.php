@@ -48,7 +48,7 @@ class Doctrine_Migration_Process
     /**
      * Process a created table change
      *
-     * @param string $table Table definition
+     * @param array|string $table Table definition
      * @return void
      */
     public function processCreatedTable(array $table)

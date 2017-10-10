@@ -40,7 +40,8 @@ abstract class Doctrine_Query_Part
     protected $_tokenizer;
 
     /**
-     * @param Doctrine_Query $query         the query object associated with this parser
+     * @param Doctrine_Query $query the query object associated with this parser
+     * @param Doctrine_Query_Tokenizer|null $tokenizer
      */
     public function __construct($query, Doctrine_Query_Tokenizer $tokenizer = null)
     {

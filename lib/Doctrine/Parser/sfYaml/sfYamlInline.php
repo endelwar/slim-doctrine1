@@ -155,17 +155,17 @@ class sfYamlInline
     return sprintf('{ %s }', implode(', ', $output));
   }
 
-  /**
-   * Parses a scalar to a YAML string.
-   *
-   * @param scalar  $scalar
-   * @param string  $delimiters
-   * @param array   $stringDelimiter
-   * @param integer $i
-   * @param boolean $evaluate
-   *
-   * @return string A YAML string
-   */
+    /**
+     * Parses a scalar to a YAML string.
+     *
+     * @param scalar $scalar
+     * @param string $delimiters
+     * @param array $stringDelimiters
+     * @param integer $i
+     * @param boolean $evaluate
+     * @return string A YAML string
+     * @internal param array $stringDelimiter
+     */
   static public function parseScalar($scalar, $delimiters = null, $stringDelimiters = array('"', "'"), &$i = 0, $evaluate = true)
   {
     if (in_array($scalar[$i], $stringDelimiters))

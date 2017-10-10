@@ -42,8 +42,7 @@ class Doctrine_AuditLog_Listener extends Doctrine_Record_Listener
     /**
      * Instantiate AuditLog listener and set the Doctrine_AuditLog instance to the class
      *
-     * @param   Doctrine_AuditLog $auditLog 
-     * @return  void
+     * @param   Doctrine_AuditLog $auditLog
      */
     public function __construct(Doctrine_AuditLog $auditLog) 
     {

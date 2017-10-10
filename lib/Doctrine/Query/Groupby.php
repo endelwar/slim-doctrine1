@@ -36,8 +36,11 @@ class Doctrine_Query_Groupby extends Doctrine_Query_Part
      * DQL GROUP BY PARSER
      * parses the group by part of the query string
      *
-     * @param string $str
+     * @param $clause
+     * @param bool $append
      * @return void
+     * @throws Doctrine_Query_Exception
+     * @internal param string $str
      */
     public function parse($clause, $append = false)
     {

@@ -145,6 +145,7 @@ abstract class Doctrine_Access extends Doctrine_Locator_Injectable implements Ar
      *
      * @see   set, offsetSet, __set
      * @param mixed $offset
+     * @return bool|void
      */
     public function offsetUnset($offset)
     {
@@ -155,7 +156,8 @@ abstract class Doctrine_Access extends Doctrine_Locator_Injectable implements Ar
      * Remove the element with the specified offset
      *
      * @param mixed $offset The offset to remove
-     * @return boolean True if removed otherwise false
+     * @return bool True if removed otherwise false
+     * @throws Doctrine_Exception
      */
     public function remove($offset)
     {
@@ -165,8 +167,9 @@ abstract class Doctrine_Access extends Doctrine_Locator_Injectable implements Ar
     /**
      * Return the element with the specified offset
      *
-     * @param mixed $offset     The offset to return
+     * @param mixed $offset The offset to return
      * @return mixed
+     * @throws Doctrine_Exception
      */
     public function get($offset)
     {
@@ -178,7 +181,7 @@ abstract class Doctrine_Access extends Doctrine_Locator_Injectable implements Ar
      *
      * @param mixed $offset The offset to set
      * @param mixed $value The value to set the offset to
-     *
+     * @throws Doctrine_Exception
      */
     public function set($offset, $value)
     {
@@ -186,10 +189,11 @@ abstract class Doctrine_Access extends Doctrine_Locator_Injectable implements Ar
     }
 
     /**
-     * Check if the specified offset exists 
-     * 
+     * Check if the specified offset exists
+     *
      * @param mixed $offset The offset to check
-     * @return boolean True if exists otherwise false
+     * @return bool True if exists otherwise false
+     * @throws Doctrine_Exception
      */
     public function contains($offset)
     {
@@ -197,10 +201,11 @@ abstract class Doctrine_Access extends Doctrine_Locator_Injectable implements Ar
     }
 
     /**
-     * Add the value  
-     * 
-     * @param mixed $value The value to add 
+     * Add the value
+     *
+     * @param mixed $value The value to add
      * @return void
+     * @throws Doctrine_Exception
      */
     public function add($value)
     {

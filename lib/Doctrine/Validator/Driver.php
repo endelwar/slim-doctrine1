@@ -44,6 +44,7 @@ class Doctrine_Validator_Driver
      * an alias for getOption
      *
      * @param string $arg
+     * @return mixed|null
      */
     public function __get($arg)
     {
@@ -57,6 +58,7 @@ class Doctrine_Validator_Driver
      * __isset
      *
      * @param string $arg
+     * @return bool
      */
     public function __isset($arg)
     {
@@ -81,7 +83,8 @@ class Doctrine_Validator_Driver
      * returns the value of an argument
      *
      * @param $arg          the name of the option to retrieve
-     * @return mixed        the value of the option
+     * @return mixed the value of the option
+     * @throws Doctrine_Validator_Exception
      */
     public function getArg($arg)
     {

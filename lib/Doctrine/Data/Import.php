@@ -50,7 +50,6 @@ class Doctrine_Data_Import extends Doctrine_Data
      * Optionally pass the directory/path to the yaml for importing
      *
      * @param string $directory
-     * @return void
      */
     public function __construct($directory = null)
     {
@@ -105,6 +104,7 @@ class Doctrine_Data_Import extends Doctrine_Data
     /**
      * Do the importing of the data parsed from the fixtures
      *
+     * @param bool $append
      * @return void
      */
     public function doImport($append = false)
@@ -121,6 +121,8 @@ class Doctrine_Data_Import extends Doctrine_Data
     /**
      * Recursively loop over all data fixtures and build the array of className rows
      *
+     * @param $className
+     * @param $data
      * @return void
      */
     protected function _buildRows($className, $data)
@@ -157,6 +159,8 @@ class Doctrine_Data_Import extends Doctrine_Data
     /**
      * Build the rows for nested set models
      *
+     * @param $className
+     * @param $data
      * @return void
      */
     protected function _buildNestedSetRows($className, $data)
@@ -211,6 +215,7 @@ class Doctrine_Data_Import extends Doctrine_Data
      * @param string $rowKey
      * @param string $row
      * @return void
+     * @throws Doctrine_Data_Exception
      */
     protected function _processRow($rowKey, $row)
     {
@@ -287,7 +292,7 @@ class Doctrine_Data_Import extends Doctrine_Data
     /**
      * Perform the loading of the data from the passed array
      *
-     * @param string $array
+     * @param array|string $array
      * @return void
      */
     protected function _loadData(array $array)

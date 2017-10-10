@@ -72,9 +72,9 @@ class Doctrine_Export_Sqlite extends Doctrine_Export
     /**
      * Get the stucture of a field into an array
      *
-     * @param string    $table         name of the table on which the index is to be created
-     * @param string    $name         name of the index to be created
-     * @param array     $definition        associative array that defines properties of the index to be created.
+     * @param string $table name of the table on which the index is to be created
+     * @param string $name name of the index to be created
+     * @param array $definition associative array that defines properties of the index to be created.
      *                                 Currently, only one property named FIELDS is supported. This property
      *                                 is also an associative with the names of the index fields as array
      *                                 indexes. Each entry of this array is set to another type of associative
@@ -97,8 +97,7 @@ class Doctrine_Export_Sqlite extends Doctrine_Export
      *                                            'last_login' => array()
      *                                        )
      *                                    )
-     * @throws PDOException
-     * @return void
+     * @throws Doctrine_Export_Exception
      */
     public function createIndexSql($table, $name, array $definition)
     {
@@ -129,7 +128,9 @@ class Doctrine_Export_Sqlite extends Doctrine_Export
      * Obtain DBMS specific SQL code portion needed to set an index
      * declaration to be used in statements like CREATE TABLE.
      *
-     * @return string   
+     * @param array $fields
+     * @return string
+     * @throws Doctrine_Export_Exception
      */
     public function getIndexFieldDeclarationList(array $fields)
     {
@@ -161,8 +162,8 @@ class Doctrine_Export_Sqlite extends Doctrine_Export
     /**
      * create a new table
      *
-     * @param string $name   Name of the database that should be created
-     * @param array $fields  Associative array that contains the definition of each field of the new table
+     * @param string $name Name of the database that should be created
+     * @param array $fields Associative array that contains the definition of each field of the new table
      *                       The indexes of the array entries are the names of the fields of the table an
      *                       the array entry values are associative arrays like those that are meant to be
      *                       passed with the field definitions to get[Type]Declaration() functions.
@@ -182,9 +183,9 @@ class Doctrine_Export_Sqlite extends Doctrine_Export
      *                                  'length' => 12
      *                              )
      *                          );
-     * @param array $options  An associative array of table options:
-     *
+     * @param array $options An associative array of table options:
      * @return void
+     * @throws Doctrine_Export_Exception
      */
     public function createTableSql($name, array $fields, array $options = array())
     {
@@ -273,15 +274,16 @@ class Doctrine_Export_Sqlite extends Doctrine_Export
     /**
      * create sequence
      *
-     * @param string    $seqName        name of the sequence to be created
-     * @param string    $start          start value of the sequence; default is 1
-     * @param array     $options  An associative array of table options:
+     * @param string $seqName name of the sequence to be created
+     * @param int|string $start start value of the sequence; default is 1
+     * @param array $options An associative array of table options:
      *                          array(
      *                              'comment' => 'Foo',
      *                              'charset' => 'utf8',
      *                              'collate' => 'utf8_unicode_ci',
      *                          );
-     * @return boolean
+     * @return bool
+     * @throws Doctrine_Export_Exception
      */
     public function createSequence($seqName, $start = 1, array $options = array())
     {

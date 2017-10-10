@@ -95,6 +95,7 @@ class Doctrine_Hydrator
      *
      * @param string $mode
      * @return string $className
+     * @throws Doctrine_Hydrator_Exception
      */
     public function getHydratorDriverClassName($mode = null)
     {
@@ -112,9 +113,10 @@ class Doctrine_Hydrator
     /**
      * Get an instance of the hydration driver for the passed hydration mode
      *
-     * @param string $mode 
-     * @param array $tableAliases 
+     * @param string $mode
+     * @param array $tableAliases
      * @return object Doctrine_Hydrator_Abstract
+     * @throws Doctrine_Hydrator_Exception
      */
     public function getHydratorDriver($mode, $tableAliases)
     {

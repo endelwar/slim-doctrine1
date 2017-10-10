@@ -43,7 +43,6 @@ class Doctrine_AuditLog_Listener_Microtime extends Doctrine_AuditLog_Listener
      * Instantiate AuditLog listener and set the Doctrine_AuditLog instance to the class
      *
      * @param   Doctrine_AuditLog $auditLog
-     * @return  void
      */
     public function __construct(Doctrine_AuditLog $auditLog)
     {

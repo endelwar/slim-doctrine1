@@ -44,7 +44,9 @@ class Doctrine_Connection_UnitOfWork extends Doctrine_Connection_Module
      * (The save() operation is always cascaded in 0.10/1.0).
      *
      * @param Doctrine_Record $record
+     * @param bool $replace
      * @return void
+     * @throws Exception
      */
     public function saveGraph(Doctrine_Record $record, $replace = false)
     {
@@ -164,7 +166,8 @@ class Doctrine_Connection_UnitOfWork extends Doctrine_Connection_Module
      *
      * this event can be listened by the onPreDelete and onDelete listeners
      *
-     * @return boolean      true on success, false on failure
+     * @param Doctrine_Record $record
+     * @return bool true on success, false on failure
      */
     public function delete(Doctrine_Record $record)
     {
@@ -177,7 +180,8 @@ class Doctrine_Connection_UnitOfWork extends Doctrine_Connection_Module
      * Collects all records that need to be deleted by applying defined
      * application-level delete cascades.
      *
-     * @param array $deletions  Map of the records to delete. Keys=Oids Values=Records.
+     * @param Doctrine_Record $record
+     * @param array $deletions Map of the records to delete. Keys=Oids Values=Records.
      */
     private function _collectDeletions(Doctrine_Record $record, array &$deletions)
     {
@@ -193,7 +197,9 @@ class Doctrine_Connection_UnitOfWork extends Doctrine_Connection_Module
      * Executes the deletions for all collected records during a delete operation
      * (usually triggered through $record->delete()).
      *
-     * @param array $deletions  Map of the records to delete. Keys=Oids Values=Records.
+     * @param array $deletions Map of the records to delete. Keys=Oids Values=Records.
+     * @return bool
+     * @throws Exception
      */
     private function _executeDeletions(array $deletions)
     {
@@ -285,9 +291,10 @@ class Doctrine_Connection_UnitOfWork extends Doctrine_Connection_Module
      * Builds the SQL condition to target multiple records who have a single-column
      * primary key.
      *
-     * @param Doctrine_Table $table  The table from which the records are going to be deleted.
-     * @param integer $numRecords  The number of records that are going to be deleted.
-     * @return string  The SQL condition "pk = ? OR pk = ? OR pk = ? ..."
+     * @param $columnNames
+     * @param integer $numRecords The number of records that are going to be deleted.
+     * @return string The SQL condition "pk = ? OR pk = ? OR pk = ? ..."
+     * @internal param Doctrine_Table $table The table from which the records are going to be deleted.
      */
     private function _buildSqlSingleKeyCondition($columnNames, $numRecords)
     {
@@ -298,9 +305,10 @@ class Doctrine_Connection_UnitOfWork extends Doctrine_Connection_Module
     /**
      * Builds the SQL condition to target multiple records who have a composite primary key.
      *
-     * @param Doctrine_Table $table  The table from which the records are going to be deleted.
-     * @param integer $numRecords  The number of records that are going to be deleted.
-     * @return string  The SQL condition "(pk1 = ? AND pk2 = ?) OR (pk1 = ? AND pk2 = ?) ..."
+     * @param $columnNames
+     * @param integer $numRecords The number of records that are going to be deleted.
+     * @return string The SQL condition "(pk1 = ? AND pk2 = ?) OR (pk1 = ? AND pk2 = ?) ..."
+     * @internal param Doctrine_Table $table The table from which the records are going to be deleted.
      */
     private function _buildSqlCompositeKeyCondition($columnNames, $numRecords)
     {
@@ -327,9 +335,8 @@ class Doctrine_Connection_UnitOfWork extends Doctrine_Connection_Module
      * Exception: many-valued relations are always (re-)fetched from the database to
      * make sure we have all of them.
      *
-     * @param Doctrine_Record  The record for which the delete operation will be cascaded.
-     * @throws PDOException    If something went wrong at database level
-     * @return void
+     * @param Doctrine_Record $record The record for which the delete operation will be cascaded.
+     * @param array $deletions
      */
      protected function _cascadeDelete(Doctrine_Record $record, array &$deletions)
      {
@@ -361,6 +368,7 @@ class Doctrine_Connection_UnitOfWork extends Doctrine_Connection_Module
      * saveRelatedForeignKeys
      * saves all related (through ForeignKey) records to $record
      *
+     * @return array
      * @throws PDOException         if something went wrong at database level
      * @param Doctrine_Record $record
      */
@@ -469,7 +477,8 @@ class Doctrine_Connection_UnitOfWork extends Doctrine_Connection_Module
     /**
      * Invokes preDelete event listeners.
      *
-     * @return boolean  Whether a listener has used it's veto (don't delete!).
+     * @param Doctrine_Record $record
+     * @return bool Whether a listener has used it's veto (don't delete!).
      */
     private function _preDelete(Doctrine_Record $record)
     {
@@ -482,6 +491,7 @@ class Doctrine_Connection_UnitOfWork extends Doctrine_Connection_Module
 
     /**
      * Invokes postDelete event listeners.
+     * @param Doctrine_Record $record
      */
     private function _postDelete(Doctrine_Record $record)
     {
@@ -798,6 +808,8 @@ class Doctrine_Connection_UnitOfWork extends Doctrine_Connection_Module
      * Support dropped for 0.10/1.0.
      *
      * Note: This is flawed. We also need to delete from subclass tables.
+     * @param Doctrine_Table $table
+     * @param $record
      */
     private function _deleteCTIParents(Doctrine_Table $table, $record)
     {
@@ -812,6 +824,8 @@ class Doctrine_Connection_UnitOfWork extends Doctrine_Connection_Module
     /**
      * Class Table Inheritance code.
      * Support dropped for 0.10/1.0.
+     * @param Doctrine_Table $table
+     * @param Doctrine_Record $record
      */
     private function _insertCTIRecord(Doctrine_Table $table, Doctrine_Record $record)
     {
@@ -840,6 +854,8 @@ class Doctrine_Connection_UnitOfWork extends Doctrine_Connection_Module
     /**
      * Class Table Inheritance code.
      * Support dropped for 0.10/1.0.
+     * @param Doctrine_Table $table
+     * @param Doctrine_Record $record
      */
     private function _updateCTIRecord(Doctrine_Table $table, Doctrine_Record $record)
     {
@@ -874,6 +890,8 @@ class Doctrine_Connection_UnitOfWork extends Doctrine_Connection_Module
     /**
      * Class Table Inheritance code.
      * Support dropped for 0.10/1.0.
+     * @param Doctrine_Record $record
+     * @return array
      */
     private function _formatDataSet(Doctrine_Record $record)
     {

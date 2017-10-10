@@ -161,7 +161,7 @@ class Doctrine_Connection_Mysql extends Doctrine_Connection_Common
      *
      * @access public
      *
-     * @param string $table name of the table on which the REPLACE query will
+     * @param Doctrine_Table|string $table name of the table on which the REPLACE query will
      *  be executed.
      * @param array $fields associative array that describes the fields and the
      *  values that will be inserted or updated in the specified table. The
@@ -210,7 +210,9 @@ class Doctrine_Connection_Mysql extends Doctrine_Connection_Common
      *
      *    Default: 0
      *
-     * @return integer      the number of affected rows
+     * @param array $keys
+     * @return int the number of affected rows
+     * @throws Doctrine_Connection_Exception
      */
     public function replace(Doctrine_Table $table, array $fields, array $keys)
     {

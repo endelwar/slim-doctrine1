@@ -79,7 +79,7 @@ abstract class Doctrine_Relation implements ArrayAccess
     /**
      * constructor
      *
-     * @param array $definition         an associative array with the following structure:
+     * @param array $definition an associative array with the following structure:
      *          name                    foreign key constraint name
      *
      *          local                   the local field(s)
@@ -93,10 +93,10 @@ abstract class Doctrine_Relation implements ArrayAccess
      *          refTable                the reference table object (if any)
      *
      *          onDelete                referential delete action
-     *  
+     *
      *          onUpdate                referential update action
      *
-     *          deferred                deferred constraint checking 
+     *          deferred                deferred constraint checking
      *
      *          alias                   relation alias
      *
@@ -114,16 +114,17 @@ abstract class Doctrine_Relation implements ArrayAccess
      *          in the parent table or in the child table.
      *
      * SET NULL: Delete or update the row from the parent table and set the foreign key column or columns in the
-     *          child table to NULL. This is valid only if the foreign key columns do not have the NOT NULL qualifier 
+     *          child table to NULL. This is valid only if the foreign key columns do not have the NOT NULL qualifier
      *          specified. Both ON DELETE SET NULL and ON UPDATE SET NULL clauses are supported.
      *
-     * NO ACTION: In standard SQL, NO ACTION means no action in the sense that an attempt to delete or update a primary 
+     * NO ACTION: In standard SQL, NO ACTION means no action in the sense that an attempt to delete or update a primary
      *           key value is not allowed to proceed if there is a related foreign key value in the referenced table.
      *
      * RESTRICT: Rejects the delete or update operation for the parent table. NO ACTION and RESTRICT are the same as
      *           omitting the ON DELETE or ON UPDATE clause.
      *
      * SET DEFAULT
+     * @throws Doctrine_Exception
      */
     public function __construct(array $definition)
     {

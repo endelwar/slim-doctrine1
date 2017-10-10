@@ -183,7 +183,8 @@ abstract class Doctrine_Configurable extends Doctrine_Locator_Injectable
      * getImpl
      * returns the implementation for given class
      *
-     * @return string   name of the concrete implementation
+     * @param $template
+     * @return string name of the concrete implementation
      */
     public function getImpl($template)
     {
@@ -221,7 +222,8 @@ abstract class Doctrine_Configurable extends Doctrine_Locator_Injectable
      * addRecordListener
      *
      * @param Doctrine_EventListener_Interface|Doctrine_Overloadable $listener
-     * @return Doctrine_Configurable        this object
+     * @param null $name
+     * @return Doctrine_Configurable this object
      */
     public function addRecordListener($listener, $name = null)
     {
@@ -255,7 +257,8 @@ abstract class Doctrine_Configurable extends Doctrine_Locator_Injectable
      * setListener
      *
      * @param Doctrine_EventListener_Interface|Doctrine_Overloadable $listener
-     * @return Doctrine_Configurable        this object
+     * @return Doctrine_Configurable this object
+     * @throws Doctrine_Exception
      */
     public function setRecordListener($listener)
     {
@@ -273,7 +276,8 @@ abstract class Doctrine_Configurable extends Doctrine_Locator_Injectable
      * addListener
      *
      * @param Doctrine_EventListener_Interface|Doctrine_Overloadable $listener
-     * @return Doctrine_Configurable    this object
+     * @param null $name
+     * @return Doctrine_Configurable this object
      */
     public function addListener($listener, $name = null)
     {
@@ -307,7 +311,8 @@ abstract class Doctrine_Configurable extends Doctrine_Locator_Injectable
      * setListener
      *
      * @param Doctrine_EventListener_Interface|Doctrine_Overloadable $listener
-     * @return Doctrine_Configurable        this object
+     * @return Doctrine_Configurable this object
+     * @throws Doctrine_EventListener_Exception
      */
     public function setListener($listener)
     {
