@@ -20,7 +20,7 @@
  */
 
 /**
- * Easily add longitude and latitude columns to your records and use inherited functionality for 
+ * Easily add longitude and latitude columns to your records and use inherited functionality for
  * calculating distances
  *
  * @package     Doctrine
@@ -37,16 +37,22 @@ class Doctrine_Template_Geographical extends Doctrine_Template
     /**
      * Array of geographical options
      *
-     * @var string
+     * @var array
      */
-    protected $_options = array('latitude' =>  array('name'     =>  'latitude',
-                                                     'type'     =>  'decimal',
-                                                     'size'     =>  10,
-                                                     'options'  =>  array('scale' => 6)),
-                                'longitude' => array('name'     =>  'longitude',
-                                                     'type'     =>  'decimal',
-                                                     'size'     =>  10,
-                                                     'options'  =>  array('scale' => 6)));
+    protected $_options = array(
+        'latitude' => array(
+            'name' => 'latitude',
+            'type' => 'double(18,8)',
+            'size' => null,
+            'options' => array()
+        ),
+        'longitude' => array(
+            'name' => 'longitude',
+            'type' => 'double(18,8)',
+            'size' => null,
+            'options' => array()
+        )
+    );
 
     /**
      * Set table definition for Geographical behavior
@@ -55,12 +61,14 @@ class Doctrine_Template_Geographical extends Doctrine_Template
      */
     public function setTableDefinition()
     {
-        $this->hasColumn($this->_options['latitude']['name'], $this->_options['latitude']['type'], $this->_options['latitude']['size'], $this->_options['latitude']['options']);
-        $this->hasColumn($this->_options['longitude']['name'], $this->_options['longitude']['type'], $this->_options['longitude']['size'], $this->_options['longitude']['options']);
+        $this->hasColumn($this->_options['latitude']['name'], $this->_options['latitude']['type'],
+            $this->_options['latitude']['size'], $this->_options['latitude']['options']);
+        $this->hasColumn($this->_options['longitude']['name'], $this->_options['longitude']['type'],
+            $this->_options['longitude']['size'], $this->_options['longitude']['options']);
     }
 
     /**
-     * Initiate and get a distance query with the select parts for the number of kilometers and miles 
+     * Initiate and get a distance query with the select parts for the number of kilometers and miles
      * between this record and other zipcode records in the database
      *
      * @return Doctrine_Query $query
@@ -76,12 +84,17 @@ class Doctrine_Template_Geographical extends Doctrine_Template
 
         $query->addSelect($rootAlias . '.*');
 
-        $sql = "((ACOS(SIN(%s * PI() / 180) * SIN(" . $rootAlias . "." . $latName . " * PI() / 180) + COS(%s * PI() / 180) * COS(" . $rootAlias . "." . $latName . " * PI() / 180) * COS((%s - " . $rootAlias . "." . $longName . ") * PI() / 180)) * 180 / PI()) * 60 * %s) as %s";
+        $sql = '((ACOS(SIN(%s * PI() / 180) * SIN(' . $rootAlias . '.' . $latName .
+            ' * PI() / 180) + COS(%s * PI() / 180) * COS(' . $rootAlias . '.' . $latName .
+            ' * PI() / 180) * COS((%s - ' . $rootAlias . '.' . $longName .
+            ') * PI() / 180)) * 180 / PI()) * 60 * %s) as %s';
 
-        $milesSql = sprintf($sql, $invoker->get($latName), $invoker->get($latName), $invoker->get($longName), '1.1515', 'miles');
+        $milesSql = sprintf($sql, $invoker->get($latName), $invoker->get($latName), $invoker->get($longName), '1.1515',
+            'miles');
         $query->addSelect($milesSql);
 
-        $kilometersSql = sprintf($sql, $invoker->get($latName), $invoker->get($latName), $invoker->get($longName), '1.1515 * 1.609344', 'kilometers');
+        $kilometersSql = sprintf($sql, $invoker->get($latName), $invoker->get($latName), $invoker->get($longName),
+            '1.1515 * 1.609344', 'kilometers');
         $query->addSelect($kilometersSql);
 
         return $query;
@@ -97,11 +110,11 @@ class Doctrine_Template_Geographical extends Doctrine_Template
      */
     public function getDistance(Doctrine_Record $record, $kilometers = false)
     {
-        $query = $this->getDistanceQuery($kilometers);
-        
+        $query = $this->getDistanceQuery();
+
         $conditions = array();
         $values = array();
-        foreach ((array) $record->getTable()->getIdentifier() as $id) {
+        foreach ((array)$record->getTable()->getIdentifier() as $id) {
             $conditions[] = $query->getRootAlias() . '.' . $id . ' = ?';
             $values[] = $record->get($id);
         }
@@ -113,11 +126,11 @@ class Doctrine_Template_Geographical extends Doctrine_Template
         $query->limit(1);
 
         $result = $query->execute()->getFirst();
-        
+
         if (isset($result['kilometers']) && $result['miles']) {
-            return $kilometers ? $result->get('kilometers'):$result->get('miles');
-        } else {
-            return 0;
+            return $kilometers ? $result->get('kilometers') : $result->get('miles');
         }
+
+        return 0;
     }
 }
