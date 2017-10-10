@@ -65,7 +65,7 @@ class Doctrine_Validator_Creditcard extends Doctrine_Validator_Driver
         /* mod 10 checksum algorithm */
         $revcode = strrev($value);
         $checksum = 0;
-        for ($i = 0; $i < strlen($revcode); $i++) {
+        for ($i = 0, $iMax = strlen($revcode); $i < $iMax; $i++) {
             $currentNum = (int)$revcode[$i];
             if ($i & 1) {               /* Odd position */
                  $currentNum *= 2;

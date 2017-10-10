@@ -233,7 +233,7 @@ class Doctrine_Search extends Doctrine_Record_Generator
         $fields    = $this->_options['fields'];
         $conn      = $this->_options['table']->getConnection();
         
-        for ($i = 0; $i < count($fields); $i++) {
+        for ($i = 0, $iMax = count($fields); $i < $iMax; $i++) {
             $fields[$i] = $table->getColumnName($fields[$i], $fields[$i]);
         }
 
