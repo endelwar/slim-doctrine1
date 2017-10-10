@@ -37,7 +37,9 @@ class Doctrine_Cache_Db extends Doctrine_Cache_Driver
      * Configure Database cache driver. Specify instance of Doctrine_Connection
      * and tableName to store cache in
      *
-     * @param array $_options      an array of options
+     * @param array $options
+     * @throws Doctrine_Cache_Exception
+     * @internal param array $_options an array of options
      */
     public function __construct($options = array())
     {
@@ -115,10 +117,11 @@ class Doctrine_Cache_Db extends Doctrine_Cache_Driver
      * Save a cache record directly. This method is implemented by the cache
      * drivers and used in Doctrine_Cache_Driver::save()
      *
-     * @param string $id        cache id
-     * @param string $data      data to cache
-     * @param int $lifeTime     if != false, set a specific lifetime for this cache record (null => infinite lifeTime)
-     * @return boolean true if no problem
+     * @param string $id cache id
+     * @param string $data data to cache
+     * @param bool|int $lifeTime if != false, set a specific lifetime for this cache record (null => infinite lifeTime)
+     * @param bool $saveKey
+     * @return bool true if no problem
      */
     protected function _doSave($id, $data, $lifeTime = false, $saveKey = true)
     {

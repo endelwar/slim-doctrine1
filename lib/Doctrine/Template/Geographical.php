@@ -90,9 +90,10 @@ class Doctrine_Template_Geographical extends Doctrine_Template
     /**
      * Get distance between this record and another
      *
-     * @param string $Doctrine_Record 
-     * @param string $kilometers 
-     * @return integer
+     * @param Doctrine_Record $record
+     * @param bool|string $kilometers
+     * @return int
+     * @internal param string $Doctrine_Record
      */
     public function getDistance(Doctrine_Record $record, $kilometers = false)
     {

@@ -95,12 +95,13 @@ class Doctrine_Validator_Usstate extends Doctrine_Validator_Driver
     /**
      * checks if given value is a valid US state code
      *
-     * @param string $args
-     * @return boolean
+     * @param $value
+     * @return bool
+     * @internal param string $args
      */
     public function validate($value)
     {
-        if (is_null($value)) {
+        if (null === $value) {
             return true;
         }
         return isset(self::$states[$value]);

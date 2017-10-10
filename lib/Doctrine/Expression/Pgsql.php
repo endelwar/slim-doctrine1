@@ -48,6 +48,7 @@ class Doctrine_Expression_Pgsql extends Doctrine_Expression_Driver
      * </code>
      * You should make sure you run this as the postgres user.
      *
+     * @param $column
      * @return string
      */
     public function md5($column)
@@ -137,7 +138,7 @@ class Doctrine_Expression_Pgsql extends Doctrine_Expression_Driver
     {
         $args = func_get_args();
 
-        return join(' || ' , $args);
+        return implode(' || ' , $args);
     }
 
     /**
@@ -191,8 +192,8 @@ class Doctrine_Expression_Pgsql extends Doctrine_Expression_Driver
     public function matchPattern($pattern, $operator = null, $field = null)
     {
         $match = '';
-        if ( ! is_null($operator)) {
-            $field = is_null($field) ? '' : $field.' ';
+        if (null !== $operator) {
+            $field = null === $field ? '' : $field.' ';
             $operator = strtoupper($operator);
             switch ($operator) {
                 // case insensitive
@@ -223,6 +224,9 @@ class Doctrine_Expression_Pgsql extends Doctrine_Expression_Driver
     /**
      * return syntax for pgsql TRANSLATE() dbms function
      *
+     * @param $string
+     * @param $from
+     * @param $to
      * @return string $sql
      */
     public function translate($string, $from, $to)

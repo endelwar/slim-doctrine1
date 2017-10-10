@@ -50,11 +50,11 @@ class Doctrine_Search extends Doctrine_Record_Generator
                                 'children'         => array(),
                                 'cascadeDelete'    => true,
                                 'appLevelDelete'   => false);
+
     /**
-     * __construct 
-     * 
-     * @param array $options 
-     * @return void
+     * __construct
+     *
+     * @param array $options
      */
     public function __construct(array $options)
     {
@@ -129,8 +129,10 @@ class Doctrine_Search extends Doctrine_Record_Generator
      * updateIndex
      * updates the index
      *
-     * @param Doctrine_Record $record
-     * @return integer
+     * @param array $data
+     * @param null $encoding
+     * @return int
+     * @internal param Doctrine_Record $record
      */
     public function updateIndex(array $data, $encoding = null)
     {
@@ -212,11 +214,13 @@ class Doctrine_Search extends Doctrine_Record_Generator
     }
 
     /**
-     * batchUpdateIndex 
-     * 
-     * @param mixed $limit 
-     * @param mixed $offset 
+     * batchUpdateIndex
+     *
+     * @param mixed $limit
+     * @param mixed $offset
+     * @param null $encoding
      * @return void
+     * @throws Doctrine_Exception
      */
     public function batchUpdateIndex($limit = null, $offset = null, $encoding = null)
     {
@@ -229,7 +233,7 @@ class Doctrine_Search extends Doctrine_Record_Generator
         $fields    = $this->_options['fields'];
         $conn      = $this->_options['table']->getConnection();
         
-        for ($i = 0; $i < count($fields); $i++) {
+        for ($i = 0, $iMax = count($fields); $i < $iMax; $i++) {
             $fields[$i] = $table->getColumnName($fields[$i], $fields[$i]);
         }
 
@@ -297,9 +301,9 @@ class Doctrine_Search extends Doctrine_Record_Generator
     }
 
     /**
-     * buildDefinition 
-     * 
+     * buildDefinition
      * @return void
+     * @throws Doctrine_Record_Exception
      */
     public function setTableDefinition()
     {

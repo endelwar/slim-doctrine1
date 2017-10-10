@@ -40,7 +40,7 @@ class Doctrine_Validator_HtmlColor extends Doctrine_Validator_Driver
      */
     public function validate($value)
     {
-        if (is_null($value)) {
+        if (null === $value) {
             return true;
         }
         if ( ! preg_match("/^#{0,1}[0-9a-fA-F]{6}$/", $value)) {

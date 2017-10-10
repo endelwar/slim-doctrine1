@@ -52,13 +52,12 @@ class Doctrine_Migration
      *
      * @param string $directory The path to your migrations directory
      * @param mixed $connection The connection name or instance to use for this migration
-     * @return void
      */
     public function __construct($directory = null, $connection = null)
     {
         $this->_reflectionClass = new ReflectionClass('Doctrine_Migration_Base');
 
-        if (is_null($connection)) {
+        if (null === $connection) {
             $this->_connection = Doctrine_Manager::connection();
         } else {
             if (is_string($connection)) {
@@ -172,6 +171,7 @@ class Doctrine_Migration
      * to be loaded.
      *
      * @param string $name
+     * @param null $path
      * @return void
      */
     public function loadMigrationClass($name, $path = null)
@@ -422,6 +422,7 @@ class Doctrine_Migration
      * Get instance of migration class for number/version specified
      *
      * @param integer $num
+     * @return mixed
      * @throws Doctrine_Migration_Exception $e
      */
     public function getMigrationClass($num)

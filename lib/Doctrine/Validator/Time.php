@@ -42,7 +42,7 @@ class Doctrine_Validator_Time extends Doctrine_Validator_Driver
      */
     public function validate($value)
     {
-        if (is_null($value)) {
+        if (null === $value) {
             return true;
         }
 
@@ -50,12 +50,12 @@ class Doctrine_Validator_Time extends Doctrine_Validator_Driver
             return false;
         }
 
-        $hh = (isset($matches[1])) ? intval($matches[1]) : 0;
-        $mm = (isset($matches[2])) ? intval($matches[2]) : 0;
-        $ss = (isset($matches[4])) ? intval($matches[4]) : 0;
-        $ms = (isset($matches[6])) ? intval($matches[6]) : 0;
-        $tz_hh = (isset($matches[7])) ? intval($matches[7]) : 0;
-        $tz_mm = (isset($matches[9])) ? intval($matches[9]) : 0;
+        $hh = (isset($matches[1])) ? (int)$matches[1] : 0;
+        $mm = (isset($matches[2])) ? (int)$matches[2] : 0;
+        $ss = (isset($matches[4])) ? (int)$matches[4] : 0;
+        $ms = (isset($matches[6])) ? (int)$matches[6] : 0;
+        $tz_hh = (isset($matches[7])) ? (int)$matches[7] : 0;
+        $tz_mm = (isset($matches[9])) ? (int)$matches[9] : 0;
 
         return 	($hh >= 0 && $hh <= 23) &&
 				($mm >= 0 && $mm <= 59) &&

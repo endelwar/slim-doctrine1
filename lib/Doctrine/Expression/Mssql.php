@@ -39,6 +39,7 @@ class Doctrine_Expression_Mssql extends Doctrine_Expression_Driver
      * - CURRENT_DATE (date, DATE type)
      * - CURRENT_TIME (time, TIME type)
      *
+     * @param string $type
      * @return string to call a variable with the current timestamp
      * @access public
      */
@@ -56,11 +57,14 @@ class Doctrine_Expression_Mssql extends Doctrine_Expression_Driver
     /**
      * return string to call a function to get a substring inside an SQL statement
      *
+     * @param string $value
+     * @param $position
+     * @param null $length
      * @return string to call a function to get a substring
      */
     public function substring($value, $position, $length = null)
     {
-        if ( ! is_null($length)) {
+        if (null !== $length) {
             return 'SUBSTRING(' . $value . ', ' . $position . ', ' . $length . ')';
         }
         return 'SUBSTRING(' . $value . ', ' . $position . ', LEN(' . $value . ') - ' . $position . ' + 1)';
@@ -68,11 +72,10 @@ class Doctrine_Expression_Mssql extends Doctrine_Expression_Driver
 
     /**
      * Returns string to concatenate two or more string parameters
-     *
-     * @param string $arg1
-     * @param string $arg2
-     * @param string $values...
      * @return string to concatenate two strings
+     * @internal param string $arg1
+     * @internal param string $arg2
+     * @internal param string $values ...
      */
     public function concat()
     {
@@ -124,6 +127,7 @@ class Doctrine_Expression_Mssql extends Doctrine_Expression_Driver
      *
      * @param $datepart
      * @param $date
+     * @return string
      */
     public function date_part($datepart, $date)
     {

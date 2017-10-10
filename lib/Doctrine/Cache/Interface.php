@@ -53,10 +53,10 @@ interface Doctrine_Cache_Interface
     /**
      * Save a cache record and add the key to the index of cached keys
      *
-     * @param string $id        cache id
-     * @param string $data      data to cache
-     * @param int $lifeTime     if != false, set a specific lifetime for this cache record (null => infinite lifeTime)
-     * @return boolean true if no problem
+     * @param string $id cache id
+     * @param string $data data to cache
+     * @param bool|int $lifeTime if != false, set a specific lifetime for this cache record (null => infinite lifeTime)
+     * @return bool true if no problem
      */
     public function save($id, $data, $lifeTime = false);
 

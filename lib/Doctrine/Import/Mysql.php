@@ -49,7 +49,7 @@ class Doctrine_Import_Mysql extends Doctrine_Import
     public function listSequences($database = null)
     {
         $query = 'SHOW TABLES';
-        if ( ! is_null($database)) {
+        if (null !== $database) {
             $query .= ' FROM ' . $database;
         }
         $tableNames = $this->conn->fetchColumn($query);
@@ -100,7 +100,7 @@ class Doctrine_Import_Mysql extends Doctrine_Import
     /**
      * lists table relations
      *
-     * Expects an array of this format to be returned with all the relationships in it where the key is 
+     * Expects an array of this format to be returned with all the relationships in it where the key is
      * the name of the foreign table, and the value is an array containing the local and foreign column
      * name
      *
@@ -113,8 +113,9 @@ class Doctrine_Import_Mysql extends Doctrine_Import
      *     )
      * )
      *
-     * @param string $table     database table name
+     * @param string $tableName
      * @return array
+     * @internal param string $table database table name
      */
     public function listTableRelations($tableName)
     {
@@ -229,7 +230,7 @@ class Doctrine_Import_Mysql extends Doctrine_Import
      */
     public function listViews($database = null)
     {
-        if (is_null($database)) {
+        if (null === $database) {
             $query = 'SELECT table_name FROM information_schema.VIEWS';
         } else {
             $query = sprintf($this->sql['listViews'], ' FROM ' . $database);

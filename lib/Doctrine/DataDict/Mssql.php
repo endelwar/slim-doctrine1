@@ -37,7 +37,7 @@ class Doctrine_DataDict_Mssql extends Doctrine_DataDict
      * Obtain DBMS specific SQL code portion needed to declare an text type
      * field to be used in statements like CREATE TABLE.
      *
-     * @param array $field  associative array with the name of the properties
+     * @param array $field associative array with the name of the properties
      *      of the field being declared as array indexes. Currently, the types
      *      of supported field properties are as follows:
      *
@@ -52,9 +52,9 @@ class Doctrine_DataDict_Mssql extends Doctrine_DataDict
      *      notnull
      *          Boolean flag that indicates whether this field is constrained
      *          to not be set to null.
-     *
-     * @return      string      DBMS specific SQL code portion that should be used to
+     * @return string DBMS specific SQL code portion that should be used to
      *                          declare the specified field.
+     * @throws Doctrine_DataDict_Exception
      */
     public function getNativeDeclaration($field)
     {
@@ -245,7 +245,7 @@ class Doctrine_DataDict_Mssql extends Doctrine_DataDict
                 $field['default'] = empty($field['notnull']) ? null : 0;
             }
 
-            $value = (is_null($field['default'])
+            $value = (null === $field['default']
                 ? 'NULL'
                 : $this->conn->quote($field['default']));
 

@@ -68,7 +68,7 @@ class Doctrine_Migration_Builder extends Doctrine_Builder
      * $builder = new Doctrine_Migration_Builder('/path/to/migrations');
      * </code>
      *
-     * @return void
+     * @param null $migrationsPath
      */
     public function __construct($migrationsPath = null)
     {
@@ -476,13 +476,14 @@ END;
     /**
      * Generate a migration class
      *
-     * @param string  $className   Class name to generate
-     * @param array   $options     Options for the migration class
-     * @param string  $up          The code for the up function
-     * @param string  $down        The code for the down function
-     * @param boolean $return      Whether or not to return the code.
+     * @param string $className Class name to generate
+     * @param array $options Options for the migration class
+     * @param string $up The code for the up function
+     * @param string $down The code for the down function
+     * @param boolean $return Whether or not to return the code.
      *                             If true return and false it writes the class to disk.
      * @return mixed
+     * @throws Doctrine_Migration_Exception
      */
     public function generateMigrationClass($className, $options = array(), $up = null, $down = null, $return = false)
     {

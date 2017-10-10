@@ -55,8 +55,9 @@ class Doctrine_Parser_Json extends Doctrine_Parser
      *
      * Load and unserialize data from a file or from passed data
      *
-     * @param  string $path   Path to dump data to
-     * @return array  $json   Array of json objects
+     * @param  string $path Path to dump data to
+     * @param string $charset
+     * @return array $json   Array of json objects
      */
     public function loadData($path, $charset = 'UTF-8')
     {

@@ -40,7 +40,8 @@ abstract class Doctrine_Hydrator_Graph extends Doctrine_Hydrator_Abstract
     /**
      * Gets the custom field used for indexing for the specified component alias.
      *
-     * @return string  The field name of the field used for indexing or NULL
+     * @param $alias
+     * @return string The field name of the field used for indexing or NULL
      *                 if the component does not use any custom field indices.
      */
     protected function _getCustomIndexField($alias)
@@ -99,7 +100,7 @@ abstract class Doctrine_Hydrator_Graph extends Doctrine_Hydrator_Abstract
         $event = new Doctrine_Event(null, Doctrine_Event::HYDRATE, null);
 
         if ($this->_hydrationMode == Doctrine_Core::HYDRATE_ON_DEMAND) {
-            if ( ! is_null($this->_priorRow)) {
+            if (null !== $this->_priorRow) {
                 $data = $this->_priorRow;
                 $this->_priorRow = null;
             } else {
@@ -129,7 +130,7 @@ abstract class Doctrine_Hydrator_Graph extends Doctrine_Hydrator_Abstract
             $rowData = $this->_gatherRowData($data, $cache, $id, $nonemptyComponents);
 
             if ($this->_hydrationMode == Doctrine_Core::HYDRATE_ON_DEMAND)  {
-                if (is_null($activeRootIdentifier)) {
+                if (null === $activeRootIdentifier) {
                     // first row for this record
                     $activeRootIdentifier = $id[$rootAlias];
                 } else if ($activeRootIdentifier != $id[$rootAlias]) {
@@ -282,7 +283,11 @@ abstract class Doctrine_Hydrator_Graph extends Doctrine_Hydrator_Abstract
      * they belong to. The column names in the result set are mapped to their
      * field names during this procedure.
      *
-     * @return array  An array with all the fields (name => value) of the data row,
+     * @param $data
+     * @param $cache
+     * @param $id
+     * @param $nonemptyComponents
+     * @return array An array with all the fields (name => value) of the data row,
      *                grouped by their component (alias).
      */
     protected function _gatherRowData(&$data, &$cache, &$id, &$nonemptyComponents)
@@ -388,6 +393,8 @@ abstract class Doctrine_Hydrator_Graph extends Doctrine_Hydrator_Abstract
      * @todo this function could use reflection to check the first time it runs
      * if the subclassing option is not set.
      *
+     * @param array $data
+     * @param $component
      * @return string The name of the class to create
      *
      */

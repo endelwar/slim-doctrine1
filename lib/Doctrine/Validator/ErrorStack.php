@@ -56,7 +56,7 @@ class Doctrine_Validator_ErrorStack extends Doctrine_Access implements Countable
 
     /**
      * Constructor
-     *
+     * @param $className
      */
     public function __construct($className)
     {
@@ -67,7 +67,9 @@ class Doctrine_Validator_ErrorStack extends Doctrine_Access implements Countable
      * Adds an error to the stack.
      *
      * @param string $invalidFieldName
-     * @param string $errorType
+     * @param string $errorCode
+     * @throws Doctrine_Exception
+     * @internal param string $errorType
      */
     public function add($invalidFieldName, $errorCode = 'general')
     {
@@ -87,6 +89,7 @@ class Doctrine_Validator_ErrorStack extends Doctrine_Access implements Countable
      * Removes all existing errors for the specified field from the stack.
      *
      * @param string $fieldName
+     * @return bool|void
      */
     public function remove($fieldName)
     {

@@ -38,6 +38,7 @@ abstract class Doctrine_Parser
      * Override in the parser driver
      *
      * @param string $array
+     * @param string $charset
      * @return void
      * @author Jonathan H. Wage
      */
@@ -79,6 +80,7 @@ abstract class Doctrine_Parser
      *
      * @param string $path
      * @param string $type
+     * @param string $charset
      * @return void
      * @author Jonathan H. Wage
      */

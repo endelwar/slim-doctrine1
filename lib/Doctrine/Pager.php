@@ -73,15 +73,13 @@ class Doctrine_Pager
     protected $_executed;
 
 
-
     /**
      * __construct
      *
-     * @param mixed $query     Accepts either a Doctrine_Query object or a string 
+     * @param mixed $query Accepts either a Doctrine_Query object or a string
      *                        (which does the Doctrine_Query class creation).
-     * @param int $page     Current page
-     * @param int $maxPerPage     Maximum itens per page
-     * @return void
+     * @param int $page Current page
+     * @param int $maxPerPage Maximum itens per page
      */
     public function __construct($query, $page, $maxPerPage = 0)
     {
@@ -98,7 +96,7 @@ class Doctrine_Pager
      *
      * Initialize Pager object calculating number of results
      *
-     * @param $params  Optional parameters to Doctrine_Query::execute
+     * @param array|Optional $params Optional parameters to Doctrine_Query::execute
      * @return void
      */
     protected function _initialize($params = array())
@@ -180,8 +178,8 @@ class Doctrine_Pager
      * getNumResults
      *
      * Returns the number of results found
-     *
-     * @return int        the number of results found
+     * @return int the number of results found
+     * @throws Doctrine_Pager_Exception
      */
     public function getNumResults()
     {
@@ -223,8 +221,8 @@ class Doctrine_Pager
      * getLastPage
      *
      * Returns the last page (total of pages)
-     *
-     * @return int        last page (total of pages)
+     * @return int last page (total of pages)
+     * @throws Doctrine_Pager_Exception
      */
     public function getLastPage()
     {
@@ -270,8 +268,8 @@ class Doctrine_Pager
      * getNextPage
      *
      * Returns the next page
-     *
-     * @return int        next page
+     * @return int next page
+     * @throws Doctrine_Pager_Exception
      */
     public function getNextPage()
     {
@@ -288,8 +286,8 @@ class Doctrine_Pager
      * getPreviousPage
      *
      * Returns the previous page
-     *
-     * @return int        previous page
+     * @return int previous page
+     * @throws Doctrine_Pager_Exception
      */
     public function getPreviousPage()
     {
@@ -330,8 +328,8 @@ class Doctrine_Pager
      * haveToPaginate
      *
      * Return true if it's necessary to paginate or false if not
-     *
-     * @return bool        true if it is necessary to paginate, false otherwise
+     * @return bool true if it is necessary to paginate, false otherwise
+     * @throws Doctrine_Pager_Exception
      */
     public function haveToPaginate()
     {
@@ -368,7 +366,7 @@ class Doctrine_Pager
      */
     protected function _setPage($page)
     {
-        $page = intval($page);
+        $page = (int)$page;
         $this->_page = ($page <= 0) ? 1 : $page;
     }
 
@@ -498,7 +496,8 @@ class Doctrine_Pager
      *
      * Returns the params to be used by counter Doctrine_Query
      *
-     * @return array     Doctrine_Query counter params
+     * @param array $defaultParams
+     * @return array Doctrine_Query counter params
      */
     public function getCountQueryParams($defaultParams = array())
     {
@@ -535,9 +534,9 @@ class Doctrine_Pager
      *
      * Executes the query, populates the collection and then return it
      *
-     * @param $params               Optional parameters to Doctrine_Query::execute
+     * @param array|Optional $params Optional parameters to Doctrine_Query::execute
      * @param $hydrationMode        Hydration Mode of Doctrine_Query::execute returned ResultSet.
-     * @return Doctrine_Collection  The root collection
+     * @return Doctrine_Collection The root collection
      */
     public function execute($params = array(), $hydrationMode = null)
     {

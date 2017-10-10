@@ -32,7 +32,7 @@
  * @since       1.0
  * @version     $Revision: 115 $
  */
-class Doctrine_Table_Repository_None extends Doctrine_Table_Repository implements Countable, IteratorAggregate
+class Doctrine_Table_Repository_None extends Doctrine_Table_Repository
 {
     /**
      * add
@@ -49,6 +49,7 @@ class Doctrine_Table_Repository_None extends Doctrine_Table_Repository implement
      * get
      *
      * @param integer $oid
+     * @return mixed|void
      * @throws Doctrine_Table_Repository_Exception
      */
     public function get($oid)

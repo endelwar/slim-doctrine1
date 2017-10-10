@@ -39,8 +39,8 @@ class Doctrine_Tree_NestedSet extends Doctrine_Tree implements Doctrine_Tree_Int
     /**
      * constructor, creates tree with reference to table and sets default root options
      *
-     * @param object $table                     instance of Doctrine_Table
-     * @param array $options                    options
+     * @param Doctrine_Table|object $table instance of Doctrine_Table
+     * @param array $options options
      */
     public function __construct(Doctrine_Table $table, $options)
     {
@@ -82,7 +82,9 @@ class Doctrine_Tree_NestedSet extends Doctrine_Tree implements Doctrine_Tree_Int
      * the records id will be assigned to the root id. You must use numeric columns for the id
      * and root id columns.
      *
-     * @param object $record        instance of Doctrine_Record
+     * @param Doctrine_Record|object $record instance of Doctrine_Record
+     * @return Doctrine_Record|object
+     * @throws Doctrine_Tree_Exception
      */
     public function createRoot(Doctrine_Record $record = null)
     {
@@ -119,6 +121,8 @@ class Doctrine_Tree_NestedSet extends Doctrine_Tree implements Doctrine_Tree_Int
      * Fetches a/the root node.
      *
      * @param integer $rootId
+     * @return bool|Doctrine_Record|mixed
+     * @throws Doctrine_Tree_Exception
      * @todo Better $rootid = null and exception if $rootId == null && hasManyRoots?
      *       Fetching with id = 1 is too magical and cant work reliably anyway.
      */
@@ -151,9 +155,10 @@ class Doctrine_Tree_NestedSet extends Doctrine_Tree implements Doctrine_Tree_Int
     /**
      * Fetches a tree.
      *
-     * @param array $options  Options
-     * @param integer $fetchmode  One of the Doctrine_Core::HYDRATE_* constants.
-     * @return mixed          The tree or FALSE if the tree could not be found.
+     * @param array $options Options
+     * @param null $hydrationMode
+     * @return mixed The tree or FALSE if the tree could not be found.
+     * @internal param int $fetchmode One of the Doctrine_Core::HYDRATE_* constants.
      */
     public function fetchTree($options = array(), $hydrationMode = null)
     {
@@ -173,7 +178,7 @@ class Doctrine_Tree_NestedSet extends Doctrine_Tree implements Doctrine_Tree_Int
             $q->addOrderBy($this->_baseAlias . ".lft ASC");
         }
 
-        if ( ! is_null($depth)) { 
+        if (null !== $depth) {
             $q->addWhere($this->_baseAlias . ".level BETWEEN ? AND ?", array(0, $depth)); 
         }
 
@@ -191,10 +196,11 @@ class Doctrine_Tree_NestedSet extends Doctrine_Tree implements Doctrine_Tree_Int
     /**
      * Fetches a branch of a tree.
      *
-     * @param mixed $pk              primary key as used by table::find() to locate node to traverse tree from
-     * @param array $options         Options.
-     * @param integer $fetchmode  One of the Doctrine_Core::HYDRATE_* constants.
-     * @return mixed                 The branch or FALSE if the branch could not be found.
+     * @param mixed $pk primary key as used by table::find() to locate node to traverse tree from
+     * @param array $options Options.
+     * @param null $hydrationMode
+     * @return mixed The branch or FALSE if the branch could not be found.
+     * @internal param int $fetchmode One of the Doctrine_Core::HYDRATE_* constants.
      * @todo Only fetch the lft and rgt values of the initial record. more is not needed.
      */
     public function fetchBranch($pk, $options = array(), $hydrationMode = null)
@@ -212,7 +218,7 @@ class Doctrine_Tree_NestedSet extends Doctrine_Tree implements Doctrine_Tree_Int
         $q->addWhere($this->_baseAlias . ".lft >= ? AND " . $this->_baseAlias . ".rgt <= ?", $params)
                 ->addOrderBy($this->_baseAlias . ".lft asc");
 
-        if ( ! is_null($depth)) { 
+        if (null !== $depth) {
             $q->addWhere($this->_baseAlias . ".level BETWEEN ? AND ?", array($record->get('level'), $record->get('level')+$depth)); 
         }
 
@@ -237,9 +243,10 @@ class Doctrine_Tree_NestedSet extends Doctrine_Tree implements Doctrine_Tree_Int
     /**
      * returns parsed query with root id where clause added if applicable
      *
-     * @param object    $query    Doctrine_Query
-     * @param integer   $root_id  id of destination root
+     * @param object $query Doctrine_Query
+     * @param int $rootId
      * @return Doctrine_Query
+     * @internal param int $root_id id of destination root
      */
     public function returnQueryWithRootId($query, $rootId = 1)
     {
@@ -257,9 +264,8 @@ class Doctrine_Tree_NestedSet extends Doctrine_Tree implements Doctrine_Tree_Int
 
     /**
      * Enter description here...
-     *
-     * @param array $options
      * @return unknown
+     * @internal param array $options
      */
     public function getBaseQuery()
     {

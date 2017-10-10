@@ -192,8 +192,11 @@ abstract class Doctrine_Connection extends Doctrine_Configurable implements Coun
     /**
      * the constructor
      *
-     * @param Doctrine_Manager $manager                 the manager object
-     * @param PDO|Doctrine_Adapter_Interface $adapter   database driver
+     * @param Doctrine_Manager $manager the manager object
+     * @param PDO|Doctrine_Adapter_Interface $adapter database driver
+     * @param null $user
+     * @param null $pass
+     * @throws Doctrine_Connection_Exception
      */
     public function __construct(Doctrine_Manager $manager, $adapter, $user = null, $pass = null)
     {
@@ -272,6 +275,7 @@ abstract class Doctrine_Connection extends Doctrine_Configurable implements Coun
      * Set option value
      *
      * @param string $option
+     * @param $value
      * @return void
      */
     public function setOption($option, $value)
@@ -285,6 +289,7 @@ abstract class Doctrine_Connection extends Doctrine_Configurable implements Coun
      *
      * @param integer $attribute
      * @return mixed
+     * @throws Doctrine_Connection_Exception
      */
     public function getAttribute($attribute)
     {
@@ -455,8 +460,8 @@ abstract class Doctrine_Connection extends Doctrine_Configurable implements Coun
     /**
      * connect
      * connects into database
-     *
-     * @return boolean
+     * @return bool
+     * @throws Doctrine_Connection_Exception
      */
     public function connect()
     {
@@ -548,28 +553,26 @@ abstract class Doctrine_Connection extends Doctrine_Configurable implements Coun
      * query isemulated through this method for other DBMS using standard types
      * of queries inside a transaction to assure the atomicity of the operation.
      *
-     * @param                   string  name of the table on which the REPLACE query will
-     *                          be executed.
-     *
-     * @param   array           an associative array that describes the fields and the
-     *                          values that will be inserted or updated in the specified table. The
-     *                          indexes of the array are the names of all the fields of the table.
-     *
-     *                          The values of the array are values to be assigned to the specified field.
-     *
-     * @param array $keys       an array containing all key fields (primary key fields
+     * @param Doctrine_Table $table
+     * @param array $fields
+     * @param array $keys an array containing all key fields (primary key fields
      *                          or unique index fields) for this table
      *
      *                          the uniqueness of a row will be determined according to
      *                          the provided key fields
      *
      *                          this method will fail if no key fields are specified
+     * @return int
+     * @throws Doctrine_Connection_Exception if there were no key fields
+     * @internal param name $string of the table on which the REPLACE query will
+     *                          be executed.
      *
-     * @throws Doctrine_Connection_Exception        if this driver doesn't support replace
-     * @throws Doctrine_Connection_Exception        if some of the key values was null
-     * @throws Doctrine_Connection_Exception        if there were no key fields
-     * @throws PDOException                         if something fails at PDO level
-     * @ return integer                              number of rows affected
+     * @internal param an $array associative array that describes the fields and the
+     *                          values that will be inserted or updated in the specified table. The
+     *                          indexes of the array are the names of all the fields of the table.
+     *
+     *                          The values of the array are values to be assigned to the specified field.
+     *
      */
     public function replace(Doctrine_Table $table, array $fields, array $keys)
     {
@@ -606,10 +609,10 @@ abstract class Doctrine_Connection extends Doctrine_Configurable implements Coun
     /**
      * deletes table row(s) matching the specified identifier
      *
-     * @throws Doctrine_Connection_Exception    if something went wrong at the database level
-     * @param string $table         The table to delete data from
-     * @param array $identifier     An associateve array containing identifier column-value pairs.
-     * @return integer              The number of affected rows
+     *
+     * @param Doctrine_Table|string $table The table to delete data from
+     * @param array $identifier An associateve array containing identifier column-value pairs.
+     * @return int if something went wrong at the database level
      */
     public function delete(Doctrine_Table $table, array $identifier)
     {
@@ -629,11 +632,13 @@ abstract class Doctrine_Connection extends Doctrine_Configurable implements Coun
     /**
      * Updates table row(s) with specified data.
      *
-     * @throws Doctrine_Connection_Exception    if something went wrong at the database level
-     * @param Doctrine_Table $table     The table to insert data into
-     * @param array $values             An associative array containing column-value pairs.
+     *
+     * @param Doctrine_Table $table The table to insert data into
+     * @param array $fields
+     * @param array $identifier
+     * @return int if something went wrong at the database level
+     * @internal param array $values An associative array containing column-value pairs.
      *                                  Values can be strings or Doctrine_Expression instances.
-     * @return integer                  the number of affected rows. Boolean false if empty value array was given,
      */
     public function update(Doctrine_Table $table, array $fields, array $identifier)
     {
@@ -664,10 +669,11 @@ abstract class Doctrine_Connection extends Doctrine_Configurable implements Coun
     /**
      * Inserts a table row with specified data.
      *
-     * @param Doctrine_Table $table     The table to insert data into.
-     * @param array $values             An associative array containing column-value pairs.
+     * @param Doctrine_Table $table The table to insert data into.
+     * @param array $fields
+     * @return int the number of affected rows. Boolean false if empty value array was given,
+     * @internal param array $values An associative array containing column-value pairs.
      *                                  Values can be strings or Doctrine_Expression instances.
-     * @return integer                  the number of affected rows. Boolean false if empty value array was given,
      */
     public function insert(Doctrine_Table $table, array $fields)
     {
@@ -912,6 +918,7 @@ abstract class Doctrine_Connection extends Doctrine_Configurable implements Coun
      * prepare
      *
      * @param string $statement
+     * @return Doctrine_Connection_Statement
      */
     public function prepare($statement)
     {
@@ -1072,7 +1079,9 @@ abstract class Doctrine_Connection extends Doctrine_Configurable implements Coun
     /**
      * rethrowException
      *
-     * @throws Doctrine_Connection_Exception
+     * @param Exception $e
+     * @param $invoker
+     * @param null $query
      */
     public function rethrowException(Exception $e, $invoker, $query = null)
     {
@@ -1197,8 +1206,8 @@ abstract class Doctrine_Connection extends Doctrine_Configurable implements Coun
      * addTable
      * adds a Doctrine_Table object into connection registry
      *
-     * @param $table                a Doctrine_Table object to be added into registry
-     * @return boolean
+     * @param a|Doctrine_Table $table a Doctrine_Table object to be added into registry
+     * @return bool
      */
     public function addTable(Doctrine_Table $table)
     {
@@ -1240,8 +1249,7 @@ abstract class Doctrine_Connection extends Doctrine_Configurable implements Coun
      * saves all the records from all tables
      * this operation is isolated using a transaction
      *
-     * @throws PDOException         if something went wrong at database level
-     * @return void
+     * @throws Exception
      */
     public function flush()
     {
@@ -1339,8 +1347,8 @@ abstract class Doctrine_Connection extends Doctrine_Configurable implements Coun
 
     /**
      * getResultCacheDriver
-     *
      * @return Doctrine_Cache_Interface
+     * @throws Doctrine_Exception
      */
     public function getResultCacheDriver()
     {
@@ -1353,8 +1361,8 @@ abstract class Doctrine_Connection extends Doctrine_Configurable implements Coun
 
     /**
      * getQueryCacheDriver
-     *
      * @return Doctrine_Cache_Interface
+     * @throws Doctrine_Exception
      */
     public function getQueryCacheDriver()
     {
@@ -1367,8 +1375,8 @@ abstract class Doctrine_Connection extends Doctrine_Configurable implements Coun
 
     /**
      * getQueryCacheDriver
-     *
      * @return Doctrine_Cache_Interface
+     * @throws Doctrine_Exception
      */
     public function getTableCacheDriver()
     {
@@ -1470,8 +1478,9 @@ abstract class Doctrine_Connection extends Doctrine_Configurable implements Coun
      * createDatabase
      *
      * Issue create database command for this instance of Doctrine_Connection
-     *
-     * @return string       Doctrine_Exception catched in case of failure
+     * @return string Doctrine_Exception catched in case of failure
+     * @throws Doctrine_Connection_Exception
+     * @throws Exception
      */
     public function createDatabase()
     {
@@ -1503,8 +1512,9 @@ abstract class Doctrine_Connection extends Doctrine_Configurable implements Coun
      * dropDatabase
      *
      * Issue drop database command for this instance of Doctrine_Connection
-     *
-     * @return string       success string. Doctrine_Exception if operation failed
+     * @return string success string. Doctrine_Exception if operation failed
+     * @throws Doctrine_Connection_Exception
+     * @throws Exception
      */
     public function dropDatabase()
     {
@@ -1578,6 +1588,10 @@ abstract class Doctrine_Connection extends Doctrine_Configurable implements Coun
      *
      * Some dbms require specific functionality for this. Check the other connection adapters for examples
      *
+     * @param $query
+     * @param bool $limit
+     * @param bool $offset
+     * @param bool $isManip
      * @return string
      */
     public function modifyLimitQuery($query, $limit = false, $offset = false, $isManip = false)
@@ -1589,6 +1603,11 @@ abstract class Doctrine_Connection extends Doctrine_Configurable implements Coun
      * Creates dbms specific LIMIT/OFFSET SQL for the subqueries that are used in the
      * context of the limit-subquery algorithm.
      *
+     * @param Doctrine_Table $rootTable
+     * @param $query
+     * @param bool $limit
+     * @param bool $offset
+     * @param bool $isManip
      * @return string
      */
     public function modifyLimitSubquery(Doctrine_Table $rootTable, $query, $limit = false,

@@ -67,8 +67,7 @@ class Doctrine_Adapter_Mock implements Doctrine_Adapter_Interface, Countable
      * $conn = new Doctrine_Adapter_Mock('mysql');
      * </code>
      *
-     * @param string $name 
-     * @return void
+     * @param string $name
      */
     public function __construct($name = null)
     {

@@ -77,7 +77,8 @@ interface Doctrine_Node_Interface {
     /**
      * gets siblings for node
      *
-     * @return array                            array of sibling Doctrine_Record objects
+     * @param bool $includeNode
+     * @return array array of sibling Doctrine_Record objects
      */
     public function getSiblings($includeNode = false);
 
@@ -156,6 +157,7 @@ interface Doctrine_Node_Interface {
     /**
      * inserts node as parent of dest record
      *
+     * @param Doctrine_Record $dest
      * @return bool
      */
     public function insertAsParentOf(Doctrine_Record $dest);
@@ -163,6 +165,7 @@ interface Doctrine_Node_Interface {
     /**
      * inserts node as previous sibling of dest record
      *
+     * @param Doctrine_Record $dest
      * @return bool
      */
     public function insertAsPrevSiblingOf(Doctrine_Record $dest);
@@ -170,6 +173,7 @@ interface Doctrine_Node_Interface {
     /**
      * inserts node as next sibling of dest record
      *
+     * @param Doctrine_Record $dest
      * @return bool
      */
     public function insertAsNextSiblingOf(Doctrine_Record $dest);
@@ -177,6 +181,7 @@ interface Doctrine_Node_Interface {
     /**
      * inserts node as first child of dest record
      *
+     * @param Doctrine_Record $dest
      * @return bool
      */
     public function insertAsFirstChildOf(Doctrine_Record $dest);
@@ -184,37 +189,43 @@ interface Doctrine_Node_Interface {
     /**
      * inserts node as first child of dest record
      *
+     * @param Doctrine_Record $dest
      * @return bool
      */
     public function insertAsLastChildOf(Doctrine_Record $dest);
 
     /**
      * moves node as prev sibling of dest record
-     *
-     */  
+     * @param Doctrine_Record $dest
+     * @return
+     */
     public function moveAsPrevSiblingOf(Doctrine_Record $dest);
 
     /**
      * moves node as next sibling of dest record
-     *
+     * @param Doctrine_Record $dest
+     * @return
      */
     public function moveAsNextSiblingOf(Doctrine_Record $dest);
 
     /**
      * moves node as first child of dest record
-     *
+     * @param Doctrine_Record $dest
+     * @return
      */
     public function moveAsFirstChildOf(Doctrine_Record $dest);
 
     /**
      * moves node as last child of dest record
-     *
+     * @param Doctrine_Record $dest
+     * @return
      */
     public function moveAsLastChildOf(Doctrine_Record $dest);
 
     /**
      * adds node as last child of record
-     *
+     * @param Doctrine_Record $record
+     * @return
      */
     public function addChild(Doctrine_Record $record);
 
@@ -235,6 +246,7 @@ interface Doctrine_Node_Interface {
     /**
      * determines if node is equal to subject node
      *
+     * @param Doctrine_Record $subj
      * @return bool
      */
     public function isEqualTo(Doctrine_Record $subj);
@@ -242,6 +254,7 @@ interface Doctrine_Node_Interface {
     /**
      * determines if node is child of subject node
      *
+     * @param Doctrine_Record $subj
      * @return bool
      */
     public function isDescendantOf(Doctrine_Record $subj);
@@ -249,6 +262,7 @@ interface Doctrine_Node_Interface {
     /**
      * determines if node is child of or sibling to subject node
      *
+     * @param Doctrine_Record $subj
      * @return bool
      */
     public function isDescendantOfOrEqualTo(Doctrine_Record $subj);

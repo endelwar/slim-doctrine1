@@ -62,8 +62,9 @@ class Doctrine_Node implements IteratorAggregate
     /**
      * contructor, creates node with reference to record and any options
      *
-     * @param object $record                    instance of Doctrine_Record
-     * @param array $options                    options
+     * @param Doctrine_Record|object $record instance of Doctrine_Record
+     * @param array $options options
+     * @throws Doctrine_Node_Exception
      */
     public function __construct(Doctrine_Record $record, $options)
     {
@@ -106,11 +107,11 @@ class Doctrine_Node implements IteratorAggregate
      * This is a factory method that returns node instance based upon chosen
      * implementation.
      *
-     * @param object $record                    instance of Doctrine_Record
-     * @param string $implName                  implementation (NestedSet, AdjacencyList, MaterializedPath)
-     * @param array $options                    options
+     * @param Doctrine_Record|object $record instance of Doctrine_Record
+     * @param string $implName implementation (NestedSet, AdjacencyList, MaterializedPath)
+     * @param array $options options
      * @return Doctrine_Node
-     * @throws Doctrine_Node_Exception          if $implName is not a valid class
+     * @throws Doctrine_Node_Exception if $implName is not a valid class
      */
     public static function factory(Doctrine_Record $record, $implName, $options = array())
     {
@@ -126,7 +127,7 @@ class Doctrine_Node implements IteratorAggregate
     /**
      * setter for record attribute
      *
-     * @param object $record                    instance of Doctrine_Record
+     * @param Doctrine_Record|object $record instance of Doctrine_Record
      */
     public function setRecord(Doctrine_Record $record)
     {
@@ -146,8 +147,9 @@ class Doctrine_Node implements IteratorAggregate
     /**
      * convenience function for getIterator
      *
-     * @param string $type                      type of iterator (Pre | Post | Level)
-     * @param array $options                    options
+     * @param string $type type of iterator (Pre | Post | Level)
+     * @param array $options options
+     * @return mixed|Traversable
      */
     public function traverse($type = 'Pre', $options = array())
     {
@@ -157,8 +159,9 @@ class Doctrine_Node implements IteratorAggregate
     /**
      * get iterator
      *
-     * @param string $type                      type of iterator (Pre | Post | Level)
-     * @param array $options                    options
+     * @param string $type type of iterator (Pre | Post | Level)
+     * @param array $options options
+     * @return mixed|Traversable
      */
     public function getIterator($type = null, $options = null)
     {

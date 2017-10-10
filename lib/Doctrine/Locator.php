@@ -53,8 +53,7 @@ class Doctrine_Locator implements Countable, IteratorAggregate
     /**
      * Constructor. Provide an array of resources to set initial contents.
      *
-     * @param array
-     * @return void
+     * @param array $defaults
      */
     public function __construct(array $defaults = null)
     {
@@ -106,7 +105,8 @@ class Doctrine_Locator implements Countable, IteratorAggregate
      * contains
      * checks if a resource exists under the given name
      *
-     * @return boolean      whether or not given resource name exists
+     * @param $name
+     * @return bool whether or not given resource name exists
      */
     public function contains($name)
     {

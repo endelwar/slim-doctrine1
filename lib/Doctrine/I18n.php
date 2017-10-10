@@ -51,8 +51,7 @@ class Doctrine_I18n extends Doctrine_Record_Generator
     /**
      * __construct
      *
-     * @param string $options 
-     * @return void
+     * @param string $options
      */
     public function __construct($options)
     {
@@ -67,9 +66,9 @@ class Doctrine_I18n extends Doctrine_Record_Generator
 
     /**
      * buildDefinition
-     *
-     * @param object $Doctrine_Table
      * @return void
+     * @throws Doctrine_I18n_Exception
+     * @internal param object $Doctrine_Table
      */
     public function setTableDefinition()
     {

@@ -78,6 +78,7 @@ class Doctrine_View
      * constructor
      *
      * @param Doctrine_Query $query
+     * @param $viewName
      */
     public function __construct(Doctrine_Query $query, $viewName)
     {

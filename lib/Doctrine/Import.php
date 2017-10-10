@@ -40,8 +40,8 @@ class Doctrine_Import extends Doctrine_Connection_Module
 
     /**
      * lists all databases
-     *
      * @return array
+     * @throws Doctrine_Import_Exception
      */
     public function listDatabases()
     {
@@ -54,8 +54,8 @@ class Doctrine_Import extends Doctrine_Connection_Module
 
     /**
      * lists all availible database functions
-     *
      * @return array
+     * @throws Doctrine_Import_Exception
      */
     public function listFunctions()
     {
@@ -71,6 +71,7 @@ class Doctrine_Import extends Doctrine_Connection_Module
      *
      * @param string|null $database
      * @return array
+     * @throws Doctrine_Import_Exception
      */
     public function listTriggers($database = null)
     {
@@ -82,6 +83,7 @@ class Doctrine_Import extends Doctrine_Connection_Module
      *
      * @param string|null $database
      * @return array
+     * @throws Doctrine_Import_Exception
      */
     public function listSequences($database = null)
     {
@@ -95,8 +97,9 @@ class Doctrine_Import extends Doctrine_Connection_Module
     /**
      * lists table constraints
      *
-     * @param string $table     database table name
+     * @param string $table database table name
      * @return array
+     * @throws Doctrine_Import_Exception
      */
     public function listTableConstraints($table)
     {
@@ -106,7 +109,7 @@ class Doctrine_Import extends Doctrine_Connection_Module
     /**
      * lists table relations
      *
-     * Expects an array of this format to be returned with all the relationships in it where the key is 
+     * Expects an array of this format to be returned with all the relationships in it where the key is
      * the name of the foreign table, and the value is an array containing the local and foreign column
      * name
      *
@@ -119,8 +122,9 @@ class Doctrine_Import extends Doctrine_Connection_Module
      *     )
      * )
      *
-     * @param string $table     database table name
+     * @param string $table database table name
      * @return array
+     * @throws Doctrine_Import_Exception
      */
     public function listTableRelations($table)
     {
@@ -130,8 +134,9 @@ class Doctrine_Import extends Doctrine_Connection_Module
     /**
      * lists table constraints
      *
-     * @param string $table     database table name
+     * @param string $table database table name
      * @return array
+     * @throws Doctrine_Import_Exception
      */
     public function listTableColumns($table)
     {
@@ -141,8 +146,9 @@ class Doctrine_Import extends Doctrine_Connection_Module
     /**
      * lists table constraints
      *
-     * @param string $table     database table name
+     * @param string $table database table name
      * @return array
+     * @throws Doctrine_Import_Exception
      */
     public function listTableIndexes($table)
     {
@@ -154,6 +160,7 @@ class Doctrine_Import extends Doctrine_Connection_Module
      *
      * @param string|null $database
      * @return array
+     * @throws Doctrine_Import_Exception
      */
     public function listTables($database = null)
     {
@@ -163,8 +170,9 @@ class Doctrine_Import extends Doctrine_Connection_Module
     /**
      * lists table triggers
      *
-     * @param string $table     database table name
+     * @param string $table database table name
      * @return array
+     * @throws Doctrine_Import_Exception
      */
     public function listTableTriggers($table)
     {
@@ -174,8 +182,9 @@ class Doctrine_Import extends Doctrine_Connection_Module
     /**
      * lists table views
      *
-     * @param string $table     database table name
+     * @param string $table database table name
      * @return array
+     * @throws Doctrine_Import_Exception
      */
     public function listTableViews($table)
     {
@@ -184,8 +193,8 @@ class Doctrine_Import extends Doctrine_Connection_Module
 
     /**
      * lists database users
-     *
      * @return array
+     * @throws Doctrine_Import_Exception
      */
     public function listUsers()
     {
@@ -201,6 +210,7 @@ class Doctrine_Import extends Doctrine_Connection_Module
      *
      * @param string|null $database
      * @return array
+     * @throws Doctrine_Import_Exception
      */
     public function listViews($database = null)
     {
@@ -359,7 +369,8 @@ class Doctrine_Import extends Doctrine_Connection_Module
      *
      * @param string $directory
      * @param array $connections Array of connection names to generate models for
-     * @return array                the names of the imported classes
+     * @param array $options
+     * @return array the names of the imported classes
      */
     public function importSchema($directory, array $connections = array(), array $options = array())
     {

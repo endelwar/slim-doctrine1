@@ -42,7 +42,8 @@ class Doctrine_Connection_Mssql extends Doctrine_Connection_Common
      * the constructor
      *
      * @param Doctrine_Manager $manager
-     * @param PDO $pdo                          database handle
+     * @param Doctrine_Adapter_Interface|PDO $adapter
+     * @internal param PDO $pdo database handle
      */
     public function __construct(Doctrine_Manager $manager, $adapter)
     {
@@ -107,11 +108,13 @@ class Doctrine_Connection_Mssql extends Doctrine_Connection_Common
      * @param string $query
      * @param mixed $limit
      * @param mixed $offset
+     * @param bool $isManip
      * @param boolean $isSubQuery
      * @param Doctrine_Query $queryOrigin
+     * @return string
+     * @throws Doctrine_Connection_Exception
      * @link https://github.com/doctrine/dbal/blob/master/lib/Doctrine/DBAL/Platforms/MsSqlPlatform.php#L607
      * @link http://www.toosweettobesour.com/2010/09/16/doctrine-1-2-mssql-alternative-limitpaging/
-     * @return string
      */
     public function modifyLimitQuery($query, $limit = false, $offset = false, $isManip = false, $isSubQuery = false, Doctrine_Query $queryOrigin = null)
     {
@@ -125,8 +128,8 @@ class Doctrine_Connection_Mssql extends Doctrine_Connection_Common
             throw new Doctrine_Connection_Exception("OFFSET cannot be used in MSSQL without ORDER BY due to emulation reasons.");
         }
 
-        $limit = intval($limit);
-        $offset = intval($offset);
+        $limit = (int)$limit;
+        $offset = (int)$offset;
 
         if ($offset < 0) {
             throw new Doctrine_Connection_Exception("LIMIT argument offset=$offset is not valid");
@@ -168,6 +171,7 @@ class Doctrine_Connection_Mssql extends Doctrine_Connection_Common
      * Parse an OrderBy-Statement into chunks
      *
      * @param string $orderby
+     * @return array|false|string[]
      */
     private function parseOrderBy($orderby)
     {
@@ -219,6 +223,11 @@ class Doctrine_Connection_Mssql extends Doctrine_Connection_Common
      * Creates dbms specific LIMIT/OFFSET SQL for the subqueries that are used in the
      * context of the limit-subquery algorithm.
      *
+     * @param Doctrine_Table $rootTable
+     * @param $query
+     * @param bool $limit
+     * @param bool $offset
+     * @param bool $isManip
      * @return string
      */
     public function modifyLimitSubquery(Doctrine_Table $rootTable, $query, $limit = false, $offset = false, $isManip = false)
@@ -267,8 +276,10 @@ class Doctrine_Connection_Mssql extends Doctrine_Connection_Common
     /**
      * Checks if there's a sequence that exists.
      *
-     * @param  string $seq_name     The sequence name to verify.
-     * @return boolean              The value if the table exists or not
+     * @param $seqName
+     * @return bool The value if the table exists or not
+     * @throws Doctrine_Connection_Exception
+     * @internal param string $seq_name The sequence name to verify.
      */
     public function checkSequence($seqName)
     {
@@ -324,6 +335,7 @@ class Doctrine_Connection_Mssql extends Doctrine_Connection_Common
      *
      * @param string $query
      * @param array $params
+     * @return mixed|string
      */
     protected function replaceBoundParamsWithInlineValuesInQuery($query, array $params)
     {
@@ -343,10 +355,11 @@ class Doctrine_Connection_Mssql extends Doctrine_Connection_Common
     /**
      * Inserts a table row with specified data.
      *
-     * @param Doctrine_Table $table     The table to insert data into.
-     * @param array $values             An associative array containing column-value pairs.
+     * @param Doctrine_Table $table The table to insert data into.
+     * @param array $fields
+     * @return int the number of affected rows. Boolean false if empty value array was given,
+     * @internal param array $values An associative array containing column-value pairs.
      *                                  Values can be strings or Doctrine_Expression instances.
-     * @return integer                  the number of affected rows. Boolean false if empty value array was given,
      */
     public function insert(Doctrine_Table $table, array $fields)
     {
@@ -358,7 +371,7 @@ class Doctrine_Connection_Mssql extends Doctrine_Connection_Common
             $lcIdentifier = strtolower($identifier);
 
             if(array_key_exists($lcIdentifier, $fields)) {
-                if(is_null($fields[$lcIdentifier])) {
+                if(null === $fields[$lcIdentifier]) {
                     $settingNullIdentifier = true;
                     unset($fields[$lcIdentifier]);
                 }

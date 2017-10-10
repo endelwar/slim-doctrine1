@@ -113,9 +113,10 @@ class Doctrine_Locator_Injectable
      * bind
      * binds a resource to a name
      *
-     * @param string $name      the name of the resource to bind
-     * @param mixed $value      the value of the resource
-     * @return Doctrine_Locator   this object
+     * @param string $name the name of the resource to bind
+     * @param $resource
+     * @return Doctrine_Locator this object
+     * @internal param mixed $value the value of the resource
      */
     public function bind($name, $resource)
     {

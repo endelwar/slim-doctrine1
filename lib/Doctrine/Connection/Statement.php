@@ -46,9 +46,10 @@ class Doctrine_Connection_Statement implements Doctrine_Adapter_Statement_Interf
     /**
      * constructor
      *
-     * @param Doctrine_Connection $conn     Doctrine_Connection object, every connection
+     * @param Doctrine_Connection $conn Doctrine_Connection object, every connection
      *                                      statement holds an instance of Doctrine_Connection
      * @param mixed $stmt
+     * @throws Doctrine_Exception
      */
     public function __construct(Doctrine_Connection $conn, $stmt)
     {
@@ -146,20 +147,21 @@ class Doctrine_Connection_Statement implements Doctrine_Adapter_Statement_Interf
      * of stored procedures that return data as output parameters, and some also as input/output
      * parameters that both send in data and are updated to receive it.
      *
-     * @param mixed $param          Parameter identifier. For a prepared statement using named placeholders,
-     *                              this will be a parameter name of the form :name. For a prepared statement
-     *                              using question mark placeholders, this will be the 1-indexed position of the parameter
+     * @param $column
+     * @param mixed $variable Name of the PHP variable to bind to the SQL statement parameter.
      *
-     * @param mixed $variable       Name of the PHP variable to bind to the SQL statement parameter.
-     *
-     * @param integer $type         Explicit data type for the parameter using the Doctrine_Core::PARAM_* constants. To return
+     * @param integer $type Explicit data type for the parameter using the Doctrine_Core::PARAM_* constants. To return
      *                              an INOUT parameter from a stored procedure, use the bitwise OR operator to set the
      *                              Doctrine_Core::PARAM_INPUT_OUTPUT bits for the data_type parameter.
      *
-     * @param integer $length       Length of the data type. To indicate that a parameter is an OUT parameter
+     * @param integer $length Length of the data type. To indicate that a parameter is an OUT parameter
      *                              from a stored procedure, you must explicitly set the length.
      * @param mixed $driverOptions
-     * @return boolean              Returns TRUE on success or FALSE on failure.
+     * @return bool Returns TRUE on success or FALSE on failure.
+     * @internal param mixed $param Parameter identifier. For a prepared statement using named placeholders,
+     *                              this will be a parameter name of the form :name. For a prepared statement
+     *                              using question mark placeholders, this will be the 1-indexed position of the parameter
+     *
      */
     public function bindParam($column, &$variable, $type = null, $length = null, $driverOptions = array())
     {
@@ -292,11 +294,8 @@ class Doctrine_Connection_Statement implements Doctrine_Adapter_Statement_Interf
      * fetch
      *
      * @see Doctrine_Core::FETCH_* constants
-     * @param integer $fetchStyle           Controls how the next row will be returned to the caller.
-     *                                      This value must be one of the Doctrine_Core::FETCH_* constants,
-     *                                      defaulting to Doctrine_Core::FETCH_BOTH
-     *
-     * @param integer $cursorOrientation    For a PDOStatement object representing a scrollable cursor,
+     * @param int $fetchMode
+     * @param int $cursorOrientation For a PDOStatement object representing a scrollable cursor,
      *                                      this value determines which row will be returned to the caller.
      *                                      This value must be one of the Doctrine_Core::FETCH_ORI_* constants, defaulting to
      *                                      Doctrine_Core::FETCH_ORI_NEXT. To request a scrollable cursor for your
@@ -304,7 +303,7 @@ class Doctrine_Connection_Statement implements Doctrine_Adapter_Statement_Interf
      *                                      you must set the Doctrine_Core::ATTR_CURSOR attribute to Doctrine_Core::CURSOR_SCROLL when you
      *                                      prepare the SQL statement with Doctrine_Adapter_Interface->prepare().
      *
-     * @param integer $cursorOffset         For a Doctrine_Adapter_Statement_Interface object representing a scrollable cursor for which the
+     * @param integer $cursorOffset For a Doctrine_Adapter_Statement_Interface object representing a scrollable cursor for which the
      *                                      $cursorOrientation parameter is set to Doctrine_Core::FETCH_ORI_ABS, this value specifies
      *                                      the absolute number of the row in the result set that shall be fetched.
      *
@@ -312,8 +311,11 @@ class Doctrine_Connection_Statement implements Doctrine_Adapter_Statement_Interf
      *                                      which the $cursorOrientation parameter is set to Doctrine_Core::FETCH_ORI_REL, this value
      *                                      specifies the row to fetch relative to the cursor position before
      *                                      Doctrine_Adapter_Statement_Interface->fetch() was called.
-     *
      * @return mixed
+     * @internal param int $fetchStyle Controls how the next row will be returned to the caller.
+     *                                      This value must be one of the Doctrine_Core::FETCH_* constants,
+     *                                      defaulting to Doctrine_Core::FETCH_BOTH
+     *
      */
     public function fetch($fetchMode = Doctrine_Core::FETCH_BOTH,
                           $cursorOrientation = Doctrine_Core::FETCH_ORI_NEXT,
@@ -491,8 +493,10 @@ class Doctrine_Connection_Statement implements Doctrine_Adapter_Statement_Interf
      * setFetchMode
      * Set the default fetch mode for this statement
      *
-     * @param integer $mode                 The fetch mode must be one of the Doctrine_Core::FETCH_* constants.
-     * @return boolean                      Returns 1 on success or FALSE on failure.
+     * @param integer $mode The fetch mode must be one of the Doctrine_Core::FETCH_* constants.
+     * @param null $arg1
+     * @param null $arg2
+     * @return bool Returns 1 on success or FALSE on failure.
      */
     public function setFetchMode($mode, $arg1 = null, $arg2 = null)
     {

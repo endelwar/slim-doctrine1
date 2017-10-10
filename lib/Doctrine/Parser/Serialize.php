@@ -55,6 +55,7 @@ class Doctrine_Parser_Serialize extends Doctrine_Parser
      * Load and unserialize data from a file or from passed data
      *
      * @param string $path
+     * @param string $charset
      * @return void
      */
     public function loadData($path, $charset = 'UTF-8')

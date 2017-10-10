@@ -74,7 +74,8 @@ class Doctrine_Hook
                               );
 
     /**
-     * @param Doctrine_Query $query         the base query
+     * @param Doctrine_Query $query the base query
+     * @throws Doctrine_Exception
      */
     public function __construct($query)
     {
@@ -126,9 +127,10 @@ class Doctrine_Hook
      * hookWhere
      * builds DQL query where part from given parameter array
      *
-     * @param array $params         an associative array containing field
+     * @param array $params an associative array containing field
      *                              names and their values
-     * @return boolean              whether or not the hooking was
+     * @return bool whether or not the hooking was
+     * @throws Doctrine_Exception
      */
     public function hookWhere($params)
     {

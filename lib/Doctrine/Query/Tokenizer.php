@@ -50,11 +50,10 @@ class Doctrine_Query_Tokenizer
      *         'where'  => array('u.name', 'LIKE', '?')
      *     );
      *
-     * @param string $query             DQL query
+     * @param string $query DQL query
+     * @return array If some generic parsing error occurs
      *
-     * @throws Doctrine_Query_Exception If some generic parsing error occurs
-     *
-     * @return array                    An array containing the query string parts
+     * @throws Doctrine_Query_Tokenizer_Exception
      */
     public function tokenizeQuery($query)
     {
@@ -276,10 +275,9 @@ class Doctrine_Query_Tokenizer
      *     );
      *
      * @param string $str String to be clause exploded
-     * @param string $d   Delimeter which explodes the string
-     * @param string $e1  First bracket, usually '('
-     * @param string $e2  Second bracket, usually ')'
-     *
+     * @param array|string $d Delimeter which explodes the string
+     * @param string $e1 First bracket, usually '('
+     * @param string $e2 Second bracket, usually ')'
      * @return array
      */
     public function clauseExplode($str, array $d, $e1 = '(', $e2 = ')')
@@ -341,11 +339,11 @@ class Doctrine_Query_Tokenizer
      * this function is like clauseExplode, but it doesn't merge bracket terms
      *
      * @param $str
-     * @param $d
-     * @param $e1
-     * @param $e2
-     *
+     * @param $regexp
+     * @param string $e1
+     * @param string $e2
      * @return unknown_type
+     * @internal param $d
      */
     private function clauseExplodeCountBrackets($str, $regexp, $e1 = '(', $e2 = ')')
     {
@@ -384,7 +382,7 @@ class Doctrine_Query_Tokenizer
                 }
 
                 $terms = array_merge($terms, $subterms);
-                $i += sizeof($subterms);
+                $i += count($subterms);
             }
         }
 
@@ -416,11 +414,12 @@ class Doctrine_Query_Tokenizer
      *     );
      *
      * @param $str
-     * @param $d
-     * @param $e1
-     * @param $e2
-     *
+     * @param $regexp
      * @return array
+     * @internal param $d
+     * @internal param $e1
+     * @internal param $e2
+     *
      */
     private function clauseExplodeNonQuoted($str, $regexp)
     {

@@ -369,9 +369,9 @@ class Doctrine_Lib
      * This method recursively copies all $source files and subdirs in $dest.
      * If $source is a file, only it will be copied in $dest.
      *
-     * @param string $source    a directory path
-     * @param string $dest      a directory path
-     * @return
+     * @param string $source a directory path
+     * @param string $dest a directory path
+     * @return bool
      */
     public static function copyDirectory($source, $dest)
     {
@@ -412,8 +412,9 @@ class Doctrine_Lib
      * and for Doctrine coding standards. $className must use camel case naming
      * and underscores for directory separation.
      *
-     * @param string $classname
-     * @return boolean
+     * @param $className
+     * @return bool
+     * @internal param string $classname
      */
     public static function isValidClassName($className)
     {

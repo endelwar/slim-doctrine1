@@ -36,9 +36,9 @@ class Doctrine_Export_Oracle extends Doctrine_Export
     /**
      * create a new database
      *
-     * @param object $db database object that is extended by this class
      * @param string $name name of the database that should be created
-     * @return boolean      success of operation
+     * @return bool success of operation
+     * @internal param object $db database object that is extended by this class
      */
     public function createDatabase($name)
     {
@@ -65,9 +65,9 @@ class Doctrine_Export_Oracle extends Doctrine_Export
     /**
      * drop an existing database
      *
-     * @param object $this->conn database object that is extended by this class
      * @param string $name name of the database that should be dropped
-     * @return boolean      success of operation
+     * @return bool success of operation
+     * @internal param object $this ->conn database object that is extended by this class
      * @access public
      */
     public function dropDatabase($name)
@@ -99,10 +99,10 @@ SQL;
     /**
      * add an autoincrement sequence + trigger
      *
-     * @param string $name  name of the PK field
+     * @param string $name name of the PK field
      * @param string $table name of the table
-     * @param string $start start value for the sequence
-     * @return string        Sql code
+     * @param int|string $start start value for the sequence
+     * @return string Sql code
      * @access private
      */
     public function _makeAutoincrement($name, $table, $start = 1)
@@ -127,7 +127,7 @@ BEGIN
   END IF;
 END;';   
 		
-        if (is_null($start)) {
+        if (null === $start) {
             $query = 'SELECT MAX(' . $this->conn->quoteIdentifier($name, true) . ') FROM ' . $this->conn->quoteIdentifier($table, true);
             $start = $this->conn->fetchOne($query);
 
@@ -388,8 +388,8 @@ END;';
     /**
      * alter an existing table
      *
-     * @param string $name         name of the table that is intended to be changed.
-     * @param array $changes     associative array that contains the details of each type
+     * @param string $name name of the table that is intended to be changed.
+     * @param array $changes associative array that contains the details of each type
      *                             of change that is intended to be performed. The types of
      *                             changes that are currently supported are defined as follows:
      *
@@ -468,10 +468,11 @@ END;';
      *                                    )
      *                                )
      *
-     * @param boolean $check     indicates whether the function should just check if the DBMS driver
+     * @param boolean $check indicates whether the function should just check if the DBMS driver
      *                             can perform the requested table alterations if the value is true or
      *                             actually perform them otherwise.
      * @return void
+     * @throws Doctrine_Export_Exception
      */
     public function alterTable($name, array $changes, $check = false)
     {
@@ -538,8 +539,8 @@ END;';
      * create sequence
      *
      * @param string $seqName name of the sequence to be created
-     * @param string $start start value of the sequence; default is 1
-     * @param array     $options  An associative array of table options:
+     * @param int|string $start start value of the sequence; default is 1
+     * @param array $options An associative array of table options:
      *                          array(
      *                              'comment' => 'Foo',
      *                              'charset' => 'utf8',
@@ -558,9 +559,9 @@ END;';
     /**
      * drop existing sequence
      *
-     * @param object $this->conn database object that is extended by this class
      * @param string $seqName name of the sequence to be dropped
      * @return string
+     * @internal param object $this ->conn database object that is extended by this class
      */
     public function dropSequenceSql($seqName)
     {
@@ -571,11 +572,12 @@ END;';
     /**
      * return Oracle's SQL code portion needed to set an index
      * declaration to be unsed in statements like CREATE TABLE.
-     * 
-     * @param string $name      name of the index
+     *
+     * @param string $name name of the index
      * @param array $definition index definition
-     * @return string           Oracle's SQL code portion needed to set an index  
-     */    
+     * @return string Oracle's SQL code portion needed to set an index
+     * @throws Doctrine_Export_Exception
+     */
     public function getIndexDeclaration($name, array $definition)
     {
         $name = $this->conn->quoteIdentifier($name);

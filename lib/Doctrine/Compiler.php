@@ -38,8 +38,10 @@ class Doctrine_Compiler
      * including the compiled file instead of multiple files (in worst
      * cases dozens of files) can improve performance by an order of magnitude
      *
-     * @throws Doctrine_Compiler_Exception      if something went wrong during the compile operation
-     * @return $target Path the compiled file was written to
+     * @param null $target
+     * @param array $includedDrivers
+     * @return null|string if something went wrong during the compile operation
+     * @throws Doctrine_Compiler_Exception if something went wrong during the compile operation
      */
     public static function compile($target = null, $includedDrivers = array())
     {
@@ -115,7 +117,7 @@ class Doctrine_Compiler
 
         // first write the 'compiled' data to a text file, so
         // that we can use php_strip_whitespace (which only works on files)
-        $fp = @fopen($target, 'w');
+        $fp = @fopen($target, 'wb');
 
         if ($fp === false) {
             throw new Doctrine_Compiler_Exception("Couldn't write compiled data. Failed to open $target");
@@ -125,7 +127,7 @@ class Doctrine_Compiler
         fclose($fp);
 
         $stripped = php_strip_whitespace($target);
-        $fp = @fopen($target, 'w');
+        $fp = @fopen($target, 'wb');
         if ($fp === false) {
             throw new Doctrine_Compiler_Exception("Couldn't write compiled data. Failed to open $file");
         }

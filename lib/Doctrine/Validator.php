@@ -41,8 +41,9 @@ class Doctrine_Validator extends Doctrine_Locator_Injectable
     /**
      * Get a validator instance for the passed $name
      *
-     * @param  string   $name  Name of the validator or the validator class name
+     * @param  string $name Name of the validator or the validator class name
      * @return Doctrine_Validator_Interface $validator
+     * @throws Doctrine_Exception
      */
     public static function getValidator($name)
     {
@@ -155,19 +156,27 @@ class Doctrine_Validator extends Doctrine_Locator_Injectable
      {
          if ($var instanceof Doctrine_Expression) {
              return true;
-         } else if ($var === null) {
+         }
+
+         if ($var === null) {
              return true;
-         } else if (is_object($var)) {
-             return $type == 'object';
+         }
+
+         if (is_array($var)) {
+             return $type === 'array';
+         }
+
+         if (is_object($var)) {
+             return $type === 'object';
          }
 
          switch ($type) {
              case 'float':
              case 'double':
              case 'decimal':
-                 return (string) $var == strval(floatval($var));
+                 return (string) $var == (string)((float)$var);
              case 'integer':
-                 return (string) $var == strval(round(floatval($var)));
+                 return (string) $var == (string)round((float)$var);
              case 'string':
                  return is_string($var) || is_numeric($var);
              case 'blob':

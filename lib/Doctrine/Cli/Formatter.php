@@ -47,8 +47,7 @@ class Doctrine_Cli_Formatter
     /**
      * __construct
      *
-     * @param string $maxLineSize 
-     * @return void
+     * @param int|string $maxLineSize
      */
     function __construct($maxLineSize = 65)
     {
@@ -58,11 +57,13 @@ class Doctrine_Cli_Formatter
     /**
      * Formats a text according to the given parameters.
      *
-     * @param  string The test to style
-     * @param  mixed  An array of parameters
-     * @param  stream A stream (default to STDOUT)
-     *
+     * @param string $text The test to style
+     * @param array $parameters
+     * @param bool|resource|string $stream
      * @return string The formatted text
+     * @internal param An $mixed array of parameters
+     * @internal param A $stream stream (default to STDOUT)
+     *
      */
     public function format($text = '', $parameters = array(), $stream = STDOUT)
     {
@@ -75,6 +76,7 @@ class Doctrine_Cli_Formatter
      * @param string  The section name
      * @param string  The text message
      * @param integer The maximum size allowed for a line (65 by default)
+     * @return string
      */
     public function formatSection($section, $text, $size = null)
     {

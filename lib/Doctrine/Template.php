@@ -51,8 +51,8 @@ abstract class Doctrine_Template extends Doctrine_Record_Abstract
     /**
      * __construct
      *
-     * @param string $array 
-     * @return void
+     * @param array $options
+     * @internal param string $array
      */
     public function __construct(array $options = array())
     {
@@ -82,8 +82,8 @@ abstract class Doctrine_Template extends Doctrine_Record_Abstract
     /**
      * sets the last used invoker
      *
-     * @param Doctrine_Record $invoker      the record that invoked the last delegated call
-     * @return Doctrine_Template            this object
+     * @param Doctrine_Record|Doctrine_Record_Abstract $invoker the record that invoked the last delegated call
+     * @return Doctrine_Template this object
      */
     public function setInvoker(Doctrine_Record_Abstract $invoker)
     {
@@ -161,10 +161,11 @@ abstract class Doctrine_Template extends Doctrine_Record_Abstract
     }
 
     /**
-     * get 
-     * 
-     * @param mixed $name 
+     * get
+     *
+     * @param mixed $name
      * @return void
+     * @throws Doctrine_Exception
      */
     public function get($name) 
     {
@@ -172,11 +173,12 @@ abstract class Doctrine_Template extends Doctrine_Record_Abstract
     }
 
     /**
-     * set 
-     * 
-     * @param mixed $name 
-     * @param mixed $value 
+     * set
+     *
+     * @param mixed $name
+     * @param mixed $value
      * @return void
+     * @throws Doctrine_Exception
      */
     public function set($name, $value)
     {

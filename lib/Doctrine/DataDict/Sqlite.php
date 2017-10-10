@@ -35,7 +35,7 @@ class Doctrine_DataDict_Sqlite extends Doctrine_DataDict
      * Obtain DBMS specific SQL code portion needed to declare an text type
      * field to be used in statements like CREATE TABLE.
      *
-     * @param array $field  associative array with the name of the properties
+     * @param array $field associative array with the name of the properties
      *      of the field being declared as array indexes. Currently, the types
      *      of supported field properties are as follows:
      *
@@ -50,9 +50,10 @@ class Doctrine_DataDict_Sqlite extends Doctrine_DataDict
      *      notnull
      *          Boolean flag that indicates whether this field is constrained
      *          to not be set to null.
-     * @author Lukas Smith (PEAR MDB2 library)
-     * @return string  DBMS specific SQL code portion that should be used to
+     * @return string DBMS specific SQL code portion that should be used to
      *      declare the specified field.
+     * @throws Doctrine_DataDict_Exception
+     * @author Lukas Smith (PEAR MDB2 library)
      */
     public function getNativeDeclaration(array $field)
     {
@@ -124,8 +125,9 @@ class Doctrine_DataDict_Sqlite extends Doctrine_DataDict
     /**
      * Maps a native array description of a field to Doctrine datatype and length
      *
-     * @param array  $field native field description
+     * @param array $field native field description
      * @return array containing the various possible types, length, sign, fixed
+     * @throws Doctrine_DataDict_Exception
      */
     public function getPortableDeclaration(array $field)
     {
@@ -301,7 +303,7 @@ class Doctrine_DataDict_Sqlite extends Doctrine_DataDict
                 $field['default'] = empty($field['notnull']) ? null : 0;
             }
 
-            $default = ' DEFAULT ' . (is_null($field['default'])
+            $default = ' DEFAULT ' . (null === $field['default']
                 ? 'NULL'
                 : $this->conn->quote($field['default'], $field['type']));
         }/**

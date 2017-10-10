@@ -128,6 +128,27 @@ class Doctrine_Connection_Mysql extends Doctrine_Connection_Common
     }
 
     /**
+     * Get the SQL mode on the current connection
+     */
+    public function getSqlMode()
+    {
+        return $this->fetchOne('SELECT @@sql_mode');
+    }
+
+    /**
+     * Set the SQL mode on the current connection
+     *
+     * @param string $sqlmode   SQL mode
+     *
+     * @link http://dev.mysql.com/doc/refman/5.7/en/server-options.html#option_mysqld_sql-mode
+     */
+    public function setSqlMode($sqlmode)
+    {
+        $query = 'SET sql_mode = ' . $this->quote($sqlmode);
+        $this->exec($query);
+    }
+
+    /**
      * Execute a SQL REPLACE query. A REPLACE query is identical to a INSERT
      * query, except that if there is already a row in the table with the same
      * key field values, the REPLACE query just updates its values instead of
@@ -140,7 +161,7 @@ class Doctrine_Connection_Mysql extends Doctrine_Connection_Common
      *
      * @access public
      *
-     * @param string $table name of the table on which the REPLACE query will
+     * @param Doctrine_Table|string $table name of the table on which the REPLACE query will
      *  be executed.
      * @param array $fields associative array that describes the fields and the
      *  values that will be inserted or updated in the specified table. The
@@ -189,7 +210,9 @@ class Doctrine_Connection_Mysql extends Doctrine_Connection_Common
      *
      *    Default: 0
      *
-     * @return integer      the number of affected rows
+     * @param array $keys
+     * @return int the number of affected rows
+     * @throws Doctrine_Connection_Exception
      */
     public function replace(Doctrine_Table $table, array $fields, array $keys)
     {

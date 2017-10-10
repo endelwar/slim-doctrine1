@@ -30,7 +30,7 @@
  * @link        www.doctrine-project.org
  * @since       1.0
  */
-class Doctrine_Search_Analyzer_Standard extends Doctrine_Search_Analyzer implements Doctrine_Search_Analyzer_Interface
+class Doctrine_Search_Analyzer_Standard extends Doctrine_Search_Analyzer
 {
     protected static $_stopwords = array(
                             // Ticket #1787. Fixed searchable behavior numeric evaluation

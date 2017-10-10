@@ -71,7 +71,9 @@ class Doctrine_Relation_Parser
     /**
      * getPendingRelation
      *
-     * @return array            an array defining a pending relation
+     * @param $name
+     * @return array an array defining a pending relation
+     * @throws Doctrine_Relation_Exception
      */
     public function getPendingRelation($name)
     {
@@ -122,8 +124,10 @@ class Doctrine_Relation_Parser
      * binds a relation
      *
      * @param string $name
-     * @param string $field
+     * @param array $options
      * @return void
+     * @throws Doctrine_Relation_Exception
+     * @internal param string $field
      */
     public function bind($name, $options = array())
     {
@@ -151,7 +155,10 @@ class Doctrine_Relation_Parser
     /**
      * getRelation
      *
-     * @param string $alias      relation alias
+     * @param string $alias relation alias
+     * @param bool $recursive
+     * @return Doctrine_Relation_Association|Doctrine_Relation_ForeignKey|Doctrine_Relation_LocalKey|Doctrine_Relation_Nest
+     * @throws Doctrine_Table_Exception
      */
     public function getRelation($alias, $recursive = true)
     {
@@ -262,6 +269,8 @@ class Doctrine_Relation_Parser
      * table class for the given record
      *
      * @param string $template
+     * @return Doctrine_Table
+     * @throws Doctrine_Relation_Parser_Exception
      */
     public function getImpl($template)
     {
@@ -336,7 +345,8 @@ class Doctrine_Relation_Parser
      * the identifiers are in format:
      * [componentName].[identifier]
      *
-     * @param Doctrine_Table $table     table object to retrieve identifiers from
+     * @param Doctrine_Table $table table object to retrieve identifiers from
+     * @return array|string
      */
     public function getIdentifiers(Doctrine_Table $table)
     {
@@ -357,9 +367,10 @@ class Doctrine_Relation_Parser
     /**
      * guessColumns
      *
-     * @param array $classes                    an array of class names
-     * @param Doctrine_Table $foreignTable      foreign table object
-     * @return array                            an array of column names
+     * @param array $classes an array of class names
+     * @param Doctrine_Table $foreignTable foreign table object
+     * @return array an array of column names
+     * @throws Doctrine_Relation_Exception
      */
     public function guessColumns(array $classes, Doctrine_Table $foreignTable)
     {

@@ -87,8 +87,8 @@ class Doctrine_Export_Mssql extends Doctrine_Export
     /**
      * alter an existing table
      *
-     * @param string $name         name of the table that is intended to be changed.
-     * @param array $changes     associative array that contains the details of each type
+     * @param string $name name of the table that is intended to be changed.
+     * @param array $changes associative array that contains the details of each type
      *                             of change that is intended to be performed. The types of
      *                             changes that are currently supported are defined as follows:
      *
@@ -167,10 +167,11 @@ class Doctrine_Export_Mssql extends Doctrine_Export
      *                                    )
      *                                )
      *
-     * @param boolean $check     indicates whether the function should just check if the DBMS driver
+     * @param boolean $check indicates whether the function should just check if the DBMS driver
      *                             can perform the requested table alterations if the value is true or
      *                             actually perform them otherwise.
      * @return void
+     * @throws Doctrine_Export_Exception
      */
     public function alterTable($name, array $changes, $check = false)
     {
@@ -332,8 +333,8 @@ class Doctrine_Export_Mssql extends Doctrine_Export
      * create sequence
      *
      * @param string $seqName name of the sequence to be created
-     * @param string $start start value of the sequence; default is 1
-     * @param array     $options  An associative array of table options:
+     * @param int|string $start start value of the sequence; default is 1
+     * @param array $options An associative array of table options:
      *                          array(
      *                              'comment' => 'Foo',
      *                              'charset' => 'utf8',
@@ -379,8 +380,8 @@ class Doctrine_Export_Mssql extends Doctrine_Export
     /**
      * create a new table
      *
-     * @param string $name   Name of the database that should be created
-     * @param array $fields  Associative array that contains the definition of each field of the new table
+     * @param string $name Name of the database that should be created
+     * @param array $fields Associative array that contains the definition of each field of the new table
      *                       The indexes of the array entries are the names of the fields of the table an
      *                       the array entry values are associative arrays like those that are meant to be
      *                       passed with the field definitions to get[Type]Declaration() functions.
@@ -400,9 +401,9 @@ class Doctrine_Export_Mssql extends Doctrine_Export
      *                                  'length' => 12
      *                              )
      *                          );
-     * @param array $options  An associative array of table options:
-     *
+     * @param array $options An associative array of table options:
      * @return string
+     * @throws Doctrine_Export_Exception
      */
     public function createTableSql($name, array $fields, array $options = array())
     {
@@ -474,8 +475,9 @@ class Doctrine_Export_Mssql extends Doctrine_Export
      * Obtain DBMS specific SQL code portion needed to set a NOT NULL
      * declaration to be used in statements like CREATE TABLE.
      *
-     * @param array $field      field definition array
-     * @return string           DBMS specific SQL code portion needed to set a default value
+     * @param array $definition
+     * @return string DBMS specific SQL code portion needed to set a default value
+     * @internal param array $field field definition array
      */
     public function getNotNullFieldDeclaration(array $definition)
     {
@@ -514,7 +516,7 @@ class Doctrine_Export_Mssql extends Doctrine_Export
                 $default .= ' CONSTRAINT ' . $field['defaultConstraintName'];
             }
 
-            $default .= ' DEFAULT ' . (is_null($field['default'])
+            $default .= ' DEFAULT ' . (null === $field['default']
                 ? 'NULL'
                 : $this->conn->quote($field['default'], $field['type']));
         }

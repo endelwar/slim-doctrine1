@@ -35,8 +35,7 @@ class Doctrine_Data_Export extends Doctrine_Data
     /**
      * constructor
      *
-     * @param string $directory 
-     * @return void
+     * @param string $directory
      */
     public function __construct($directory)
     {
@@ -75,7 +74,7 @@ class Doctrine_Data_Export extends Doctrine_Data
         $originalIndexBy = array();
         foreach ($models AS $name) {
           $table = Doctrine_Core::getTable($name);
-          if ( !is_null($indexBy = $table->getBoundQueryPart('indexBy'))) {
+          if (null !== $indexBy = $table->getBoundQueryPart('indexBy')) {
             $originalIndexBy[$name] = $indexBy;
             $table->bindQueryPart('indexBy', null);
           }
@@ -108,8 +107,10 @@ class Doctrine_Data_Export extends Doctrine_Data
      *
      * Dump the prepared data to the fixtures files
      *
-     * @param string $array 
+     * @param array $data
      * @return void
+     * @throws Doctrine_Data_Exception
+     * @internal param string $array
      */
     public function dumpData(array $data)
     {

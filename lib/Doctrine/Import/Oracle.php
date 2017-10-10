@@ -32,8 +32,8 @@ class Doctrine_Import_Oracle extends Doctrine_Import
 {
     /**
      * lists all databases
-     *
      * @return array
+     * @throws Doctrine_Import_Exception
      */
     public function listDatabases()
     {
@@ -169,9 +169,11 @@ QEND;
 
         return array_map(array($this->conn->formatter, 'fixIndexName'), $indexes);
     }
-    
+
     /**
      * list table relations
+     * @param string $table
+     * @return array
      */
     public function listTableRelations($table)
     {

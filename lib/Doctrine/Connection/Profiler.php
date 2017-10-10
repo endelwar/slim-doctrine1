@@ -63,22 +63,23 @@ class Doctrine_Connection_Profiler implements Doctrine_Overloadable, IteratorAgg
 
     /**
      * setFilterQueryType
-     *
-     * @param integer $filter
-     * @return boolean
+     * @return bool
+     * @internal param int $filter
      */
     public function setFilterQueryType() {
                                              
-    }                                         
+    }
+
     /**
      * method overloader
      * this method is used for invoking different listeners, for the full
      * list of availible listeners, see Doctrine_EventListener
      *
-     * @param string $m     the name of the method
-     * @param array $a      method arguments
+     * @param string $m the name of the method
+     * @param array $a method arguments
+     * @return bool
+     * @throws Doctrine_Connection_Profiler_Exception
      * @see Doctrine_EventListener
-     * @return boolean
      */
     public function __call($m, $a)
     {

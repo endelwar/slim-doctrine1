@@ -35,8 +35,7 @@ class Doctrine_Template_Searchable extends Doctrine_Template
     /**
      * __construct
      *
-     * @param array $options 
-     * @return void
+     * @param array $options
      */
     public function __construct(array $options = array())
     {
@@ -60,8 +59,9 @@ class Doctrine_Template_Searchable extends Doctrine_Template
      * Make the batchUpdateIndex() function available to the template so Doctrine_Record child classes
      * with the behavior enabled can all the function
      *
-     * @param integer $limit 
-     * @param integer $offset 
+     * @param integer $limit
+     * @param integer $offset
+     * @param null $encoding
      * @return void
      */
     public function batchUpdateIndex($limit = null, $offset = null, $encoding = null)
@@ -72,8 +72,9 @@ class Doctrine_Template_Searchable extends Doctrine_Template
     /**
      * Proxy method so the batch updating can be called from table classes
      *
-     * @param integer $limit 
-     * @param integer $offset 
+     * @param integer $limit
+     * @param integer $offset
+     * @param null $encoding
      * @return void
      */
     public function batchUpdateIndexTableProxy($limit = null, $offset = null, $encoding = null)

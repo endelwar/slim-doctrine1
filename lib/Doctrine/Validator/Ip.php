@@ -40,6 +40,6 @@ class Doctrine_Validator_Ip extends Doctrine_Validator_Driver
      */
     public function validate($value)
     {
-        return is_null($value) ? true : (bool) filter_var($value, FILTER_VALIDATE_IP);
+        return null === $value ? true : (bool) filter_var($value, FILTER_VALIDATE_IP);
     }
 }

@@ -66,7 +66,8 @@ class Doctrine_Column extends Doctrine_Access implements IteratorAggregate, Coun
     /**
      * contains
      *
-     * @return boolean
+     * @param mixed $name
+     * @return bool
      */
     public function contains($name) 
     {
@@ -92,6 +93,7 @@ class Doctrine_Column extends Doctrine_Access implements IteratorAggregate, Coun
      * set
      *
      * @param string $name
+     * @param mixed $value
      * @return void
      */
     public function set($name, $value)
@@ -100,8 +102,8 @@ class Doctrine_Column extends Doctrine_Access implements IteratorAggregate, Coun
     }
 
     /**
-     * @param string $field
      * @return array
+     * @internal param string $field
      */
     public function getEnumValues()
     {

@@ -41,7 +41,8 @@ abstract class Doctrine_Cache_Driver implements Doctrine_Cache_Interface
     /**
      * Configure cache driver with an array of options
      *
-     * @param array $_options      an array of options
+     * @param array $options
+     * @internal param array $_options an array of options
      */
     public function __construct($options = array())
     {
@@ -107,10 +108,10 @@ abstract class Doctrine_Cache_Driver implements Doctrine_Cache_Interface
     /**
      * Save some string datas into a cache record
      *
-     * @param string $id        cache id
-     * @param string $data      data to cache
-     * @param int $lifeTime     if != false, set a specific lifetime for this cache record (null => infinite lifeTime)
-     * @return boolean true if no problem
+     * @param string $id cache id
+     * @param string $data data to cache
+     * @param bool|int $lifeTime if != false, set a specific lifetime for this cache record (null => infinite lifeTime)
+     * @return bool true if no problem
      */
     public function save($id, $data, $lifeTime = false)
     {
@@ -262,10 +263,10 @@ abstract class Doctrine_Cache_Driver implements Doctrine_Cache_Interface
      * Save a cache record directly. This method is implemented by the cache
      * drivers and used in Doctrine_Cache_Driver::save()
      *
-     * @param string $id        cache id
-     * @param string $data      data to cache
-     * @param int $lifeTime     if != false, set a specific lifetime for this cache record (null => infinite lifeTime)
-     * @return boolean true if no problem
+     * @param string $id cache id
+     * @param string $data data to cache
+     * @param bool|int $lifeTime if != false, set a specific lifetime for this cache record (null => infinite lifeTime)
+     * @return bool true if no problem
      */
     abstract protected function _doSave($id, $data, $lifeTime = false);
 

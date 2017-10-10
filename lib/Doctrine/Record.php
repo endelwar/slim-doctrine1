@@ -278,7 +278,7 @@ abstract class Doctrine_Record extends Doctrine_Record_Abstract implements Count
      */
     public function serializeReferences($bool = null)
     {
-        if ( ! is_null($bool)) {
+        if (null !== $bool) {
             $this->_serializeReferences = $bool;
         }
         return $this->_serializeReferences;
@@ -344,7 +344,7 @@ abstract class Doctrine_Record extends Doctrine_Record_Abstract implements Count
     {
         $func = $when . ucfirst($type);
 
-        if (is_null($event)) {
+        if (null === $event) {
             $constant = constant('Doctrine_Event::RECORD_' . strtoupper($type));
             //echo $func . " - " . 'Doctrine_Event::RECORD_' . strtoupper($type) . "\n";
             $event = new Doctrine_Event($this, $constant);
@@ -466,6 +466,7 @@ abstract class Doctrine_Record extends Doctrine_Record_Abstract implements Count
     /**
      * Empty template method to provide concrete Record classes with the possibility
      * to hook into the serializing procedure.
+     * @param $event
      */
     public function preSerialize($event)
     { }
@@ -473,6 +474,7 @@ abstract class Doctrine_Record extends Doctrine_Record_Abstract implements Count
     /**
      * Empty template method to provide concrete Record classes with the possibility
      * to hook into the serializing procedure.
+     * @param $event
      */
     public function postSerialize($event)
     { }
@@ -480,6 +482,7 @@ abstract class Doctrine_Record extends Doctrine_Record_Abstract implements Count
     /**
      * Empty template method to provide concrete Record classes with the possibility
      * to hook into the serializing procedure.
+     * @param $event
      */
     public function preUnserialize($event)
     { }
@@ -487,6 +490,7 @@ abstract class Doctrine_Record extends Doctrine_Record_Abstract implements Count
     /**
      * Empty template method to provide concrete Record classes with the possibility
      * to hook into the serializing procedure.
+     * @param $event
      */
     public function postUnserialize($event)
     { }
@@ -494,6 +498,7 @@ abstract class Doctrine_Record extends Doctrine_Record_Abstract implements Count
     /**
      * Empty template method to provide concrete Record classes with the possibility
      * to hook into the saving procedure.
+     * @param $event
      */
     public function preSave($event)
     { }
@@ -501,6 +506,7 @@ abstract class Doctrine_Record extends Doctrine_Record_Abstract implements Count
     /**
      * Empty template method to provide concrete Record classes with the possibility
      * to hook into the saving procedure.
+     * @param $event
      */
     public function postSave($event)
     { }
@@ -508,6 +514,7 @@ abstract class Doctrine_Record extends Doctrine_Record_Abstract implements Count
     /**
      * Empty template method to provide concrete Record classes with the possibility
      * to hook into the deletion procedure.
+     * @param $event
      */
     public function preDelete($event)
     { }
@@ -515,6 +522,7 @@ abstract class Doctrine_Record extends Doctrine_Record_Abstract implements Count
     /**
      * Empty template method to provide concrete Record classes with the possibility
      * to hook into the deletion procedure.
+     * @param $event
      */
     public function postDelete($event)
     { }
@@ -523,6 +531,7 @@ abstract class Doctrine_Record extends Doctrine_Record_Abstract implements Count
      * Empty template method to provide concrete Record classes with the possibility
      * to hook into the saving procedure only when the record is going to be
      * updated.
+     * @param $event
      */
     public function preUpdate($event)
     { }
@@ -531,6 +540,7 @@ abstract class Doctrine_Record extends Doctrine_Record_Abstract implements Count
      * Empty template method to provide concrete Record classes with the possibility
      * to hook into the saving procedure only when the record is going to be
      * updated.
+     * @param $event
      */
     public function postUpdate($event)
     { }
@@ -539,6 +549,7 @@ abstract class Doctrine_Record extends Doctrine_Record_Abstract implements Count
      * Empty template method to provide concrete Record classes with the possibility
      * to hook into the saving procedure only when the record is going to be
      * inserted into the data store the first time.
+     * @param $event
      */
     public function preInsert($event)
     { }
@@ -547,20 +558,24 @@ abstract class Doctrine_Record extends Doctrine_Record_Abstract implements Count
      * Empty template method to provide concrete Record classes with the possibility
      * to hook into the saving procedure only when the record is going to be
      * inserted into the data store the first time.
+     * @param $event
      */
     public function postInsert($event)
     { }
 
     /**
      * Empty template method to provide concrete Record classes with the possibility
-     * to hook into the validation procedure. Useful for cleaning up data before 
+     * to hook into the validation procedure. Useful for cleaning up data before
      * validating it.
+     * @param $event
      */
     public function preValidate($event)
     { }
+
     /**
      * Empty template method to provide concrete Record classes with the possibility
      * to hook into the validation procedure.
+     * @param $event
      */
     public function postValidate($event)
     { }
@@ -568,6 +583,7 @@ abstract class Doctrine_Record extends Doctrine_Record_Abstract implements Count
     /**
      * Empty template method to provide Record classes with the ability to alter DQL select
      * queries at runtime
+     * @param $event
      */
     public function preDqlSelect($event)
     { }
@@ -575,6 +591,7 @@ abstract class Doctrine_Record extends Doctrine_Record_Abstract implements Count
     /**
      * Empty template method to provide Record classes with the ability to alter DQL update
      * queries at runtime
+     * @param $event
      */
     public function preDqlUpdate($event)
     { }
@@ -582,20 +599,23 @@ abstract class Doctrine_Record extends Doctrine_Record_Abstract implements Count
     /**
      * Empty template method to provide Record classes with the ability to alter DQL delete
      * queries at runtime
+     * @param $event
      */
     public function preDqlDelete($event)
     { }
 
     /**
-     * Empty template method to provide Record classes with the ability to alter hydration 
+     * Empty template method to provide Record classes with the ability to alter hydration
      * before it runs
+     * @param $event
      */
     public function preHydrate($event)
     { }
 
     /**
-     * Empty template method to provide Record classes with the ability to alter hydration 
+     * Empty template method to provide Record classes with the ability to alter hydration
      * after it runs
+     * @param $event
      */
     public function postHydrate($event)
     { }
@@ -641,7 +661,8 @@ abstract class Doctrine_Record extends Doctrine_Record_Abstract implements Count
      * assigns the ErrorStack or returns it if called without parameters
      *
      * @param Doctrine_Validator_ErrorStack          errorStack to be assigned for this record
-     * @return void|Doctrine_Validator_ErrorStack    returns the errorStack associated with this record
+     * @return Doctrine_Validator_ErrorStack|void returns the errorStack associated with this record
+     * @throws Doctrine_Record_Exception
      */
     public function errorStack($stack = null)
     {
@@ -926,7 +947,7 @@ abstract class Doctrine_Record extends Doctrine_Record_Abstract implements Count
         }
         
         $err = false;
-        if (is_integer($state)) {
+        if (is_int($state)) {
             if ($state >= 1 && $state <= 7) {
                 $this->_state = $state;
             } else {
@@ -1020,7 +1041,7 @@ abstract class Doctrine_Record extends Doctrine_Record_Abstract implements Count
      */
     public function refreshRelated($name = null)
     {
-        if (is_null($name)) {
+        if (null === $name) {
             foreach ($this->_table->getRelations() as $rel) {
                 $alias = $rel->getAlias();
                 unset($this->_references[$alias]);
@@ -1059,7 +1080,7 @@ abstract class Doctrine_Record extends Doctrine_Record_Abstract implements Count
      */
     public function clearRelated($name = null)
     {
-        if (is_null($name)) {
+        if (null === $name) {
             $this->_references = array();
         } else {
             unset($this->_references[$name]);
@@ -1071,8 +1092,9 @@ abstract class Doctrine_Record extends Doctrine_Record_Abstract implements Count
      * in order to check. If the reference didn't already exist and it doesn't
      * exist in the database, the related reference will be cleared immediately.
      *
-     * @param string $name 
-     * @return boolean Whether or not the related relationship exists
+     * @param string $name
+     * @return bool Whether or not the related relationship exists
+     * @throws Doctrine_Record_Exception
      */
     public function relatedExists($name)
     {
@@ -1123,9 +1145,10 @@ abstract class Doctrine_Record extends Doctrine_Record_Abstract implements Count
      * returns the value of a property (column). If the property is not yet loaded
      * this method does NOT load it.
      *
-     * @param $name                         name of the property
-     * @throws Doctrine_Record_Exception    if trying to get an unknown property
-     * @return mixed
+     * @param $fieldName
+     * @return mixed if trying to get an unknown property
+     * @throws Doctrine_Record_Exception if trying to get an unknown property
+     * @internal param name $name of the property
      */
     public function rawGet($fieldName)
     {
@@ -1278,8 +1301,9 @@ abstract class Doctrine_Record extends Doctrine_Record_Abstract implements Count
     /**
      * gets the custom mutator for a field name
      *
-     * @param string $fieldname 
+     * @param $fieldName
      * @return string
+     * @internal param string $fieldname
      */
     public function getMutator($fieldName)
     {
@@ -1315,9 +1339,10 @@ abstract class Doctrine_Record extends Doctrine_Record_Abstract implements Count
     /**
      * Set a fieldname to have a custom accessor and mutator
      *
-     * @param string $fieldname
+     * @param $fieldName
      * @param string $accessor
      * @param string $mutator
+     * @internal param string $fieldname
      */
     public function hasAccessorMutator($fieldName, $accessor, $mutator)
     {
@@ -1431,14 +1456,11 @@ abstract class Doctrine_Record extends Doctrine_Record_Abstract implements Count
     /**
      * alters mapped values, properties and related components.
      *
-     * @param mixed $name                   name of the property or reference
-     * @param mixed $value                  value of the property or reference
-     * @param boolean $load                 whether or not to refresh / load the uninitialized record data
-     *
-     * @throws Doctrine_Record_Exception    if trying to set a value for unknown property / related component
-     * @throws Doctrine_Record_Exception    if trying to set a value of wrong type for related component
-     *
-     * @return Doctrine_Record
+     * @param mixed $fieldName
+     * @param mixed $value value of the property or reference
+     * @param boolean $load whether or not to refresh / load the uninitialized record data
+     * @return Doctrine_Record if trying to set a value for unknown property / related component
+     * @internal param mixed $name name of the property or reference
      */
     public function set($fieldName, $value, $load = true)
     {
@@ -1559,11 +1581,13 @@ abstract class Doctrine_Record extends Doctrine_Record_Abstract implements Count
     /**
      * Places a related component in the object graph.
      *
-     * This method inserts a related component instance in this record 
+     * This method inserts a related component instance in this record
      * relations, populating the foreign keys accordingly.
      *
-     * @param string $name                                  related component alias in the relation
-     * @param Doctrine_Record|Doctrine_Collection $value    object to be linked as a related component
+     * @param string $name related component alias in the relation
+     * @param Doctrine_Record|Doctrine_Collection $value object to be linked as a related component
+     * @return $this
+     * @throws Doctrine_Record_Exception
      * @todo Refactor. What about composite keys?
      */
     public function coreSetRelated($name, $value)
@@ -1944,9 +1968,10 @@ abstract class Doctrine_Record extends Doctrine_Record_Abstract implements Count
      *
      * @see fromArray()
      * @link http://www.doctrine-project.org/documentation/manual/1_1/en/working-with-models
-     * @param string $array  array of data to merge, see link for documentation
-     * @param bool   $deep   whether or not to merge relations
+     * @param $data
+     * @param bool $deep whether or not to merge relations
      * @return void
+     * @internal param string $array array of data to merge, see link for documentation
      */
     public function merge($data, $deep = true)
     {
@@ -1963,8 +1988,8 @@ abstract class Doctrine_Record extends Doctrine_Record_Abstract implements Count
      * imports data from a php array
      *
      * @link http://www.doctrine-project.org/documentation/manual/1_1/en/working-with-models
-     * @param string $array  array of data, see link for documentation
-     * @param bool   $deep   whether or not to act on relations
+     * @param array|string $array array of data, see link for documentation
+     * @param bool $deep whether or not to act on relations
      * @return void
      */
     public function fromArray(array $array, $deep = true)
@@ -2068,9 +2093,9 @@ abstract class Doctrine_Record extends Doctrine_Record_Abstract implements Count
     /**
      * exports instance to a chosen format
      *
-     * @param string $type  format type: array, xml, yml, json
-     * @param string $deep  whether or not to export all relationships
-     * @return string       representation as $type format. Array is $type is array
+     * @param string $type format type: array, xml, yml, json
+     * @param bool|string $deep whether or not to export all relationships
+     * @return string representation as $type format. Array is $type is array
      */
     public function exportTo($type, $deep = true)
     {
@@ -2084,8 +2109,9 @@ abstract class Doctrine_Record extends Doctrine_Record_Abstract implements Count
     /**
      * imports data from a chosen format in the current instance
      *
-     * @param string $type  Format type: xml, yml, json
-     * @param string $data  Data to be parsed and imported
+     * @param string $type Format type: xml, yml, json
+     * @param string $data Data to be parsed and imported
+     * @param bool $deep
      * @return void
      */
     public function importFrom($type, $data, $deep = true)
@@ -2174,7 +2200,8 @@ abstract class Doctrine_Record extends Doctrine_Record_Abstract implements Count
      *
      * this event can be listened by the onPreDelete and onDelete listeners
      *
-     * @return boolean      true if successful
+     * @param Doctrine_Connection|null $conn
+     * @return bool true if successful
      */
     public function delete(Doctrine_Connection $conn = null)
     {
@@ -2323,6 +2350,7 @@ abstract class Doctrine_Record extends Doctrine_Record_Abstract implements Count
      * gets a related component and fails if it does not exist
      *
      * @param string $name
+     * @return mixed
      * @throws Doctrine_Record_Exception        if trying to get an unknown related component
      */
     public function obtainReference($name)
@@ -2637,9 +2665,10 @@ abstract class Doctrine_Record extends Doctrine_Record_Abstract implements Count
      *
      * So, in sense, this method replicates the usage of mixins (as seen in some programming languages)
      *
-     * @param string $method        name of the method
-     * @param array $args           method arguments
-     * @return mixed                the return value of the given method
+     * @param string $method name of the method
+     * @param array $args method arguments
+     * @return mixed the return value of the given method
+     * @throws Doctrine_Record_UnknownPropertyException
      */
     public function __call($method, $args)
     {
