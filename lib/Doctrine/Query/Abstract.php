@@ -1063,7 +1063,7 @@ abstract class Doctrine_Query_Abstract
         } else {
             $stmt = $this->_execute($params);
 
-            if (is_integer($stmt)) {
+            if (is_int($stmt)) {
                 $result = $stmt;
             } else {
                 $this->_hydrator->setQueryComponents($this->_queryComponents);
