@@ -178,7 +178,7 @@ class Doctrine_Tree_NestedSet extends Doctrine_Tree implements Doctrine_Tree_Int
             $q->addOrderBy($this->_baseAlias . ".lft ASC");
         }
 
-        if ( ! is_null($depth)) { 
+        if (null !== $depth) {
             $q->addWhere($this->_baseAlias . ".level BETWEEN ? AND ?", array(0, $depth)); 
         }
 
@@ -218,7 +218,7 @@ class Doctrine_Tree_NestedSet extends Doctrine_Tree implements Doctrine_Tree_Int
         $q->addWhere($this->_baseAlias . ".lft >= ? AND " . $this->_baseAlias . ".rgt <= ?", $params)
                 ->addOrderBy($this->_baseAlias . ".lft asc");
 
-        if ( ! is_null($depth)) { 
+        if (null !== $depth) {
             $q->addWhere($this->_baseAlias . ".level BETWEEN ? AND ?", array($record->get('level'), $record->get('level')+$depth)); 
         }
 

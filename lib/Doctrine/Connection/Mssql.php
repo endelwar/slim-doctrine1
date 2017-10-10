@@ -371,7 +371,7 @@ class Doctrine_Connection_Mssql extends Doctrine_Connection_Common
             $lcIdentifier = strtolower($identifier);
 
             if(array_key_exists($lcIdentifier, $fields)) {
-                if(is_null($fields[$lcIdentifier])) {
+                if(null === $fields[$lcIdentifier]) {
                     $settingNullIdentifier = true;
                     unset($fields[$lcIdentifier]);
                 }

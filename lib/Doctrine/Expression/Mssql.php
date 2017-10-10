@@ -64,7 +64,7 @@ class Doctrine_Expression_Mssql extends Doctrine_Expression_Driver
      */
     public function substring($value, $position, $length = null)
     {
-        if ( ! is_null($length)) {
+        if (null !== $length) {
             return 'SUBSTRING(' . $value . ', ' . $position . ', ' . $length . ')';
         }
         return 'SUBSTRING(' . $value . ', ' . $position . ', LEN(' . $value . ') - ' . $position . ' + 1)';

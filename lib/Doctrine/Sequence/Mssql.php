@@ -132,7 +132,7 @@ class Doctrine_Sequence_Mssql extends Doctrine_Sequence
     {
         $serverInfo = $this->conn->getServerVersion();
         if (is_array($serverInfo)
-            && ! is_null($serverInfo['major'])
+            && null !== $serverInfo['major']
             && $serverInfo['major'] >= 8) {
 
             if (isset($table))

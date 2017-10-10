@@ -655,7 +655,7 @@ class Doctrine_DataDict_Pgsql extends Doctrine_DataDict
                 $field['default'] = empty($field['notnull']) ? null : 0;
             }
 
-            $default = ' DEFAULT ' . (is_null($field['default'])
+            $default = ' DEFAULT ' . (null === $field['default']
                 ? 'NULL'
                 : $this->conn->quote($field['default'], $field['type']));
         }

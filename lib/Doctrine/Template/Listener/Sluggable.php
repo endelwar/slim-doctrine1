@@ -181,7 +181,7 @@ class Doctrine_Template_Listener_Sluggable extends Doctrine_Record_Listener
         }
 
         foreach ($this->_options['uniqueBy'] as $uniqueBy) {
-            if (is_null($record->$uniqueBy)) {
+            if (null === $record->$uniqueBy) {
                 $whereString .= ' AND r.'.$uniqueBy.' IS NULL';
             } else {
                 $whereString .= ' AND r.'.$uniqueBy.' = ?';

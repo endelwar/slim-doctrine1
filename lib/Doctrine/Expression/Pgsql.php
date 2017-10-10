@@ -192,8 +192,8 @@ class Doctrine_Expression_Pgsql extends Doctrine_Expression_Driver
     public function matchPattern($pattern, $operator = null, $field = null)
     {
         $match = '';
-        if ( ! is_null($operator)) {
-            $field = is_null($field) ? '' : $field.' ';
+        if (null !== $operator) {
+            $field = null === $field ? '' : $field.' ';
             $operator = strtoupper($operator);
             switch ($operator) {
                 // case insensitive

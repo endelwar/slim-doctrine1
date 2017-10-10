@@ -245,7 +245,7 @@ class Doctrine_DataDict_Mssql extends Doctrine_DataDict
                 $field['default'] = empty($field['notnull']) ? null : 0;
             }
 
-            $value = (is_null($field['default'])
+            $value = (null === $field['default']
                 ? 'NULL'
                 : $this->conn->quote($field['default']));
 

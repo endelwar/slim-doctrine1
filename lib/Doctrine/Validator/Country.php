@@ -295,7 +295,7 @@ class Doctrine_Validator_Country extends Doctrine_Validator_Driver
      */
     public function validate($value)
     {
-        if (is_null($value)) {
+        if (null === $value) {
             return true;
         }
         $value = strtolower($value);

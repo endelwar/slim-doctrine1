@@ -257,7 +257,7 @@ class Doctrine_Cli
      */
     protected function includeAndRegisterDoctrineTaskClasses($directories = null)
     {
-        if (is_null($directories)) {
+        if (null === $directories) {
             $directories = Doctrine_Core::getPath() . DIRECTORY_SEPARATOR . 'Doctrine' . DIRECTORY_SEPARATOR . 'Task';
         }
 

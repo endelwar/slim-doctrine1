@@ -127,7 +127,7 @@ BEGIN
   END IF;
 END;';   
 		
-        if (is_null($start)) {
+        if (null === $start) {
             $query = 'SELECT MAX(' . $this->conn->quoteIdentifier($name, true) . ') FROM ' . $this->conn->quoteIdentifier($table, true);
             $start = $this->conn->fetchOne($query);
 

@@ -113,7 +113,7 @@ class Doctrine_Collection extends Doctrine_Access implements Countable, Iterator
 
     public static function create($table, $keyColumn = null, $class = null)
     {
-        if (is_null($class)) {
+        if (null === $class) {
             if ( ! $table instanceof Doctrine_Table) {
                 $table = Doctrine_Core::getTable($table);
             }

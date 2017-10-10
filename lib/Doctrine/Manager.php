@@ -837,7 +837,7 @@ class Doctrine_Manager extends Doctrine_Configurable implements Countable, Itera
      */
     public function registerExtension($name, $path = null)
     {
-        if (is_null($path)) {
+        if (null === $path) {
             $path = Doctrine_Core::getExtensionsPath() . '/' . $name . '/lib';
         }
         $this->_extensions[$name] = $path;

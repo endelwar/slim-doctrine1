@@ -1399,7 +1399,7 @@ class Doctrine_Table extends Doctrine_Configurable implements Countable, Seriali
         }
 
         foreach ($defaultOptions as $key => $value) {
-            if ( ! array_key_exists($key, $options) || is_null($options[$key])) {
+            if ( ! array_key_exists($key, $options) || null === $options[$key]) {
                 $options[$key] = $value;
             }
         }
@@ -1607,7 +1607,7 @@ class Doctrine_Table extends Doctrine_Configurable implements Countable, Seriali
         // Named Query or IDs
         $name = func_get_arg(0);
 
-        if (is_null($name)) {
+        if (null === $name) {
             return false;
         }
 
@@ -2359,7 +2359,7 @@ class Doctrine_Table extends Doctrine_Configurable implements Countable, Seriali
         } else if ($value === null) {
             return null;
         } else {
-            $type = is_null($typeHint) ? $this->getTypeOf($fieldName) : $typeHint;
+            $type = null === $typeHint ? $this->getTypeOf($fieldName) : $typeHint;
 
             switch ($type) {
                 case 'enum':
@@ -2457,7 +2457,7 @@ class Doctrine_Table extends Doctrine_Configurable implements Countable, Seriali
      */
     public function isTree()
     {
-        return ( ! is_null($this->_options['treeImpl'])) ? true : false;
+        return (null !== $this->_options['treeImpl']) ? true : false;
     }
 
     /**

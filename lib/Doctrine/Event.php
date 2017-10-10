@@ -368,7 +368,7 @@ class Doctrine_Event
      */
     public function getElapsedSecs()
     {
-        if (is_null($this->_endedMicrotime)) {
+        if (null === $this->_endedMicrotime) {
             return false;
         }
         return ($this->_endedMicrotime - $this->_startedMicrotime);

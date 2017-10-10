@@ -258,7 +258,7 @@ class Doctrine_Export extends Doctrine_Connection_Module
             foreach($options['indexes'] as $index => $definition) {
                 $indexDeclaration = $this->getIndexDeclaration($index, $definition);
                 // append only created index declarations
-                if ( ! is_null($indexDeclaration)) {
+                if (null !== $indexDeclaration) {
                     $queryFields .= ', '.$indexDeclaration;
                 } 
             }
@@ -784,7 +784,7 @@ class Doctrine_Export extends Doctrine_Connection_Module
             if ($field['type'] === 'boolean') {
                 $field['default'] = $this->conn->convertBooleans($field['default']);
             }
-            $default = ' DEFAULT ' . (is_null($field['default'])
+            $default = ' DEFAULT ' . (null === $field['default']
                 ? 'NULL'
                 : $this->conn->quote($field['default'], $field['type']));
         }

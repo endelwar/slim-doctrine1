@@ -278,7 +278,7 @@ abstract class Doctrine_Record extends Doctrine_Record_Abstract implements Count
      */
     public function serializeReferences($bool = null)
     {
-        if ( ! is_null($bool)) {
+        if (null !== $bool) {
             $this->_serializeReferences = $bool;
         }
         return $this->_serializeReferences;
@@ -344,7 +344,7 @@ abstract class Doctrine_Record extends Doctrine_Record_Abstract implements Count
     {
         $func = $when . ucfirst($type);
 
-        if (is_null($event)) {
+        if (null === $event) {
             $constant = constant('Doctrine_Event::RECORD_' . strtoupper($type));
             //echo $func . " - " . 'Doctrine_Event::RECORD_' . strtoupper($type) . "\n";
             $event = new Doctrine_Event($this, $constant);
@@ -1041,7 +1041,7 @@ abstract class Doctrine_Record extends Doctrine_Record_Abstract implements Count
      */
     public function refreshRelated($name = null)
     {
-        if (is_null($name)) {
+        if (null === $name) {
             foreach ($this->_table->getRelations() as $rel) {
                 $alias = $rel->getAlias();
                 unset($this->_references[$alias]);
@@ -1080,7 +1080,7 @@ abstract class Doctrine_Record extends Doctrine_Record_Abstract implements Count
      */
     public function clearRelated($name = null)
     {
-        if (is_null($name)) {
+        if (null === $name) {
             $this->_references = array();
         } else {
             unset($this->_references[$name]);

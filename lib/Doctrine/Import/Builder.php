@@ -587,7 +587,7 @@ class Doctrine_Import_Builder extends Doctrine_Builder
 
             // Remove null and empty array values
             foreach ($options as $key => $value) {
-                if (is_null($value) || (is_array($value) && empty($value))) {
+                if (null === $value || (is_array($value) && empty($value))) {
                     unset($options[$key]);
                 }
             }
