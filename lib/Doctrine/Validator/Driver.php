@@ -33,7 +33,7 @@
 class Doctrine_Validator_Driver
 {
     /**
-     * @var array $_args     an array of plugin specific args
+     * @var array $args     an array of plugin specific args
      */
     public $args;
     public $invoker;
@@ -68,8 +68,8 @@ class Doctrine_Validator_Driver
     /**
      * sets given value to an argument
      *
-     * @param $arg          the name of the option to be changed
-     * @param $value        the value of the option
+     * @param string $arg          the name of the option to be changed
+     * @param string $value        the value of the option
      * @return Doctrine_Validator_Driver    this object
      */
     public function __set($arg, $value)
@@ -82,7 +82,7 @@ class Doctrine_Validator_Driver
     /**
      * returns the value of an argument
      *
-     * @param $arg          the name of the option to retrieve
+     * @param string $arg the name of the option to retrieve
      * @return mixed the value of the option
      * @throws Doctrine_Validator_Exception
      */
@@ -98,8 +98,8 @@ class Doctrine_Validator_Driver
     /**
      * sets given value to an argument
      *
-     * @param $arg          the name of the option to be changed
-     * @param $value        the value of the option
+     * @param string $arg          the name of the option to be changed
+     * @param string $value        the value of the option
      * @return Doctrine_Validator_Driver    this object
      */
     public function setArg($arg, $value)
