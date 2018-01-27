@@ -1,3 +1,4 @@
 /vendor
 tests/DoctrineTest/doctrine_tests/*
 *TestCase.php
+/composer.lock
