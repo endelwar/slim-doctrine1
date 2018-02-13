@@ -867,12 +867,12 @@ class Doctrine_Query extends Doctrine_Query_Abstract implements Countable
         $trimmed = trim($this->_tokenizer->bracketTrim($subquery));
 
         // check for possible subqueries
-        if (substr($trimmed, 0, 4) == 'FROM' || substr($trimmed, 0, 6) == 'SELECT') {
+        if (substr($trimmed, 0, 4) === 'FROM' || substr($trimmed, 0, 6) === 'SELECT') {
             // parse subquery
             $q = $this->createSubquery()->parseDqlQuery($trimmed);
             $trimmed = $q->getSqlQuery();
             $q->free();
-        } else if (substr($trimmed, 0, 4) == 'SQL:') {
+        } else if (substr($trimmed, 0, 4) === 'SQL:') {
             $trimmed = substr($trimmed, 4);
         } else {
             $e = $this->_tokenizer->sqlExplode($trimmed, ',');
@@ -1181,18 +1181,18 @@ class Doctrine_Query extends Doctrine_Query_Abstract implements Countable
         // this will also populate the $_queryComponents.
         foreach ($this->_dqlParts as $queryPartName => $queryParts) {
             // If we are parsing FROM clause, we'll need to diff the queryComponents later
-            if ($queryPartName == 'from') {
+            if ($queryPartName === 'from') {
                 // Pick queryComponents before processing
                 $queryComponentsBefore = $this->getQueryComponents();
             }
 
             // FIX #1667: _sqlParts are cleaned inside _processDqlQueryPart.
-            if ($queryPartName != 'forUpdate') {
+            if ($queryPartName !== 'forUpdate') {
                 $this->_processDqlQueryPart($queryPartName, $queryParts);
             }
 
             // We need to define the root alias
-            if ($queryPartName == 'from') {
+            if ($queryPartName === 'from') {
                 // Pick queryComponents aftr processing
                 $queryComponentsAfter = $this->getQueryComponents();
 
@@ -1417,7 +1417,7 @@ class Doctrine_Query extends Doctrine_Query_Abstract implements Countable
         $driverName = $this->_conn->getAttribute(Doctrine_Core::ATTR_DRIVER_NAME);
 
         // initialize the base of the subquery
-        if (($driverName == 'oracle' || $driverName == 'oci' || $driverName == 'oci8') && $this->_isOrderedByJoinedColumn()) {
+        if (($driverName === 'oracle' || $driverName === 'oci' || $driverName === 'oci8') && $this->_isOrderedByJoinedColumn()) {
             $subquery = 'SELECT ';
         } else {
             $subquery = 'SELECT DISTINCT ';
@@ -1425,7 +1425,7 @@ class Doctrine_Query extends Doctrine_Query_Abstract implements Countable
         $subquery .= $this->_conn->quoteIdentifier($primaryKey);
 
         // pgsql & oracle need the order by fields to be preserved in select clause
-        if ($driverName == 'pgsql' || $driverName == 'oracle' || $driverName == 'oci' || $driverName == 'oci8' || $driverName == 'mssql' || $driverName == 'odbc') {
+        if ($driverName === 'pgsql' || $driverName === 'oracle' || $driverName === 'oci' || $driverName === 'oci8' || $driverName === 'mssql' || $driverName === 'odbc') {
             foreach ($this->_sqlParts['orderby'] as $part) {
                 // Remove identifier quoting if it exists
                 $e = $this->_tokenizer->bracketExplode($part, ' ');
@@ -1458,7 +1458,7 @@ class Doctrine_Query extends Doctrine_Query_Abstract implements Countable
 
         $orderby = $this->_sqlParts['orderby'];
         $having = $this->_sqlParts['having'];
-        if ($driverName == 'mysql' || $driverName == 'pgsql') {
+        if ($driverName === 'mysql' || $driverName === 'pgsql') {
             foreach ($this->_expressionMap as $dqlAlias => $expr) {
                 if (isset($expr[1])) {
                     $subquery .= ', ' . $expr[0] . ' AS ' . $this->_aggregateAliasMap[$dqlAlias];
@@ -1508,7 +1508,7 @@ class Doctrine_Query extends Doctrine_Query_Abstract implements Countable
         $subquery .= ( ! empty($having))?  ' HAVING '   . implode(' AND ', $having) : '';
         $subquery .= ( ! empty($orderby))? ' ORDER BY ' . implode(', ', $orderby)  : '';
 
-        if (($driverName == 'oracle' || $driverName == 'oci' || $driverName == 'oci8') && $this->_isOrderedByJoinedColumn()) {
+        if (($driverName === 'oracle' || $driverName === 'oci' || $driverName === 'oci8') && $this->_isOrderedByJoinedColumn()) {
             // When using "ORDER BY x.foo" where x.foo is a column of a joined table,
             // we may get duplicate primary keys because all columns in ORDER BY must appear
             // in the SELECT list when using DISTINCT. Hence we need to filter out the
@@ -1571,7 +1571,7 @@ class Doctrine_Query extends Doctrine_Query_Abstract implements Countable
             }
         }
 
-        if ($driverName == 'mysql' || $driverName == 'pgsql') {
+        if ($driverName === 'mysql' || $driverName === 'pgsql') {
             foreach ($parts as $k => $part) {
                 if (strpos($part, "'") !== false) {
                     continue;
@@ -1773,7 +1773,7 @@ class Doctrine_Query extends Doctrine_Query_Abstract implements Countable
 
                 $table = $this->loadRoot($name, $componentAlias);
             } else {
-                $join = ($delimeter == ':') ? 'INNER JOIN ' : 'LEFT JOIN ';
+                $join = ($delimeter === ':') ? 'INNER JOIN ' : 'LEFT JOIN ';
 
                 $relation = $table->getRelation($name);
                 $localTable = $table;

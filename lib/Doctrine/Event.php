@@ -297,7 +297,7 @@ class Doctrine_Event
      */
     public function hasEnded()
     {
-        return ($this->_endedMicrotime != null);
+        return ($this->_endedMicrotime !== null);
     }
 
     /**

@@ -1067,7 +1067,7 @@ abstract class Doctrine_Query_Abstract
                 $result = $stmt;
             } else {
                 $this->_hydrator->setQueryComponents($this->_queryComponents);
-                if ($this->_type == self::SELECT && $hydrationMode == Doctrine_Core::HYDRATE_ON_DEMAND) {
+                if ($this->_type === self::SELECT && $hydrationMode === Doctrine_Core::HYDRATE_ON_DEMAND) {
                     $hydrationDriver = $this->_hydrator->getHydratorDriver($hydrationMode, $this->_tableAliasMap);
                     $result = new Doctrine_Collection_OnDemand($stmt, $hydrationDriver, $this->_tableAliasMap);
                 } else {
