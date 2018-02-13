@@ -118,8 +118,7 @@ class Doctrine_Event
     /**
      * constructor
      *
-     * @param Doctrine_Connection|Doctrine_Connection_Statement|
-     * Doctrine_Connection_UnitOfWork|Doctrine_Transaction $invoker   the handler which invoked this event
+     * @param Doctrine_Connection|Doctrine_Connection_Statement|Doctrine_Connection_UnitOfWork|Doctrine_Transaction $invoker   the handler which invoked this event
      * @param integer $code the event code
      * @param string $query the sql query associated with this event (if any)
      * @param array $params

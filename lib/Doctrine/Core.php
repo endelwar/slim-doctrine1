@@ -618,7 +618,7 @@ class Doctrine_Core
      * Get the directory where your models are located for PEAR style naming
      * convention autoloading
      *
-     * @return void
+     * @return string
      * @author Jonathan Wage
      */
     public static function getModelsDirectory()

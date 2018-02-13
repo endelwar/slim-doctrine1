@@ -223,7 +223,7 @@ class Doctrine_Query extends Doctrine_Query_Abstract implements Countable
      * createSubquery
      * creates a subquery
      *
-     * @return Doctrine_Hydrate
+     * @return Doctrine_Query
      */
     public function createSubquery()
     {
@@ -260,6 +260,7 @@ class Doctrine_Query extends Doctrine_Query_Abstract implements Countable
      * Convenience method to execute using array fetching as hydration mode.
      *
      * @param array|string $params
+     * @throws \Doctrine_Query_Exception
      * @return array
      */
     public function fetchArray($params = array())
@@ -274,7 +275,8 @@ class Doctrine_Query extends Doctrine_Query_Abstract implements Countable
      *
      * @param array|string $params Query parameters
      * @param int $hydrationMode Hydration mode: see Doctrine_Core::HYDRATE_* constants
-     * @return array|Doctrine_Record Array or Doctrine_Record, depending on hydration mode. False if no result.
+     * @throws \Doctrine_Query_Exception
+     * @return array|Doctrine_Record|false Array or Doctrine_Record, depending on hydration mode. False if no result.
      */
     public function fetchOne($params = array(), $hydrationMode = null)
     {
@@ -324,8 +326,9 @@ class Doctrine_Query extends Doctrine_Query_Abstract implements Countable
      * getSqlAggregateAlias
      *
      * @param string $dqlAlias the dql alias of an aggregate value
-     * @return string
+     * @throws \Doctrine_Connection_Exception
      * @throws Doctrine_Query_Exception
+     * @return string
      */
     public function getSqlAggregateAlias($dqlAlias)
     {
@@ -1108,7 +1111,7 @@ class Doctrine_Query extends Doctrine_Query_Abstract implements Countable
      * handling.
      *
      * @param string $alias Component Alias
-     * @return Processed pending conditions
+     * @return string Processed pending conditions
      */
     protected function _processPendingJoinConditions($alias)
     {

@@ -231,8 +231,9 @@ class Doctrine_Connection_Statement implements Doctrine_Adapter_Statement_Interf
      * parameter values
      *
      *
-     * @param array $params             An array of values with as many elements as there are
+     * @param array $params An array of values with as many elements as there are
      *                                  bound parameters in the SQL statement being executed.
+     * @throws \Doctrine_Connection_Exception
      * @return boolean                  Returns TRUE on success or FALSE on failure.
      */
     public function execute($params = null)

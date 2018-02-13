@@ -63,7 +63,7 @@ abstract class Doctrine_Parser
      * Get instance of the specified parser
      *
      * @param string $type
-     * @return void
+     * @return object
      * @author Jonathan H. Wage
      */
     static public function getParser($type)
@@ -81,7 +81,7 @@ abstract class Doctrine_Parser
      * @param string $path
      * @param string $type
      * @param string $charset
-     * @return void
+     * @return array
      * @author Jonathan H. Wage
      */
     static public function load($path, $type = 'xml', $charset = 'UTF-8')
@@ -100,7 +100,7 @@ abstract class Doctrine_Parser
      * @param string $path
      * @param string $type
      * @param string $charset The charset of the data being dumped
-     * @return void
+     * @return bool|int|string
      * @author Jonathan H. Wage
      */
     static public function dump($array, $type = 'xml', $path = null, $charset = null)
@@ -117,7 +117,7 @@ abstract class Doctrine_Parser
      * Either should allow php code in it.
      *
      * @param string $path
-     * @return void
+     * @return string
      */
     public function doLoad($path)
     {
@@ -142,7 +142,7 @@ abstract class Doctrine_Parser
      *
      * @param string $data
      * @param string $path
-     * @return void
+     * @return bool|int|string
      */
     public function doDump($data, $path = null)
     {

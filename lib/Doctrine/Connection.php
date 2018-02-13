@@ -193,7 +193,7 @@ abstract class Doctrine_Connection extends Doctrine_Configurable implements Coun
      * the constructor
      *
      * @param Doctrine_Manager $manager the manager object
-     * @param PDO|Doctrine_Adapter_Interface $adapter database driver
+     * @param PDO|Doctrine_Adapter_Interface|array $adapter database driver
      * @param null $user
      * @param null $pass
      * @throws Doctrine_Connection_Exception
@@ -247,7 +247,7 @@ abstract class Doctrine_Connection extends Doctrine_Configurable implements Coun
      *
      * Get array of all options
      *
-     * @return void
+     * @return array
      */
     public function getOptions()
     {
@@ -260,13 +260,15 @@ abstract class Doctrine_Connection extends Doctrine_Configurable implements Coun
      * Retrieves option
      *
      * @param string $option
-     * @return void
+     * @return mixed|null
      */
     public function getOption($option)
     {
         if (isset($this->options[$option])) {
             return $this->options[$option];
         }
+
+        return null;
     }
 
     /**
@@ -276,7 +278,7 @@ abstract class Doctrine_Connection extends Doctrine_Configurable implements Coun
      *
      * @param string $option
      * @param $value
-     * @return void
+     * @return mixed
      */
     public function setOption($option, $value)
     {
@@ -343,7 +345,7 @@ abstract class Doctrine_Connection extends Doctrine_Configurable implements Coun
      *
      * @param integer $attribute
      * @param mixed $value
-     * @return boolean
+     * @return Doctrine_Connection
      */
     public function setAttribute($attribute, $value)
     {
@@ -389,7 +391,7 @@ abstract class Doctrine_Connection extends Doctrine_Configurable implements Coun
      *
      * Gets the name of the instance driver
      *
-     * @return void
+     * @return string
      */
     public function getDriverName()
     {
@@ -752,7 +754,7 @@ abstract class Doctrine_Connection extends Doctrine_Configurable implements Coun
      * @param array $arr           identifiers array to be quoted
      * @param bool $checkOption     check the 'quote_identifier' option
      *
-     * @return string               quoted identifier string
+     * @return array               quoted identifier array
      */
     public function quoteMultipleIdentifier($arr, $checkOption = true)
     {
@@ -771,7 +773,7 @@ abstract class Doctrine_Connection extends Doctrine_Configurable implements Coun
      * This method takes care of that conversion
      *
      * @param array $item
-     * @return void
+     * @return array|int
      */
     public function convertBooleans($item)
     {
@@ -794,7 +796,7 @@ abstract class Doctrine_Connection extends Doctrine_Configurable implements Coun
     /**
      * Set the date/time format for the current connection
      *
-     * @param string    time format
+     * @param string $format time format
      *
      * @return void
      */
@@ -918,6 +920,8 @@ abstract class Doctrine_Connection extends Doctrine_Configurable implements Coun
      * prepare
      *
      * @param string $statement
+     * @throws \Doctrine_Exception
+     * @throws \Doctrine_Connection_Exception
      * @return Doctrine_Connection_Statement
      */
     public function prepare($statement)
@@ -1006,8 +1010,11 @@ abstract class Doctrine_Connection extends Doctrine_Configurable implements Coun
 
     /**
      * execute
-     * @param string $query     sql query
-     * @param array $params     query parameters
+     * @param string $query sql query
+     * @param array $params query parameters
+     *
+     * @throws \Doctrine_Exception
+     * @throws \Doctrine_Connection_Exception
      *
      * @return PDOStatement|Doctrine_Adapter_Statement
      */
