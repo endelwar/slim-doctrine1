@@ -287,6 +287,8 @@ class Doctrine_Event
     public function start()
     {
         $this->_startedMicrotime = microtime(true);
+
+        return $this;
     }
 
     /**
