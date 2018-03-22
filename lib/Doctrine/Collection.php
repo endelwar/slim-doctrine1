@@ -152,12 +152,14 @@ class Doctrine_Collection extends Doctrine_Access implements Countable, Iterator
     {
         $vars = get_object_vars($this);
 
-        unset($vars['reference']);
-        unset($vars['referenceField']);
-        unset($vars['relation']);
-        unset($vars['expandable']);
-        unset($vars['expanded']);
-        unset($vars['generator']);
+        unset(
+            $vars['reference'],
+            $vars['referenceField'],
+            $vars['relation'],
+            $vars['expandable'],
+            $vars['expanded'],
+            $vars['generator']
+        );
 
         $vars['_table'] = $vars['_table']->getComponentName();
 
@@ -527,7 +529,7 @@ class Doctrine_Collection extends Doctrine_Access implements Countable, Iterator
         $localBase = $this->getTable()->getComponentName();
         $otherBase = $coll->getTable()->getComponentName();
 
-        if ($otherBase != $localBase && !is_subclass_of($otherBase, $localBase) ) {
+        if ($otherBase !== $localBase && !is_subclass_of($otherBase, $localBase) ) {
             throw new Doctrine_Collection_Exception("Can't merge collections with incompatible record types");
         }
 

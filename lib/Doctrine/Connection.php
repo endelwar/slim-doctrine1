@@ -219,7 +219,6 @@ abstract class Doctrine_Connection extends Doctrine_Configurable implements Coun
             if (isset($adapter['other'])) {
                 $this->options['other'] = array(Doctrine_Core::ATTR_PERSISTENT => $adapter['persistent']);
             }
-
         }
 
         $this->setParent($manager);
@@ -935,15 +934,16 @@ abstract class Doctrine_Connection extends Doctrine_Configurable implements Coun
 
             $stmt = false;
 
-            if ( ! $event->skipOperation) {
+            if (!$event->skipOperation) {
                 $stmt = $this->dbh->prepare($statement);
             }
 
             $this->getAttribute(Doctrine_Core::ATTR_LISTENER)->postPrepare($event);
 
             return new Doctrine_Connection_Statement($this, $stmt);
-        } catch(Doctrine_Adapter_Exception $e) {
-        } catch(PDOException $e) { }
+        } catch (Doctrine_Adapter_Exception $e) {
+        } catch (PDOException $e) {
+        }
 
         $this->rethrowException($e, $this, $statement);
     }
@@ -1028,19 +1028,19 @@ abstract class Doctrine_Connection extends Doctrine_Configurable implements Coun
                 $stmt->execute($params);
 
                 return $stmt;
-            } else {
-                $event = new Doctrine_Event($this, Doctrine_Event::CONN_QUERY, $query, $params);
-
-                $this->getAttribute(Doctrine_Core::ATTR_LISTENER)->preQuery($event);
-
-                if ( ! $event->skipOperation) {
-                    $stmt = $this->dbh->query($query);
-                    $this->_count++;
-                }
-                $this->getAttribute(Doctrine_Core::ATTR_LISTENER)->postQuery($event);
-
-                return $stmt;
             }
+
+            $event = new Doctrine_Event($this, Doctrine_Event::CONN_QUERY, $query, $params);
+
+            $this->getAttribute(Doctrine_Core::ATTR_LISTENER)->preQuery($event);
+
+            if ( ! $event->skipOperation) {
+                $stmt = $this->dbh->query($query);
+                $this->_count++;
+            }
+            $this->getAttribute(Doctrine_Core::ATTR_LISTENER)->postQuery($event);
+
+            return $stmt;
         } catch (Doctrine_Adapter_Exception $e) {
         } catch (PDOException $e) { }
 
