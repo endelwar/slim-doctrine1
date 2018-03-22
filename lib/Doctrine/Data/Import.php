@@ -105,7 +105,7 @@ class Doctrine_Data_Import extends Doctrine_Data
      * Do the importing of the data parsed from the fixtures
      *
      * @param bool $append
-     * @return void
+     * @return null
      */
     public function doImport($append = false)
     {
@@ -293,7 +293,7 @@ class Doctrine_Data_Import extends Doctrine_Data
      * Perform the loading of the data from the passed array
      *
      * @param array|string $array
-     * @return void
+     * @return null
      */
     protected function _loadData(array $array)
     {

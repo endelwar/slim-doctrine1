@@ -40,7 +40,7 @@ class Doctrine_Formatter extends Doctrine_Connection_Module
      * WARNING: this function is experimental and may change signature at
      * any time until labelled as non-experimental
      *
-     * @param   string  the input string to quote
+     * @param   string $text the input string to quote
      *
      * @return  string  quoted string
      */
@@ -68,8 +68,8 @@ class Doctrine_Formatter extends Doctrine_Connection_Module
      *
      * This method takes care of that conversion
      *
-     * @param array $item
-     * @return void
+     * @param array|bool $item
+     * @return array|int
      */
     public function convertBooleans($item)
     {

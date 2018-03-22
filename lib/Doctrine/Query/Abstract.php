@@ -524,7 +524,7 @@ abstract class Doctrine_Query_Abstract
      * Used internally and used to pass flat array of params to the database.
      *
      * @param array $params
-     * @return void
+     * @return array
      */
     public function getFlattenedParams($params = array())
     {
@@ -1022,7 +1022,7 @@ abstract class Doctrine_Query_Abstract
      *
      * @param array $params
      * @param null $hydrationMode
-     * @return Doctrine_Collection the root collection
+     * @return Doctrine_Collection|array the root collection
      * @throws Doctrine_Query_Exception
      */
     public function execute($params = array(), $hydrationMode = null)
@@ -1067,7 +1067,7 @@ abstract class Doctrine_Query_Abstract
                 $result = $stmt;
             } else {
                 $this->_hydrator->setQueryComponents($this->_queryComponents);
-                if ($this->_type == self::SELECT && $hydrationMode == Doctrine_Core::HYDRATE_ON_DEMAND) {
+                if ($this->_type === self::SELECT && $hydrationMode === Doctrine_Core::HYDRATE_ON_DEMAND) {
                     $hydrationDriver = $this->_hydrator->getHydratorDriver($hydrationMode, $this->_tableAliasMap);
                     $result = new Doctrine_Collection_OnDemand($stmt, $hydrationDriver, $this->_tableAliasMap);
                 } else {

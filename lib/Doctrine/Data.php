@@ -67,7 +67,7 @@ class Doctrine_Data
      *
      * specified array of models to use
      *
-     * @var string
+     * @var array
      */
     protected $_models = array();
 
@@ -137,7 +137,7 @@ class Doctrine_Data
      *
      * Get directory for dumping/loading data from and to
      *
-     * @return void
+     * @return string
      */
     public function getDirectory()
     {
@@ -149,7 +149,7 @@ class Doctrine_Data
      *
      * Set the array of specified models to work with
      *
-     * @param string $models
+     * @param array $models
      * @return void
      */
     public function setModels($models)
@@ -162,7 +162,7 @@ class Doctrine_Data
      *
      * Get the array of specified models to work with
      *
-     * @return void
+     * @return array
      */
     public function getModels()
     {
@@ -227,7 +227,7 @@ class Doctrine_Data
      * @param array|string $models
      * @param bool $append
      * @param string $charset
-     * @return void
+     * @return null
      */
     public function importData($directory, $format = 'yml', $models = array(), $append = false, $charset = 'UTF-8')
     {
@@ -246,7 +246,7 @@ class Doctrine_Data
      *
      * @param Doctrine_Record $record
      * @param string $fieldName
-     * @return void
+     * @return string|false
      * @internal param string $Doctrine_Record
      */
     public function isRelation(Doctrine_Record $record, $fieldName)

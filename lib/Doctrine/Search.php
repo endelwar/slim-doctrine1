@@ -118,7 +118,7 @@ class Doctrine_Search extends Doctrine_Record_Generator
      * 
      * @param string $text 
      * @param string $encoding
-     * @return void
+     * @return array
      */
     public function analyze($text, $encoding = null)
     {

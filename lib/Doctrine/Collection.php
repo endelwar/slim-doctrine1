@@ -137,7 +137,6 @@ class Doctrine_Collection extends Doctrine_Access implements Countable, Iterator
      * Set the data for the Doctrin_Collection instance
      *
      * @param array $data
-     * @return Doctrine_Collection
      */
     public function setData(array $data)
     {
@@ -147,18 +146,20 @@ class Doctrine_Collection extends Doctrine_Access implements Countable, Iterator
     /**
      * This method is automatically called when this Doctrine_Collection is serialized
      *
-     * @return array
+     * @return string
      */
     public function serialize()
     {
         $vars = get_object_vars($this);
 
-        unset($vars['reference']);
-        unset($vars['referenceField']);
-        unset($vars['relation']);
-        unset($vars['expandable']);
-        unset($vars['expanded']);
-        unset($vars['generator']);
+        unset(
+            $vars['reference'],
+            $vars['referenceField'],
+            $vars['relation'],
+            $vars['expandable'],
+            $vars['expanded'],
+            $vars['generator']
+        );
 
         $vars['_table'] = $vars['_table']->getComponentName();
 
@@ -228,9 +229,9 @@ class Doctrine_Collection extends Doctrine_Access implements Countable, Iterator
     }
 
     /**
-     * Get the first record in the collection
+     * Get the first record in the collection or false if collection is empty
      *
-     * @return Doctrine_Record
+     * @return Doctrine_Record|false
      */
     public function getFirst()
     {
@@ -238,9 +239,9 @@ class Doctrine_Collection extends Doctrine_Access implements Countable, Iterator
     }
 
     /**
-     * Get the last record in the collection
+     * Get the last record in the collection or false if collection is empty
      *
-     * @return Doctrine_Record
+     * @return Doctrine_Record|false
      */
     public function getLast()
     {
@@ -248,9 +249,9 @@ class Doctrine_Collection extends Doctrine_Access implements Countable, Iterator
     }
 
     /**
-     * Get the last record in the collection
+     * Get the last record in the collection or false if collection is empty
      *
-     * @return Doctrine_Record
+     * @return Doctrine_Record|false
      */
     public function end()
     {
@@ -369,7 +370,7 @@ class Doctrine_Collection extends Doctrine_Access implements Countable, Iterator
      *
      * Collection also maps referential information to newly created records
      *
-     * @param mixed $key                    the key of the element
+     * @param null|int|string $key          the key of the element
      * @return Doctrine_Record              return a specified record
      */
     public function get($key)
@@ -528,7 +529,7 @@ class Doctrine_Collection extends Doctrine_Access implements Countable, Iterator
         $localBase = $this->getTable()->getComponentName();
         $otherBase = $coll->getTable()->getComponentName();
 
-        if ($otherBase != $localBase && !is_subclass_of($otherBase, $localBase) ) {
+        if ($otherBase !== $localBase && !is_subclass_of($otherBase, $localBase) ) {
             throw new Doctrine_Collection_Exception("Can't merge collections with incompatible record types");
         }
 
@@ -543,7 +544,7 @@ class Doctrine_Collection extends Doctrine_Access implements Countable, Iterator
      * Load all relationships or the named relationship passed
      *
      * @param mixed $name
-     * @return boolean
+     * @return bool|Doctrine_Query|void
      */
     public function loadRelated($name = null)
     {

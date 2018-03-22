@@ -35,7 +35,7 @@ class Doctrine_Core
     /**
      * VERSION
      */
-    const VERSION                   = '1.3.8';
+    const VERSION                   = '1.3.9';
 
     /**
      * ERROR CONSTANTS
@@ -618,7 +618,7 @@ class Doctrine_Core
      * Get the directory where your models are located for PEAR style naming
      * convention autoloading
      *
-     * @return void
+     * @return string
      * @author Jonathan Wage
      */
     public static function getModelsDirectory()

@@ -231,8 +231,9 @@ class Doctrine_Connection_Statement implements Doctrine_Adapter_Statement_Interf
      * parameter values
      *
      *
-     * @param array $params             An array of values with as many elements as there are
+     * @param array $params An array of values with as many elements as there are
      *                                  bound parameters in the SQL statement being executed.
+     * @throws \Doctrine_Connection_Exception
      * @return boolean                  Returns TRUE on success or FALSE on failure.
      */
     public function execute($params = null)
@@ -273,9 +274,9 @@ class Doctrine_Connection_Statement implements Doctrine_Adapter_Statement_Interf
             $this->_conn->getListener()->postStmtExecute($event);
 
             //fix a possible "ORA-01000: maximum open cursors exceeded" when many non-SELECTs are executed and the profiling is enabled
-            if ('Oracle' == $this->getConnection()->getDriverName()) {
+            if ('Oracle' === $this->getConnection()->getDriverName()) {
                 $queryBeginningSubstring = strtoupper(substr(ltrim($this->_stmt->queryString), 0, 6));
-                if ($queryBeginningSubstring != 'SELECT' && substr($queryBeginningSubstring, 0, 4) != 'WITH' ){
+                if ($queryBeginningSubstring !== 'SELECT' && 0 !== strpos($queryBeginningSubstring, 'WITH')){
                     $this->closeCursor();
                 }
             }

@@ -108,7 +108,7 @@ class Doctrine_Data_Export extends Doctrine_Data
      * Dump the prepared data to the fixtures files
      *
      * @param array $data
-     * @return void
+     * @return bool|int|string|null
      * @throws Doctrine_Data_Exception
      * @internal param string $array
      */

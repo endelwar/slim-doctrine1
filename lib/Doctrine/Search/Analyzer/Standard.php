@@ -261,6 +261,11 @@ class Doctrine_Search_Analyzer_Standard extends Doctrine_Search_Analyzer
                             'yours'
                             );
 
+    /**
+     * @param $text
+     * @param null $encoding
+     * @return array
+     */
     public function analyze($text, $encoding = null)
     {
         $text = preg_replace('/[\'`´"]/', '', $text);
