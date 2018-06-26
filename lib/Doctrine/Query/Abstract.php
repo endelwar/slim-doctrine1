@@ -932,11 +932,11 @@ abstract class Doctrine_Query_Abstract
      */
     public function getResultCacheHash($params = array())
     {
-      if ($this->_resultCacheHash) {
-          return $this->_resultCacheHash;
-      } else {
-          return $this->calculateResultCacheHash($params);
-      }
+        if ($this->_resultCacheHash) {
+            return $this->_resultCacheHash;
+        }
+
+        return $this->calculateResultCacheHash($params);
     }
 
     /**
@@ -944,6 +944,8 @@ abstract class Doctrine_Query_Abstract
      *
      * @param array $params
      * @return PDOStatement  The executed PDOStatement.
+     * @throws Doctrine_Connection_Exception
+     * @throws Doctrine_Exception
      */
     protected function _execute($params)
     {
@@ -1021,8 +1023,11 @@ abstract class Doctrine_Query_Abstract
      * executes the query and populates the data set
      *
      * @param array $params
-     * @param null $hydrationMode
+     * @param int|null $hydrationMode
      * @return Doctrine_Collection|array the root collection
+     * @throws Doctrine_Connection_Exception
+     * @throws Doctrine_Exception
+     * @throws Doctrine_Hydrator_Exception
      * @throws Doctrine_Query_Exception
      */
     public function execute($params = array(), $hydrationMode = null)
@@ -1047,7 +1052,7 @@ abstract class Doctrine_Query_Abstract
         if ($this->_resultCache && $this->_type == self::SELECT) {
             $cacheDriver = $this->getResultCacheDriver();
             $hash = $this->getResultCacheHash($params);
-            $cached = ($this->_expireResultCache) ? false : $cacheDriver->fetch($hash);
+            $cached = $this->_expireResultCache ? false : $cacheDriver->fetch($hash);
 
             if ($cached === false) {
                 // cache miss
@@ -1129,6 +1134,7 @@ abstract class Doctrine_Query_Abstract
      *
      * @param array $params
      * @return void
+     * @throws Doctrine_Connection_Exception
      */
     protected function _preQuery($params = array())
     {
@@ -1143,6 +1149,7 @@ abstract class Doctrine_Query_Abstract
             }
 
             foreach ($this->_getDqlCallbackComponents($params) as $alias => $component) {
+                /** @var Doctrine_Table $table */
                 $table = $component['table'];
                 $record = $table->getRecordInstance();
 
@@ -1280,8 +1287,9 @@ abstract class Doctrine_Query_Abstract
      * $query->addSelect('COUNT(p.id) as num_phonenumbers');
      * </code>
      *
-     * @param string $select        Query SELECT part
-     * @return Doctrine_Query
+     * @param string $select Query SELECT part
+     * @return Doctrine_Query_Abstract
+     * @throws Doctrine_Query_Exception
      */
     public function addSelect($select)
     {
@@ -1307,8 +1315,9 @@ abstract class Doctrine_Query_Abstract
      * addFrom
      * adds fields to the FROM part of the query
      *
-     * @param string $from        Query FROM part
-     * @return Doctrine_Query
+     * @param string $from Query FROM part
+     * @return Doctrine_Query_Abstract
+     * @throws Doctrine_Query_Exception
      */
     public function addFrom($from)
     {
@@ -1317,9 +1326,10 @@ abstract class Doctrine_Query_Abstract
 
     /**
      * Alias for @see andWhere().
-     * @param $where
-     * @param array $params
-     * @return Doctrine_Query this object
+     * @param string $where Query WHERE part
+     * @param int|bool|string|array $params
+     * @return Doctrine_Query_Abstract
+     * @throws Doctrine_Query_Exception
      */
     public function addWhere($where, $params = array())
     {
@@ -1333,8 +1343,9 @@ abstract class Doctrine_Query_Abstract
      * </code>
      *
      * @param string $where Query WHERE part
-     * @param mixed $params An array of parameters or a simple scalar
-     * @return Doctrine_Query
+     * @param int|bool|string|array $params An array of parameters or a simple scalar
+     * @return Doctrine_Query_Abstract
+     * @throws Doctrine_Query_Exception
      */
     public function andWhere($where, $params = array())
     {
@@ -1359,7 +1370,8 @@ abstract class Doctrine_Query_Abstract
      *
      * @param string $where Query WHERE part
      * @param mixed $params An array of parameters or a simple scalar
-     * @return Doctrine_Query
+     * @return Doctrine_Query_Abstract
+     * @throws Doctrine_Query_Exception
      */
     public function orWhere($where, $params = array())
     {
@@ -1379,10 +1391,11 @@ abstract class Doctrine_Query_Abstract
     /**
      * Adds IN condition to the query WHERE part. Alias to @see andWhereIn().
      *
-     * @param string $expr          the operand of the IN
-     * @param mixed $params         an array of parameters or a simple scalar
-     * @param boolean $not          whether or not to use NOT in front of IN
-     * @return Doctrine_Query
+     * @param string $expr the operand of the IN
+     * @param mixed $params an array of parameters or a simple scalar
+     * @param boolean $not whether or not to use NOT in front of IN
+     * @return Doctrine_Query_Abstract
+     * @throws Doctrine_Query_Exception
      */
     public function whereIn($expr, $params = array(), $not = false)
     {
@@ -1395,10 +1408,11 @@ abstract class Doctrine_Query_Abstract
      * $q->whereIn('u.id', array(10, 23, 44));
      * </code>
      *
-     * @param string $expr      The operand of the IN
-     * @param mixed $params     An array of parameters or a simple scalar
-     * @param boolean $not      Whether or not to use NOT in front of IN. Defaults to false (simple IN clause)
-     * @return Doctrine_Query   this object.
+     * @param string $expr The operand of the IN
+     * @param mixed $params An array of parameters or a simple scalar
+     * @param boolean $not Whether or not to use NOT in front of IN. Defaults to false (simple IN clause)
+     * @return Doctrine_Query_Abstract   this object.
+     * @throws Doctrine_Query_Exception
      */
     public function andWhereIn($expr, $params = array(), $not = false)
     {
@@ -1425,12 +1439,13 @@ abstract class Doctrine_Query_Abstract
      * @param string $expr The operand of the IN
      * @param mixed $params An array of parameters or a simple scalar
      * @param boolean $not Whether or not to use NOT in front of IN
-     * @return Doctrine_Query
+     * @return Doctrine_Query_Abstract
+     * @throws Doctrine_Query_Exception
      */
     public function orWhereIn($expr, $params = array(), $not = false)
     {
         // if there's no params, return (else we'll get a WHERE IN (), invalid SQL)
-        if (isset($params) and (count($params) == 0)) {
+        if (isset($params) and (count($params) === 0)) {
             return $this;
         }
 
@@ -1454,7 +1469,7 @@ abstract class Doctrine_Query_Abstract
         $params = (array) $params;
 
         // if there's no params, return (else we'll get a WHERE IN (), invalid SQL)
-        if (count($params) == 0) {
+        if (count($params) === 0) {
             throw new Doctrine_Query_Exception('You must pass at least one parameter when using an IN() condition.');
         }
 
@@ -1481,9 +1496,10 @@ abstract class Doctrine_Query_Abstract
      * // will exclude users with id 10 and 20 from the select
      * </code>
      *
-     * @param string $expr          the operand of the NOT IN
-     * @param mixed $params         an array of parameters or a simple scalar
-     * @return Doctrine_Query       this object
+     * @param string $expr the operand of the NOT IN
+     * @param mixed $params an array of parameters or a simple scalar
+     * @return Doctrine_Query_Abstract
+     * @throws Doctrine_Query_Exception
      */
     public function whereNotIn($expr, $params = array())
     {
@@ -1496,7 +1512,8 @@ abstract class Doctrine_Query_Abstract
      *
      * @param string $expr The operand of the NOT IN
      * @param mixed $params An array of parameters or a simple scalar
-     * @return Doctrine_Query
+     * @return Doctrine_Query_Abstract
+     * @throws Doctrine_Query_Exception
      */
     public function andWhereNotIn($expr, $params = array())
     {
@@ -1614,13 +1631,14 @@ abstract class Doctrine_Query_Abstract
      * delete
      * sets the query type to DELETE
      *
-     * @param null $from
-     * @return Doctrine_Query
+     * @param string null $from
+     * @return Doctrine_Query_Abstract
+     * @throws Doctrine_Query_Exception
      */
     public function delete($from = null)
     {
         $this->_type = self::DELETE;
-        if ($from != null) {
+        if ($from !== null) {
             return $this->_addDqlQueryPart('from', $from);
         }
         return $this;
@@ -1630,14 +1648,15 @@ abstract class Doctrine_Query_Abstract
      * update
      * sets the UPDATE part of the query
      *
-     * @param null $from
-     * @return Doctrine_Query
+     * @param string|null $from
+     * @return Doctrine_Query_Abstract
+     * @throws Doctrine_Query_Exception
      * @internal param string $update Query UPDATE part
      */
     public function update($from = null)
     {
         $this->_type = self::UPDATE;
-        if ($from != null) {
+        if ($from !== null) {
             return $this->_addDqlQueryPart('from', $from);
         }
         return $this;
@@ -1647,10 +1666,11 @@ abstract class Doctrine_Query_Abstract
      * set
      * sets the SET part of the query
      *
-     * @param $key
-     * @param null $value
-     * @param null $params
-     * @return Doctrine_Query
+     * @param null|array|string $key
+     * @param null|int|string $value
+     * @param null|array $params
+     * @return Doctrine_Query_Abstract
+     * @throws Doctrine_Query_Exception
      * @internal param string $update Query UPDATE part
      */
     public function set($key, $value = null, $params = null)
@@ -1660,17 +1680,17 @@ abstract class Doctrine_Query_Abstract
                 $this->set($k, '?', array($v));
             }
             return $this;
-        } else {
-            if ($params !== null) {
-                if (is_array($params)) {
-                    $this->_params['set'] = array_merge($this->_params['set'], $params);
-                } else {
-                    $this->_params['set'][] = $params;
-                }
-            }
-
-            return $this->_addDqlQueryPart('set', $key . ' = ' . $value, true);
         }
+
+        if ($params !== null) {
+            if (is_array($params)) {
+                $this->_params['set'] = array_merge($this->_params['set'], $params);
+            } else {
+                $this->_params['set'][] = $params;
+            }
+        }
+
+        return $this->_addDqlQueryPart('set', $key . ' = ' . $value, true);
     }
 
     /**
@@ -1680,8 +1700,9 @@ abstract class Doctrine_Query_Abstract
      * $q->from('User u');
      * </code>
      *
-     * @param string $from          Query FROM part
-     * @return Doctrine_Query
+     * @param string $from Query FROM part
+     * @return Doctrine_Query_Abstract
+     * @throws Doctrine_Query_Exception
      */
     public function from($from)
     {
@@ -1694,7 +1715,8 @@ abstract class Doctrine_Query_Abstract
      *
      * @param string $join Query INNER JOIN
      * @param array $params
-     * @return Doctrine_Query
+     * @return Doctrine_Query_Abstract
+     * @throws Doctrine_Query_Exception
      */
     public function innerJoin($join, $params = array())
     {
@@ -1713,7 +1735,8 @@ abstract class Doctrine_Query_Abstract
      *
      * @param string $join Query LEFT JOIN
      * @param array $params
-     * @return Doctrine_Query
+     * @return Doctrine_Query_Abstract
+     * @throws Doctrine_Query_Exception
      */
     public function leftJoin($join, $params = array())
     {
@@ -1730,8 +1753,9 @@ abstract class Doctrine_Query_Abstract
      * groupBy
      * sets the GROUP BY part of the query
      *
-     * @param string $groupby      Query GROUP BY part
-     * @return Doctrine_Query
+     * @param string $groupby Query GROUP BY part
+     * @return Doctrine_Query_Abstract
+     * @throws Doctrine_Query_Exception
      */
     public function groupBy($groupby)
     {
@@ -1744,7 +1768,8 @@ abstract class Doctrine_Query_Abstract
      *
      * @param $where
      * @param mixed $params an array of parameters or a simple scalar
-     * @return Doctrine_Query
+     * @return Doctrine_Query_Abstract
+     * @throws Doctrine_Query_Exception
      * @internal param string $join Query WHERE part
      */
     public function where($where, $params = array())
@@ -1764,9 +1789,10 @@ abstract class Doctrine_Query_Abstract
      * having
      * sets the HAVING part of the query
      *
-     * @param string $having       Query HAVING part
-     * @param mixed $params        an array of parameters or a simple scalar
-     * @return Doctrine_Query
+     * @param string $having Query HAVING part
+     * @param mixed $params an array of parameters or a simple scalar
+     * @return Doctrine_Query_Abstract
+     * @throws Doctrine_Query_Exception
      */
     public function having($having, $params = array())
     {
@@ -1787,8 +1813,9 @@ abstract class Doctrine_Query_Abstract
      * $query->orderBy('u.birthDate DESC');
      * </code>
      *
-     * @param string $orderby      Query ORDER BY part
-     * @return Doctrine_Query
+     * @param string $orderby Query ORDER BY part
+     * @return Doctrine_Query_Abstract
+     * @throws Doctrine_Query_Exception
      */
     public function orderBy($orderby)
     {
@@ -1799,8 +1826,9 @@ abstract class Doctrine_Query_Abstract
      * limit
      * sets the Query query limit
      *
-     * @param integer $limit        limit to be used for limiting the query results
-     * @return Doctrine_Query
+     * @param integer $limit limit to be used for limiting the query results
+     * @return Doctrine_Query_Abstract
+     * @throws Doctrine_Query_Exception
      */
     public function limit($limit)
     {
@@ -1811,8 +1839,9 @@ abstract class Doctrine_Query_Abstract
      * offset
      * sets the Query query offset
      *
-     * @param integer $offset       offset to be used for paginating the query
-     * @return Doctrine_Query
+     * @param integer $offset offset to be used for paginating the query
+     * @return Doctrine_Query_Abstract
+     * @throws Doctrine_Query_Exception
      */
     public function offset($offset)
     {
@@ -1850,6 +1879,8 @@ abstract class Doctrine_Query_Abstract
 
     /**
      * Gets the components of this query.
+     *
+     * @return array
      */
     public function getQueryComponents()
     {
@@ -1891,7 +1922,7 @@ abstract class Doctrine_Query_Abstract
      * @param Doctrine_Cache_Interface|bool $driver cache driver
      * @param integer $timeToLive how long the cache entry is valid
      * @param string $resultCacheHash The key to use for storing the queries result cache entry
-     * @return Doctrine_Query this object
+     * @return Doctrine_Query_Abstract this object
      * @throws Doctrine_Query_Exception
      */
     public function useResultCache($driver = true, $timeToLive = null, $resultCacheHash = null)
@@ -1913,7 +1944,7 @@ abstract class Doctrine_Query_Abstract
      * Set the result cache hash to be used for storing the results in the cache driver
      *
      * @param string $resultCacheHash
-     * @return void
+     * @return Doctrine_Query_Abstract
      */
     public function setResultCacheHash($resultCacheHash)
     {
@@ -1925,7 +1956,8 @@ abstract class Doctrine_Query_Abstract
     /**
      * Clear the result cache entry for this query
      *
-     * @return void
+     * @return Doctrine_Query_Abstract
+     * @throws Doctrine_Exception
      */
     public function clearResultCache()
     {
@@ -2038,14 +2070,15 @@ abstract class Doctrine_Query_Abstract
      * returns the cache driver used for caching result sets
      *
      * @return Doctrine_Cache_Interface|boolean|null    cache driver
+     * @throws Doctrine_Exception
      */
     public function getResultCacheDriver()
     {
         if ($this->_resultCache instanceof Doctrine_Cache_Interface) {
             return $this->_resultCache;
-        } else {
-            return $this->_conn->getResultCacheDriver();
         }
+
+        return $this->_conn->getResultCacheDriver();
     }
 
     /**
@@ -2053,14 +2086,15 @@ abstract class Doctrine_Query_Abstract
      * returns the cache driver used for caching queries
      *
      * @return Doctrine_Cache_Interface|boolean|null    cache driver
+     * @throws Doctrine_Exception
      */
     public function getQueryCacheDriver()
     {
         if ($this->_queryCache instanceof Doctrine_Cache_Interface) {
             return $this->_queryCache;
-        } else {
-            return $this->_conn->getQueryCacheDriver();
         }
+
+        return $this->_conn->getQueryCacheDriver();
     }
 
     /**
@@ -2097,7 +2131,7 @@ abstract class Doctrine_Query_Abstract
      * @param boolean $append Whether to append $queryPart to already existing
      *                               parts under the same $queryPartName. Defaults to FALSE
      *                               (previously added parts with the same name get overridden).
-     * @return $this
+     * @return Doctrine_Query_Abstract
      * @throws Doctrine_Query_Exception
      */
     protected function _addDqlQueryPart($queryPartName, $queryPart, $append = false)
@@ -2121,9 +2155,10 @@ abstract class Doctrine_Query_Abstract
      * _processDqlQueryPart
      * parses given query part
      *
-     * @param string $queryPartName     the name of the query part
-     * @param array $queryParts         an array containing the query part data
-     * @return Doctrine_Query           this object
+     * @param string $queryPartName the name of the query part
+     * @param array $queryParts an array containing the query part data
+     * @return void this object
+     * @throws Doctrine_Query_Exception
      * @todo Better description. "parses given query part" ??? Then wheres the difference
      *       between process/parseQueryPart? I suppose this does something different.
      */
@@ -2136,7 +2171,7 @@ abstract class Doctrine_Query_Abstract
                 $parser = $this->_getParser($queryPartName);
                 $sql = $parser->parse($queryPart);
                 if (isset($sql)) {
-                    if ($queryPartName == 'limit' || $queryPartName == 'offset') {
+                    if ($queryPartName === 'limit' || $queryPartName === 'offset') {
                         $this->setSqlQueryPart($queryPartName, $sql);
                     } else {
                         $this->addSqlQueryPart($queryPartName, $sql);
