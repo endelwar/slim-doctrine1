@@ -1,6 +1,6 @@
 # Test related files
 tests/DoctrineTest/doctrine_tests/*
-*TestCase.php
+#*TestCase.php
 /tests/test.yml
 /tests/tmp/
 /vendor/

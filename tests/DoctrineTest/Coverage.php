@@ -51,8 +51,8 @@ class DoctrineTest_Coverage
      */
     public function __construct()
     {
-        $this->result = unserialize(file_get_contents($this->getCoverageDir() . "coverage.txt"));
-        $this->sortBy ="percentage"; // default sort
+        $this->result = unserialize(file_get_contents($this->getCoverageDir() . 'coverage.txt'));
+        $this->sortBy = 'percentage'; // default sort
     }
 
     /**
@@ -62,7 +62,7 @@ class DoctrineTest_Coverage
      */
     public function getCoverageDir()
     {
-        $dir = Doctrine_Core::getPath() . DIRECTORY_SEPARATOR . ".." . DIRECTORY_SEPARATOR . "tests" . DIRECTORY_SEPARATOR . "coverage" . DIRECTORY_SEPARATOR;
+        $dir = Doctrine_Core::getPath() . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'tests' . DIRECTORY_SEPARATOR . 'coverage' . DIRECTORY_SEPARATOR;
         return $dir;
     }
 
@@ -77,19 +77,19 @@ class DoctrineTest_Coverage
         }
 
         if ( ! isset($this->result['data'])) {
-            die("Impropper coverage report. Please regenerate");
+            die('Impropper coverage report. Please regenerate');
         }
 
-        $coveredArray = $this->result["data"];
+        $coveredArray = $this->result['data'];
         //lets sort it.
-        uasort($coveredArray, array($this,"sortArray"));
+        uasort($coveredArray, array($this, 'sortArray'));
 
         //and flip if it perhaps?
-        if (isset($_GET["flip"]) && $_GET["flip"] == "true") {
+        if (isset($_GET['flip']) && $_GET['flip'] === 'true') {
             $coveredArray = array_reverse($coveredArray, true);
         }
 
-        $totals = $this->result["totals"];
+        $totals = $this->result['totals'];
 
         echo '<tr><td>TOTAL</td><td>' , 
             $totals['percentage'] , '%</td><td>' , 
@@ -101,7 +101,7 @@ class DoctrineTest_Coverage
         foreach($coveredArray as $class => $info) {
 
             echo '<tr><td>';
-            if ( $info['type'] == "covered") {
+            if ( $info['type'] === 'covered') {
                 echo '<a href="' , $class , '.html">', $class , '</a>';
             }else{
                 echo $class;
@@ -117,7 +117,7 @@ class DoctrineTest_Coverage
      */
     public function getRevision()
     {
-        return $this->result["revision"];
+        return $this->result['revision'];
     }
 
     /**
@@ -138,19 +138,20 @@ class DoctrineTest_Coverage
      */
     public function generateReport()
     {
-        $svn_info = explode(" ", exec("svn info | grep Revision"));
-        $this->result["revision"] = $svn_info[1];
+        $svn_info = explode(' ', exec('svn info | grep Revision'));
+        $this->result['revision'] = $svn_info[1];
 
         //loop through all files and generate coverage files for them
         $it = new RecursiveDirectoryIterator(Doctrine_Core::getPath());
         $notCoveredArray = array();
+        $coverageInfo = array();
         foreach (new RecursiveIteratorIterator($it) as $file) {
 
-            if (strpos($file->getPathname(), "config.php")) {
+            if (strpos($file->getPathname(), 'config.php')) {
                 continue;
             }
 
-            if (strpos($file->getPathname(), ".svn")) {
+            if (strpos($file->getPathname(), '.svn')) {
                 continue;
             } 
             
@@ -171,16 +172,16 @@ class DoctrineTest_Coverage
                 $coverageInfo[$class] = $this->generateCoverageInfoNotCoveredFile($class);
             }
         }
-        $this->result["totals"] = array(
-            "lines" => $this->totallines, 
-            "notcovered" => $this->totalnotcovered,
-            "covered" => $this->totalcovered, 
-            "maybe" => $this->totalmaybe, 
-            "percentage" => $this->calculateTotalPercentage());  
+        $this->result['totals'] = array(
+            'lines' => $this->totallines,
+            'notcovered' => $this->totalnotcovered,
+            'covered' => $this->totalcovered,
+            'maybe' => $this->totalmaybe,
+            'percentage' => $this->calculateTotalPercentage());
 
-        $this->result["data"] = $coverageInfo;
+        $this->result['data'] = $coverageInfo;
 
-        file_put_contents($this->getCoverageDir() . "coverage.txt", serialize($this->result));
+        file_put_contents($this->getCoverageDir() . 'coverage.txt', serialize($this->result));
         return true;
 
     }
@@ -198,8 +199,8 @@ class DoctrineTest_Coverage
     public function getClassNameFromFileName($fileName)
     {
         $path = Doctrine_Core::getPath() . DIRECTORY_SEPARATOR;
-        $class = str_replace($path, "", $fileName);
-        $class = str_replace(DIRECTORY_SEPARATOR, "_", $class);
+        $class = str_replace($path, '', $fileName);
+        $class = str_replace(DIRECTORY_SEPARATOR, '_', $class);
         $class = substr($class, 0,-4);
         return $class;
     }
@@ -227,24 +228,24 @@ class DoctrineTest_Coverage
     {
         try {
             $refClass = new ReflectionClass($class);
+            $lines = 0;
+            $methodLines = 0;
+            foreach ($refClass->getMethods() as $refMethod) {
+                if ($refMethod->getDeclaringClass() !== $refClass) {
+                    continue;
+                }
+                $methodLines = $refMethod->getEndLine() - $refMethod->getStartLine();
+                $lines += $methodLines;
+            }
+            $this->totallines += $lines;
+            $this->totalnotcovered += $lines;
+            if (0 === $lines) {
+                return array('covered' => 0, 'maybe' => 0, 'notcovered' =>$lines, 'total' => $lines, 'percentage' => 100, 'type' => 'notcovered');
+            }
+
+            return  array('covered' => 0, 'maybe' => 0, 'notcovered' =>$lines, 'total' => $lines, 'percentage' => 0, 'type' => 'notcovered');
         } catch (Exception $e) {
             echo $e->getMessage();
-        }
-        $lines = 0;
-        $methodLines = 0;
-        foreach ($refClass->getMethods() as $refMethod) {
-            if ($refMethod->getDeclaringClass() != $refClass) {
-                continue;
-            }
-            $methodLines = $refMethod->getEndLine() - $refMethod->getStartLine();
-            $lines += $methodLines;
-        }
-        $this->totallines += $lines;
-        $this->totalnotcovered += $lines;
-        if ($lines == 0) {
-            return array("covered" => 0, "maybe" => 0, "notcovered"=>$lines, "total" => $lines, "percentage" => 100, "type" => "notcovered");
-        } else {
-            return  array("covered" => 0, "maybe" => 0, "notcovered"=>$lines, "total" => $lines, "percentage" => 0, "type" => "notcovered");
         }
     }
 
@@ -257,7 +258,7 @@ class DoctrineTest_Coverage
     public function saveFile($fileName)
     {
         $className = $this->getClassNameFromFileName($fileName);
-        $title = "Coverage for " . $className;
+        $title = 'Coverage for ' . $className;
         
         $html = '<html>
     <head>
@@ -270,27 +271,27 @@ class DoctrineTest_Coverage
        </style>
 </head>
 <body><h1>' . $title . '</h1><p><a href="index.php">Back to coverage report</a></p>';
-        $coveredLines = $this->result["coverage"][$fileName];
+        $coveredLines = $this->result['coverage'][$fileName];
         $fileArray = file($fileName);
 
         $html .= '<table>' . "\n";
         foreach ($fileArray as $num => $line) {
             $linenum = $num+1;
             $html .= '<tr><td>' . $linenum . '</td>' . "\n";
-            $class ="normal";
+            $class = 'normal';
             if (isset($coveredLines[$linenum]) && $coveredLines[$linenum] == self::COVERED) {
-                $class = "covered";
+                $class = 'covered';
             } else if (isset($coveredLines[$linenum]) && $coveredLines[$linenum] == self::NOTCOVERED) {
-                $class ="red";
+                $class = 'red';
             } else if (isset($coveredLines[$linenum]) && $coveredLines[$linenum] == self::MAYBE) {
-                $class ="orange";
+                $class = 'orange';
             }
 
-            $line = str_replace(" ", "&nbsp;", htmlspecialchars($line));
+            $line = str_replace(' ', '&nbsp;', htmlspecialchars($line));
             $html .= '<td class="' . $class . '">' . $line . '</td></tr>' . "\n";
         }
         $html .='</table></body></html>';
-        file_put_contents($this->getCoverageDir() . $className . ".html",$html);
+        file_put_contents($this->getCoverageDir() . $className . '.html',$html);
     }
 
     /*
@@ -300,7 +301,7 @@ class DoctrineTest_Coverage
      */
     public function generateCoverageInfoCoveredFile($file)
     {
-        $lines = $this->result["coverage"][$file];
+        $lines = $this->result['coverage'][$file];
 
         $total = count($lines) -1; //we have to remove one since it always reports the last line as a hit
         $covered = 0;
@@ -329,7 +330,7 @@ class DoctrineTest_Coverage
             $total = 1;
         }
         $percentage = round((($covered + $maybe) / $total) * 100, 2);
-        return array("covered" => $covered, "maybe" => $maybe, "notcovered"=>$notcovered, "total" => $total, "percentage" => $percentage, "type" => "covered");
+        return array('covered' => $covered, 'maybe' => $maybe, 'notcovered' =>$notcovered, 'total' => $total, 'percentage' => $percentage, 'type' => 'covered');
     }
 
     /*

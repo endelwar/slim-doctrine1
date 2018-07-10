@@ -34,7 +34,6 @@ class DoctrineTest_Reporter_Html extends DoctrineTest_Reporter
   
   #wrapper
   {
-      
   }
   
   #wrapper h1
@@ -49,7 +48,7 @@ class DoctrineTest_Reporter_Html extends DoctrineTest_Reporter
 <body>
 
 <div id="wrapper">
-<h1><?php echo $name ?></h1>
+<h1><?php echo $name; ?></h1>
 
 <div id="messages">
 <?php
@@ -71,11 +70,11 @@ class DoctrineTest_Reporter_Html extends DoctrineTest_Reporter
     {
         print '<div id="summary">';
 
-        echo $this->format("Tested: " . $this->_test->getTestCaseCount() . ' test cases.', 'INFO') . "<br/>";
-        echo $this->format("Successes: " . $this->_test->getPassCount() . " passes.", 'INFO') . "<br/>";
-        echo $this->format("Failures: " . $this->_test->getFailCount() . " fails.", $this->_test->getFailCount() ? 'ERROR':'INFO') . "<br/>";
-        echo $this->format("Number of new Failures: " . $this->_test->getNumNewFails(), $this->_test->getNumNewFails() ? 'ERROR':'INFO') . ' ' . implode(", ", $this->_test->getNewFails()) . "<br/>";
-        echo $this->format("Number of fixed Failures: " . $this->_test->getNumFixedFails(), $this->_test->getNumFixedFails() ? 'INFO':'HEADER') . ' ' . implode(", ", $this->_test->getFixedFails()) . "<br/>";
+        echo $this->format('Tested: ' . $this->_test->getTestCaseCount() . ' test cases.', 'INFO') . '<br/>';
+        echo $this->format('Successes: ' . $this->_test->getPassCount() . ' passes.', 'INFO') . '<br/>';
+        echo $this->format('Failures: ' . $this->_test->getFailCount() . ' fails.', $this->_test->getFailCount() ? 'ERROR':'INFO') . '<br/>';
+        echo $this->format('Number of new Failures: ' . $this->_test->getNumNewFails(), $this->_test->getNumNewFails() ? 'ERROR':'INFO') . ' ' . implode(', ', $this->_test->getNewFails()) . '<br/>';
+        echo $this->format('Number of fixed Failures: ' . $this->_test->getNumFixedFails(), $this->_test->getNumFixedFails() ? 'INFO':'HEADER') . ' ' . implode(', ', $this->_test->getFixedFails()) . '<br/>';
 
         print '</div>';
     }

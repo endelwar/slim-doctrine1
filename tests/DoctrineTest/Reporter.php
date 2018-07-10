@@ -13,18 +13,18 @@ class DoctrineTest_Reporter
 
     public function format($message, $type)
     {
-        if (PHP_SAPI == 'cli') {
+        if (PHP_SAPI === 'cli') {
             return $this->_formatter->format($message, $type);
-        } else {
-            if ($type == 'INFO') {
-                $color = 'green';
-            } else if ($type == 'ERROR') {
-                $color = 'red';
-            } else {
-                $color = 'black';
-            }
-            return '<span style="font-weight: bold; color: ' . $color . ';">' . $message . '</span>';
         }
+
+        if ($type === 'INFO') {
+            $color = 'green';
+        } else if ($type === 'ERROR') {
+            $color = 'red';
+        } else {
+            $color = 'black';
+        }
+        return '<span style="font-weight: bold; color: ' . $color . ';">' . $message . '</span>';
     }
     
     public function setTestCase($test) 
@@ -39,7 +39,7 @@ class DoctrineTest_Reporter
         $messages = $this->_test->getMessages();
         $failed = ($this->_test->getFailCount() || count($messages)) ? true:false;
 
-        if ($class != 'GroupTest') {
+        if ($class !== 'GroupTest') {
             $strRepeatLength = $max - strlen($class);
             echo $class.str_repeat('.', $strRepeatLength).$this->format($failed ? 'failed':'passed', $failed ? 'ERROR':'INFO')."\n";
         }
