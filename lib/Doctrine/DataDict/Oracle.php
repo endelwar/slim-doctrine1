@@ -69,7 +69,7 @@ class Doctrine_DataDict_Oracle extends Doctrine_DataDict
             case 'varchar':
                 $length = !empty($field['length']) ? $field['length'] : false;
 
-                $fixed  = ((isset($field['fixed']) && $field['fixed']) || $field['type'] == 'char') ? true : false;
+                $fixed  = ((isset($field['fixed']) && $field['fixed']) || $field['type'] === 'char') ? true : false;
                 
                 $unit = $this->conn->getParam('char_unit');
                 $unit = null !== $unit ? ' '.$unit : '';

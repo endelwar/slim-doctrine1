@@ -74,7 +74,7 @@ abstract class Doctrine_Relation implements ArrayAccess
                                   'orderBy' => null
                                   );
 
-    protected $_isRefClass = null;
+    protected $_isRefClass;
 
     /**
      * constructor

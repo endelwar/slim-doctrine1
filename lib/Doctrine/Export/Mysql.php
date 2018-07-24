@@ -637,7 +637,7 @@ class Doctrine_Export_Mysql extends Doctrine_Export
             }
     
             // Proposed patch:
-            if ($field['type'] == 'enum' && $this->conn->getAttribute(Doctrine_Core::ATTR_USE_NATIVE_ENUM)) {
+            if ($field['type'] === 'enum' && $this->conn->getAttribute(Doctrine_Core::ATTR_USE_NATIVE_ENUM)) {
                 $fieldType = 'varchar';
             } else {
                 $fieldType = $field['type'];

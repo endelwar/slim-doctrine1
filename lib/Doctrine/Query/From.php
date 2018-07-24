@@ -68,7 +68,7 @@ class Doctrine_Query_From extends Doctrine_Query_Part
 
             $e = explode(' ', $part);
 
-            if (end($e) == 'INNER' || end($e) == 'LEFT') {
+            if (end($e) === 'INNER' || end($e) === 'LEFT') {
                 $last = array_pop($e);
             }
             $part = implode(' ', $e);
@@ -89,7 +89,7 @@ class Doctrine_Query_From extends Doctrine_Query_Part
                 }
             }
 
-            $operator = ($last == 'INNER') ? ':' : '.';
+            $operator = ($last === 'INNER') ? ':' : '.';
         }
         return $from;
     }

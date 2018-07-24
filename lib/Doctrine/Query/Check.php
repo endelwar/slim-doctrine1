@@ -85,7 +85,8 @@ class Doctrine_Query_Check
      * parseClause
      *
      * @param $dql
-     * @return void
+     * @return array|string
+     * @throws Doctrine_Query_Exception
      * @internal param string $alias component alias
      * @internal param string $field the field name
      * @internal param mixed $value the value of the field

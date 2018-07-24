@@ -345,9 +345,9 @@ class Doctrine_Lib
         {
             foreach (scandir($folderPath) as $value)
             {
-                if ($value != '.' && $value != '..')
+                if ($value !== '.' && $value !== '..')
                 {
-                    $value = $folderPath . "/" . $value;
+                    $value = $folderPath . '/' . $value;
 
                     if (is_dir($value)) {
                         self::removeDirectories($value);
@@ -358,9 +358,9 @@ class Doctrine_Lib
             }
 
             return rmdir($folderPath);
-        } else {
-            return false;
         }
+
+        return false;
     }
 
     /**
@@ -389,7 +389,7 @@ class Doctrine_Lib
         $dir = dir($source);
         while (false !== $entry = $dir->read()) {
             // Skip pointers
-            if ($entry == '.' || $entry == '..') {
+            if ($entry === '.' || $entry === '..') {
                 continue;
             }
 

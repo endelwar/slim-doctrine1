@@ -380,7 +380,7 @@ class Doctrine_DataDict_Pgsql extends Doctrine_DataDict
                 // TODO: what is the maximum VARCHAR length in pgsql ?
                 $length = (isset($field['length']) && $field['length'] && $field['length'] < 10000) ? $field['length'] : null;
 
-                $fixed  = ((isset($field['fixed']) && $field['fixed']) || $field['type'] == 'char') ? true : false;
+                $fixed  = ((isset($field['fixed']) && $field['fixed']) || $field['type'] === 'char') ? true : false;
 
                 return $fixed ? ($length ? 'CHAR(' . $length . ')' : 'CHAR('.$this->conn->varchar_max_length.')')
                     : ($length ? 'VARCHAR(' .$length . ')' : 'TEXT');

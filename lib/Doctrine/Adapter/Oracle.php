@@ -125,7 +125,7 @@ class Doctrine_Adapter_Oracle implements Doctrine_Adapter_Interface
         }
 
 
-        if ($this->config['persistent'] == 'true'){ 
+        if ($this->config['persistent'] === 'true'){
             $this->connection = @oci_pconnect($this->config['username'], $this->config['password'], 
                 $this->config['dbname'], $this->config['charset']); 
         } else { 

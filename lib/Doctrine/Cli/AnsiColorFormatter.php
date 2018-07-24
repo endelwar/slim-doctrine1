@@ -80,7 +80,7 @@ class Doctrine_Cli_AnsiColorFormatter extends Doctrine_Cli_Formatter
             return $text;
         }
 
-        if ( ! is_array($parameters) && 'NONE' == $parameters) {
+        if ( ! is_array($parameters) && 'NONE' === $parameters) {
             return $text;
         }
 
@@ -158,6 +158,6 @@ class Doctrine_Cli_AnsiColorFormatter extends Doctrine_Cli_Formatter
      */
     public function supportsColors($stream)
     {
-        return DIRECTORY_SEPARATOR != '\\' && function_exists('posix_isatty') && @posix_isatty($stream);
+        return DIRECTORY_SEPARATOR !== '\\' && function_exists('posix_isatty') && @posix_isatty($stream);
     }
 }

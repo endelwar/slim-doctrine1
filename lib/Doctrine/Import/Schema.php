@@ -166,7 +166,7 @@ class Doctrine_Import_Schema
      * getOption
      *
      * @param string $name 
-     * @return void
+     * @return string|null
      */
     public function getOption($name)
     {
@@ -178,7 +178,7 @@ class Doctrine_Import_Schema
     /**
      * getOptions
      *
-     * @return void
+     * @return array
      */
     public function getOptions()
     {
@@ -261,7 +261,7 @@ class Doctrine_Import_Schema
      * @param  string $format Format of the schema file
      * @param  string $directory The directory where the Doctrine_Record class will be written
      * @param  array $models Optional array of models to import
-     * @return void
+     * @throws Doctrine_Import_Builder_Exception
      * @throws Doctrine_Import_Exception
      */
     public function importSchema($schema, $format = 'yml', $directory = null, $models = array())
@@ -347,7 +347,7 @@ class Doctrine_Import_Schema
             if (isset($table['tableName']) && $table['tableName']) {
                 $tableName = $table['tableName'];
             } else {
-                if (isset($table['inheritance']['type']) && ($table['inheritance']['type'] == 'column_aggregation')) {
+                if (isset($table['inheritance']['type']) && ($table['inheritance']['type'] === 'column_aggregation')) {
                     $tableName = null;
                 } else {
                     $tableName = Doctrine_Inflector::tableize($className);
@@ -448,12 +448,13 @@ class Doctrine_Import_Schema
 
     /**
      * _processInheritance
-     * 
+     *
      * Perform some processing on inheritance.
      * Sets the default type and sets some default values for certain types
      *
-     * @param string $array 
-     * @return void
+     * @param string $array
+     * @return string
+     * @throws Doctrine_Import_Exception
      */
     protected function _processInheritance($array)
     {
@@ -469,7 +470,7 @@ class Doctrine_Import_Schema
 
                 // Some magic for setting up the keyField and keyValue column aggregation options
                 // Adds keyField to the parent class automatically
-                if ($array[$className]['inheritance']['type'] == 'column_aggregation') {
+                if ($array[$className]['inheritance']['type'] === 'column_aggregation') {
                     // Set the keyField to 'type' by default
                     if ( ! isset($array[$className]['inheritance']['keyField'])) {
                         $array[$className]['inheritance']['keyField'] = 'type';                        
@@ -499,7 +500,7 @@ class Doctrine_Import_Schema
 
         foreach ($array as $className => $definition) {
             // Move any definitions on the schema to the parent
-            if (isset($definition['inheritance']['extends']) && isset($definition['inheritance']['type']) && ($definition['inheritance']['type'] == 'simple' || $definition['inheritance']['type'] == 'column_aggregation')) {
+            if (isset($definition['inheritance']['extends']) && isset($definition['inheritance']['type']) && ($definition['inheritance']['type'] === 'simple' || $definition['inheritance']['type'] === 'column_aggregation')) {
                 $parent = $this->_findBaseSuperClass($array, $definition['className']);
                 foreach ($moves as $move => $resetValue) {
                     if (isset($array[$parent][$move]) && isset($definition[$move])) {
@@ -509,7 +510,7 @@ class Doctrine_Import_Schema
                 }
 
                 // Populate the parents subclasses
-                if ($definition['inheritance']['type'] == 'column_aggregation') {
+                if ($definition['inheritance']['type'] === 'column_aggregation') {
                     // Fix for 2015: loop through superclasses' inheritance to the base-superclass to  
                     // make sure we collect all keyFields needed (and not only the first) 
                     $inheritanceFields = array($definition['inheritance']['keyField'] => $definition['inheritance']['keyValue']); 
@@ -517,7 +518,7 @@ class Doctrine_Import_Schema
                     $superClass = $definition['inheritance']['extends']; 
                     $multiInheritanceDef = $array[$superClass]; 
 
-                    while (count($multiInheritanceDef['inheritance']) > 0 && array_key_exists('extends', $multiInheritanceDef['inheritance']) && $multiInheritanceDef['inheritance']['type'] == 'column_aggregation') { 
+                    while (count($multiInheritanceDef['inheritance']) > 0 && array_key_exists('extends', $multiInheritanceDef['inheritance']) && $multiInheritanceDef['inheritance']['type'] === 'column_aggregation') {
                         $superClass = $multiInheritanceDef['inheritance']['extends'];
                         
                         // keep original keyField with it's keyValue
@@ -545,7 +546,7 @@ class Doctrine_Import_Schema
      */
     protected function _findBaseSuperClass($array, $class)
     {
-        if (isset($array[$class]['inheritance']['extends']) && isset($array[$class]['inheritance']['type']) && ($array[$class]['inheritance']['type'] == 'simple' || $array[$class]['inheritance']['type'] == 'column_aggregation')) {
+        if (isset($array[$class]['inheritance']['extends']) && isset($array[$class]['inheritance']['type']) && ($array[$class]['inheritance']['type'] === 'simple' || $array[$class]['inheritance']['type'] === 'column_aggregation')) {
             return $this->_findBaseSuperClass($array, $array[$class]['inheritance']['extends']);
         } else {
             return $class;
@@ -733,7 +734,7 @@ class Doctrine_Import_Schema
      * Md5 hash of all the relationship parameters
      *
      * @param string $relation 
-     * @return void
+     * @return string
      */
     protected function _buildUniqueRelationKey($relation)
     {
@@ -758,7 +759,7 @@ class Doctrine_Import_Schema
 
         // Validators are a part of the column validation
         // This should be fixed, made cleaner
-        if ($name == 'column') {
+        if ($name === 'column') {
             $validators = Doctrine_Manager::getInstance()->getValidators();
             $validation = array_merge($validation, $validators);
         }

@@ -165,7 +165,7 @@ class Doctrine_Import_Pgsql extends Doctrine_Import
         foreach ($result as $key => $val) {
             $val = array_change_key_case($val, CASE_LOWER);
 
-            if ($val['type'] == 'character varying') {
+            if ($val['type'] === 'character varying') {
                 // get length from varchar definition
                 $length = preg_replace('~.*\(([0-9]*)\).*~', '$1', $val['complete_type']);
                 $val['length'] = $length;
@@ -185,13 +185,13 @@ class Doctrine_Import_Pgsql extends Doctrine_Import
                 'length'    => $decl['length'],
                 'fixed'     => (bool) $decl['fixed'],
                 'unsigned'  => (bool) $decl['unsigned'],
-                'notnull'   => ($val['isnotnull'] == 'NO'),
+                'notnull'   => ($val['isnotnull'] === 'NO'),
                 'default'   => $val['default'],
-                'primary'   => ($val['pri'] == 't'),
+                'primary'   => ($val['pri'] === 't'),
             );
 
             // If postgres enum type            
-            if ($val['type'] == 'e'){
+            if ($val['type'] === 'e'){
                 $description['default'] = isset($decl['default']) ? $decl['default'] : null;
                 $t_result = $this->conn->fetchAssoc(sprintf('select enum_range(null::%s) as range ', $decl['enum_name']));                
                 if (isset($t_result[0])){
@@ -212,7 +212,7 @@ class Doctrine_Import_Pgsql extends Doctrine_Import
                 $description['default'] = $matches[1];
             } else if (preg_match("/^(.*)::character varying$/", $description['default'], $matches)) {
                 $description['default'] = $matches[1];
-            } else if ($description['type'] == 'boolean') {
+            } else if ($description['type'] === 'boolean') {
                 if ($description['default'] === 'true') {
                    $description['default'] = true;
                 } else if ($description['default'] === 'false') {

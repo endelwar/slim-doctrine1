@@ -288,9 +288,7 @@ abstract class Doctrine_Record_Generator extends Doctrine_Record_Abstract
         foreach ((array) $table->getIdentifier() as $field) {
             $def = $table->getDefinitionOf($field);
 
-            unset($def['autoincrement']);
-            unset($def['sequence']);
-            unset($def['primary']);
+            unset($def['autoincrement'], $def['sequence'], $def['primary']);
 
             $col = $table->hasColumn($field) ? $field : $table->getColumnName($field) . ' as ' . $field;
 
@@ -446,6 +444,7 @@ abstract class Doctrine_Record_Generator extends Doctrine_Record_Abstract
      * @param array $definition Definition array defining columns, relations and options
      *                           for the model
      * @return void
+     * @throws Doctrine_Import_Builder_Exception
      * @throws Doctrine_Record_Exception
      */
     public function generateClass(array $definition = array())

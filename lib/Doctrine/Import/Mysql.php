@@ -152,7 +152,7 @@ class Doctrine_Import_Mysql extends Doctrine_Import
             $decl = $this->conn->dataDict->getPortableDeclaration($val);
 
             $values = isset($decl['values']) ? $decl['values'] : array();
-            $val['default'] = $val['default'] == 'CURRENT_TIMESTAMP' ? null : $val['default'];
+            $val['default'] = $val['default'] === 'CURRENT_TIMESTAMP' ? null : $val['default'];
 
             $description = array(
                           'name'          => $val['field'],
@@ -163,9 +163,9 @@ class Doctrine_Import_Mysql extends Doctrine_Import
                           'fixed'         => (bool) $decl['fixed'],
                           'unsigned'      => (bool) $decl['unsigned'],
                           'values'        => $values,
-                          'primary'       => (strtolower($val['key']) == 'pri'),
+                          'primary'       => (strtolower($val['key']) === 'pri'),
                           'default'       => $val['default'],
-                          'notnull'       => (bool) ($val['null'] != 'YES'),
+                          'notnull'       => (bool) ($val['null'] !== 'YES'),
                           'autoincrement' => (bool) (strpos($val['extra'], 'auto_increment') !== false),
                           );
             if (isset($decl['scale'])) {

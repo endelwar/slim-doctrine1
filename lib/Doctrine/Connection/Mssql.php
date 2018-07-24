@@ -212,7 +212,7 @@ class Doctrine_Connection_Mssql extends Doctrine_Connection_Common
     {
         $def = $table->getDefinitionOf($field);
 
-        if ($def['type'] == 'string' && $def['length'] === NULL) {
+        if ($def['type'] === 'string' && $def['length'] === NULL) {
             $term = 'CAST(' . $term . ' AS varchar(8000))';
         }
 

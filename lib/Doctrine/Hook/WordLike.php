@@ -39,10 +39,10 @@ class Doctrine_Hook_WordLike extends Doctrine_Hook_Parser_Complex
      * prepared statement conditions (conditions that use
      * placeholders instead of literal values).
      *
-     * @param string $alias     component alias
-     * @param string $field     the field name
-     * @param mixed $value      the value of the field
-     * @return void
+     * @param string $alias component alias
+     * @param string $field the field name
+     * @param mixed $value the value of the field
+     * @return string
      */
     public function parseSingle($alias, $field, $value)
     {

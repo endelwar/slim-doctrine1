@@ -477,7 +477,7 @@ abstract class Doctrine_Query_Abstract
             throw new Doctrine_Query_Exception('Unknown query part ' . $name);
         }
 
-        if ($name == 'limit' || $name == 'offset' || $name == 'forUpdate') {
+        if ($name === 'limit' || $name === 'offset' || $name === 'forUpdate') {
             $this->_sqlParts[$name] = false;
         } else {
             $this->_sqlParts[$name] = array();
@@ -500,7 +500,7 @@ abstract class Doctrine_Query_Abstract
             throw new Doctrine_Query_Exception('Unknown query part ' . $name);
         }
 
-        if ($name == 'limit' || $name == 'offset') {
+        if ($name === 'limit' || $name === 'offset') {
             $this->_dqlParts[$name] = false;
         } else {
             $this->_dqlParts[$name] = array();

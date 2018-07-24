@@ -70,16 +70,6 @@ abstract class Doctrine_Template extends Doctrine_Record_Abstract
     }
 
     /**
-     * returns the associated table object
-     *
-     * @return Doctrine_Table               the associated table object
-     */
-    public function getTable()
-    {
-        return $this->_table;
-    }
-
-    /**
      * sets the last used invoker
      *
      * @param Doctrine_Record|Doctrine_Record_Abstract $invoker the record that invoked the last delegated call

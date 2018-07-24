@@ -527,7 +527,7 @@ class Doctrine_Query_Tokenizer
             // This is some kind of quote
             if ($key & 1) {
                 if ( ! $mode) {
-                    if ($val == "'" || $val == "\"") {
+                    if ($val === "'" || $val === "\"") {
                         $mode = $val;
                         $i++;
                     }

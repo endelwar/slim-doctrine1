@@ -74,9 +74,9 @@ class Doctrine_Template_Listener_SoftDelete extends Doctrine_Record_Listener
         $name = $this->_options['name'];
         $invoker = $event->getInvoker();
         
-        if ($this->_options['type'] == 'timestamp') {
-            $invoker->$name = date('Y-m-d H:i:s', time());
-        } else if ($this->_options['type'] == 'boolean') {
+        if ($this->_options['type'] === 'timestamp') {
+            $invoker->$name = date('Y-m-d H:i:s');
+        } else if ($this->_options['type'] === 'boolean') {
             $invoker->$name = true;
         }
 
@@ -113,10 +113,10 @@ class Doctrine_Template_Listener_SoftDelete extends Doctrine_Record_Listener
         if ( ! $query->contains($field)) {
             $query->from('')->update($params['component']['table']->getOption('name') . ' ' . $params['alias']);
             
-            if ($this->_options['type'] == 'timestamp') {
-                $query->set($field, '?', date('Y-m-d H:i:s', time()));
+            if ($this->_options['type'] === 'timestamp') {
+                $query->set($field, '?', date('Y-m-d H:i:s'));
                 $query->addWhere($field . ' IS NULL');
-            } else if ($this->_options['type'] == 'boolean') {
+            } else if ($this->_options['type'] === 'boolean') {
                 $query->set($field, $query->getConnection()->convertBooleans(true));
                 $query->addWhere(
                     $field . ' = ' . $query->getConnection()->convertBooleans(false)
@@ -142,9 +142,9 @@ class Doctrine_Template_Listener_SoftDelete extends Doctrine_Record_Listener
         // 1 - We are in the root query
         // 2 - We are in the subquery and it defines the component with that alias
         if (( ! $query->isSubquery() || ($query->isSubquery() && $query->contains(' ' . $params['alias'] . ' '))) && ! $query->contains($field)) {
-            if ($this->_options['type'] == 'timestamp') {
+            if ($this->_options['type'] === 'timestamp') {
                 $query->addPendingJoinCondition($params['alias'], $field . ' IS NULL');
-            } else if ($this->_options['type'] == 'boolean') {
+            } else if ($this->_options['type'] === 'boolean') {
                 $query->addPendingJoinCondition(
                     $params['alias'], $field . ' = ' . $query->getConnection()->convertBooleans(false)
                 );

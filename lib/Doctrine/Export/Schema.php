@@ -33,16 +33,19 @@
  * @author      Jonathan H. Wage <jwage@mac.com>
  */
 class Doctrine_Export_Schema
-{    
+{
     /**
      * buildSchema
-     * 
+     *
      * Build schema array that can be dumped to file
      *
-     * @param string $directory  The directory of models to build the schema from
-     * @param array $models      The array of model names to build the schema for
+     * @param string $directory The directory of models to build the schema from
+     * @param array $models The array of model names to build the schema for
      * @param integer $modelLoading The model loading strategy to use to load the models from the passed directory
-     * @return void
+     * @throws Doctrine_Exception
+     * @throws Doctrine_Table_Exception
+     * @throws ReflectionException
+     * @return array
      */
     public function buildSchema($directory = null, $models = array(), $modelLoading = null)
     {
@@ -140,8 +143,11 @@ class Doctrine_Export_Schema
      * @param  string $directory
      * @param array $models
      * @param integer $modelLoading The model loading strategy to use to load the models from the passed directory
-     * @return void
+     * @throws Doctrine_Exception
+     * @throws Doctrine_Table_Exception
+     * @throws ReflectionException
      * @internal param string $string of data in the specified format
+     * @return bool|int|string
      */
     public function exportSchema($schema, $format = 'yml', $directory = null, $models = array(), $modelLoading = null)
     {

@@ -285,6 +285,7 @@ class Doctrine_Collection extends Doctrine_Access implements Countable, Iterator
      *
      * @param Doctrine_Record $record
      * @param Doctrine_Relation $relation
+     * @throws Doctrine_Record_Exception
      * @return void
      */
     public function setReference(Doctrine_Record $record, Doctrine_Relation $relation)
@@ -849,7 +850,7 @@ class Doctrine_Collection extends Doctrine_Access implements Countable, Iterator
      */
     public function exportTo($type, $deep = true)
     {
-        if ($type == 'array') {
+        if ($type === 'array') {
             return $this->toArray($deep);
         } else {
             return Doctrine_Parser::dump($this->toArray($deep, true), $type);
@@ -865,7 +866,7 @@ class Doctrine_Collection extends Doctrine_Access implements Countable, Iterator
      */
     public function importFrom($type, $data)
     {
-        if ($type == 'array') {
+        if ($type === 'array') {
             return $this->fromArray($data);
         } else {
             return $this->fromArray(Doctrine_Parser::load($data, $type));

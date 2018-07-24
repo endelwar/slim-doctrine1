@@ -144,7 +144,7 @@ class Doctrine_Migration
 
             foreach ($it as $file) {
                 $info = pathinfo($file->getFileName());
-                if (isset($info['extension']) && $info['extension'] == 'php') {
+                if (isset($info['extension']) && $info['extension'] === 'php') {
                     require_once($file->getPathName());
 
                     $array = array_diff(get_declared_classes(), $classes);
@@ -512,7 +512,7 @@ class Doctrine_Migration
 
             if ($migration->getNumChanges() > 0) {
                 $changes = $migration->getChanges();
-                if ($direction == 'down' && method_exists($migration, 'migrate')) {
+                if ($direction === 'down' && method_exists($migration, 'migrate')) {
                     $changes = array_reverse($changes);
                 }
                 foreach ($changes as $value) {

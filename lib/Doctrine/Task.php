@@ -34,9 +34,9 @@
  */
 abstract class Doctrine_Task
 {
-    public $dispatcher           =   null,
-           $taskName             =   null,  /*Treat as protected*/
-           $description          =   null,
+    public $dispatcher,
+           $taskName,  /*Treat as protected*/
+           $description,
            $arguments            =   array(),
            $requiredArguments    =   array(),
            $optionalArguments    =   array();
@@ -56,7 +56,7 @@ abstract class Doctrine_Task
         $taskName = $this->getTaskName();
 
         //Derive the task name only if it wasn't entered at design-time
-        if (! strlen($taskName)) {
+        if ('' === $taskName) {
             $taskName = self::deriveTaskName(get_class($this));
         }
 
@@ -94,8 +94,8 @@ abstract class Doctrine_Task
     /**
      * notify
      *
-     * @param string $notification 
-     * @return void
+     * @param string $notification
+     * @return bool|mixed|null|string
      */
     public function notify($notification = null)
     {
@@ -103,27 +103,27 @@ abstract class Doctrine_Task
             $args = func_get_args();
             
             return call_user_func_array(array($this->dispatcher, 'notify'), $args);
-        } else if ( $notification !== null ) {
-            return $notification;
-        } else {
-            return false;
         }
+
+        if ( $notification !== null ) {
+            return $notification;
+        }
+
+        return false;
     }
 
     /**
      * ask
      *
-     * @return void
+     * @return string
      */
     public function ask()
     {
         $args = func_get_args();
         
         call_user_func_array(array($this, 'notify'), $args);
-        
-        $answer = strtolower(trim(fgets(STDIN)));
-        
-        return $answer;
+
+        return strtolower(trim(fgets(STDIN)));
     }
 
     /**
@@ -179,9 +179,9 @@ abstract class Doctrine_Task
     {
         if (isset($this->arguments[$name]) && $this->arguments[$name] !== null) {
             return $this->arguments[$name];
-        } else {
-            return $default;
         }
+
+        return $default;
     }
 
     /**

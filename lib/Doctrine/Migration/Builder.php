@@ -265,7 +265,8 @@ END;
     /**
      * Generate a set of migration classes from the existing databases
      *
-     * @return void
+     * @return bool
+     * @throws Exception
      */
     public function generateMigrationsFromDb()
     {

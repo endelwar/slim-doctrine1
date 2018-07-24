@@ -17,7 +17,7 @@ class Doctrine_Cache_Memcached extends Doctrine_Cache_Driver
     /**
      * @var Memcached $_memcache     memcache object
      */
-    protected $_memcached = null;
+    protected $_memcached;
 
     /**
      * constructor

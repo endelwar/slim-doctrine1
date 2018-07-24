@@ -85,7 +85,7 @@ class Doctrine_Node implements IteratorAggregate
                 if ($reflectionClass->isAbstract()) {
                     continue;
                 }
-                if ($class == 'Doctrine_Record') {
+                if ($class === 'Doctrine_Record') {
                     throw new Doctrine_Node_Exception("No subclasses specified. You are "
                             . "using Single Table Inheritance with NestedSet but you have "
                             . "not specified the subclasses correctly. Make sure you use "

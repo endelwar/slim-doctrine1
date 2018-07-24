@@ -80,7 +80,7 @@ abstract class Doctrine_Migration_Base
         if (isset($change['upDown']) && $change['upDown'] !== null && isset(self::$_opposites[$type])) {
             $upDown = $change['upDown'];
             unset($change['upDown']);
-            if ($upDown == 'down') {
+            if ($upDown === 'down') {
                 $opposite = self::$_opposites[$type];
                 return $this->_changes[] = array($opposite, $change);
             }
@@ -216,7 +216,7 @@ abstract class Doctrine_Migration_Base
      */
     public function primaryKey($direction, $tableName, $columnNames)
     {
-        if ($direction == 'up') {
+        if ($direction === 'up') {
             $this->createPrimaryKey($tableName, $columnNames);
         } else {
             $this->dropPrimaryKey($tableName, $columnNames);

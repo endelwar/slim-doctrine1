@@ -74,7 +74,7 @@ class Doctrine_DataDict_Mssql extends Doctrine_DataDict
                 $length = !empty($field['length'])
                     ? $field['length'] : false;
 
-                $fixed  = ((isset($field['fixed']) && $field['fixed']) || $field['type'] == 'char') ? true : false;
+                $fixed  = ((isset($field['fixed']) && $field['fixed']) || $field['type'] === 'char') ? true : false;
 
                 return $fixed ? ($length ? 'CHAR('.$length.')' : 'CHAR('.$this->conn->varchar_max_length.')')
                     : (($length && $length <= $this->conn->varchar_max_length) ? 'VARCHAR('.$length.')' : 'TEXT');

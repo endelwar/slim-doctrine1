@@ -80,7 +80,7 @@ class Doctrine_RawSql extends Doctrine_Query_Abstract
      */
  	public function parseDqlQueryPart($queryPartName, $queryPart, $append = false)
     {
-        if ($queryPartName == 'select') {
+        if ($queryPartName === 'select') {
      	    $this->_parseSelectFields($queryPart);
      	    return $this;
      	}
@@ -224,7 +224,7 @@ class Doctrine_RawSql extends Doctrine_Query_Abstract
 
             $componentAlias = $this->getComponentAlias($e[0]);
             
-            if ($e[1] == '*') {
+            if ($e[1] === '*') {
                 foreach ($this->_queryComponents[$componentAlias]['table']->getColumnNames() as $name) {
                     $field = $formatter->quoteIdentifier($e[0]) . '.' . $formatter->quoteIdentifier($name);
 

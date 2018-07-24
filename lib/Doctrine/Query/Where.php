@@ -37,7 +37,7 @@ class Doctrine_Query_Where extends Doctrine_Query_Condition
         // Handle operator ("AND" | "OR"), reducing overhead of this method processment
         $possibleOp = strtolower($where);
 
-        if ($possibleOp == 'and' || $possibleOp == 'or')
+        if ($possibleOp === 'and' || $possibleOp === 'or')
         {
             return $where;
         }
@@ -47,7 +47,7 @@ class Doctrine_Query_Where extends Doctrine_Query_Condition
         $terms = $this->_tokenizer->sqlExplode($where);
 
         if (count($terms) > 1) {
-            if (substr($where, 0, 6) == 'EXISTS') {
+            if (substr($where, 0, 6) === 'EXISTS') {
                 return $this->parseExists($where, true);
             } elseif (preg_match('/^NOT\s+EXISTS\b/i', $where) !== 0) {
                 return $this->parseExists($where, false);
@@ -81,7 +81,7 @@ class Doctrine_Query_Where extends Doctrine_Query_Condition
                 // @TODO apply database dependent parsing
                 //       list($leftExpr, $operator, $rightExpr) = $conn->modifyWhereCondition($leftExpr, $operator, $rightExpr);
                 $driverName = strtolower($conn->getDriverName());
-                if ($driverName == 'mssql' && !empty($reference)) {
+                if ($driverName === 'mssql' && !empty($reference)) {
                     $cmp = $this->query->getQueryComponent($reference);
                     $table = $cmp['table'];
 
@@ -89,7 +89,7 @@ class Doctrine_Query_Where extends Doctrine_Query_Condition
                     $column = $table->getColumnName($fieldname);
                     $columndef = $table->getColumnDefinition($column);
 
-                    if ($columndef['type'] == 'string' && ($columndef['length'] == NULL || $columndef['length'] > $conn->varchar_max_length) && strtoupper($rightExpr) != 'NULL') {
+                    if ($columndef['type'] === 'string' && ($columndef['length'] == NULL || $columndef['length'] > $conn->varchar_max_length) && strtoupper($rightExpr) !== 'NULL') {
                         $operator = 'LIKE';
                     }
                 }
@@ -110,22 +110,22 @@ class Doctrine_Query_Where extends Doctrine_Query_Condition
         $leftExpr = $this->query->parseClause($leftExpr);
 
         // BETWEEN operation
-        if ('BETWEEN' == strtoupper(substr($operator, 0, 7))) {
+        if ('BETWEEN' === strtoupper(substr($operator, 0, 7))) {
             $midExpr = trim(substr($operator, 7, -3));
             $operator = 'BETWEEN ' . $this->query->parseClause($midExpr) . ' AND';
         }
 
         // NOT BETWEEN operation
-        if ('NOT BETWEEN' == strtoupper(substr($operator, 0, 11))) {
+        if ('NOT BETWEEN' === strtoupper(substr($operator, 0, 11))) {
             $midExpr = trim(substr($operator, 11, -3));
             $operator = 'NOT BETWEEN ' . $this->query->parseClause($midExpr) . ' AND';
         }
 
         $op = strtolower($operator);
-        $isInX = ($op == 'in' || $op == 'not in');
+        $isInX = ($op === 'in' || $op === 'not in');
 
         // Check if we are not dealing with "obj.field IN :named"
-        if (substr($rightExpr, 0 , 1) == ':' && $isInX) {
+        if (substr($rightExpr, 0 , 1) === ':' && $isInX) {
             throw new Doctrine_Query_Exception(
                 'Cannot use ' . $operator . ' with a named parameter in "' .
                 $leftExprOriginal . ' ' . $operator . ' ' . $rightExpr . '"'
@@ -133,7 +133,7 @@ class Doctrine_Query_Where extends Doctrine_Query_Condition
         }
 
         // Right Expression
-        $rightExpr = ($rightExpr == '?' && $isInX)
+        $rightExpr = ($rightExpr === '?' && $isInX)
             ? $this->_buildWhereInArraySqlPart($rightExpr)
             : $this->query->parseClause($rightExpr);
 

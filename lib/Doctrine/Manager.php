@@ -295,7 +295,7 @@ class Doctrine_Manager extends Doctrine_Configurable implements Countable, Itera
             }
             $e = explode(':', $adapter[0]);
 
-            if ($e[0] == 'uri') {
+            if ($e[0] === 'uri') {
                 $e[0] = 'odbc';
             }
 
@@ -444,7 +444,7 @@ class Doctrine_Manager extends Doctrine_Configurable implements Countable, Itera
             case 'sqlite':
             case 'sqlite2':
             case 'sqlite3':
-                if (isset($parts['host']) && $parts['host'] == ':memory') {
+                if (isset($parts['host']) && $parts['host'] === ':memory') {
                     $parts['database'] = ':memory:';
                     $parts['dsn']      = 'sqlite::memory:';
                 } else {
@@ -461,7 +461,7 @@ class Doctrine_Manager extends Doctrine_Configurable implements Countable, Itera
 
             case 'mssql':
             case 'dblib':
-                if ( ! isset($parts['path']) || $parts['path'] == '/') {
+                if ( ! isset($parts['path']) || $parts['path'] === '/') {
                     throw new Doctrine_Manager_Exception('No database available in data source name');
                 }
                 if (isset($parts['path'])) {
@@ -484,7 +484,7 @@ class Doctrine_Manager extends Doctrine_Configurable implements Countable, Itera
             case 'odbc':
             case 'mock':
             case 'oracle':
-                if ( ! isset($parts['path']) || $parts['path'] == '/') {
+                if ( ! isset($parts['path']) || $parts['path'] === '/') {
                     throw new Doctrine_Manager_Exception('No database available in data source name');
                 }
                 if (isset($parts['path'])) {

@@ -218,7 +218,7 @@ END;';
     public function getAdvancedForeignKeyOptions(array $definition)
     {
         $query = '';
-        if (isset($definition['onDelete']) && strtoupper(trim($definition['onDelete'])) != 'NO ACTION') {
+        if (isset($definition['onDelete']) && strtoupper(trim($definition['onDelete'])) !== 'NO ACTION') {
             $query .= ' ON DELETE ' . $definition['onDelete'];
         }
         if (isset($definition['deferrable'])) {
@@ -279,7 +279,7 @@ END;';
     /**
      * create a new table
      *
-     * @param string $name     Name of the database that should be created
+     * @param string $name Name of the database that should be created
      * @param array $fields Associative array that contains the definition of each field of the new table
      *                        The indexes of the array entries are the names of the fields of the table an
      *                        the array entry values are associative arrays like those that are meant to be
@@ -303,9 +303,9 @@ END;';
      *                                'length' => 12
      *                            )
      *                        );
-     * @param array $options  An associative array of table options:
-     *
-     * @return void
+     * @param array $options An associative array of table options:
+     * @throws Doctrine_Export_Exception
+     * @return array|string
      */
     public function createTableSql($name, array $fields, array $options = array())
     {
@@ -334,7 +334,7 @@ END;';
             foreach ($options['indexes'] as $indexName => $definition) {
                 // create nonunique indexes, as they are a part od CREATE TABLE DDL
                 if ( ! isset($definition['type']) || 
-                    (isset($definition['type']) && strtolower($definition['type']) != 'unique')) {
+                    (isset($definition['type']) && strtolower($definition['type']) !== 'unique')) {
                     $sql[] = $this->createIndexSql($name, $indexName, $definition);
                 }
             }
@@ -585,7 +585,7 @@ END;';
         
         if ( isset($definition['type']))
         {
-            if (strtolower($definition['type']) == 'unique') {
+            if (strtolower($definition['type']) === 'unique') {
                 $type = strtoupper($definition['type']);
             } else {
                 throw new Doctrine_Export_Exception(

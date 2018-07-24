@@ -1257,7 +1257,7 @@ class Doctrine_Table extends Doctrine_Configurable implements Countable, Seriali
      */
     public function setColumnOption($columnName, $option, $value)
     {
-        if ($option == 'primary') {
+        if ($option === 'primary') {
             if (isset($this->_identifier)) {
                 $this->_identifier = (array) $this->_identifier;
             }
@@ -2092,13 +2092,13 @@ class Doctrine_Table extends Doctrine_Configurable implements Countable, Seriali
             if ( ! Doctrine_Validator::isValidType($value, $dataType)) {
                 $errorStack->add($fieldName, 'type');
             }
-            if ($dataType == 'enum') {
+            if ($dataType === 'enum') {
                 $enumIndex = $this->enumIndex($fieldName, $value);
                 if ($enumIndex === false && $value !== null) {
                     $errorStack->add($fieldName, 'enum');
                 }
             }
-            if ($dataType == 'set') {
+            if ($dataType === 'set') {
                 $values = $this->_columns[$fieldName]['values'];
                 // Convert string to array
                 if (is_string($value)) {
@@ -2647,24 +2647,24 @@ class Doctrine_Table extends Doctrine_Configurable implements Countable, Seriali
         // the options, since everything is squeezed together currently
         foreach ($this->_columns[$columnName] as $name => $args) {
              if (empty($name)
-                    || $name == 'primary'
-                    || $name == 'protected'
-                    || $name == 'autoincrement'
-                    || $name == 'default'
-                    || $name == 'values'
-                    || $name == 'sequence'
-                    || $name == 'zerofill'
-                    || $name == 'owner'
-                    || $name == 'scale'
-                    || $name == 'type'
-                    || $name == 'length'
-                    || $name == 'fixed'
-                    || $name == 'comment'
-                    || $name == 'alias'
-                    || $name == 'extra') {
+                    || $name === 'primary'
+                    || $name === 'protected'
+                    || $name === 'autoincrement'
+                    || $name === 'default'
+                    || $name === 'values'
+                    || $name === 'sequence'
+                    || $name === 'zerofill'
+                    || $name === 'owner'
+                    || $name === 'scale'
+                    || $name === 'type'
+                    || $name === 'length'
+                    || $name === 'fixed'
+                    || $name === 'comment'
+                    || $name === 'alias'
+                    || $name === 'extra') {
                 continue;
             }
-            if ($name == 'notnull' && isset($this->_columns[$columnName]['autoincrement'])
+            if ($name === 'notnull' && isset($this->_columns[$columnName]['autoincrement'])
                     && $this->_columns[$columnName]['autoincrement'] === true) {
                 continue;
             }
@@ -2803,14 +2803,14 @@ class Doctrine_Table extends Doctrine_Configurable implements Countable, Seriali
                 throw new Doctrine_Table_Exception('Invalid field name to find by: ' . $field);
             }
 
-            if ($operatorFound[$index] == 'OR' && !$bracketOpen) {
+            if ($operatorFound[$index] === 'OR' && !$bracketOpen) {
                 $where .= '(';
                 $bracketOpen = true;
             }
 
             $where .= 'dctrn_find.' . $field . ' = ?';
 
-            if ($operatorFound[$index] != 'OR' && $lastOperator == 'OR') {
+            if ($operatorFound[$index] !== 'OR' && $lastOperator === 'OR') {
                 $where .= ')';
                 $bracketOpen = false;
             }
@@ -2938,10 +2938,10 @@ class Doctrine_Table extends Doctrine_Configurable implements Countable, Seriali
     {
         $lcMethod = strtolower($method);
 
-        if (substr($lcMethod, 0, 6) == 'findby') {
+        if (substr($lcMethod, 0, 6) === 'findby') {
             $by = substr($method, 6, strlen($method));
             $method = 'findBy';
-        } else if (substr($lcMethod, 0, 9) == 'findoneby') {
+        } else if (substr($lcMethod, 0, 9) === 'findoneby') {
             $by = substr($method, 9, strlen($method));
             $method = 'findOneBy';
         }
@@ -2952,7 +2952,7 @@ class Doctrine_Table extends Doctrine_Configurable implements Countable, Seriali
             }
 
             $fieldName = $this->_resolveFindByFieldName($by);
-            $count = count(explode('Or', $by)) + (count(explode('And', $by)) - 1);
+            $count = substr_count($by, 'Or') + 1 + (substr_count($by, 'And') + 1 - 1);
             if (count($arguments) > $count)
             {
                 $hydrationMode = end($arguments);
@@ -2962,7 +2962,9 @@ class Doctrine_Table extends Doctrine_Configurable implements Countable, Seriali
             }
             if ($this->hasField($fieldName)) {
                 return $this->$method($fieldName, $arguments[0], $hydrationMode);
-            } else if ($this->hasRelation($by)) {
+            }
+
+            if ($this->hasRelation($by)) {
                 $relation = $this->getRelation($by);
 
                 if ($relation['type'] === Doctrine_Relation::MANY) {
@@ -2970,9 +2972,9 @@ class Doctrine_Table extends Doctrine_Configurable implements Countable, Seriali
                 }
 
                 return $this->$method($relation['local'], $arguments[0], $hydrationMode);
-            } else {
-                return $this->$method($by, $arguments, $hydrationMode);
             }
+
+            return $this->$method($by, $arguments, $hydrationMode);
         }
 
         // Forward the method on to the record instance and see if it has anything or one of its behaviors

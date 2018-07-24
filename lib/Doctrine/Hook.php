@@ -190,7 +190,7 @@ class Doctrine_Hook
             $order = 'ASC';
 
             if (count($e) > 1) {
-                $order = ($e[1] == 'DESC') ? 'DESC' : 'ASC';
+                $order = ($e[1] === 'DESC') ? 'DESC' : 'ASC';
             }
 
             $e = explode('.', $e[0]);

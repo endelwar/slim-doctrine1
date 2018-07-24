@@ -42,6 +42,7 @@ class Doctrine_Compiler
      * @param array $includedDrivers
      * @return null|string if something went wrong during the compile operation
      * @throws Doctrine_Compiler_Exception if something went wrong during the compile operation
+     * @throws ReflectionException
      */
     public static function compile($target = null, $includedDrivers = array())
     {

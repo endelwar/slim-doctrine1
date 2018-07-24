@@ -134,7 +134,7 @@ class Doctrine_Connection_Pgsql extends Doctrine_Connection_Common
         if ($limit > 0) {
             $query = rtrim($query);
 
-            if (substr($query, -1) == ';') {
+            if (substr($query, -1) === ';') {
                 $query = substr($query, 0, -1);
             }
 
