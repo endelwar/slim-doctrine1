@@ -192,7 +192,7 @@ abstract class Doctrine_Cache_Driver implements Doctrine_Cache_Interface
         $keys = $this->_getCacheKeys();
         if (is_array($keys)) {
             foreach ($keys as $key) {
-                if (substr($key, -1 * strlen($suffix)) == $suffix) {
+                if (substr($key, -1 * strlen($suffix)) === $suffix) {
                     $count++;
                     $this->delete($key);
                 }
@@ -230,9 +230,9 @@ abstract class Doctrine_Cache_Driver implements Doctrine_Cache_Interface
 
         if ( ! $prefix || strpos($id, $prefix) === 0) {
             return $id;
-        } else {
-            return $prefix . $id;
         }
+
+        return $prefix . $id;
     }
 
     /**

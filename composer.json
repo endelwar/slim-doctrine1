@@ -1,22 +1,37 @@
 {
-    "name": "pepeverde/doctrine1",
-    "type": "library",
-    "description": "PHP5 Database ORM",
-    "keywords": ["orm", "database"],
-    "homepage": "http://www.doctrine-project.org",
-    "license": "LGPL-2.0-or-later",
-    "authors": [
-        {"name": "Konsta Vesterinen", "email": "kvesteri@cc.hut.fi"},
-        {"name": "Jonathan Wage", "email": "jonwage@gmail.com"}
-    ],
-    "require": {
-        "php": ">=5.2.3",
-        "ext-pdo": "*"
+  "name": "pepeverde/doctrine1",
+  "type": "library",
+  "description": "PHP5 Database ORM",
+  "keywords": [
+    "orm",
+    "database"
+  ],
+  "homepage": "http://www.doctrine-project.org",
+  "license": "LGPL-2.0-or-later",
+  "authors": [
+    {
+      "name": "Konsta Vesterinen",
+      "email": "kvesteri@cc.hut.fi"
     },
-    "autoload": {
-        "psr-0": {
-            "Doctrine_": "lib/",
-            "sfYaml": "lib/Doctrine/Parser/sfYaml"
-        }
+    {
+      "name": "Jonathan Wage",
+      "email": "jonwage@gmail.com"
     }
+  ],
+  "require": {
+    "php": ">=5.2.3",
+    "ext-pdo": "*"
+  },
+  "require-dev": {
+    "predis/predis": "1.1.*"
+  },
+  "suggest": {
+    "predis/predis": "Redis client for Redis Cache driver"
+  },
+  "autoload": {
+    "psr-0": {
+      "Doctrine_": "lib/",
+      "sfYaml": "lib/Doctrine/Parser/sfYaml"
+    }
+  }
 }
