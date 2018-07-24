@@ -76,7 +76,7 @@ class Doctrine_Data_Import extends Doctrine_Data
                 $e = explode('.', $dir);
 
                 // If they specified a specific yml file
-                if (end($e) == 'yml') {
+                if (end($e) === 'yml') {
                     $array = $mergeFunction($array, Doctrine_Parser::load($dir, $this->getFormat(), $this->getCharset()));
                 // If they specified a directory
                 } else if (is_dir($dir)) {
@@ -226,7 +226,7 @@ class Doctrine_Data_Import extends Doctrine_Data
                 $func = 'set' . Doctrine_Inflector::classify($key);
                 $obj->$func($value);
             } else if ($obj->getTable()->hasField($key)) {
-                if ($obj->getTable()->getTypeOf($key) == 'object') {
+                if ($obj->getTable()->getTypeOf($key) === 'object') {
                     $value = unserialize($value);
                 }
                 $obj->set($key, $value);

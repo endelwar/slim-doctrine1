@@ -72,7 +72,7 @@ class Doctrine_DataDict_Sqlite extends Doctrine_DataDict
             case 'varchar':
                 $length = (isset($field['length']) && $field['length']) ? $field['length'] : null;
 
-                $fixed  = ((isset($field['fixed']) && $field['fixed']) || $field['type'] == 'char') ? true : false;
+                $fixed  = ((isset($field['fixed']) && $field['fixed']) || $field['type'] === 'char') ? true : false;
 
                 return $fixed ? ($length ? 'CHAR('.$length.')' : 'CHAR('.$this->conn->varchar_max_length.')')
                     : ($length ? 'VARCHAR('.$length.')' : 'TEXT');

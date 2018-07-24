@@ -63,7 +63,7 @@ class Doctrine_Query_JoinCondition extends Doctrine_Query_Condition
                 unset($e[3], $e[4]); // Remove unused indexes
             }
 
-            if (substr(trim($e[2]), 0, 1) != '(') {
+            if (substr(trim($e[2]), 0, 1) !== '(') {
                 $expr = new Doctrine_Expression($e[2], $this->query->getConnection());
                 $e[2] = $expr->getSql();
             }
@@ -75,18 +75,18 @@ class Doctrine_Query_JoinCondition extends Doctrine_Query_Condition
             // Defining needed information
             $value = $e[2];
 
-            if (substr($value, 0, 1) == '(') {
+            if (substr($value, 0, 1) === '(') {
                 // trim brackets
                 $trimmed   = $this->_tokenizer->bracketTrim($value);
                 $trimmed_upper = strtoupper($trimmed);
 
-                if (substr($trimmed_upper, 0, 4) == 'FROM' || substr($trimmed_upper, 0, 6) == 'SELECT') {
+                if (substr($trimmed_upper, 0, 4) === 'FROM' || substr($trimmed_upper, 0, 6) === 'SELECT') {
                     // subquery found
                     $q = $this->query->createSubquery()
                         ->parseDqlQuery($trimmed, false);
                     $value   = '(' . $q->getSqlQuery() . ')';
                     $q->free();
-                } elseif (substr($trimmed_upper, 0, 4) == 'SQL:') {
+                } elseif (substr($trimmed_upper, 0, 4) === 'SQL:') {
                     // Change due to bug "(" XXX ")"
                     //$value = '(' . substr($trimmed, 4) . ')';
                     $value = substr($trimmed, 4);
@@ -140,7 +140,7 @@ class Doctrine_Query_JoinCondition extends Doctrine_Query_Condition
             $expr = $matches[2];
 
             // We need to process possible comma separated items
-            if (substr(trim($matches[3]), 0, 1) == ',') {
+            if (substr(trim($matches[3]), 0, 1) === ',') {
                 $xplod = $this->_tokenizer->sqlExplode(trim($matches[3], ' )'), ',');
 
                 $matches[3] = array();

@@ -270,7 +270,7 @@ class Doctrine_Pager_Layout
      */
     public function addMaskReplacement($oldMask, $newMask, $asValue = false)
     {
-        if (($oldMask = trim($oldMask)) != 'page_number') {
+        if (($oldMask = trim($oldMask)) !== 'page_number') {
             $this->_maskReplacements[$oldMask] = array(
                 'newMask' => $newMask,
                 'asValue' => ($asValue === false) ? false : true
@@ -313,11 +313,12 @@ class Doctrine_Pager_Layout
      *
      * Displays the pager on screen based on templates and options defined
      *
-     * @param array|Optional $options Optional parameters to be applied in template and url mask
-     * @param bool|Optional $return Optional parameter if you want to capture the output of this method call
+     * @param array $options Optional parameters to be applied in template and url mask
+     * @param bool $return Optional parameter if you want to capture the output of this method call
      *                    (Default value is false), instead of printing it
-     * @return void If you would like to capture the output of Doctrine_Pager_Layout::display(),
-     *                    use the $return  parameter. If this parameter is set to TRUE, this method
+     * @throws Doctrine_Pager_Exception
+     * @return string|void If you would like to capture the output of Doctrine_Pager_Layout::display(),
+     *                     use the $return  parameter. If this parameter is set to TRUE, this method
      * will return its output, instead of printing it (which it does by default)
      */
     public function display($options = array(), $return = false)

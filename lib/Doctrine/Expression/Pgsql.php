@@ -33,32 +33,6 @@
 class Doctrine_Expression_Pgsql extends Doctrine_Expression_Driver
 {
     /**
-     * Returns the md5 sum of a field.
-     *
-     * Note: Not SQL92, but common functionality
-     *
-     * md5() works with the default PostgreSQL 8 versions.
-     *
-     * If you are using PostgreSQL 7.x or older you need
-     * to make sure that the digest procedure is installed.
-     * If you use RPMS (Redhat and Mandrake) install the postgresql-contrib
-     * package. You must then install the procedure by running this shell command:
-     * <code>
-     * psql [dbname] < /usr/share/pgsql/contrib/pgcrypto.sql
-     * </code>
-     * You should make sure you run this as the postgres user.
-     *
-     * @param $column
-     * @return string
-     */
-    public function md5($column)
-    {
-        $column = $this->getIdentifier($column);
-
-        return 'MD5(' . $column . ')';
-    }
-
-    /**
      * Returns part of a string.
      *
      * Note: Not SQL92, but common functionality.

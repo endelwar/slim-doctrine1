@@ -39,7 +39,7 @@ class Doctrine_Hydrator
 
     protected
         $_hydrators,
-        $_rootAlias = null,
+        $_rootAlias,
         $_hydrationMode = Doctrine_Core::HYDRATE_RECORD,
         $_queryComponents = array();
 

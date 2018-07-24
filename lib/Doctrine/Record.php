@@ -840,7 +840,7 @@ abstract class Doctrine_Record extends Doctrine_Record_Abstract implements Count
         }
 
         foreach ($data as $k => $v) {
-            if ($v instanceof Doctrine_Record && $this->_table->getTypeOf($k) != 'object') {
+            if ($v instanceof Doctrine_Record && $this->_table->getTypeOf($k) !== 'object') {
                 unset($vars['_data'][$k]);
             } elseif ($v === self::$_null) {
                 unset($vars['_data'][$k]);
@@ -1119,16 +1119,6 @@ abstract class Doctrine_Record extends Doctrine_Record_Abstract implements Count
         }
 
         return $exists;
-    }
-
-    /**
-     * returns the table object for this record.
-     *
-     * @return Doctrine_Table        a Doctrine_Table object
-     */
-    public function getTable()
-    {
-        return $this->_table;
     }
 
     /**
@@ -1559,13 +1549,13 @@ abstract class Doctrine_Record extends Doctrine_Record_Abstract implements Count
             return true;
         }
 
-        if ($type == 'boolean' && (is_bool($old) || is_numeric($old)) && (is_bool($new) || is_numeric($new)) && $old == $new) {
+        if ($type === 'boolean' && (is_bool($old) || is_numeric($old)) && (is_bool($new) || is_numeric($new)) && $old == $new) {
             return false;
         } else if (in_array($type, array('decimal', 'float')) && is_numeric($old) && is_numeric($new)) {
             return $old * 100 != $new * 100;
         } else if (in_array($type, array('integer', 'int')) && is_numeric($old) && is_numeric($new)) {
             return $old != $new;
-        } else if ($type == 'timestamp' || $type == 'date') {
+        } else if ($type === 'timestamp' || $type === 'date') {
             $oldStrToTime = strtotime($old);
             $newStrToTime = strtotime($new);
             if ($oldStrToTime && $newStrToTime) {
@@ -1996,7 +1986,7 @@ abstract class Doctrine_Record extends Doctrine_Record_Abstract implements Count
     {
         $refresh = false;
         foreach ($array as $key => $value) {
-            if ($key == '_identifier') {
+            if ($key === '_identifier') {
                 $refresh = true;
                 $this->assignIdentifier($value);
                 continue;
@@ -2051,7 +2041,7 @@ abstract class Doctrine_Record extends Doctrine_Record_Abstract implements Count
     {
         $refresh = false;
         foreach ($array as $key => $value) {
-            if ($key == '_identifier') {
+            if ($key === '_identifier') {
                 $refresh = true;
                 $this->assignIdentifier($value);
                 continue;
@@ -2099,7 +2089,7 @@ abstract class Doctrine_Record extends Doctrine_Record_Abstract implements Count
      */
     public function exportTo($type, $deep = true)
     {
-        if ($type == 'array') {
+        if ($type === 'array') {
             return $this->toArray($deep);
         } else {
             return Doctrine_Parser::dump($this->toArray($deep, true), $type);
@@ -2116,7 +2106,7 @@ abstract class Doctrine_Record extends Doctrine_Record_Abstract implements Count
      */
     public function importFrom($type, $data, $deep = true)
     {
-        if ($type == 'array') {
+        if ($type === 'array') {
             return $this->fromArray($data, $deep);
         } else {
             return $this->fromArray(Doctrine_Parser::load($data, $type), $deep);
@@ -2595,14 +2585,14 @@ abstract class Doctrine_Record extends Doctrine_Record_Abstract implements Count
             $localFieldName = $rel->getLocalFieldName();
             $localFieldDef  = $rel->getAssociationTable()->getColumnDefinition($localFieldName);
 
-            if ($localFieldDef['type'] == 'integer') {
+            if ($localFieldDef['type'] === 'integer') {
                 $identifier = (integer) $identifier;
             }
 
             $foreignFieldName = $rel->getForeignFieldName();
             $foreignFieldDef  = $rel->getAssociationTable()->getColumnDefinition($foreignFieldName);
 
-            if ($foreignFieldDef['type'] == 'integer') {
+            if ($foreignFieldDef['type'] === 'integer') {
                 foreach ($ids as $i => $id) {
                     $ids[$i] = (integer) $id;
                 }

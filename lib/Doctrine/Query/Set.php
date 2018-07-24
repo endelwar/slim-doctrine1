@@ -86,7 +86,7 @@ class Doctrine_Query_Set extends Doctrine_Query_Part
             $expr = $matches[2];
 
             // We need to process possible comma separated items
-            if (substr(trim($matches[3]), 0, 1) == ',') {
+            if (substr(trim($matches[3]), 0, 1) === ',') {
                 $xplod = $this->_tokenizer->sqlExplode(trim($matches[3], ' )'), ',');
                 
                 $matches[3] = array();

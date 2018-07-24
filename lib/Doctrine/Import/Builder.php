@@ -127,7 +127,7 @@ class Doctrine_Import_Builder extends Doctrine_Builder
      *
      * @var string
      */
-    protected $_classPrefix = null;
+    protected $_classPrefix;
 
     /**
      * Whether to use the class prefix for the filenames too
@@ -148,7 +148,7 @@ class Doctrine_Import_Builder extends Doctrine_Builder
      *
      * @var string
      */
-    protected $_eolStyle = null;
+    protected $_eolStyle;
 
     /**
      * The package name to use for the generated php docs
@@ -332,7 +332,7 @@ class Doctrine_Import_Builder extends Doctrine_Builder
      */
     public function buildTableDefinition(array $definition)
     {
-        if (isset($definition['inheritance']['type']) && ($definition['inheritance']['type'] == 'simple' || $definition['inheritance']['type'] == 'column_aggregation')) {
+        if (isset($definition['inheritance']['type']) && ($definition['inheritance']['type'] === 'simple' || $definition['inheritance']['type'] === 'column_aggregation')) {
             return;
         }
 
@@ -340,7 +340,7 @@ class Doctrine_Import_Builder extends Doctrine_Builder
 
         $i = 0;
 
-        if (isset($definition['inheritance']['type']) && $definition['inheritance']['type'] == 'concrete') {
+        if (isset($definition['inheritance']['type']) && $definition['inheritance']['type'] === 'concrete') {
             $ret[$i] = "        parent::setTableDefinition();";
             $i++;
         }
@@ -521,8 +521,9 @@ class Doctrine_Import_Builder extends Doctrine_Builder
      * buildColumns
      *
      * @param array $columns
-     * @return void
+     * @return null|string
      * @throws Doctrine_Import_Exception
+     * @throws ReflectionException
      * @internal param string $array
      */
     public function buildColumns(array $columns)
@@ -763,7 +764,7 @@ class Doctrine_Import_Builder extends Doctrine_Builder
 
                 if (isset($phpCommentMap[$column["type"]])) {
                     $comment = $phpCommentMap[$column["type"]];
-                    if ($column['type'] == "enum")
+                    if ($column['type'] === "enum")
                     {
                         $comment = sprintf($comment, strtoupper(implode(", ",$column["values"])));
                     }
@@ -946,7 +947,7 @@ class Doctrine_Import_Builder extends Doctrine_Builder
         $currentParent = $parent;
         if (is_array($actAs)) {
             foreach($actAs as $template => $options) {
-                if ($template == 'actAs') {
+                if ($template === 'actAs') {
                     // found another actAs
                     $build .= $this->innerBuildActAs($options, $level + 1, $parent, $emittedActAs);
                 } else if (is_array($options)) {
@@ -954,7 +955,7 @@ class Doctrine_Import_Builder extends Doctrine_Builder
                     $realOptions = array();
                     $leftActAs = array();
                     foreach($options as $name => $value) {
-                        if ($name != 'actAs') {
+                        if ($name !== 'actAs') {
                             $realOptions[$name] = $options[$name];
                         } else {
                             $leftActAs[$name] = $options[$name];
@@ -1023,8 +1024,8 @@ class Doctrine_Import_Builder extends Doctrine_Builder
      * buildAttributes
      *
      * @param array $attributes
-     * @return void
      * @internal param string $array
+     * @return string
      */
     public function buildAttributes(array $attributes)
     {
@@ -1061,8 +1062,8 @@ class Doctrine_Import_Builder extends Doctrine_Builder
      * buildTableOptions
      *
      * @param array $options
-     * @return void
      * @internal param string $array
+     * @return string
      */
     public function buildOptions(array $options)
     {
@@ -1078,8 +1079,8 @@ class Doctrine_Import_Builder extends Doctrine_Builder
      * buildIndexes
      *
      * @param array $indexes
-     * @return void
      * @internal param string $array
+     * @return string
      */
     public function buildIndexes(array $indexes)
     {

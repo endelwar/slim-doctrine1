@@ -126,7 +126,7 @@ class Doctrine_Sequence_Mssql extends Doctrine_Sequence
      *
      * @param   string  name of the table into which a new row was inserted
      * @param   string  name of the field into which a new row was inserted
-     * @return string|void
+     * @return string
      */
     public function lastInsertId($table = null, $field = null)
     {
@@ -148,17 +148,4 @@ class Doctrine_Sequence_Mssql extends Doctrine_Sequence
         return (string) floor((float) $this->conn->fetchOne($query));
     }
 
-    /**
-     * Returns the current id of a sequence
-     *
-     * @param string $seqName   name of the sequence
-     *
-     * @return integer          current id in the given sequence
-     */
-    public function currId($seqName)
-    {
-        $this->warnings[] = 'database does not support getting current
-            sequence value, the sequence value was incremented';
-        return $this->nextId($seqName);
-    }
 }

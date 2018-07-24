@@ -207,7 +207,7 @@ class Doctrine_Template_Listener_Sluggable extends Doctrine_Record_Listener
 	        $softDelete = $table->getTemplate('Doctrine_Template_SoftDelete');
 
 	        // we have to consider both situations here
-            if ($softDelete->getOption('type') == 'boolean') {
+            if ($softDelete->getOption('type') === 'boolean') {
                 $conn = $query->getConnection();
 
                 $query->addWhere(

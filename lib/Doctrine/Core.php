@@ -35,7 +35,7 @@ class Doctrine_Core
     /**
      * VERSION
      */
-    const VERSION                   = '1.3.9';
+    const VERSION                   = '1.3.10';
 
     /**
      * ERROR CONSTANTS
@@ -533,7 +533,7 @@ class Doctrine_Core
      * Turn on/off the debugging setting
      *
      * @param string $bool
-     * @return void
+     * @return bool
      */
     public static function debug($bool = null)
     {
@@ -563,7 +563,7 @@ class Doctrine_Core
     public static function getPath()
     {
         if ( ! self::$_path) {
-            self::$_path = realpath(dirname(__FILE__) . '/..');
+            self::$_path = dirname(dirname(__FILE__)) . '';
         }
 
         return self::$_path;
@@ -900,8 +900,10 @@ class Doctrine_Core
      *
      * @param string $yamlPath Path to your yaml schema files
      * @param string $directory Directory to generate your models in
-     * @param array  $options Array of options to pass to the schema importer
+     * @param array $options Array of options to pass to the schema importer
      * @return void
+     * @throws Doctrine_Import_Builder_Exception
+     * @throws Doctrine_Import_Exception
      */
     public static function generateModelsFromYaml($yamlPath, $directory, $options = array())
     {
@@ -1121,9 +1123,10 @@ class Doctrine_Core
      * cases dozens of files) can improve performance by an order of magnitude
      *
      * @param string $target
-     * @param array  $includedDrivers
-     * @throws Doctrine_Exception
-     * @return void
+     * @param array $includedDrivers
+     * @return null|string
+     * @throws Doctrine_Compiler_Exception
+     * @throws ReflectionException
      */
     public static function compile($target = null, $includedDrivers = array())
     {

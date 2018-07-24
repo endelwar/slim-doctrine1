@@ -93,11 +93,11 @@ class Doctrine_Validator extends Doctrine_Locator_Injectable
         if ($maximumLength === null ) {
             return true;
         }
-        if ($type == 'timestamp' || $type == 'integer' || $type == 'enum') {
+        if ($type === 'timestamp' || $type === 'integer' || $type === 'enum') {
             return true;
-        } else if ($type == 'array' || $type == 'object') {
+        } else if ($type === 'array' || $type === 'object') {
             $length = strlen(serialize($value));
-        } else if ($type == 'decimal' || $type == 'float') {
+        } else if ($type === 'decimal' || $type === 'float') {
             $value = abs($value);
 
             $localeInfo = localeconv();
@@ -109,7 +109,7 @@ class Doctrine_Validator extends Doctrine_Locator_Injectable
             if (isset($e[1])) {
                 $length = $length + strlen($e[1]);
             }
-        } else if ($type == 'blob') {
+        } else if ($type === 'blob') {
             $length = strlen($value);
         } else {
             $length = self::getStringLength($value);

@@ -44,7 +44,7 @@ class Doctrine_Cli
     /**
      * @var string
      */
-    protected $_scriptName   = null;
+    protected $_scriptName;
 
     /**
      * @var array
@@ -479,8 +479,8 @@ class Doctrine_Cli
         
         $requestedTaskName = isset($args[1]) ? $args[1] : null;
         
-        if ( ! $requestedTaskName || $requestedTaskName == 'help') {
-            $this->printTasks(null, $requestedTaskName == 'help' ? true : false);
+        if ( ! $requestedTaskName || $requestedTaskName === 'help') {
+            $this->printTasks(null, $requestedTaskName === 'help' ? true : false);
             return;
         }
         

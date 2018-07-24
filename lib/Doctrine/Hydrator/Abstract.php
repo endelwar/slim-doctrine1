@@ -101,7 +101,7 @@ abstract class Doctrine_Hydrator_Abstract extends Doctrine_Locator_Injectable
      */
     protected function _isIgnoredName($name)
     {
-        return $name == 'DOCTRINE_ROWNUM';
+        return $name === 'DOCTRINE_ROWNUM';
     }
 
     /**

@@ -40,7 +40,7 @@ class Doctrine_Data
      *
      * array of formats data can be in
      *
-     * @var string
+     * @var array
      */
     protected $_formats = array('csv', 'yml', 'xml');
 
@@ -60,7 +60,7 @@ class Doctrine_Data
      *
      * @var string
      */
-    protected $_directory = null;
+    protected $_directory;
 
     /**
      * models
@@ -100,7 +100,7 @@ class Doctrine_Data
      *
      * Get the current format we are working with
      *
-     * @return void
+     * @return string
      */
     public function getFormat()
     {
@@ -112,7 +112,7 @@ class Doctrine_Data
      *
      * Get array of available formats
      *
-     * @return void
+     * @return array
      */
     public function getFormats()
     {
@@ -205,7 +205,8 @@ class Doctrine_Data
      * @param string $format
      * @param array|string $models
      * @param bool|string $_exportIndividualFiles
-     * @return void
+     * @return bool|int|null|string
+     * @throws Doctrine_Data_Exception
      */
     public function exportData($directory, $format = 'yml', $models = array(), $_exportIndividualFiles = false)
     {

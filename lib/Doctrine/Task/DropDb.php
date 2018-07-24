@@ -41,7 +41,7 @@ class Doctrine_Task_DropDb extends Doctrine_Task
         if ( ! $this->getArgument('force')) {
             $answer = $this->ask('Are you sure you wish to drop your databases? (y/n)');
 
-            if ($answer != 'y') {
+            if ($answer !== 'y') {
                 $this->notify('Successfully cancelled');
 
                 return;

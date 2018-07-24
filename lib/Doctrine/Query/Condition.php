@@ -61,9 +61,9 @@ abstract class Doctrine_Query_Condition extends Doctrine_Query_Part
             for ($i = 0, $l = count($parts); $i < $l; $i++) {
                 $test = $this->_tokenizer->sqlExplode($parts[$i]);
 
-                if (count($test) == 3 && strtoupper($test[1]) == 'BETWEEN') {
+                if (count($test) == 3 && strtoupper($test[1]) === 'BETWEEN') {
                     $tmp[] = $parts[$i] . ' AND ' . $parts[++$i];
-                } else if (count($test) == 4 && strtoupper($test[1]) == 'NOT' && strtoupper($test[2]) == 'BETWEEN') {
+                } else if (count($test) == 4 && strtoupper($test[1]) === 'NOT' && strtoupper($test[2]) === 'BETWEEN') {
                     $tmp[] = $parts[$i] . ' AND ' . $parts[++$i];
                 } else {
                     $tmp[] = $parts[$i];
@@ -82,7 +82,7 @@ abstract class Doctrine_Query_Condition extends Doctrine_Query_Part
                 $r = implode(' AND ', $ret);
             } else {
                 // Fix for #710
-                if (substr($parts[0],0,1) == '(' && substr($parts[0], -1) == ')') {
+                if (substr($parts[0],0,1) === '(' && substr($parts[0], -1) === ')') {
                     return $this->parse(substr($parts[0], 1, -1));
                 } else {
                     // Processing NOT here

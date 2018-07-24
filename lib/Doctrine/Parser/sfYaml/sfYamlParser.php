@@ -100,7 +100,7 @@ class sfYamlParser
         else
         {
           if (isset($values['leadspaces'])
-            && ' ' == $values['leadspaces']
+            && ' ' === $values['leadspaces']
             && preg_match('#^(?P<key>'.sfYamlInline::REGEX_QUOTED_STRING.'|[^ \'"\{].*?) *\:(\s+(?P<value>.+?))?\s*$#u', $values['value'], $matches))
           {
             // this is a compact notation element, add to next block and parse
@@ -440,7 +440,7 @@ class sfYamlParser
    */
   protected function parseFoldedScalar($separator, $indicator = '', $indentation = 0)
   {
-    $separator = '|' == $separator ? "\n" : ' ';
+    $separator = '|' === $separator ? "\n" : ' ';
     $text = '';
 
     $notEOF = $this->moveToNextLine();
@@ -474,7 +474,7 @@ class sfYamlParser
 
       if (preg_match('#^(?P<indent> {'.strlen($textIndent).',})(?P<text>.+)$#u', $this->currentLine, $matches))
       {
-        if (' ' == $separator && $previousIndent != $matches['indent'])
+        if (' ' === $separator && $previousIndent != $matches['indent'])
         {
           $text = substr($text, 0, -1)."\n";
         }
@@ -494,7 +494,7 @@ class sfYamlParser
       }
     }
 
-    if (' ' == $separator)
+    if (' ' === $separator)
     {
       // replace last separator by a newline
       $text = preg_replace('/ (\n*)$/', "\n$1", $text);

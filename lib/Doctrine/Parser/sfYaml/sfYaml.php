@@ -89,7 +89,7 @@ class sfYaml
 
     $mbConvertEncoding = false;
     $encoding = strtoupper($encoding);
-    if ('UTF-8' != $encoding && function_exists('mb_convert_encoding'))
+    if ('UTF-8' !== $encoding && function_exists('mb_convert_encoding'))
     {
       $input = mb_convert_encoding($input, 'UTF-8', $encoding);
       $mbConvertEncoding = true;

@@ -50,7 +50,7 @@ class Doctrine_Hydrator_ScalarDriver extends Doctrine_Hydrator_Abstract
         foreach ($data as $key => $value) {
             // Parse each column name only once. Cache the results.
             if ( ! isset($cache[$key])) {
-                if ($key == 'DOCTRINE_ROWNUM') {
+                if ($key === 'DOCTRINE_ROWNUM') {
                     continue;
                 }
                 // cache general information like the column name <-> field name mapping
@@ -71,7 +71,7 @@ class Doctrine_Hydrator_ScalarDriver extends Doctrine_Hydrator_Abstract
 
                 // cache type information
                 $type = $table->getTypeOfColumn($columnName);
-                if ($type == 'integer' || $type == 'string') {
+                if ($type === 'integer' || $type === 'string') {
                     $cache[$key]['isSimpleType'] = true;
                 } else {
                     $cache[$key]['type'] = $type;

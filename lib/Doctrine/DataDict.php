@@ -44,9 +44,9 @@ class Doctrine_DataDict extends Doctrine_Connection_Module
     public function parseBoolean($value)
     {
         // parse booleans
-        if ($value == 'true') {
+        if ($value === 'true') {
             $value = 1;
-        } elseif ($value == 'false') {
+        } elseif ($value === 'false') {
             $value = 0;
         }
         return $value;

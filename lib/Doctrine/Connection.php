@@ -1560,7 +1560,8 @@ abstract class Doctrine_Connection extends Doctrine_Configurable implements Coun
      * This value is set in the Doctrine_Export_{DRIVER} classes if required
      *
      * @param string $info
-     * @return void
+     * @return Doctrine_Connection
+     * @throws Doctrine_Manager_Exception
      */
     public function getTmpConnection($info)
     {

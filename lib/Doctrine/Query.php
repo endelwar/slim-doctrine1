@@ -243,9 +243,8 @@ class Doctrine_Query extends Doctrine_Query_Abstract implements Countable
     /**
      * addPendingJoinCondition
      *
-     * @param string $componentAlias    component alias
-     * @param string $joinCondition     dql join condition
-     * @return Doctrine_Query           this object
+     * @param string $componentAlias component alias
+     * @param string $joinCondition dql join condition
      */
     public function addPendingJoinCondition($componentAlias, $joinCondition)
     {
@@ -261,8 +260,11 @@ class Doctrine_Query extends Doctrine_Query_Abstract implements Countable
      * Convenience method to execute using array fetching as hydration mode.
      *
      * @param array|string $params
-     * @throws \Doctrine_Query_Exception
      * @return array
+     * @throws Doctrine_Connection_Exception
+     * @throws Doctrine_Exception
+     * @throws Doctrine_Hydrator_Exception
+     * @throws Doctrine_Query_Exception
      */
     public function fetchArray($params = array())
     {
@@ -276,8 +278,11 @@ class Doctrine_Query extends Doctrine_Query_Abstract implements Countable
      *
      * @param array|string $params Query parameters
      * @param int $hydrationMode Hydration mode: see Doctrine_Core::HYDRATE_* constants
-     * @throws \Doctrine_Query_Exception
      * @return array|Doctrine_Record|false Array or Doctrine_Record, depending on hydration mode. False if no result.
+     * @throws Doctrine_Connection_Exception
+     * @throws Doctrine_Exception
+     * @throws Doctrine_Hydrator_Exception
+     * @throws Doctrine_Query_Exception
      */
     public function fetchOne($params = array(), $hydrationMode = null)
     {
@@ -443,9 +448,10 @@ class Doctrine_Query extends Doctrine_Query_Abstract implements Countable
      * specific component is being parsed. For instance, the wildcard '*'
      * is expanded in the list of columns.
      *
-     * @throws Doctrine_Query_Exception     if unknown component alias has been given
-     * @param string $componentAlias        the alias of the component
-     * @return string SQL code
+     * @param string $componentAlias the alias of the component
+     * @return string|null
+     * @throws Doctrine_Hydrator_Exception
+     * @throws Doctrine_Query_Exception if unknown component alias has been given
      * @todo Description: What is a 'pending field' (and are there non-pending fields, too)?
      *       What is 'processed'? (Meaning: What information is gathered & stored away)
      */
@@ -461,7 +467,7 @@ class Doctrine_Query extends Doctrine_Query_Abstract implements Countable
                             . ' must have at least one field selected.');
                 }
             }
-            return;
+            return null;
         }
 
         // At this point we know the component is FETCHED (either it's the base class of
@@ -483,7 +489,7 @@ class Doctrine_Query extends Doctrine_Query_Abstract implements Countable
         $fields = $this->_pendingFields[$componentAlias];
 
         // check for wildcards
-        if (in_array('*', $fields)) {
+        if (in_array('*', $fields, true)) {
             $fields = $table->getFieldNames();
         } else {
             $driverClassName = $this->_hydrator->getHydratorDriverClassName();
@@ -554,6 +560,7 @@ class Doctrine_Query extends Doctrine_Query_Abstract implements Countable
         }
 
         $tableAlias = $this->getSqlTableAlias($componentAlias);
+        /** @var Doctrine_Table $table */
         $table      = $this->_queryComponents[$componentAlias]['table'];
 
 
@@ -561,20 +568,20 @@ class Doctrine_Query extends Doctrine_Query_Abstract implements Countable
         if ($field === '*') {
             $sql = array();
 
-            foreach ($table->getColumnNames() as $field) {
-                $sql[] = $this->parseSelectField($componentAlias . '.' . $field);
+            foreach ($table->getColumnNames() as $tableField) {
+                $sql[] = $this->parseSelectField($componentAlias . '.' . $tableField);
             }
 
             return implode(', ', $sql);
-        } else {
-            $name = $table->getColumnName($field);
-
-            $this->_neededTables[] = $tableAlias;
-
-            return $this->_conn->quoteIdentifier($tableAlias . '.' . $name)
-                   . ' AS '
-                   . $this->_conn->quoteIdentifier($tableAlias . '__' . $name);
         }
+
+        $name = $table->getColumnName($field);
+
+        $this->_neededTables[] = $tableAlias;
+
+        return $this->_conn->quoteIdentifier($tableAlias . '.' . $name)
+               . ' AS '
+               . $this->_conn->quoteIdentifier($tableAlias . '__' . $name);
     }
 
     /**
@@ -588,7 +595,7 @@ class Doctrine_Query extends Doctrine_Query_Abstract implements Countable
      */
     public function getExpressionOwner($expr)
     {
-        if (strtoupper(substr(trim($expr, '( '), 0, 6)) !== 'SELECT') {
+        if (0 !== stripos(trim($expr, '( '), 'SELECT')) {
             // Fix for http://www.doctrine-project.org/jira/browse/DC-754
             $expr = preg_replace('/([\'\"])[^\1]*\1/', '', $expr);
             preg_match_all("/[a-z_][a-z0-9_]*\.[a-z_][a-z0-9_]*[\.[a-z0-9]+]*/i", $expr, $matches);
@@ -611,6 +618,7 @@ class Doctrine_Query extends Doctrine_Query_Abstract implements Countable
      * adds selected fields to pendingFields array
      *
      * @param string $dql
+     * @throws Doctrine_Query_Exception
      * @todo Description: What information is extracted (and then stored)?
      */
     public function parseSelect($dql)
@@ -710,6 +718,7 @@ class Doctrine_Query extends Doctrine_Query_Abstract implements Countable
      *
      * @param $clause
      * @return string SQL string
+     * @throws Doctrine_Connection_Exception
      * @throws Doctrine_Query_Exception
      * @todo Description: What is a 'dql clause' (and what not)?
      *       Refactor: Too long & nesting level
@@ -841,6 +850,13 @@ class Doctrine_Query extends Doctrine_Query_Abstract implements Countable
 
     }
 
+    /**
+     * @param $expr
+     * @param null $parseCallback
+     * @return mixed|string
+     * @throws Doctrine_Connection_Exception
+     * @throws Doctrine_Query_Exception
+     */
     public function parseFunctionExpression($expr, $parseCallback = null)
     {
         $pos = strpos($expr, '(');
@@ -868,18 +884,23 @@ class Doctrine_Query extends Doctrine_Query_Abstract implements Countable
         return $expr;
     }
 
-
+    /**
+     * @param $subquery
+     * @return string
+     * @throws Doctrine_Connection_Exception
+     * @throws Doctrine_Query_Exception
+     */
     public function parseSubquery($subquery)
     {
         $trimmed = trim($this->_tokenizer->bracketTrim($subquery));
 
         // check for possible subqueries
-        if (substr($trimmed, 0, 4) === 'FROM' || substr($trimmed, 0, 6) === 'SELECT') {
+        if (0 === strpos($trimmed, 'FROM') || 0 === strpos($trimmed, 'SELECT')) {
             // parse subquery
             $q = $this->createSubquery()->parseDqlQuery($trimmed);
             $trimmed = $q->getSqlQuery();
             $q->free();
-        } else if (substr($trimmed, 0, 4) === 'SQL:') {
+        } else if (0 === strpos($trimmed, 'SQL:')) {
             $trimmed = substr($trimmed, 4);
         } else {
             $e = $this->_tokenizer->sqlExplode($trimmed, ',');
@@ -905,7 +926,7 @@ class Doctrine_Query extends Doctrine_Query_Abstract implements Countable
      * subqueries can only be processed when the query is fully constructed
      * since some subqueries may be correlated
      *
-     * @return void
+     * @throws Doctrine_Query_Exception
      * @todo Better description. i.e. What is a 'pending subquery'? What does 'processed' mean?
      *       (parsed? sql is constructed? some information is gathered?)
      */
@@ -966,6 +987,7 @@ class Doctrine_Query extends Doctrine_Query_Abstract implements Countable
                         throw new Doctrine_Query_Exception('Unknown component alias ' . $componentAlias);
                     }
 
+                    /** @var Doctrine_Table $table */
                     $table = $this->_queryComponents[$componentAlias]['table'];
 
                     $field = $table->getColumnName($field);
@@ -1038,6 +1060,7 @@ class Doctrine_Query extends Doctrine_Query_Abstract implements Countable
      *
      * @param bool $ignorePending
      * @return string the query sql from part
+     * @throws Doctrine_Query_Exception
      */
     protected function _buildSqlFromPart($ignorePending = false)
     {
@@ -1047,7 +1070,7 @@ class Doctrine_Query extends Doctrine_Query_Abstract implements Countable
             $e = explode(' ', $part);
 
             if ($k === 0) {
-                if ( ! $ignorePending && $this->_type == self::SELECT) {
+                if ( ! $ignorePending && $this->_type === self::SELECT) {
                     // We may still have pending conditions
                     $alias = count($e) > 1
                         ? $this->getComponentAlias($e[1])
@@ -1075,10 +1098,10 @@ class Doctrine_Query extends Doctrine_Query_Abstract implements Countable
 
             // preserve LEFT JOINs only if needed
             // Check if it's JOIN, if not add a comma separator instead of space
-            if ( ! preg_match('/\bJOIN\b/i', $part) && ! isset($this->_pendingJoinConditions[$k])) {
+            if ( ! isset($this->_pendingJoinConditions[$k]) && ! preg_match('/\bJOIN\b/i', $part)) {
                 $q .= ', ' . $part;
             } else {
-                if (substr($part, 0, 9) === 'LEFT JOIN') {
+                if (0 === strpos($part, 'LEFT JOIN')) {
                     $aliases = array_merge($this->_subqueryAliases,
                                 array_keys($this->_neededTables));
 
@@ -1142,10 +1165,14 @@ class Doctrine_Query extends Doctrine_Query_Abstract implements Countable
      * builds the sql query from the given parameters and applies things such as
      * column aggregation inheritance and limit subqueries if needed
      *
-     * @param array $params             an array of prepared statement params (needed only in mysql driver
+     * @param array $params an array of prepared statement params (needed only in mysql driver
      *                                  when limit subquery algorithm is used)
      * @param bool $limitSubquery Whether or not to try and apply the limit subquery algorithm
      * @return string                   the built sql query
+     * @throws Doctrine_Connection_Exception
+     * @throws Doctrine_Exception
+     * @throws Doctrine_Hydrator_Exception
+     * @throws Doctrine_Query_Exception
      */
     public function getSqlQuery($params = array(), $limitSubquery = true)
     {
@@ -1169,6 +1196,10 @@ class Doctrine_Query extends Doctrine_Query_Abstract implements Countable
      *
      * @param bool $limitSubquery Whether or not to try and apply the limit subquery algorithm
      * @return string $sql The generated SQL string
+     * @throws Doctrine_Connection_Exception
+     * @throws Doctrine_Exception
+     * @throws Doctrine_Hydrator_Exception
+     * @throws Doctrine_Query_Exception
      */
     public function buildSqlQuery($limitSubquery = true)
     {
@@ -1408,6 +1439,8 @@ class Doctrine_Query extends Doctrine_Query_Abstract implements Countable
      * of limiting the number of sql result set rows
      *
      * @return string       the limit subquery
+     * @throws Doctrine_Connection_Exception
+     * @throws Doctrine_Query_Exception
      * @todo A little refactor to make the method easier to understand & maybe shorter?
      */
     public function getLimitSubquery()
@@ -1636,10 +1669,11 @@ class Doctrine_Query extends Doctrine_Query_Abstract implements Countable
      * first splits the query in parts and then uses individual
      * parsers for each part
      *
-     * @param string $query                 DQL query
-     * @param boolean $clear                whether or not to clear the aliases
-     * @throws Doctrine_Query_Exception     if some generic parsing error occurs
+     * @param string $query DQL query
+     * @param boolean $clear whether or not to clear the aliases
      * @return Doctrine_Query
+     * @throws Doctrine_Query_Exception if some generic parsing error occurs
+     * @throws Doctrine_Query_Tokenizer_Exception
      */
     public function parseDqlQuery($query, $clear = true)
     {
@@ -1698,7 +1732,7 @@ class Doctrine_Query extends Doctrine_Query_Abstract implements Countable
      * @todo Describe & refactor... too long and nested.
      * @param string $path component alias
      * @param boolean $loadFields
-     * @return
+     * @return mixed
      * @throws Doctrine_Query_Exception
      */
     public function load($path, $loadFields = true)
@@ -1901,6 +1935,12 @@ class Doctrine_Query extends Doctrine_Query_Abstract implements Countable
         return $queryPart;
     }
 
+    /**
+     * @param $componentAlias
+     * @param null $mapWith
+     * @return mixed
+     * @throws Doctrine_Query_Exception
+     */
     protected function buildIndexBy($componentAlias, $mapWith = null)
     {
         $table = $this->_queryComponents[$componentAlias]['table'];
@@ -1911,9 +1951,9 @@ class Doctrine_Query extends Doctrine_Query_Abstract implements Countable
         if (isset($mapWith)) {
             $terms = explode('.', $mapWith);
 
-            if (count($terms) == 1) {
+            if (count($terms) === 1) {
                 $indexBy = $terms[0];
-            } else if (count($terms) == 2) {
+            } else if (count($terms) === 2) {
                 $column = true;
                 $indexBy = $terms[1];
             }
@@ -1969,6 +2009,7 @@ class Doctrine_Query extends Doctrine_Query_Abstract implements Countable
      * @param string $name
      * @param string $componentAlias
      * @return Doctrine_Table
+     * @throws Doctrine_Query_Exception
      * @todo DESCRIBE ME!
      * @todo this method is called only in Doctrine_Query class. Shouldn't be private or protected?
      */
@@ -2005,9 +2046,10 @@ class Doctrine_Query extends Doctrine_Query_Abstract implements Countable
 
     /**
      * @todo DESCRIBE ME!
-     * @param string $name              component class name
-     * @param string $componentAlias    alias of the component in the dql
+     * @param string $name component class name
+     * @param string $componentAlias alias of the component in the dql
      * @return string                   query part
+     * @throws Doctrine_Query_Exception
      */
     public function buildInheritanceJoinSql($name, $componentAlias)
     {
@@ -2057,6 +2099,10 @@ class Doctrine_Query extends Doctrine_Query_Abstract implements Countable
      * for the number of records which will be returned when executed.
      *
      * @return string $q
+     * @throws Doctrine_Connection_Exception
+     * @throws Doctrine_Exception
+     * @throws Doctrine_Hydrator_Exception
+     * @throws Doctrine_Query_Exception
      */
     public function getCountSqlQuery()
     {
@@ -2146,8 +2192,12 @@ class Doctrine_Query extends Doctrine_Query_Abstract implements Countable
      *          LEFT JOIN u.Phonenumber p
      *          WHERE p.phonenumber = '123 123'
      *
-     * @param array $params        an array of prepared statement parameters
+     * @param array $params an array of prepared statement parameters
      * @return integer             the count of this query
+     * @throws Doctrine_Connection_Exception
+     * @throws Doctrine_Exception
+     * @throws Doctrine_Hydrator_Exception
+     * @throws Doctrine_Query_Exception
      */
     public function count($params = array())
     {
@@ -2191,11 +2241,16 @@ class Doctrine_Query extends Doctrine_Query_Abstract implements Countable
      *
      * This methods parses a Dql query and builds the query parts.
      *
-     * @param string $query      Dql query
-     * @param array $params      prepared statement parameters
+     * @param string $query Dql query
+     * @param array $params prepared statement parameters
      * @param int $hydrationMode Doctrine_Core::HYDRATE_ARRAY or Doctrine_Core::HYDRATE_RECORD
+     * @return array|Doctrine_Collection
+     * @throws Doctrine_Connection_Exception
+     * @throws Doctrine_Exception
+     * @throws Doctrine_Hydrator_Exception
+     * @throws Doctrine_Query_Exception
+     * @throws Doctrine_Query_Tokenizer_Exception
      * @see Doctrine_Core::FETCH_* constants
-     * @return mixed
      */
     public function query($query, $params = array(), $hydrationMode = null)
     {
@@ -2260,8 +2315,6 @@ class Doctrine_Query extends Doctrine_Query_Abstract implements Countable
      * PHP's current GC to reclaim the memory.
      * This method can therefore be used to reduce memory usage when creating
      * a lot of query objects during a request.
-     *
-     * @return Doctrine_Query   this object
      */
     public function free()
     {

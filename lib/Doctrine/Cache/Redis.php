@@ -34,79 +34,29 @@
 class Doctrine_Cache_Redis extends Doctrine_Cache_Driver
 {
     /**
-     * @var Redis $_redis PhpRedis object
+     * @var \Predis\Client $_redis Predis object
      */
     protected $_redis;
-    private $_cacheKeyIndexKey;
 
     /**
      * Doctrine_Cache_Redis constructor.
+     *
      * @param array $options associative array of cache driver options
      * @throws Doctrine_Cache_Exception
      */
     public function __construct($options = array())
     {
-        if (!extension_loaded('redis')) {
-            throw new Doctrine_Cache_Exception('In order to use Redis driver, the PhpRedis extension must be loaded.');
-        }
-
-        parent::__construct(
-            array_merge(
-                array(
-                    'host' => 'localhost', // string. can be a host, or the path to a unix domain socket
-                    'port' => 6379, // int, optional
-                    'timeout' => 0, // float, value in seconds (optional, default is 0 meaning unlimited)
-                    'persistent_id' => '', //string. identity for the requested persistent connection
-                    'read_timeout' => 0, // float, value in seconds (optional, default is 0 meaning unlimited)
-                    'retry_interval' => 100, // int, value in milliseconds (optional)
-                    'dbindex' => 0, // database index to use for cache
-                ),
-                $options
-            )
-        );
+        parent::__construct($options);
 
         if (isset($options['redis'])) {
-            if ($options['redis'] instanceof \Redis) {
+            if ($options['redis'] instanceof \Predis\Client) {
                 $this->_redis = $options['redis'];
             } else {
-                throw new Doctrine_Cache_Exception('The "redis" parameter must be an instance of PhpRedis (https://github.com/phpredis/phpredis)');
+                throw new Doctrine_Cache_Exception('The "redis" parameter must be an instance of Predis\Client (https://github.com/nrk/predis)');
             }
         } else {
-            $this->_redis = new Redis();
+            $this->_redis = \Predis\Client::create($this->getOption('server'));
         }
-        if (array_key_exists('persistent', $options)) {
-            $this->_redis->pconnect(
-                $this->getOption('host'),
-                $this->getOption('port'),
-                $this->getOption('timeout'),
-                $this->getOption('persistent_id')
-            );
-        } else {
-            $this->_redis->connect(
-                $this->getOption('host'),
-                $this->getOption('port'),
-                $this->getOption('timeout'),
-                null,
-                $this->getOption('retry_interval')
-            );
-        }
-
-        if (array_key_exists('auth', $options)) {
-            $this->_redis->auth($this->getOption('auth'));
-        }
-
-        $this->_redis->select($this->getOption('dbindex'));
-    }
-
-    /**
-     * return prefixed cache key index
-     *
-     * @access protected
-     * @return string
-     */
-    protected function getCacheKeyIndexKey()
-    {
-        return $this->_getKey($this->_cacheKeyIndexKey);
     }
 
     /**
@@ -116,42 +66,35 @@ class Doctrine_Cache_Redis extends Doctrine_Cache_Driver
      */
     protected function _getCacheKeys()
     {
-        return $this->_redis->sMembers($this->getCacheKeyIndexKey());
+        $iterationIndex = 0;
+        $resultsArray = array();
+        $resultsArray[] = array();
+        while ($results = $this->_redis->scan($iterationIndex, array('MATCH' => $this->getOption('prefix') . '*'))) {
+            $iterationIndex = $results[0];
+            $resultsArray[] = $results[1];
+            if (0 === (int)$iterationIndex) {
+                break;
+            }
+        }
+
+        if (PHP_VERSION_ID >= 506000) {
+            return array_merge(...$resultsArray);
+        }
+        return call_user_func_array('array_merge', $resultsArray);
     }
 
     /**
-     * @see Doctrine_Cache_Driver
+     * return count of cache keys
      */
     public function count()
     {
-        return $this->_redis->sCard($this->getCacheKeyIndexKey());
-    }
-
-    /**
-     * @see Doctrine_Cache_Driver
-     * @param $key
-     * @return int
-     */
-    protected function _saveKey($key)
-    {
-        return $this->_redis->sAdd($this->getCacheKeyIndexKey(), $key);
-    }
-
-    /**
-     * @see Doctrine_Cache_Driver
-     * @param $key
-     * @return int
-     */
-    public function _deleteKey($key)
-    {
-        return $this->_redis->sRem($this->getCacheKeyIndexKey(), $key);
+        return count($this->_getCacheKeys());
     }
 
     /**
      * Test if a cache record exists for the passed id
      *
      * @param string $id cache id
-     * @param bool $testCacheValidity
      * @return mixed  Returns either the cached data or false
      */
     protected function _doFetch($id, $testCacheValidity = true)
@@ -178,18 +121,19 @@ class Doctrine_Cache_Redis extends Doctrine_Cache_Driver
      *
      * @param string $id cache id
      * @param string $data data to cache
-     * @param bool $lifeTime if != false, set a specific lifetime for this cache record (null => infinite lifeTime)
+     * @param bool|int $lifeTime if != false, set a specific lifetime for this cache record (null => infinite lifeTime)
+     * @throws Exception
      * @return boolean true if no problem
      */
     protected function _doSave($id, $data, $lifeTime = false)
     {
-        $pipe = $this->_redis->multi();
-        $this->_redis->mset(array($id => $data, $id . ':timestamp' => time()));
+        $pipe = $this->_redis->pipeline();
+        $pipe->mset(array($id => $data, $id . ':timestamp' => time()));
         if ($lifeTime) {
             $pipe->expire($id, $lifeTime);
             $pipe->expire($id . ':timestamp', $lifeTime);
         }
-        $reply = $pipe->exec();
+        $reply = $pipe->execute();
 
         return $reply[0] and (!$lifeTime or ($reply[1] and $reply[2]));
     }
@@ -203,6 +147,6 @@ class Doctrine_Cache_Redis extends Doctrine_Cache_Driver
      */
     protected function _doDelete($id)
     {
-        return $this->_redis->delete($id, $id . ':timestamp');
+        return $this->_redis->del($id, $id . ':timestamp');
     }
 }

@@ -220,7 +220,7 @@ class sfYamlInline
 
     $output = substr($match[0], 1, strlen($match[0]) - 2);
 
-    if ('"' == $scalar[$i])
+    if ('"' === $scalar[$i])
     {
       // evaluate the string
       $output = str_replace(array('\\"', '\\n', '\\r'), array('"', "\n", "\r"), $output);
@@ -387,9 +387,9 @@ class sfYamlInline
 
     switch (true)
     {
-      case 'null' == strtolower($scalar):
+      case 'null' === strtolower($scalar):
       case '' == $scalar:
-      case '~' == $scalar:
+      case '~' === $scalar:
         return null;
       case 0 === strpos($scalar, '!str'):
         return (string) substr($scalar, 5);

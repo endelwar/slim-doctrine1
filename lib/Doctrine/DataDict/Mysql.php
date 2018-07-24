@@ -257,7 +257,7 @@ class Doctrine_DataDict_Mysql extends Doctrine_DataDict
     {
         $dbType = strtolower($field['type']);
         $dbType = strtok($dbType, '(), ');
-        if ($dbType == 'national') {
+        if ($dbType === 'national') {
             $dbType = strtok('(), ');
         }
         if (isset($field['length'])) {
@@ -328,7 +328,7 @@ class Doctrine_DataDict_Mysql extends Doctrine_DataDict
                     }
                 } elseif (strstr($dbType, 'text')) {
                     $type[] = 'clob';
-                    if ($decimal == 'binary') {
+                    if ($decimal === 'binary') {
                         $type[] = 'blob';
                     }
                 }
