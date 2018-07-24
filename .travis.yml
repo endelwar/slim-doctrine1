@@ -7,7 +7,7 @@ php:
   - 5.6
   - 7.0
   - 7.1
-  - hhvm
+  - 7.2
   - nightly
 
 matrix:
@@ -19,4 +19,4 @@ matrix:
     - php: nightly
 
 script:
-  - php -dshort_open_tag=Off -dmagic_quotes_gpc=Off tests/index.php
+  - cd tests && php -dshort_open_tag=Off -dmagic_quotes_gpc=Off index.php
