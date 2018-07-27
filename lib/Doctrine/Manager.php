@@ -101,7 +101,7 @@ class Doctrine_Manager extends Doctrine_Configurable implements Countable, Itera
      */
     protected $_loadedDefaultValidators = false;
 
-    /** @var self */
+    /** @var Doctrine_Manager */
     protected static $_instance;
 
     private $_initialized = false;
