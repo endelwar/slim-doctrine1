@@ -23,7 +23,8 @@
     "ext-pdo": "*"
   },
   "require-dev": {
-    "predis/predis": "1.1.*"
+    "predis/predis": "1.1.*",
+    "vimeo/psalm": "^2.0"
   },
   "suggest": {
     "predis/predis": "Redis client for Redis Cache driver"
