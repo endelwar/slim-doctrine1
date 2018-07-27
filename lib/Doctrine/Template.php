@@ -73,7 +73,7 @@ abstract class Doctrine_Template extends Doctrine_Record_Abstract
      * sets the last used invoker
      *
      * @param Doctrine_Record|Doctrine_Record_Abstract $invoker the record that invoked the last delegated call
-     * @return Doctrine_Template this object
+     * @return void
      */
     public function setInvoker(Doctrine_Record_Abstract $invoker)
     {
@@ -104,9 +104,9 @@ abstract class Doctrine_Template extends Doctrine_Record_Abstract
     }
 
     /**
-     * Get plugin instance 
-     * 
-     * @return void
+     * Get plugin instance
+     *
+     * @return Doctrine_Record_Generator
      */
     public function getPlugin()
     {

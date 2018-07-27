@@ -80,7 +80,8 @@ class Doctrine_Connection_Sqlite extends Doctrine_Connection_Common
      * initializes database functions missing in sqlite
      *
      * @see Doctrine_Expression
-     * @return void
+     * @return bool
+     * @throws Doctrine_Connection_Exception
      */
     public function connect() 
     {

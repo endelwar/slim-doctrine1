@@ -211,7 +211,8 @@ abstract class Doctrine_Configurable extends Doctrine_Locator_Injectable
 
     /**
      * @param Doctrine_EventListener $listener
-     * @return void
+     * @return Doctrine_Configurable
+     * @throws Doctrine_EventListener_Exception
      */
     public function setEventListener($listener)
     {

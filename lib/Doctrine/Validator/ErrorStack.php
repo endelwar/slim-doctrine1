@@ -149,7 +149,7 @@ class Doctrine_Validator_ErrorStack extends Doctrine_Access implements Countable
     /**
      * Enter description here...
      *
-     * @return unknown
+     * @return ArrayIterator
      */
     public function getIterator()
     {

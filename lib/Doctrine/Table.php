@@ -2019,8 +2019,9 @@ class Doctrine_Table extends Doctrine_Configurable implements Countable, Seriali
      * on the connection, index and value are the same thing.
      *
      * @param string $fieldName
-     * @param integer $index        numeric index of the enum
+     * @param integer $index numeric index of the enum
      * @return mixed
+     * @throws Doctrine_Connection_Exception
      */
     public function enumValue($fieldName, $index)
     {
@@ -2042,8 +2043,9 @@ class Doctrine_Table extends Doctrine_Configurable implements Countable, Seriali
      * @see enumValue()
      *
      * @param string $fieldName
-     * @param mixed $value          value of the enum considered
+     * @param mixed $value value of the enum considered
      * @return integer              can be string if native enums are used.
+     * @throws Doctrine_Connection_Exception
      */
     public function enumIndex($fieldName, $value)
     {
@@ -2061,8 +2063,9 @@ class Doctrine_Table extends Doctrine_Configurable implements Countable, Seriali
      *
      * @param string $fieldName
      * @param string $value
-     * @param Doctrine_Record $record   record to consider; if it does not exists, it is created
+     * @param Doctrine_Record $record record to consider; if it does not exists, it is created
      * @return Doctrine_Validator_ErrorStack $errorStack
+     * @throws Doctrine_Exception
      */
     public function validateField($fieldName, $value, Doctrine_Record $record = null)
     {
@@ -2150,6 +2153,7 @@ class Doctrine_Table extends Doctrine_Configurable implements Countable, Seriali
      * Pushes error to the record error stack if they are generated.
      *
      * @param Doctrine_Record $record
+     * @throws Doctrine_Exception
      */
     public function validateUniques(Doctrine_Record $record)
     {
@@ -2402,7 +2406,8 @@ class Doctrine_Table extends Doctrine_Configurable implements Countable, Seriali
      * This method returns the associated Tree object (if any exists).
      * Normally implemented by NestedSet behavior.
      *
-     * @return Doctrine_Tree false if not a tree
+     * @return Doctrine_Tree|false return false if not a tree
+     * @throws Doctrine_Exception
      */
     public function getTree()
     {
@@ -2444,6 +2449,7 @@ class Doctrine_Table extends Doctrine_Configurable implements Countable, Seriali
      *
      * @param string $tableName
      * @return void
+     * @throws Doctrine_Table_Exception
      */
     public function setTableName($tableName)
     {
@@ -2547,7 +2553,7 @@ class Doctrine_Table extends Doctrine_Configurable implements Countable, Seriali
      * Checks if a generator name exists.
      *
      * @param string $generator
-     * @return void
+     * @return bool
      */
     public function hasGenerator($generator)
     {
@@ -2760,6 +2766,11 @@ class Doctrine_Table extends Doctrine_Configurable implements Countable, Seriali
         return (strlen($a) > strlen($b)) ? 1 : -1;
     }
 
+    /**
+     * @param $fieldName
+     * @return string
+     * @throws Doctrine_Table_Exception
+     */
     public function buildFindByWhere($fieldName)
     {
         // Get all variations of possible field names
@@ -2849,9 +2860,10 @@ class Doctrine_Table extends Doctrine_Configurable implements Countable, Seriali
     /**
      * deletes table row(s) matching the specified identifier
      *
-     * @throws Doctrine_Connection_Exception    if something went wrong at the database level
-     * @param mixed $identifier         An associateve array containing identifier column-value pairs.
+     * @param mixed $identifier An associateve array containing identifier column-value pairs.
      * @return integer                  the number of affected rows. Boolean false if empty value array was given,
+     * @throws Doctrine_Connection_Exception if something went wrong at the database level
+     * @throws Doctrine_Exception
      */
     public function delete($identifier)
     {
@@ -2861,9 +2873,11 @@ class Doctrine_Table extends Doctrine_Configurable implements Countable, Seriali
     /**
      * Inserts a table row with specified data.
      *
-     * @param array $fields             An associative array containing column-value pairs.
+     * @param array $fields An associative array containing column-value pairs.
      *                                  Values can be strings or Doctrine_Expression instances.
      * @return integer                  the number of affected rows. Boolean false if empty value array was given,
+     * @throws Doctrine_Connection_Exception
+     * @throws Doctrine_Exception
      */
     public function insert(array $fields)
     {
@@ -2873,11 +2887,12 @@ class Doctrine_Table extends Doctrine_Configurable implements Countable, Seriali
     /**
      * Updates table row(s) with specified data.
      *
-     * @throws Doctrine_Connection_Exception    if something went wrong at the database level
-     * @param array $fields             An associative array containing column-value pairs.
+     * @param array $fields An associative array containing column-value pairs.
      *                                  Values can be strings or Doctrine_Expression instances.
-     * @param mixed $identifier         An associateve array containing identifier column-value pairs.
+     * @param mixed $identifier An associateve array containing identifier column-value pairs.
      * @return integer                  the number of affected rows. Boolean false if empty value array was given,
+     * @throws Doctrine_Connection_Exception if something went wrong at the database level
+     * @throws Doctrine_Exception
      */
     public function update(array $fields, $identifier)
     {
@@ -2911,11 +2926,8 @@ class Doctrine_Table extends Doctrine_Configurable implements Countable, Seriali
      *                          this method will fail if no key fields are specified
      *
      * @return int
-     * @throws Doctrine_Connection_Exception        if this driver doesn't support replace
-     * @throws Doctrine_Connection_Exception        if some of the key values was null
-     * @throws Doctrine_Connection_Exception        if there were no key fields
-     * @throws PDOException                         if something fails at PDO level
-     * @ return integer                              number of rows affected
+     * @throws Doctrine_Connection_Exception if there were no key fields
+     * @throws Doctrine_Exception
      */
     public function replace(array $fields, $keys)
     {
@@ -3022,6 +3034,12 @@ class Doctrine_Table extends Doctrine_Configurable implements Countable, Seriali
         $this->_useIdentityMap = $all[10];
     }
 
+    /**
+     * @param Doctrine_Connection $conn
+     * @throws Doctrine_Exception
+     * @throws Doctrine_Table_Exception
+     * @throws ReflectionException
+     */
     public function initializeFromCache(Doctrine_Connection $conn)
     {
         $this->_conn = $conn;

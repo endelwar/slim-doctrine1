@@ -1034,10 +1034,10 @@ abstract class Doctrine_Record extends Doctrine_Record_Abstract implements Count
      * refresh
      * refresh data of related objects from the database
      *
-     * @param string $name              name of a related component.
+     * @param string $name name of a related component.
      *                                  if set, this method only refreshes the specified related component
      *
-     * @return Doctrine_Record          this object
+     * @return void this object
      */
     public function refreshRelated($name = null)
     {
@@ -1686,7 +1686,7 @@ abstract class Doctrine_Record extends Doctrine_Record_Abstract implements Count
     /**
      * returns Doctrine_Record instances which need to be deleted on save
      *
-     * @return array
+     * @return string
      */
     public function getPendingDeletes()
     {
@@ -1980,7 +1980,8 @@ abstract class Doctrine_Record extends Doctrine_Record_Abstract implements Count
      * @link http://www.doctrine-project.org/documentation/manual/1_1/en/working-with-models
      * @param array|string $array array of data, see link for documentation
      * @param bool $deep whether or not to act on relations
-     * @return void
+     * @return Doctrine_Record
+     * @throws Doctrine_Record_Exception
      */
     public function fromArray(array $array, $deep = true)
     {
@@ -2277,7 +2278,7 @@ abstract class Doctrine_Record extends Doctrine_Record_Abstract implements Count
     /**
      * returns the primary keys of this object
      *
-     * @return array
+     * @return int
      */
     public function identifier()
     {

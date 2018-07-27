@@ -1053,6 +1053,7 @@ class Doctrine_Core
      * @param string $className Name of the Migration class to generate
      * @param string $migrationsPath Path to directory which contains your migration classes
      * @return mixed
+     * @throws Doctrine_Migration_Exception
      */
     public static function generateMigrationClass($className, $migrationsPath)
     {
@@ -1065,8 +1066,8 @@ class Doctrine_Core
      * Generate a set of migration classes from an existing database
      *
      * @param string $migrationsPath
-     * @return void
-     * @throws new Doctrine_Migration_Exception
+     * @return bool
+     * @throws Exception
      */
     public static function generateMigrationsFromDb($migrationsPath)
     {
@@ -1078,10 +1079,13 @@ class Doctrine_Core
     /**
      * Generate a set of migration classes from an existing set of models
      *
-     * @param string  $migrationsPath Path to your Doctrine migration classes
-     * @param string  $modelsPath     Path to your Doctrine model classes
-     * @param integer $modelLoading   Style of model loading to use for loading the models in order to generate migrations
-     * @return void
+     * @param string $migrationsPath Path to your Doctrine migration classes
+     * @param string $modelsPath Path to your Doctrine model classes
+     * @param integer $modelLoading Style of model loading to use for loading the models in order to generate migrations
+     * @return bool
+     * @throws Doctrine_Exception
+     * @throws Doctrine_Migration_Exception
+     * @throws Doctrine_Table_Exception
      */
     public static function generateMigrationsFromModels($migrationsPath, $modelsPath = null, $modelLoading = null)
     {
@@ -1111,6 +1115,9 @@ class Doctrine_Core
      *
      * @param string $componentName
      * @return Doctrine_Table
+     * @throws Doctrine_Connection_Exception
+     * @throws Doctrine_Exception
+     * @throws Doctrine_Manager_Exception
      */
     public static function getTable($componentName)
     {
@@ -1224,7 +1231,7 @@ class Doctrine_Core
      * @param mixed $var        a variable of any type
      * @param boolean $output   whether to output the content
      * @param string $indent    indention string
-     * @return void|string
+     * @return string
      */
     public static function dump($var, $output = true, $indent = "")
     {

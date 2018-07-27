@@ -61,12 +61,12 @@ class Doctrine_Adapter_Statement_Mock implements Doctrine_Adapter_Statement_Inte
      *
      * Bind a column to a PHP variable
      *
-     * @param mixed $column         Number of the column (1-indexed) or name of the column in the result set.
+     * @param mixed $column Number of the column (1-indexed) or name of the column in the result set.
      *                              If using the column name, be aware that the name should match
      *                              the case of the column, as returned by the driver.
-     * @param string $param         Name of the PHP variable to which the column will be bound.
-     * @param integer $type         Data type of the parameter, specified by the Doctrine_Core::PARAM_* constants.
-     * @return boolean              Returns TRUE on success or FALSE on failure
+     * @param string $param Name of the PHP variable to which the column will be bound.
+     * @param integer $type Data type of the parameter, specified by the Doctrine_Core::PARAM_* constants.
+     * @return void Returns TRUE on success or FALSE on failure
      */
     public function bindColumn($column, $param, $type = null)
     { }
@@ -77,14 +77,14 @@ class Doctrine_Adapter_Statement_Mock implements Doctrine_Adapter_Statement_Inte
      * Binds a value to a corresponding named or question mark
      * placeholder in the SQL statement that was use to prepare the statement.
      *
-     * @param mixed $param          Parameter identifier. For a prepared statement using named placeholders,
+     * @param mixed $param Parameter identifier. For a prepared statement using named placeholders,
      *                              this will be a parameter name of the form :name. For a prepared statement
      *                              using question mark placeholders, this will be the 1-indexed position of the parameter
      *
-     * @param mixed $value          The value to bind to the parameter.
-     * @param integer $type         Explicit data type for the parameter using the Doctrine_Core::PARAM_* constants.
+     * @param mixed $value The value to bind to the parameter.
+     * @param integer $type Explicit data type for the parameter using the Doctrine_Core::PARAM_* constants.
      *
-     * @return boolean              Returns TRUE on success or FALSE on failure.
+     * @return void Returns TRUE on success or FALSE on failure.
      */
     public function bindValue($param, $value, $type = null)
     { }
@@ -112,11 +112,10 @@ class Doctrine_Adapter_Statement_Mock implements Doctrine_Adapter_Statement_Inte
      * @param integer $length Length of the data type. To indicate that a parameter is an OUT parameter
      *                              from a stored procedure, you must explicitly set the length.
      * @param mixed $driverOptions
-     * @return bool Returns TRUE on success or FALSE on failure.
+     * @return void Returns TRUE on success or FALSE on failure.
      * @internal param mixed $param Parameter identifier. For a prepared statement using named placeholders,
      *                              this will be a parameter name of the form :name. For a prepared statement
      *                              using question mark placeholders, this will be the 1-indexed position of the parameter
-     *
      */
     public function bindParam($column, &$variable, $type = null, $length = null, $driverOptions = array())
     {
@@ -155,7 +154,7 @@ class Doctrine_Adapter_Statement_Mock implements Doctrine_Adapter_Statement_Inte
      * Fetch the SQLSTATE associated with the last operation on the statement handle
      *
      * @see Doctrine_Adapter_Interface::errorCode()
-     * @return string       error code string
+     * @return array error code string
      */
     public function errorCode()
     {
@@ -329,9 +328,9 @@ class Doctrine_Adapter_Statement_Mock implements Doctrine_Adapter_Statement_Inte
      *
      * Returns metadata for a column in a result set
      *
-     * @param integer $column               The 0-indexed column in the result set.
+     * @param integer $column The 0-indexed column in the result set.
      *
-     * @return array                        Associative meta data array with the following structure:
+     * @return void Associative meta data array with the following structure:
      *
      *          native_type                 The PHP native type used to represent the column value.
      *          driver:decl_                type The SQL type used to represent the column value in the database. If the column in the result set is the result of a function, this value is not returned by PDOStatement->getColumnMeta().
@@ -362,8 +361,8 @@ class Doctrine_Adapter_Statement_Mock implements Doctrine_Adapter_Statement_Inte
      * Set a statement attribute
      *
      * @param integer $attribute
-     * @param mixed $value                  the value of given attribute
-     * @return boolean                      Returns TRUE on success or FALSE on failure.
+     * @param mixed $value the value of given attribute
+     * @return void Returns TRUE on success or FALSE on failure.
      */
     public function setAttribute($attribute, $value)
     { }
@@ -376,7 +375,7 @@ class Doctrine_Adapter_Statement_Mock implements Doctrine_Adapter_Statement_Inte
      * @param integer $mode The fetch mode must be one of the Doctrine_Core::FETCH_* constants.
      * @param null $arg1
      * @param null $arg2
-     * @return bool Returns 1 on success or FALSE on failure.
+     * @return void Returns 1 on success or FALSE on failure.
      */
     public function setFetchMode($mode, $arg1 = null, $arg2 = null)
     { }

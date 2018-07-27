@@ -39,7 +39,9 @@ class Doctrine_Export_Mysql extends Doctrine_Export
      * @param string $table name of table that should be used in method
      * @param string $name name of the constraint to be dropped
      * @param bool|string $primary hint if the constraint is primary
-     * @return void
+     * @return int
+     * @throws Doctrine_Connection_Exception
+     * @throws Doctrine_Exception
      */
     public function dropConstraint($table, $name, $primary = false)
     {
@@ -69,7 +71,7 @@ class Doctrine_Export_Mysql extends Doctrine_Export
      * drop an existing database
      *
      * @param string $name name of the database that should be dropped
-     * @return string
+     * @return array
      */
     public function dropDatabaseSql($name)
     {
@@ -111,7 +113,9 @@ class Doctrine_Export_Mysql extends Doctrine_Export
      *                              'collate' => 'utf8_unicode_ci',
      *                              'type'    => 'innodb',
      *                          );
-     * @return void
+     * @return array
+     * @throws Doctrine_Connection_Exception
+     * @throws Doctrine_Exception
      * @throws Doctrine_Export_Exception
      */
     public function createTableSql($name, array $fields, array $options = array()) 
@@ -810,9 +814,11 @@ class Doctrine_Export_Mysql extends Doctrine_Export
     /**
      * drop existing foreign key
      *
-     * @param string    $table        name of table that should be used in method
-     * @param string    $name         name of the foreign key to be dropped
-     * @return void
+     * @param string $table name of table that should be used in method
+     * @param string $name name of the foreign key to be dropped
+     * @return int
+     * @throws Doctrine_Connection_Exception
+     * @throws Doctrine_Exception
      */
     public function dropForeignKey($table, $name)
     {

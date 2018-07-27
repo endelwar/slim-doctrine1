@@ -45,8 +45,10 @@ class Doctrine_Connection_UnitOfWork extends Doctrine_Connection_Module
      *
      * @param Doctrine_Record $record
      * @param bool $replace
-     * @return void
-     * @throws Exception
+     * @return bool
+     * @throws Doctrine_Connection_Exception
+     * @throws Doctrine_Record_State_Exception
+     * @throws Doctrine_Transaction_Exception
      */
     public function saveGraph(Doctrine_Record $record, $replace = false)
     {

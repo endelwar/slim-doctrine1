@@ -40,9 +40,10 @@ class Doctrine_Transaction_Sqlite extends Doctrine_Transaction
      *                  READ COMMITTED (prevents dirty reads)
      *                  REPEATABLE READ (prevents nonrepeatable reads)
      *                  SERIALIZABLE (prevents phantom reads)
-     * @throws PDOException                         if something fails at the PDO level
-     * @throws Doctrine_Transaction_Exception       if using unknown isolation level
-     * @return void
+     * @return Doctrine_Adapter_Statement|Doctrine_Connection_Statement|PDOStatement
+     * @throws Doctrine_Connection_Exception
+     * @throws Doctrine_Exception
+     * @throws Doctrine_Transaction_Exception if using unknown isolation level
      */
     public function setIsolation($isolation)
     {

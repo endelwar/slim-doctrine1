@@ -182,8 +182,8 @@ class Doctrine_Adapter_Mock implements Doctrine_Adapter_Interface, Countable
     /**
      * Execute a raw sql statement
      *
-     * @param string $statement 
-     * @return void
+     * @param string $statement
+     * @return int
      */
     public function exec($statement)
     {

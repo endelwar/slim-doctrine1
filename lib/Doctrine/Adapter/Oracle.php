@@ -180,7 +180,7 @@ class Doctrine_Adapter_Oracle implements Doctrine_Adapter_Interface
      * Execute a raw sql statement
      *
      * @param string $statement
-     * @return void
+     * @return int
      */
     public function exec($statement)
     {
@@ -193,7 +193,7 @@ class Doctrine_Adapter_Oracle implements Doctrine_Adapter_Interface
 
     /**
      * Get the id of the last inserted record
-     * @return int $id
+     * @return void $id
      * @throws Doctrine_Adapter_Exception
      */
     public function lastInsertId()
@@ -215,7 +215,7 @@ class Doctrine_Adapter_Oracle implements Doctrine_Adapter_Interface
     /**
      * Commit a transaction
      *
-     * @return void
+     * @return bool
      */
     public function commit()
     {

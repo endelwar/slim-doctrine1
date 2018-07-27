@@ -128,8 +128,8 @@ class Doctrine_Record_Listener_Chain extends Doctrine_Access implements Doctrine
      * set
      *
      * @param mixed $key
-     * @param Doctrine_Record_Listener $listener    listener to be added
-     * @return Doctrine_Record_Listener_Chain       this object
+     * @param Doctrine_Record_Listener $listener listener to be added
+     * @return void this object
      */
     public function set($key, $listener)
     {

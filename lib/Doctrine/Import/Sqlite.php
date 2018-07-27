@@ -34,7 +34,7 @@ class Doctrine_Import_Sqlite extends Doctrine_Import
     /**
      * lists all databases
      *
-     * @return array
+     * @return void
      */
     public function listDatabases()
     {
@@ -44,7 +44,7 @@ class Doctrine_Import_Sqlite extends Doctrine_Import
     /**
      * lists all availible database functions
      *
-     * @return array
+     * @return void
      */
     public function listFunctions()
     {
@@ -55,7 +55,7 @@ class Doctrine_Import_Sqlite extends Doctrine_Import
      * lists all database triggers
      *
      * @param string|null $database
-     * @return array
+     * @return void
      */
     public function listTriggers($database = null)
     {
@@ -186,8 +186,8 @@ class Doctrine_Import_Sqlite extends Doctrine_Import
     /**
      * lists table triggers
      *
-     * @param string $table     database table name
-     * @return array
+     * @param string $table database table name
+     * @return void
      */
     public function listTableTriggers($table)
     {
@@ -219,7 +219,7 @@ class Doctrine_Import_Sqlite extends Doctrine_Import
     /**
      * lists database users
      *
-     * @return array
+     * @return void
      */
     public function listUsers()
     {

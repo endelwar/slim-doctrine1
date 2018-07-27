@@ -63,7 +63,7 @@ class Doctrine_Connection_Profiler implements Doctrine_Overloadable, IteratorAgg
 
     /**
      * setFilterQueryType
-     * @return bool
+     * @return void
      * @internal param int $filter
      */
     public function setFilterQueryType() {
@@ -77,7 +77,7 @@ class Doctrine_Connection_Profiler implements Doctrine_Overloadable, IteratorAgg
      *
      * @param string $m the name of the method
      * @param array $a method arguments
-     * @return bool
+     * @return void
      * @throws Doctrine_Connection_Profiler_Exception
      * @see Doctrine_EventListener
      */

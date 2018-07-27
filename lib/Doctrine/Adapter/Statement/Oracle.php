@@ -94,7 +94,7 @@ class Doctrine_Adapter_Statement_Oracle implements Doctrine_Adapter_Statement_In
      *                              the case of the column, as returned by the driver.
      * @param string $param Name of the PHP variable to which the column will be bound.
      * @param integer $type Data type of the parameter, specified by the Doctrine_Core::PARAM_* constants.
-     * @return bool Returns TRUE on success or FALSE on failure
+     * @return void Returns TRUE on success or FALSE on failure
      * @throws Doctrine_Adapter_Exception
      */
     public function bindColumn($column, $param, $type = null)
@@ -103,17 +103,18 @@ class Doctrine_Adapter_Statement_Oracle implements Doctrine_Adapter_Statement_In
     }
 
     /**
-     * Binds a value to a corresponding named or question mark 
+     * Binds a value to a corresponding named or question mark
      * placeholder in the SQL statement that was use to prepare the statement.
      *
-     * @param mixed $param          Parameter identifier. For a prepared statement using named placeholders,
+     * @param mixed $param Parameter identifier. For a prepared statement using named placeholders,
      *                              this will be a parameter name of the form :name. For a prepared statement
      *                              using question mark placeholders, this will be the 1-indexed position of the parameter
      *
-     * @param mixed $value          The value to bind to the parameter.
-     * @param integer $type         Explicit data type for the parameter using the Doctrine_Core::PARAM_* constants.
+     * @param mixed $value The value to bind to the parameter.
+     * @param integer $type Explicit data type for the parameter using the Doctrine_Core::PARAM_* constants.
      *
-     * @return boolean              Returns TRUE on success or FALSE on failure.
+     * @return void Returns TRUE on success or FALSE on failure.
+     * @throws Doctrine_Adapter_Exception
      */
     public function bindValue($param, $value, $type = null)
     {
@@ -223,7 +224,7 @@ class Doctrine_Adapter_Statement_Oracle implements Doctrine_Adapter_Statement_In
      * Fetch extended error information associated with the last operation on the statement handle
      *
      * @see Doctrine_Adapter_Interface::errorInfo()
-     * @return array        error info array
+     * @return string error info array
      */
     public function errorInfo()
     {
@@ -493,7 +494,7 @@ class Doctrine_Adapter_Statement_Oracle implements Doctrine_Adapter_Statement_In
      * (also known as a result set). The nextRowset() method enables you to access the second
      * and subsequent rowsets associated with a PDOStatement object. Each rowset can have a
      * different set of columns from the preceding rowset.
-     * @return bool Returns TRUE on success or FALSE on failure.
+     * @return void Returns TRUE on success or FALSE on failure.
      * @throws Doctrine_Adapter_Exception
      */
     public function nextRowset()
@@ -522,7 +523,7 @@ class Doctrine_Adapter_Statement_Oracle implements Doctrine_Adapter_Statement_In
      *
      * @param integer $attribute
      * @param mixed $value the value of given attribute
-     * @return bool Returns TRUE on success or FALSE on failure.
+     * @return void Returns TRUE on success or FALSE on failure.
      * @throws Doctrine_Adapter_Exception
      */
     public function setAttribute($attribute, $value)
@@ -554,7 +555,7 @@ class Doctrine_Adapter_Statement_Oracle implements Doctrine_Adapter_Statement_In
      * @param integer $mode The fetch mode must be one of the Doctrine_Core::FETCH_* constants.
      * @param null $arg1
      * @param null $arg2
-     * @return bool Returns 1 on success or FALSE on failure.
+     * @return void Returns 1 on success or FALSE on failure.
      * @throws Doctrine_Adapter_Exception
      */
     public function setFetchMode($mode, $arg1 = null, $arg2 = null)

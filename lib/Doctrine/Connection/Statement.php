@@ -39,7 +39,7 @@ class Doctrine_Connection_Statement implements Doctrine_Adapter_Statement_Interf
     protected $_conn;
 
     /**
-     * @var mixed $_stmt                    PDOStatement object, boolean false or Doctrine_Adapter_Statement object
+     * @var PDOStatement|Doctrine_Adapter_Statement|false $_stmt                    PDOStatement object, boolean false or Doctrine_Adapter_Statement object
      */
     protected $_stmt;
 

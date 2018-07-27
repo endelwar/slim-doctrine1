@@ -137,7 +137,7 @@ class Doctrine_Pager
      *
      * Returns the check if Pager was already executed at least once
      *
-     * @return boolen        Pager was executed
+     * @return bool Pager was executed
      */
     public function getExecuted()
     {

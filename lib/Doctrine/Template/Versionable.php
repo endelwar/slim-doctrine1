@@ -84,21 +84,22 @@ class Doctrine_Template_Versionable extends Doctrine_Template
     /**
      * Get plugin for Versionable template
      *
-     * @return void
+     * @return Doctrine_AuditLog
      */
     public function getAuditLog()
     {
         return $this->_plugin;
     }
 
-     /**
+    /**
      * revert
      * reverts this record to given version, this method only works if versioning plugin
      * is enabled
      *
-     * @throws Doctrine_Record_Exception    if given version does not exist
-     * @param integer $version      an integer > 1
+     * @param integer $version an integer > 1
      * @return Doctrine_Record      this object
+     * @throws Doctrine_Exception
+     * @throws Doctrine_Record_Exception if given version does not exist
      */
     public function revert($version)
     {

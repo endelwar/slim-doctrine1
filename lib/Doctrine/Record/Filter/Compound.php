@@ -53,7 +53,7 @@ class Doctrine_Record_Filter_Compound extends Doctrine_Record_Filter
      *
      * @param Doctrine_Record $record
      * @param mixed $name name of the property or related component
-     * @param $value
+     * @param mixed $value
      * @return Doctrine_Record
      * @throws Doctrine_Record_UnknownPropertyException
      */
@@ -83,7 +83,7 @@ class Doctrine_Record_Filter_Compound extends Doctrine_Record_Filter
      *
      * @param Doctrine_Record $record
      * @param mixed $name name of the property or related component
-     * @return
+     * @return mixed
      * @throws Doctrine_Record_UnknownPropertyException
      */
     public function filterGet(Doctrine_Record $record, $name)
