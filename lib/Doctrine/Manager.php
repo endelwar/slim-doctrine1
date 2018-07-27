@@ -187,7 +187,7 @@ class Doctrine_Manager extends Doctrine_Configurable implements Countable, Itera
      */
     public static function getInstance()
     {
-        if ( ! isset(self::$_instance)) {
+        if (self::$_instance === null) {
             self::$_instance = new self();
         }
         return self::$_instance;
@@ -234,7 +234,7 @@ class Doctrine_Manager extends Doctrine_Configurable implements Countable, Itera
      */
     public function getQueryRegistry()
     {
-      	if ( ! isset($this->_queryRegistry)) {
+      	if ($this->_queryRegistry === null) {
       	   $this->_queryRegistry = new Doctrine_Query_Registry();
       	}
         return $this->_queryRegistry;
@@ -269,11 +269,11 @@ class Doctrine_Manager extends Doctrine_Configurable implements Countable, Itera
      */
     public static function connection($adapter = null, $name = null)
     {
-        if ($adapter == null) {
-            return Doctrine_Manager::getInstance()->getCurrentConnection();
-        } else {
-            return Doctrine_Manager::getInstance()->openConnection($adapter, $name);
+        if ($adapter === null) {
+            return self::getInstance()->getCurrentConnection();
         }
+
+        return self::getInstance()->openConnection($adapter, $name);
     }
 
     /**
@@ -290,7 +290,7 @@ class Doctrine_Manager extends Doctrine_Configurable implements Countable, Itera
     {
         if (is_object($adapter)) {
             if ( ! ($adapter instanceof PDO) && ! in_array('Doctrine_Adapter_Interface', class_implements($adapter))) {
-                throw new Doctrine_Manager_Exception("First argument should be an instance of PDO or implement Doctrine_Adapter_Interface");
+                throw new Doctrine_Manager_Exception('First argument should be an instance of PDO or implement Doctrine_Adapter_Interface');
             }
 
             $driverName = $adapter->getAttribute(Doctrine_Core::ATTR_DRIVER_NAME);
@@ -306,8 +306,8 @@ class Doctrine_Manager extends Doctrine_Configurable implements Countable, Itera
 
             $parts['dsn']    = $adapter[0];
             $parts['scheme'] = $e[0];
-            $parts['user']   = (isset($adapter[1])) ? $adapter[1] : null;
-            $parts['pass']   = (isset($adapter[2])) ? $adapter[2] : null;
+            $parts['user']   = isset($adapter[1]) ? $adapter[1] : null;
+            $parts['pass']   = isset($adapter[2]) ? $adapter[2] : null;
             $driverName = $e[0];
             $adapter = $parts;
         } else {
@@ -383,7 +383,7 @@ class Doctrine_Manager extends Doctrine_Configurable implements Countable, Itera
             if ($string) {
                 $e2 = explode('=', $string);
 
-                if (isset($e2[0]) && isset($e2[1])) {
+                if (isset($e2[0], $e2[1])) {
                     if (count($e2) > 2)
                     {
                         $key = $e2[0];
@@ -411,9 +411,9 @@ class Doctrine_Manager extends Doctrine_Configurable implements Countable, Itera
     protected function _buildDsnPartsArray($dsn)
     {
         // fix sqlite dsn so that it will parse correctly
-        $dsn = str_replace("////", "/", $dsn);
-        $dsn = str_replace("\\", "/", $dsn);
-        $dsn = preg_replace("/\/\/\/(.*):\//", "//$1:/", $dsn);
+        $dsn = str_replace('////', '/', $dsn);
+        $dsn = str_replace("\\", '/', $dsn);
+        $dsn = preg_replace("/\/\/\/(.*):\//", '//$1:/', $dsn);
 
         // silence any warnings
         $parts = @parse_url($dsn);
@@ -426,7 +426,7 @@ class Doctrine_Manager extends Doctrine_Configurable implements Countable, Itera
             }
         }
 
-        if (count($parts) == 0 || ! isset($parts['scheme'])) {
+        if (count($parts) === 0 || ! isset($parts['scheme'])) {
             throw new Doctrine_Manager_Exception('Could not parse dsn');
         }
 
@@ -455,7 +455,7 @@ class Doctrine_Manager extends Doctrine_Configurable implements Countable, Itera
                 } else {
                     //fix windows dsn we have to add host: to path and set host to null
                     if (isset($parts['host'])) {
-                        $parts['path'] = $parts['host'] . ":" . $parts["path"];
+                        $parts['path'] = $parts['host'] . ':' . $parts['path'];
                         $parts['host'] = null;
                     }
                     $parts['database'] = $parts['path'];
@@ -728,10 +728,10 @@ class Doctrine_Manager extends Doctrine_Configurable implements Countable, Itera
      */
     public function __toString()
     {
-        $r[] = "<pre>";
-        $r[] = "Doctrine_Manager";
-        $r[] = "Connections : ".count($this->_connections);
-        $r[] = "</pre>";
+        $r[] = '<pre>';
+        $r[] = 'Doctrine_Manager';
+        $r[] = 'Connections : ' .count($this->_connections);
+        $r[] = '</pre>';
         return implode("\n",$r);
     }
 
