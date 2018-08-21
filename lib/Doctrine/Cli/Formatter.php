@@ -42,6 +42,7 @@
  */
 class Doctrine_Cli_Formatter
 {
+    /** @var int */
     protected $_size = 65;
 
     /**
@@ -49,7 +50,7 @@ class Doctrine_Cli_Formatter
      *
      * @param int|string $maxLineSize
      */
-    function __construct($maxLineSize = 65)
+    public function __construct($maxLineSize = 65)
     {
         $this->_size = $maxLineSize;
     }
@@ -80,14 +81,14 @@ class Doctrine_Cli_Formatter
      */
     public function formatSection($section, $text, $size = null)
     {
-        return sprintf(">> %-$9s %s", $section, $this->excerpt($text, $size));
+        return sprintf('>> %-$9s %s', $section, $this->excerpt($text, $size));
     }
 
     /**
      * Truncates a line.
      *
-     * @param string  The text
-     * @param integer The maximum size of the returned string (65 by default)
+     * @param string  $text The text
+     * @param int|null $size The maximum size of the returned string (65 by default)
      *
      * @return string The truncated string
      */
@@ -109,7 +110,7 @@ class Doctrine_Cli_Formatter
     /**
      * Sets the maximum line size.
      *
-     * @param integer The maximum line size for a message
+     * @param int $size The maximum line size for a message
      */
     public function setMaxLineSize($size)
     {

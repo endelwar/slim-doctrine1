@@ -37,6 +37,7 @@ abstract class Doctrine_Access extends Doctrine_Locator_Injectable implements Ar
      *
      * @param   array $array An array of key => value pairs
      * @return  Doctrine_Access
+     * @throws  Doctrine_Exception
      */
     public function setArray(array $array)
     {
@@ -54,6 +55,7 @@ abstract class Doctrine_Access extends Doctrine_Locator_Injectable implements Ar
      * @param   $name
      * @param   $value
      * @return  void
+     * @throws  Doctrine_Exception
      */
     public function __set($name, $value)
     {
@@ -66,6 +68,7 @@ abstract class Doctrine_Access extends Doctrine_Locator_Injectable implements Ar
      * @see     get, offsetGet
      * @param   mixed $name
      * @return  mixed
+     * @throws  Doctrine_Exception
      */
     public function __get($name)
     {
@@ -77,6 +80,7 @@ abstract class Doctrine_Access extends Doctrine_Locator_Injectable implements Ar
      *
      * @param   string $name
      * @return  boolean whether or not this object contains $name
+     * @throws  Doctrine_Exception
      */
     public function __isset($name)
     {
@@ -86,8 +90,9 @@ abstract class Doctrine_Access extends Doctrine_Locator_Injectable implements Ar
     /**
      * Remove key from data
      *
-     * @param   string $name
-     * @return  void
+     * @param  string $name
+     * @return bool
+     * @throws Doctrine_Exception
      */
     public function __unset($name)
     {
@@ -99,6 +104,7 @@ abstract class Doctrine_Access extends Doctrine_Locator_Injectable implements Ar
      *
      * @param   mixed $offset
      * @return  boolean Whether or not this object contains $offset
+     * @throws  Doctrine_Exception
      */
     public function offsetExists($offset)
     {
@@ -111,6 +117,7 @@ abstract class Doctrine_Access extends Doctrine_Locator_Injectable implements Ar
      * @see     get, __get
      * @param   mixed $offset
      * @return  mixed
+     * @throws  Doctrine_Exception
      */
     public function offsetGet($offset)
     {
@@ -130,10 +137,11 @@ abstract class Doctrine_Access extends Doctrine_Locator_Injectable implements Ar
      * @param   mixed $offset
      * @param   mixed $value
      * @return  void
+     * @throws  Doctrine_Exception
      */
     public function offsetSet($offset, $value)
     {
-        if ( ! isset($offset)) {
+        if (!isset($offset)) {
             $this->add($value);
         } else {
             $this->set($offset, $value);
@@ -145,7 +153,7 @@ abstract class Doctrine_Access extends Doctrine_Locator_Injectable implements Ar
      *
      * @see   set, offsetSet, __set
      * @param mixed $offset
-     * @return bool|void
+     * @throws Doctrine_Exception
      */
     public function offsetUnset($offset)
     {
@@ -156,7 +164,6 @@ abstract class Doctrine_Access extends Doctrine_Locator_Injectable implements Ar
      * Remove the element with the specified offset
      *
      * @param mixed $offset The offset to remove
-     * @return bool True if removed otherwise false
      * @throws Doctrine_Exception
      */
     public function remove($offset)
@@ -168,7 +175,6 @@ abstract class Doctrine_Access extends Doctrine_Locator_Injectable implements Ar
      * Return the element with the specified offset
      *
      * @param mixed $offset The offset to return
-     * @return mixed
      * @throws Doctrine_Exception
      */
     public function get($offset)
@@ -192,7 +198,6 @@ abstract class Doctrine_Access extends Doctrine_Locator_Injectable implements Ar
      * Check if the specified offset exists
      *
      * @param mixed $offset The offset to check
-     * @return bool True if exists otherwise false
      * @throws Doctrine_Exception
      */
     public function contains($offset)
@@ -204,7 +209,6 @@ abstract class Doctrine_Access extends Doctrine_Locator_Injectable implements Ar
      * Add the value
      *
      * @param mixed $value The value to add
-     * @return void
      * @throws Doctrine_Exception
      */
     public function add($value)

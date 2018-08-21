@@ -96,14 +96,14 @@ abstract class Doctrine_Parser
      *
      * Interface for pulling and dumping data to a file
      *
-     * @param string $array
+     * @param array $array
      * @param string $path
      * @param string $type
      * @param string $charset The charset of the data being dumped
      * @return bool|int|string
      * @author Jonathan H. Wage
      */
-    static public function dump($array, $type = 'xml', $path = null, $charset = null)
+    public static function dump($array, $type = 'xml', $path = null, $charset = null)
     {
         $parser = self::getParser($type);
 

@@ -38,7 +38,7 @@ class Doctrine_Builder
      * So we do some string replacing to clean it up
      *
      * @param string $var
-     * @return string|array
+     * @return string
      */
     public function varExport($var)
     {

@@ -194,9 +194,10 @@ abstract class Doctrine_Connection extends Doctrine_Configurable implements Coun
      *
      * @param Doctrine_Manager $manager the manager object
      * @param PDO|Doctrine_Adapter_Interface|array $adapter database driver
-     * @param null $user
-     * @param null $pass
+     * @param null|string $user
+     * @param null|string $pass
      * @throws Doctrine_Connection_Exception
+     * @throws Doctrine_Exception
      */
     public function __construct(Doctrine_Manager $manager, $adapter, $user = null, $pass = null)
     {
@@ -339,8 +340,7 @@ abstract class Doctrine_Connection extends Doctrine_Configurable implements Coun
      * setAttribute
      * sets an attribute
      *
-     * @todo why check for >= 100? has this any special meaning when creating
-     * attributes?
+     * @todo why check for >= 100? has this any special meaning when creating attributes?
      *
      * @param integer $attribute
      * @param mixed $value
@@ -351,12 +351,10 @@ abstract class Doctrine_Connection extends Doctrine_Configurable implements Coun
     {
         if ($attribute >= 100 && $attribute < 1000) {
             parent::setAttribute($attribute, $value);
+        } elseif ($this->isConnected) {
+            $this->dbh->setAttribute($attribute, $value);
         } else {
-            if ($this->isConnected) {
-                $this->dbh->setAttribute($attribute, $value);
-            } else {
-                $this->pendingAttributes[$attribute] = $value;
-            }
+            $this->pendingAttributes[$attribute] = $value;
         }
 
         return $this;
