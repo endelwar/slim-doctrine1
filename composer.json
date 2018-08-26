@@ -24,11 +24,13 @@
     "ext-posix": "*"
   },
   "require-dev": {
+    "ext-redis": "*",
     "predis/predis": "1.1.*",
     "vimeo/psalm": "^2.0"
   },
   "suggest": {
     "ext-oci8": "Extension needed when working with Oracle database",
+    "ext-redis": "Redis extension for Redis Cache driver",
     "predis/predis": "Redis client for Redis Cache driver"
   },
   "autoload": {
