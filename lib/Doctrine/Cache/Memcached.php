@@ -78,11 +78,12 @@ class Doctrine_Cache_Memcached extends Doctrine_Cache_Driver
      * Test if a cache record exists for the passed id
      *
      * @param string $id cache id
+     * @param bool $testCacheValidity
      * @return mixed  Returns either the cached data or false
      */
     protected function _doFetch($id, $testCacheValidity = true)
     {
-        if (false == $this->_memcached->getOption(Memcached::OPT_BINARY_PROTOCOL)) {
+        if (false === $this->_memcached->getOption(Memcached::OPT_BINARY_PROTOCOL)) {
             $id = str_replace(' ', '_', $id);
         }
         return $this->_memcached->get($id);
@@ -96,7 +97,7 @@ class Doctrine_Cache_Memcached extends Doctrine_Cache_Driver
      */
     protected function _doContains($id)
     {
-        if (false == $this->_memcached->getOption(Memcached::OPT_BINARY_PROTOCOL)) {
+        if (false === $this->_memcached->getOption(Memcached::OPT_BINARY_PROTOCOL)) {
             $id = str_replace(' ', '_', $id);
         }
         return (bool) $this->_memcached->get($id);
@@ -113,7 +114,7 @@ class Doctrine_Cache_Memcached extends Doctrine_Cache_Driver
      */
     protected function _doSave($id, $data, $lifeTime = 0)
     {
-        if (false == $this->_memcached->getOption(Memcached::OPT_BINARY_PROTOCOL)) {
+        if (false === $this->_memcached->getOption(Memcached::OPT_BINARY_PROTOCOL)) {
             $id = str_replace(' ', '_', $id);
         }
 
@@ -129,7 +130,7 @@ class Doctrine_Cache_Memcached extends Doctrine_Cache_Driver
      */
     protected function _doDelete($id)
     {
-        if (false == $this->_memcached->getOption(Memcached::OPT_BINARY_PROTOCOL)) {
+        if (false === $this->_memcached->getOption(Memcached::OPT_BINARY_PROTOCOL)) {
             $id = str_replace(' ', '_', $id);
         }
         return $this->_memcached->delete($id);

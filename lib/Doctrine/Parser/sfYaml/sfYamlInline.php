@@ -20,13 +20,13 @@ class sfYamlInline
 {
   const REGEX_QUOTED_STRING = '(?:"([^"\\\\]*(?:\\\\.[^"\\\\]*)*)"|\'([^\']*(?:\'\'[^\']*)*)\')';
 
-  /**
-   * Convert a YAML string to a PHP array.
-   *
-   * @param string $value A YAML string
-   *
-   * @return array A PHP array representing the YAML string
-   */
+    /**
+     * Convert a YAML string to a PHP array.
+     *
+     * @param string $value A YAML string
+     *
+     * @return array A PHP array representing the YAML string
+     */
   static public function load($value)
   {
     $value = trim($value);
@@ -236,14 +236,14 @@ class sfYamlInline
     return $output;
   }
 
-  /**
-   * Parses a sequence to a YAML string.
-   *
-   * @param string  $sequence
-   * @param integer $i
-   *
-   * @return string A YAML string
-   */
+    /**
+     * Parses a sequence to a YAML string.
+     *
+     * @param string $sequence
+     * @param integer $i
+     *
+     * @return array A YAML string
+     */
   static protected function parseSequence($sequence, &$i = 0)
   {
     $output = array();
@@ -296,14 +296,14 @@ class sfYamlInline
     throw new InvalidArgumentException(sprintf('Malformed inline YAML string %s', $sequence));
   }
 
-  /**
-   * Parses a mapping to a YAML string.
-   *
-   * @param string  $mapping
-   * @param integer $i
-   *
-   * @return string A YAML string
-   */
+    /**
+     * Parses a mapping to a YAML string.
+     *
+     * @param string $mapping
+     * @param integer $i
+     *
+     * @return array A YAML string
+     */
   static protected function parseMapping($mapping, &$i = 0)
   {
     $output = array();

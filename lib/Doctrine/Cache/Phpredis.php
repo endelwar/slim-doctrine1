@@ -19,8 +19,10 @@
  * <http://www.phpdoctrine.org>.
  */
 
+use Redis;
+
 /**
- * Predis cache driver
+ * Redis cache driver
  *
  * @package     Doctrine
  * @subpackage  Cache
@@ -31,10 +33,10 @@
  * @author      Konsta Vesterinen <kvesteri@cc.hut.fi>
  * @author      Jonathan H. Wage <jonwage@gmail.com>
  */
-class Doctrine_Cache_Redis extends Doctrine_Cache_Driver
+class Doctrine_Cache_Phpredis extends Doctrine_Cache_Driver
 {
     /**
-     * @var \Predis\Client $_redis Predis object
+     * @var Redis $_redis Redis object
      */
     protected $_redis;
 
@@ -49,13 +51,14 @@ class Doctrine_Cache_Redis extends Doctrine_Cache_Driver
         parent::__construct($options);
 
         if (isset($options['redis'])) {
-            if ($options['redis'] instanceof \Predis\Client) {
+            if ($options['redis'] instanceof Redis) {
                 $this->_redis = $options['redis'];
+                $this->_redis->setOption(Redis::OPT_SERIALIZER, $this->getSerializerValue());
             } else {
-                throw new Doctrine_Cache_Exception('The "redis" parameter must be an instance of Predis\Client (https://github.com/nrk/predis)');
+                throw new Doctrine_Cache_Exception('The "redis" parameter must be an instance of \Redis (https://github.com/phpredis/phpredis)');
             }
         } else {
-            throw new Doctrine_Cache_Exception('The "redis" parameter must be an instance of Predis\Client (https://github.com/nrk/predis)');
+            throw new Doctrine_Cache_Exception('The "redis" parameter must be an instance of \Redis (https://github.com/phpredis/phpredis)');
         }
     }
 
@@ -128,13 +131,13 @@ class Doctrine_Cache_Redis extends Doctrine_Cache_Driver
      */
     protected function _doSave($id, $data, $lifeTime = false)
     {
-        $pipe = $this->_redis->pipeline();
+        $pipe = $this->_redis->multi(Redis::PIPELINE);
         $pipe->mset(array($id => $data, $id . ':timestamp' => time()));
         if ($lifeTime) {
             $pipe->expire($id, $lifeTime);
             $pipe->expire($id . ':timestamp', $lifeTime);
         }
-        $reply = $pipe->execute();
+        $reply = $pipe->exec();
 
         return $reply[0] and (!$lifeTime or ($reply[1] and $reply[2]));
     }
@@ -148,6 +151,21 @@ class Doctrine_Cache_Redis extends Doctrine_Cache_Driver
      */
     protected function _doDelete($id)
     {
-        return $this->_redis->del(array($id, $id . ':timestamp')) >= 0;
+        return $this->_redis->delete(array($id, $id . ':timestamp')) >= 0;
+    }
+
+    /**
+     * Returns the serializer constant to use. If Redis is compiled with
+     * igbinary support, that is used. Otherwise the default PHP serializer is
+     * used.
+     *
+     * @return int One of the Redis::SERIALIZER_* constants
+     */
+    protected function getSerializerValue()
+    {
+        if (defined('Redis::SERIALIZER_IGBINARY') && extension_loaded('igbinary')) {
+            return Redis::SERIALIZER_IGBINARY;
+        }
+        return Redis::SERIALIZER_PHP;
     }
 }

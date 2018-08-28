@@ -284,9 +284,12 @@ END;
     /**
      * Generate a set of migrations from a set of models
      *
-     * @param  string $modelsPath    Path to models
-     * @param  string $modelLoading  What type of model loading to use when loading the models
-     * @return boolean
+     * @param  string $modelsPath Path to models
+     * @param  string $modelLoading What type of model loading to use when loading the models
+     * @return bool
+     * @throws Doctrine_Exception
+     * @throws Doctrine_Migration_Exception
+     * @throws Doctrine_Table_Exception
      */
     public function generateMigrationsFromModels($modelsPath = null, $modelLoading = null)
     {

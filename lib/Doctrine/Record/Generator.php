@@ -101,9 +101,9 @@ abstract class Doctrine_Record_Generator extends Doctrine_Record_Abstract
     /**
      * Sets given value to an option
      *
-     * @param $name
-     * @param $value        the value of the option
-     * @return Doctrine_Plugin this object
+     * @param string $name
+     * @param mixed $value        the value of the option
+     * @return Doctrine_Record_Generator this object
      * @internal param the $option name of the option to be changed
      */
     public function setOption($name, $value)
@@ -138,8 +138,9 @@ abstract class Doctrine_Record_Generator extends Doctrine_Record_Abstract
      * Initialize the plugin. Call in Doctrine_Template setTableDefinition() in order to initiate a generator in a template
      *
      * @see Doctrine_Template_I18n
-     * @param  Doctrine_Table $table 
-     * @return void
+     * @param  Doctrine_Table $table
+     * @return bool|null
+     * @throws Doctrine_Record_Exception
      */
     public function initialize(Doctrine_Table $table)
     {

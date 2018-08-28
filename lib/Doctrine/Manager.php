@@ -101,6 +101,7 @@ class Doctrine_Manager extends Doctrine_Configurable implements Countable, Itera
      */
     protected $_loadedDefaultValidators = false;
 
+    /** @var Doctrine_Manager */
     protected static $_instance;
 
     private $_initialized = false;
@@ -125,6 +126,7 @@ class Doctrine_Manager extends Doctrine_Configurable implements Countable, Itera
      * calls does not alter the attribute values.
      *
      * @return boolean      true if inizialization was executed
+     * @throws Doctrine_Exception
      */
     public function setDefaultAttributes()
     {
@@ -141,10 +143,10 @@ class Doctrine_Manager extends Doctrine_Configurable implements Countable, Itera
                         Doctrine_Core::ATTR_THROW_EXCEPTIONS             => true,
                         Doctrine_Core::ATTR_VALIDATE                     => Doctrine_Core::VALIDATE_NONE,
                         Doctrine_Core::ATTR_QUERY_LIMIT                  => Doctrine_Core::LIMIT_RECORDS,
-                        Doctrine_Core::ATTR_IDXNAME_FORMAT               => "%s_idx",
-                        Doctrine_Core::ATTR_SEQNAME_FORMAT               => "%s_seq",
-                        Doctrine_Core::ATTR_TBLNAME_FORMAT               => "%s",
-                        Doctrine_Core::ATTR_FKNAME_FORMAT                => "%s",
+                        Doctrine_Core::ATTR_IDXNAME_FORMAT               => '%s_idx',
+                        Doctrine_Core::ATTR_SEQNAME_FORMAT               => '%s_seq',
+                        Doctrine_Core::ATTR_TBLNAME_FORMAT               => '%s',
+                        Doctrine_Core::ATTR_FKNAME_FORMAT                => '%s',
                         Doctrine_Core::ATTR_QUOTE_IDENTIFIER             => false,
                         Doctrine_Core::ATTR_SEQCOL_NAME                  => 'id',
                         Doctrine_Core::ATTR_PORTABILITY                  => Doctrine_Core::PORTABILITY_NONE,
@@ -185,7 +187,7 @@ class Doctrine_Manager extends Doctrine_Configurable implements Countable, Itera
      */
     public static function getInstance()
     {
-        if ( ! isset(self::$_instance)) {
+        if (self::$_instance === null) {
             self::$_instance = new self();
         }
         return self::$_instance;
@@ -232,7 +234,7 @@ class Doctrine_Manager extends Doctrine_Configurable implements Countable, Itera
      */
     public function getQueryRegistry()
     {
-      	if ( ! isset($this->_queryRegistry)) {
+      	if ($this->_queryRegistry === null) {
       	   $this->_queryRegistry = new Doctrine_Query_Registry();
       	}
         return $this->_queryRegistry;
@@ -258,34 +260,37 @@ class Doctrine_Manager extends Doctrine_Configurable implements Countable, Itera
      * if the adapter paramater is not set this method acts as
      * a short cut for Doctrine_Manager::getInstance()->getCurrentConnection()
      *
-     * @param PDO|Doctrine_Adapter_Interface $adapter   database driver
-     * @param string $name                              name of the connection, if empty numeric key is used
-     * @throws Doctrine_Manager_Exception               if trying to bind a connection with an existing name
+     * @param PDO|Doctrine_Adapter_Interface|array|string $adapter database driver
+     * @param string $name name of the connection, if empty numeric key is used
      * @return Doctrine_Connection
+     * @throws Doctrine_Connection_Exception
+     * @throws Doctrine_Exception
+     * @throws Doctrine_Manager_Exception if trying to bind a connection with an existing name
      */
     public static function connection($adapter = null, $name = null)
     {
-        if ($adapter == null) {
-            return Doctrine_Manager::getInstance()->getCurrentConnection();
-        } else {
-            return Doctrine_Manager::getInstance()->openConnection($adapter, $name);
+        if ($adapter === null) {
+            return self::getInstance()->getCurrentConnection();
         }
+
+        return self::getInstance()->openConnection($adapter, $name);
     }
 
     /**
      * Opens a new connection and saves it to Doctrine_Manager->connections
      *
-     * @param PDO|Doctrine_Adapter_Interface $adapter database driver
+     * @param PDO|Doctrine_Adapter_Interface|array|string $adapter database driver
      * @param string $name name of the connection, if empty numeric key is used
      * @param bool $setCurrent
      * @return Doctrine_Connection if trying to bind a connection with an existing name
+     * @throws Doctrine_Exception
      * @throws Doctrine_Manager_Exception if trying to open connection for unknown driver
      */
     public function openConnection($adapter, $name = null, $setCurrent = true)
     {
         if (is_object($adapter)) {
             if ( ! ($adapter instanceof PDO) && ! in_array('Doctrine_Adapter_Interface', class_implements($adapter))) {
-                throw new Doctrine_Manager_Exception("First argument should be an instance of PDO or implement Doctrine_Adapter_Interface");
+                throw new Doctrine_Manager_Exception('First argument should be an instance of PDO or implement Doctrine_Adapter_Interface');
             }
 
             $driverName = $adapter->getAttribute(Doctrine_Core::ATTR_DRIVER_NAME);
@@ -301,8 +306,8 @@ class Doctrine_Manager extends Doctrine_Configurable implements Countable, Itera
 
             $parts['dsn']    = $adapter[0];
             $parts['scheme'] = $e[0];
-            $parts['user']   = (isset($adapter[1])) ? $adapter[1] : null;
-            $parts['pass']   = (isset($adapter[2])) ? $adapter[2] : null;
+            $parts['user']   = isset($adapter[1]) ? $adapter[1] : null;
+            $parts['pass']   = isset($adapter[2]) ? $adapter[2] : null;
             $driverName = $e[0];
             $adapter = $parts;
         } else {
@@ -353,7 +358,7 @@ class Doctrine_Manager extends Doctrine_Configurable implements Countable, Itera
     /**
      * Parse a pdo style dsn in to an array of parts
      *
-     * @param array $dsn An array of dsn information
+     * @param string $dsn An array of dsn information
      * @return array The array parsed
      * @todo package:dbal
      */
@@ -378,7 +383,7 @@ class Doctrine_Manager extends Doctrine_Configurable implements Countable, Itera
             if ($string) {
                 $e2 = explode('=', $string);
 
-                if (isset($e2[0]) && isset($e2[1])) {
+                if (isset($e2[0], $e2[1])) {
                     if (count($e2) > 2)
                     {
                         $key = $e2[0];
@@ -406,9 +411,9 @@ class Doctrine_Manager extends Doctrine_Configurable implements Countable, Itera
     protected function _buildDsnPartsArray($dsn)
     {
         // fix sqlite dsn so that it will parse correctly
-        $dsn = str_replace("////", "/", $dsn);
-        $dsn = str_replace("\\", "/", $dsn);
-        $dsn = preg_replace("/\/\/\/(.*):\//", "//$1:/", $dsn);
+        $dsn = str_replace('////', '/', $dsn);
+        $dsn = str_replace("\\", '/', $dsn);
+        $dsn = preg_replace("/\/\/\/(.*):\//", '//$1:/', $dsn);
 
         // silence any warnings
         $parts = @parse_url($dsn);
@@ -421,7 +426,7 @@ class Doctrine_Manager extends Doctrine_Configurable implements Countable, Itera
             }
         }
 
-        if (count($parts) == 0 || ! isset($parts['scheme'])) {
+        if (count($parts) === 0 || ! isset($parts['scheme'])) {
             throw new Doctrine_Manager_Exception('Could not parse dsn');
         }
 
@@ -450,7 +455,7 @@ class Doctrine_Manager extends Doctrine_Configurable implements Countable, Itera
                 } else {
                     //fix windows dsn we have to add host: to path and set host to null
                     if (isset($parts['host'])) {
-                        $parts['path'] = $parts['host'] . ":" . $parts["path"];
+                        $parts['path'] = $parts['host'] . ':' . $parts['path'];
                         $parts['host'] = null;
                     }
                     $parts['database'] = $parts['path'];
@@ -540,7 +545,7 @@ class Doctrine_Manager extends Doctrine_Configurable implements Countable, Itera
      *
      * @param string $componentName
      * @param string $connectionName
-     * @return boolean
+     * @return void
      */
     public function bindComponent($componentName, $connectionName)
     {
@@ -552,6 +557,8 @@ class Doctrine_Manager extends Doctrine_Configurable implements Countable, Itera
      *
      * @param string $componentName
      * @return Doctrine_Connection
+     * @throws Doctrine_Connection_Exception
+     * @throws Doctrine_Manager_Exception
      */
     public function getConnectionForComponent($componentName)
     {
@@ -721,10 +728,10 @@ class Doctrine_Manager extends Doctrine_Configurable implements Countable, Itera
      */
     public function __toString()
     {
-        $r[] = "<pre>";
-        $r[] = "Doctrine_Manager";
-        $r[] = "Connections : ".count($this->_connections);
-        $r[] = "</pre>";
+        $r[] = '<pre>';
+        $r[] = 'Doctrine_Manager';
+        $r[] = 'Connections : ' .count($this->_connections);
+        $r[] = '</pre>';
         return implode("\n",$r);
     }
 
@@ -825,7 +832,7 @@ class Doctrine_Manager extends Doctrine_Configurable implements Countable, Itera
      */
     public function getConnectionDrivers()
     {
-        return $this->_connectionsDrivers;
+        return $this->_connectionDrivers;
     }
 
     /**

@@ -172,7 +172,8 @@ class Doctrine_Migration
      *
      * @param string $name
      * @param null $path
-     * @return void
+     * @return bool|null
+     * @throws ReflectionException
      */
     public function loadMigrationClass($name, $path = null)
     {
@@ -359,8 +360,9 @@ class Doctrine_Migration
      * Run the migration process but rollback at the very end. Returns true or
      * false for whether or not the migration can be ran
      *
-     * @param  string  $to
+     * @param  string $to
      * @return boolean $success
+     * @throws Doctrine_Exception
      */
     public function migrateDryRun($to = null)
     {

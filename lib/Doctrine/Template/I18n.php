@@ -57,7 +57,7 @@ class Doctrine_Template_I18n extends Doctrine_Template
     /**
      * Get the plugin instance for the I18n template
      *
-     * @return void
+     * @return Doctrine_I18n
      */
     public function getI18n()
     {

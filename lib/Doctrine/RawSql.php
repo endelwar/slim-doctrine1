@@ -71,12 +71,12 @@ class Doctrine_RawSql extends Doctrine_Query_Abstract
      * the user of the RawSql query is responsible for writing SQL that is portable between
      * different DBMS.
      *
-     * @param string $queryPartName     the name of the query part
-     * @param string $queryPart         query part to be parsed
-     * @param boolean $append           whether or not to append the query part to its stack
+     * @param string $queryPartName the name of the query part
+     * @param string $queryPart query part to be parsed
+     * @param boolean $append whether or not to append the query part to its stack
      *                                  if false is given, this method will overwrite
      *                                  the given query part stack with $queryPart
-     * @return Doctrine_Query           this object
+     * @return Doctrine_RawSql this object
      */
  	public function parseDqlQueryPart($queryPartName, $queryPart, $append = false)
     {

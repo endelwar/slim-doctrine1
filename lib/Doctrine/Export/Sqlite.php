@@ -61,8 +61,8 @@ class Doctrine_Export_Sqlite extends Doctrine_Export
      *
      * Create sqlite database file
      *
-     * @param string $databaseFile  Path of the database that should be dropped
-     * @return void
+     * @param string $databaseFile Path of the database that should be dropped
+     * @return PDO
      */
     public function createDatabase($databaseFile)
     {
@@ -184,7 +184,8 @@ class Doctrine_Export_Sqlite extends Doctrine_Export
      *                              )
      *                          );
      * @param array $options An associative array of table options:
-     * @return void
+     * @return array
+     * @throws Doctrine_Exception
      * @throws Doctrine_Export_Exception
      */
     public function createTableSql($name, array $fields, array $options = array())

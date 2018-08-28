@@ -146,8 +146,8 @@ class Doctrine_Import_Mssql extends Doctrine_Import
     /**
      * lists table constraints
      *
-     * @param string $table     database table name
-     * @return array
+     * @param string $table database table name
+     * @return void
      */
     public function listTableIndexes($table)
     {

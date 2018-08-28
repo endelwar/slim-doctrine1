@@ -71,9 +71,9 @@ abstract class Doctrine_Migration_Base
     /**
      * Add a change to the stack of changes to execute
      *
-     * @param string $type    The type of change
-     * @param array  $change   The array of information for the change 
-     * @return void
+     * @param string $type The type of change
+     * @param array $change The array of information for the change
+     * @return array
      */
     protected function _addChange($type, array $change = array())
     {

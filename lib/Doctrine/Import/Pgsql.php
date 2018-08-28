@@ -128,7 +128,7 @@ class Doctrine_Import_Pgsql extends Doctrine_Import
      * lists all database triggers
      *
      * @param string|null $database
-     * @return array
+     * @return void
      */
     public function listTriggers($database = null)
     {

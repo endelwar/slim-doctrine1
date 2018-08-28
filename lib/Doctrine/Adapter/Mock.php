@@ -115,7 +115,7 @@ class Doctrine_Adapter_Mock implements Doctrine_Adapter_Interface, Countable
      */
     public function prepare($query)
     {
-        $mock = new Doctrine_Adapter_Statement_Mock($this, $query);
+        $mock = new Doctrine_Adapter_Statement_Mock($this);
         $mock->queryString = $query;
 
         return $mock;
@@ -152,7 +152,7 @@ class Doctrine_Adapter_Mock implements Doctrine_Adapter_Interface, Countable
             throw new $name($e[1], $e[2]);
         }
 
-        $stmt = new Doctrine_Adapter_Statement_Mock($this, $query);
+        $stmt = new Doctrine_Adapter_Statement_Mock($this);
         $stmt->queryString = $query;
 
         return $stmt;
@@ -182,8 +182,8 @@ class Doctrine_Adapter_Mock implements Doctrine_Adapter_Interface, Countable
     /**
      * Execute a raw sql statement
      *
-     * @param string $statement 
-     * @return void
+     * @param string $statement
+     * @return int
      */
     public function exec($statement)
     {

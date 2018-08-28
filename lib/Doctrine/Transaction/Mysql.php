@@ -36,8 +36,10 @@ class Doctrine_Transaction_Mysql extends Doctrine_Transaction
      * createSavepoint
      * creates a new savepoint
      *
-     * @param string $savepoint     name of a savepoint to set
-     * @return void
+     * @param string $savepoint name of a savepoint to set
+     * @return Doctrine_Adapter_Statement|Doctrine_Connection_Statement|PDOStatement
+     * @throws Doctrine_Connection_Exception
+     * @throws Doctrine_Exception
      */
     protected function createSavePoint($savepoint)
     {
@@ -50,8 +52,10 @@ class Doctrine_Transaction_Mysql extends Doctrine_Transaction
      * releaseSavePoint
      * releases given savepoint
      *
-     * @param string $savepoint     name of a savepoint to release
-     * @return void
+     * @param string $savepoint name of a savepoint to release
+     * @return Doctrine_Adapter_Statement|Doctrine_Connection_Statement|PDOStatement
+     * @throws Doctrine_Connection_Exception
+     * @throws Doctrine_Exception
      */
     protected function releaseSavePoint($savepoint)
     {
@@ -64,8 +68,10 @@ class Doctrine_Transaction_Mysql extends Doctrine_Transaction
      * rollbackSavePoint
      * releases given savepoint
      *
-     * @param string $savepoint     name of a savepoint to rollback to
-     * @return void
+     * @param string $savepoint name of a savepoint to rollback to
+     * @return Doctrine_Adapter_Statement|Doctrine_Connection_Statement|PDOStatement
+     * @throws Doctrine_Connection_Exception
+     * @throws Doctrine_Exception
      */
     protected function rollbackSavePoint($savepoint)
     {
@@ -83,9 +89,10 @@ class Doctrine_Transaction_Mysql extends Doctrine_Transaction
      *                  REPEATABLE READ (prevents nonrepeatable reads)
      *                  SERIALIZABLE (prevents phantom reads)
      *
-     * @throws Doctrine_Transaction_Exception           if using unknown isolation level
-     * @throws PDOException                             if something fails at the PDO level
-     * @return void
+     * @return Doctrine_Adapter_Statement|Doctrine_Connection_Statement|PDOStatement
+     * @throws Doctrine_Connection_Exception
+     * @throws Doctrine_Exception
+     * @throws Doctrine_Transaction_Exception if using unknown isolation level
      */
     public function setIsolation($isolation)
     {

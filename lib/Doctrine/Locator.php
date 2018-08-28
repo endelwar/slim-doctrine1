@@ -71,7 +71,7 @@ class Doctrine_Locator implements Countable, IteratorAggregate
     /**
      * instance
      *
-     * @return Sensei_Locator
+     * @return Doctrine_Locator
      */
     public static function instance()
     {
@@ -117,9 +117,9 @@ class Doctrine_Locator implements Countable, IteratorAggregate
      * bind
      * binds a resource to a name
      *
-     * @param string $name      the name of the resource to bind
-     * @param mixed $value      the value of the resource
-     * @return Sensei_Locator   this object
+     * @param string $name the name of the resource to bind
+     * @param mixed $value the value of the resource
+     * @return Doctrine_Locator this object
      */
     public function bind($name, $value)
     {

@@ -34,11 +34,13 @@
  */
 class Doctrine_Export_Mssql extends Doctrine_Export
 {
-  /**
+    /**
      * create a new database
      *
      * @param string $name name of the database that should be created
-     * @return void
+     * @return Doctrine_Adapter_Statement|PDOStatement
+     * @throws Doctrine_Connection_Exception
+     * @throws Doctrine_Exception
      */
     public function createDatabase($name)
     {
@@ -57,7 +59,9 @@ class Doctrine_Export_Mssql extends Doctrine_Export
      * drop an existing database
      *
      * @param string $name name of the database that should be dropped
-     * @return void
+     * @return Doctrine_Adapter_Statement|PDOStatement
+     * @throws Doctrine_Connection_Exception
+     * @throws Doctrine_Exception
      */
     public function dropDatabase($name)
     {
@@ -170,7 +174,9 @@ class Doctrine_Export_Mssql extends Doctrine_Export
      * @param boolean $check indicates whether the function should just check if the DBMS driver
      *                             can perform the requested table alterations if the value is true or
      *                             actually perform them otherwise.
-     * @return void
+     * @return bool|int
+     * @throws Doctrine_Connection_Exception
+     * @throws Doctrine_Exception
      * @throws Doctrine_Export_Exception
      */
     public function alterTable($name, array $changes, $check = false)
@@ -402,7 +408,8 @@ class Doctrine_Export_Mssql extends Doctrine_Export
      *                              )
      *                          );
      * @param array $options An associative array of table options:
-     * @return string
+     * @return array
+     * @throws Doctrine_Exception
      * @throws Doctrine_Export_Exception
      */
     public function createTableSql($name, array $fields, array $options = array())

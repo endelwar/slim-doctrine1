@@ -38,7 +38,8 @@ class Doctrine_Query_From extends Doctrine_Query_Part
      *
      * @param string $str
      * @param boolean $return if to return the parsed FROM and skip load()
-     * @return void
+     * @return array|null
+     * @throws Doctrine_Query_Exception
      */
     public function parse($str, $return = false)
     {

@@ -342,7 +342,7 @@ class Doctrine_Query_Tokenizer
      * @param $regexp
      * @param string $e1
      * @param string $e2
-     * @return unknown_type
+     * @return array
      * @internal param $d
      */
     private function clauseExplodeCountBrackets($str, $regexp, $e1 = '(', $e2 = ')')

@@ -212,8 +212,8 @@ QEND;
     /**
      * lists table triggers
      *
-     * @param string $table     database table name
-     * @return array
+     * @param string $table database table name
+     * @return void
      */
     public function listTableTriggers($table)
     {
@@ -223,8 +223,8 @@ QEND;
     /**
      * lists table views
      *
-     * @param string $table     database table name
-     * @return array
+     * @param string $table database table name
+     * @return void
      */
     public function listTableViews($table)
     {

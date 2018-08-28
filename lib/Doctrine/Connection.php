@@ -56,7 +56,7 @@
 abstract class Doctrine_Connection extends Doctrine_Configurable implements Countable, IteratorAggregate, Serializable
 {
     /**
-     * @var $dbh                                the database handler
+     * @var $dbh PDO|Doctrine_Adapter_Interface the database handler
      */
     protected $dbh;
 
@@ -194,9 +194,10 @@ abstract class Doctrine_Connection extends Doctrine_Configurable implements Coun
      *
      * @param Doctrine_Manager $manager the manager object
      * @param PDO|Doctrine_Adapter_Interface|array $adapter database driver
-     * @param null $user
-     * @param null $pass
+     * @param null|string $user
+     * @param null|string $pass
      * @throws Doctrine_Connection_Exception
+     * @throws Doctrine_Exception
      */
     public function __construct(Doctrine_Manager $manager, $adapter, $user = null, $pass = null)
     {
@@ -339,23 +340,21 @@ abstract class Doctrine_Connection extends Doctrine_Configurable implements Coun
      * setAttribute
      * sets an attribute
      *
-     * @todo why check for >= 100? has this any special meaning when creating
-     * attributes?
+     * @todo why check for >= 100? has this any special meaning when creating attributes?
      *
      * @param integer $attribute
      * @param mixed $value
      * @return Doctrine_Connection
+     * @throws Doctrine_Exception
      */
     public function setAttribute($attribute, $value)
     {
         if ($attribute >= 100 && $attribute < 1000) {
             parent::setAttribute($attribute, $value);
+        } elseif ($this->isConnected) {
+            $this->dbh->setAttribute($attribute, $value);
         } else {
-            if ($this->isConnected) {
-                $this->dbh->setAttribute($attribute, $value);
-            } else {
-                $this->pendingAttributes[$attribute] = $value;
-            }
+            $this->pendingAttributes[$attribute] = $value;
         }
 
         return $this;
@@ -450,6 +449,7 @@ abstract class Doctrine_Connection extends Doctrine_Configurable implements Coun
      * returns the database handler of which this connection uses
      *
      * @return PDO              the database handler
+     * @throws Doctrine_Connection_Exception
      */
     public function getDbh()
     {
@@ -565,15 +565,14 @@ abstract class Doctrine_Connection extends Doctrine_Configurable implements Coun
      *                          this method will fail if no key fields are specified
      * @return int
      * @throws Doctrine_Connection_Exception if there were no key fields
+     * @throws Doctrine_Exception
      * @internal param name $string of the table on which the REPLACE query will
      *                          be executed.
      *
      * @internal param an $array associative array that describes the fields and the
      *                          values that will be inserted or updated in the specified table. The
      *                          indexes of the array are the names of all the fields of the table.
-     *
      *                          The values of the array are values to be assigned to the specified field.
-     *
      */
     public function replace(Doctrine_Table $table, array $fields, array $keys)
     {
@@ -610,10 +609,11 @@ abstract class Doctrine_Connection extends Doctrine_Configurable implements Coun
     /**
      * deletes table row(s) matching the specified identifier
      *
-     *
      * @param Doctrine_Table|string $table The table to delete data from
      * @param array $identifier An associateve array containing identifier column-value pairs.
      * @return int if something went wrong at the database level
+     * @throws Doctrine_Connection_Exception
+     * @throws Doctrine_Exception
      */
     public function delete(Doctrine_Table $table, array $identifier)
     {
@@ -633,11 +633,12 @@ abstract class Doctrine_Connection extends Doctrine_Configurable implements Coun
     /**
      * Updates table row(s) with specified data.
      *
-     *
      * @param Doctrine_Table $table The table to insert data into
      * @param array $fields
      * @param array $identifier
      * @return int if something went wrong at the database level
+     * @throws Doctrine_Connection_Exception
+     * @throws Doctrine_Exception
      * @internal param array $values An associative array containing column-value pairs.
      *                                  Values can be strings or Doctrine_Expression instances.
      */
@@ -673,6 +674,8 @@ abstract class Doctrine_Connection extends Doctrine_Configurable implements Coun
      * @param Doctrine_Table $table The table to insert data into.
      * @param array $fields
      * @return int the number of affected rows. Boolean false if empty value array was given,
+     * @throws Doctrine_Connection_Exception
+     * @throws Doctrine_Exception
      * @internal param array $values An associative array containing column-value pairs.
      *                                  Values can be strings or Doctrine_Expression instances.
      */
@@ -806,9 +809,11 @@ abstract class Doctrine_Connection extends Doctrine_Configurable implements Coun
     /**
      * fetchAll
      *
-     * @param string $statement         sql query to be executed
-     * @param array $params             prepared statement params
+     * @param string $statement sql query to be executed
+     * @param array $params prepared statement params
      * @return array
+     * @throws Doctrine_Connection_Exception
+     * @throws Doctrine_Exception
      */
     public function fetchAll($statement, array $params = array())
     {
@@ -818,10 +823,12 @@ abstract class Doctrine_Connection extends Doctrine_Configurable implements Coun
     /**
      * fetchOne
      *
-     * @param string $statement         sql query to be executed
-     * @param array $params             prepared statement params
-     * @param int $colnum               0-indexed column number to retrieve
+     * @param string $statement sql query to be executed
+     * @param array $params prepared statement params
+     * @param int $colnum 0-indexed column number to retrieve
      * @return mixed
+     * @throws Doctrine_Connection_Exception
+     * @throws Doctrine_Exception
      */
     public function fetchOne($statement, array $params = array(), $colnum = 0)
     {
@@ -831,9 +838,11 @@ abstract class Doctrine_Connection extends Doctrine_Configurable implements Coun
     /**
      * fetchRow
      *
-     * @param string $statement         sql query to be executed
-     * @param array $params             prepared statement params
+     * @param string $statement sql query to be executed
+     * @param array $params prepared statement params
      * @return array
+     * @throws Doctrine_Connection_Exception
+     * @throws Doctrine_Exception
      */
     public function fetchRow($statement, array $params = array())
     {
@@ -843,9 +852,11 @@ abstract class Doctrine_Connection extends Doctrine_Configurable implements Coun
     /**
      * fetchArray
      *
-     * @param string $statement         sql query to be executed
-     * @param array $params             prepared statement params
+     * @param string $statement sql query to be executed
+     * @param array $params prepared statement params
      * @return array
+     * @throws Doctrine_Connection_Exception
+     * @throws Doctrine_Exception
      */
     public function fetchArray($statement, array $params = array())
     {
@@ -855,10 +866,12 @@ abstract class Doctrine_Connection extends Doctrine_Configurable implements Coun
     /**
      * fetchColumn
      *
-     * @param string $statement         sql query to be executed
-     * @param array $params             prepared statement params
-     * @param int $colnum               0-indexed column number to retrieve
+     * @param string $statement sql query to be executed
+     * @param array $params prepared statement params
+     * @param int $colnum 0-indexed column number to retrieve
      * @return array
+     * @throws Doctrine_Connection_Exception
+     * @throws Doctrine_Exception
      */
     public function fetchColumn($statement, array $params = array(), $colnum = 0)
     {
@@ -868,9 +881,11 @@ abstract class Doctrine_Connection extends Doctrine_Configurable implements Coun
     /**
      * fetchAssoc
      *
-     * @param string $statement         sql query to be executed
-     * @param array $params             prepared statement params
+     * @param string $statement sql query to be executed
+     * @param array $params prepared statement params
      * @return array
+     * @throws Doctrine_Connection_Exception
+     * @throws Doctrine_Exception
      */
     public function fetchAssoc($statement, array $params = array())
     {
@@ -880,9 +895,11 @@ abstract class Doctrine_Connection extends Doctrine_Configurable implements Coun
     /**
      * fetchBoth
      *
-     * @param string $statement         sql query to be executed
-     * @param array $params             prepared statement params
+     * @param string $statement sql query to be executed
+     * @param array $params prepared statement params
      * @return array
+     * @throws Doctrine_Connection_Exception
+     * @throws Doctrine_Exception
      */
     public function fetchBoth($statement, array $params = array())
     {
@@ -900,11 +917,16 @@ abstract class Doctrine_Connection extends Doctrine_Configurable implements Coun
      * $users = $conn->query('SELECT u.* FROM User u WHERE u.name LIKE ?', array('someone'));
      * </code>
      *
-     * @param string $query             DQL query
-     * @param array $params             query parameters
-     * @param int $hydrationMode        Doctrine_Core::HYDRATE_ARRAY or Doctrine_Core::HYDRATE_RECORD
-     * @see Doctrine_Query
+     * @param string $query DQL query
+     * @param array $params query parameters
+     * @param int $hydrationMode Doctrine_Core::HYDRATE_ARRAY or Doctrine_Core::HYDRATE_RECORD
      * @return Doctrine_Collection      Collection of Doctrine_Record objects
+     * @throws Doctrine_Connection_Exception
+     * @throws Doctrine_Exception
+     * @throws Doctrine_Hydrator_Exception
+     * @throws Doctrine_Query_Exception
+     * @throws Doctrine_Query_Tokenizer_Exception
+     * @see Doctrine_Query
      */
     public function query($query, array $params = array(), $hydrationMode = null)
     {
@@ -961,11 +983,16 @@ abstract class Doctrine_Connection extends Doctrine_Configurable implements Coun
      *         );
      * </code>
      *
-     * @param string $query             DQL query
-     * @param array $params             query parameters
-     * @see Doctrine_Query
+     * @param string $query DQL query
+     * @param array $params query parameters
      * @return Doctrine_Record|false    Doctrine_Record object on success,
      *                                  boolean false on failure
+     * @throws Doctrine_Connection_Exception
+     * @throws Doctrine_Exception
+     * @throws Doctrine_Hydrator_Exception
+     * @throws Doctrine_Query_Exception
+     * @throws Doctrine_Query_Tokenizer_Exception
+     * @see Doctrine_Query
      */
     public function queryOne($query, array $params = array())
     {
@@ -986,6 +1013,8 @@ abstract class Doctrine_Connection extends Doctrine_Configurable implements Coun
      * @param integer $limit
      * @param integer $offset
      * @return Doctrine_Connection_Statement
+     * @throws Doctrine_Connection_Exception
+     * @throws Doctrine_Exception
      */
     public function select($query, $limit = 0, $offset = 0)
     {
@@ -998,10 +1027,12 @@ abstract class Doctrine_Connection extends Doctrine_Configurable implements Coun
     /**
      * standaloneQuery
      *
-     * @param string $query     sql query
-     * @param array $params     query parameters
+     * @param string $query sql query
+     * @param array $params query parameters
      *
      * @return PDOStatement|Doctrine_Adapter_Statement
+     * @throws Doctrine_Connection_Exception
+     * @throws Doctrine_Exception
      */
     public function standaloneQuery($query, $params = array())
     {
@@ -1016,7 +1047,7 @@ abstract class Doctrine_Connection extends Doctrine_Configurable implements Coun
      * @throws \Doctrine_Exception
      * @throws \Doctrine_Connection_Exception
      *
-     * @return PDOStatement|Doctrine_Adapter_Statement
+     * @return Doctrine_Adapter_Statement|Doctrine_Connection_Statement|PDOStatement
      */
     public function execute($query, array $params = array())
     {
@@ -1049,10 +1080,12 @@ abstract class Doctrine_Connection extends Doctrine_Configurable implements Coun
 
     /**
      * exec
-     * @param string $query     sql query
-     * @param array $params     query parameters
+     * @param string $query sql query
+     * @param array $params query parameters
      *
      * @return integer
+     * @throws Doctrine_Connection_Exception
+     * @throws Doctrine_Exception
      */
     public function exec($query, array $params = array())
     {
@@ -1089,6 +1122,7 @@ abstract class Doctrine_Connection extends Doctrine_Configurable implements Coun
      * @param Exception $e
      * @param $invoker
      * @param null $query
+     * @throws Doctrine_Connection_Exception
      */
     public function rethrowException(Exception $e, $invoker, $query = null)
     {
@@ -1131,8 +1165,10 @@ abstract class Doctrine_Connection extends Doctrine_Configurable implements Coun
     /**
      * returns a table object for given component name
      *
-     * @param string $name              component name
+     * @param string $name component name
      * @return Doctrine_Table
+     * @throws Doctrine_Connection_Exception
+     * @throws Doctrine_Exception
      */
     public function getTable($name)
     {
@@ -1232,9 +1268,10 @@ abstract class Doctrine_Connection extends Doctrine_Configurable implements Coun
      * create
      * creates a record
      *
-     * create                       creates a record
-     * @param string $name          component name
-     * @return Doctrine_Record      Doctrine_Record object
+     * @param string $name     component name
+     * @return Doctrine_Record
+     * @throws Doctrine_Connection_Exception
+     * @throws Doctrine_Exception
      */
     public function create($name)
     {
@@ -1301,6 +1338,7 @@ abstract class Doctrine_Connection extends Doctrine_Configurable implements Coun
      * closes the connection
      *
      * @return void
+     * @throws Doctrine_Connection_Exception
      */
     public function close()
     {
@@ -1331,6 +1369,7 @@ abstract class Doctrine_Connection extends Doctrine_Configurable implements Coun
      * Fetch the SQLSTATE associated with the last operation on the database handle
      *
      * @return integer
+     * @throws Doctrine_Connection_Exception
      */
     public function errorCode()
     {
@@ -1344,6 +1383,7 @@ abstract class Doctrine_Connection extends Doctrine_Configurable implements Coun
      * Fetch extended error information associated with the last operation on the database handle
      *
      * @return array
+     * @throws Doctrine_Connection_Exception
      */
     public function errorInfo()
     {
@@ -1413,8 +1453,9 @@ abstract class Doctrine_Connection extends Doctrine_Configurable implements Coun
      * Note: This method may not return a meaningful or consistent result across different drivers,
      * because the underlying database may not even support the notion of auto-increment fields or sequences.
      *
-     * @param string $table     name of the table into which a new row was inserted
-     * @param string $field     name of the field into which a new row was inserted
+     * @param string $table name of the table into which a new row was inserted
+     * @param string $field name of the field into which a new row was inserted
+     * @return string|integer|false
      */
     public function lastInsertId($table = null, $field = null)
     {

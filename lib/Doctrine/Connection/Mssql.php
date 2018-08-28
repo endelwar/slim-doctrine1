@@ -314,10 +314,12 @@ class Doctrine_Connection_Mssql extends Doctrine_Connection_Common
 
     /**
      * execute
-     * @param string $query     sql query
-     * @param array $params     query parameters
+     * @param string $query sql query
+     * @param array $params query parameters
      *
-     * @return PDOStatement|Doctrine_Adapter_Statement
+     * @return int
+     * @throws Doctrine_Connection_Exception
+     * @throws Doctrine_Exception
      */
     public function exec($query, array $params = array())
     {

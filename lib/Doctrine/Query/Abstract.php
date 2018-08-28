@@ -277,11 +277,11 @@ abstract class Doctrine_Query_Abstract
     /**
      * Constructor.
      *
-     * @param Doctrine_Connection  The connection object the query will use.
-     * @param Doctrine_Hydrator_Abstract  The hydrator that will be used for generating result sets.
+     * @param Doctrine_Connection  $connection The connection object the query will use.
+     * @param Doctrine_Hydrator_Abstract $hydrator The hydrator that will be used for generating result sets.
+     * @throws Doctrine_Connection_Exception
      */
-    public function __construct(Doctrine_Connection $connection = null,
-            Doctrine_Hydrator_Abstract $hydrator = null)
+    public function __construct(Doctrine_Connection $connection = null, Doctrine_Hydrator_Abstract $hydrator = null)
     {
         if ($connection === null) {
             $connection = Doctrine_Manager::getInstance()->getCurrentConnection();
@@ -316,7 +316,7 @@ abstract class Doctrine_Query_Abstract
      *
      * @param string $name option name
      * @param string $value option value
-     * @return Doctrine_Query this object
+     * @return void
      * @throws Doctrine_Query_Exception
      */
     public function setOption($name, $value)
@@ -805,7 +805,7 @@ abstract class Doctrine_Query_Abstract
      * getRootAlias
      * returns the alias of the root component
      *
-     * @return array
+     * @return string
      */
     public function getRootAlias()
     {
@@ -1417,7 +1417,7 @@ abstract class Doctrine_Query_Abstract
     public function andWhereIn($expr, $params = array(), $not = false)
     {
         // if there's no params, return (else we'll get a WHERE IN (), invalid SQL)
-        if (isset($params) and (count($params) == 0)) {
+        if (isset($params) && is_array($params) && (count($params) === 0)) {
             return $this;
         }
 
