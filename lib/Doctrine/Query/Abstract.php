@@ -653,7 +653,7 @@ abstract class Doctrine_Query_Abstract
 
         // No inheritance map so lets just return
         if (empty($map)) {
-          return;
+          return '';
         }
 
         $tableAlias = $this->getSqlTableAlias($componentAlias);
@@ -666,7 +666,7 @@ abstract class Doctrine_Query_Abstract
 
         // Fix for 2015: loop through whole inheritanceMap to add all
         // keyFields for inheritance (and not only the first)
-        $retVal = "";
+        $retVal = '';
         $count = 0;
 
         foreach ($map as $field => $value) {
