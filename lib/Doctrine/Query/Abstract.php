@@ -789,7 +789,7 @@ abstract class Doctrine_Query_Abstract
      * this method is needed by DQL subqueries which need the aliases
      * of the parent query
      *
-     * @param Doctrine_Hydrate|Doctrine_Query_Abstract $query the query object from which the
+     * @param Doctrine_Query_Abstract|Doctrine_Query $query the query object from which the
      *                                  aliases are copied from
      * @return $this this object
      */
@@ -1373,7 +1373,7 @@ abstract class Doctrine_Query_Abstract
      * </code>
      *
      * @param string $where Query WHERE part
-     * @param mixed $params An array of parameters or a simple scalar
+     * @param int|bool|string|array $params An array of parameters or a simple scalar
      * @return $this
      * @throws Doctrine_Query_Exception
      */
@@ -1562,7 +1562,7 @@ abstract class Doctrine_Query_Abstract
      * </code>
      *
      * @param string $having Query HAVING part
-     * @param mixed $params an array of parameters or a simple scalar
+     * @param int|bool|string|array $params an array of parameters or a simple scalar
      * @return $this
      * @throws Doctrine_Query_Exception
      */
@@ -1677,7 +1677,7 @@ abstract class Doctrine_Query_Abstract
      *
      * @param null|array|string $key
      * @param null|int|string $value
-     * @param null|array $params
+     * @param null|int|bool|string|array $params
      * @return $this
      * @throws Doctrine_Query_Exception
      * @internal param string $update Query UPDATE part
@@ -1723,7 +1723,7 @@ abstract class Doctrine_Query_Abstract
      * appends an INNER JOIN to the FROM part of the query
      *
      * @param string $join Query INNER JOIN
-     * @param array $params
+     * @param int|bool|string|array $params
      * @return $this
      * @throws Doctrine_Query_Exception
      */
@@ -1743,7 +1743,7 @@ abstract class Doctrine_Query_Abstract
      * appends a LEFT JOIN to the FROM part of the query
      *
      * @param string $join Query LEFT JOIN
-     * @param array $params
+     * @param int|bool|string|array $params
      * @return $this
      * @throws Doctrine_Query_Exception
      */
@@ -1776,7 +1776,7 @@ abstract class Doctrine_Query_Abstract
      * sets the WHERE part of the query
      *
      * @param $where
-     * @param mixed $params an array of parameters or a simple scalar
+     * @param int|bool|string|array $params an array of parameters or a simple scalar
      * @return $this
      * @throws Doctrine_Query_Exception
      * @internal param string $join Query WHERE part
@@ -1799,7 +1799,7 @@ abstract class Doctrine_Query_Abstract
      * sets the HAVING part of the query
      *
      * @param string $having Query HAVING part
-     * @param mixed $params an array of parameters or a simple scalar
+     * @param int|bool|string|array $params an array of parameters or a simple scalar
      * @return $this
      * @throws Doctrine_Query_Exception
      */
