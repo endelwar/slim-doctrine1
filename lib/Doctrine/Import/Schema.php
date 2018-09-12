@@ -202,7 +202,7 @@ class Doctrine_Import_Schema
     /**
      * setOptions
      *
-     * @param string $options 
+     * @param array $options
      * @return void
      */
     public function setOptions($options)
@@ -217,9 +217,10 @@ class Doctrine_Import_Schema
      *
      * Loop throug directories of schema files and parse them all in to one complete array of schema information
      *
-     * @param  string   $schema Array of schema files or single schema file. Array of directories with schema files or single directory
-     * @param  string   $format Format of the files we are parsing and building from
-     * @return array    $array
+     * @param  string|array $schema Array of schema files or single schema file. Array of directories with schema files or single directory
+     * @param  string $format Format of the files we are parsing and building from
+     * @return array
+     * @throws Doctrine_Import_Exception
      */
     public function buildSchema($schema, $format)
     {
@@ -257,14 +258,14 @@ class Doctrine_Import_Schema
      *
      * A method to import a Schema and translate it into a Doctrine_Record object
      *
-     * @param  string $schema The file containing the XML schema
+     * @param  string|array $schema The file containing the XML schema
      * @param  string $format Format of the schema file
      * @param  string $directory The directory where the Doctrine_Record class will be written
      * @param  array $models Optional array of models to import
      * @throws Doctrine_Import_Builder_Exception
      * @throws Doctrine_Import_Exception
      */
-    public function importSchema($schema, $format = 'yml', $directory = null, $models = array())
+    public function importSchema($schema, $format = 'yml', $directory = null, array $models = array())
     {
         $schema = (array) $schema;
         $builder = new Doctrine_Import_Builder();
@@ -273,7 +274,7 @@ class Doctrine_Import_Schema
         
         $array = $this->buildSchema($schema, $format);
 
-        if (count($array) == 0) { 
+        if (count($array) === 0) {
             throw new Doctrine_Import_Exception(
                 sprintf('No ' . $format . ' schema found in ' . implode(", ", $schema))
             ); 
@@ -294,9 +295,10 @@ class Doctrine_Import_Schema
      * A method to parse a Schema and translate it into a property array.
      * The function returns that property array.
      *
-     * @param  string $schema   Path to the file containing the schema
-     * @param  string $type     Format type of the schema we are parsing
+     * @param  string $schema Path to the file containing the schema
+     * @param  string $type Format type of the schema we are parsing
      * @return array  $build    Built array of schema information
+     * @throws Doctrine_Import_Exception
      */
     public function parseSchema($schema, $type)
     {
@@ -379,9 +381,9 @@ class Doctrine_Import_Schema
 
                     // Support short type(length) syntax: my_column: { type: integer(4) }
                     $e = explode('(', $field['type']);
-                    if (isset($e[0]) && isset($e[1])) {
+                    if (isset($e[0], $e[1])) {
                         $colDesc['type'] = $e[0];
-                        $value = substr($e[1], 0, strlen($e[1]) - 1);
+                        $value = substr($e[1], 0, -1);
                         $e = explode(',', $value);
                         $colDesc['length'] = $e[0];
                         if (isset($e[1]) && $e[1]) {
@@ -557,11 +559,12 @@ class Doctrine_Import_Schema
      * buildRelationships
      *
      * Loop through an array of schema information and build all the necessary relationship information
-     * Will attempt to auto complete relationships and simplify the amount of information required 
+     * Will attempt to auto complete relationships and simplify the amount of information required
      * for defining a relationship
      *
-     * @param  string $array 
-     * @return void
+     * @param  array $array
+     * @return array
+     * @throws Doctrine_Import_Exception
      */
     protected function _buildRelationships($array)
     {

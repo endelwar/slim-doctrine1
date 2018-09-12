@@ -105,7 +105,7 @@ class Doctrine_Data_Import extends Doctrine_Data
      * Do the importing of the data parsed from the fixtures
      *
      * @param bool $append
-     * @return null
+     * @return void
      */
     public function doImport($append = false)
     {
@@ -121,9 +121,12 @@ class Doctrine_Data_Import extends Doctrine_Data
     /**
      * Recursively loop over all data fixtures and build the array of className rows
      *
-     * @param $className
-     * @param $data
+     * @param string $className
+     * @param array $data
      * @return void
+     * @throws Doctrine_Connection_Exception
+     * @throws Doctrine_Exception
+     * @throws Doctrine_Manager_Exception
      */
     protected function _buildRows($className, $data)
     {
