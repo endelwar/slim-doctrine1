@@ -44,8 +44,9 @@ class Doctrine_Connection_Module
     protected $moduleName;
 
     /**
-     * @param Doctrine_Connection $conn     Doctrine_Connection object, every connection
-     *                                      module holds an instance of Doctrine_Connection
+     * @param Doctrine_Connection $conn Doctrine_Connection object, every connection
+     *                                  module holds an instance of Doctrine_Connection
+     * @throws Doctrine_Connection_Exception
      */
     public function __construct($conn = null)
     {

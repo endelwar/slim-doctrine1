@@ -228,7 +228,7 @@ class Doctrine_Data
      * @param array|string $models
      * @param bool $append
      * @param string $charset
-     * @return null
+     * @return void
      */
     public function importData($directory, $format = 'yml', $models = array(), $append = false, $charset = 'UTF-8')
     {
@@ -237,7 +237,7 @@ class Doctrine_Data
         $import->setModels($models);
         $import->setCharset($charset);
 
-        return $import->doImport($append);
+        $import->doImport($append);
     }
 
     /**
@@ -271,8 +271,16 @@ class Doctrine_Data
      *
      * Purge all data for loaded models or for the passed array of Doctrine_Records
      *
-     * @param string $models
+     * @param string|array $models
      * @return void
+     * @throws Doctrine_Connection_Exception
+     * @throws Doctrine_Exception
+     * @throws Doctrine_Hydrator_Exception
+     * @throws Doctrine_Manager_Exception
+     * @throws Doctrine_Query_Exception
+     * @throws Doctrine_Transaction_Exception
+     * @throws Doctrine_Validator_Exception
+     * @throws ReflectionException
      */
     public function purge($models = null)
     {
