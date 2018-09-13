@@ -295,6 +295,27 @@ class Doctrine_Collection extends Doctrine_Access implements Countable, Iterator
     }
 
     /**
+     * Sort by custom user function
+     *
+     * function sortByAge($a, $b)
+     * {
+     *     $age_a = $a->age;
+     *     $age_b = $b->age;
+     *
+     *     return $age_a == $age_b ? 0 : $age_a > $age_b ? 1 : - 1;
+     *     // on PHP7 you can use spaceship operator: return $age_a <=> $age_b;
+     * }
+     *
+     * $collection->sortBy('sortByAge');
+     *
+     * @param callable $sortFunction
+     */
+    public function sortBy($sortFunction)
+    {
+        usort($this->data, $sortFunction);
+    }
+
+    /**
      * Sets a reference pointer
      *
      * @param Doctrine_Record $record
