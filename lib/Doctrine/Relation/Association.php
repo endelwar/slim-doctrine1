@@ -43,6 +43,9 @@ class Doctrine_Relation_Association extends Doctrine_Relation
         return $this->definition['refTable'];
     }
 
+    /**
+     * @return Doctrine_Table
+     */
     public function getAssociationTable()
     {
         return $this->definition['refTable'];
@@ -57,12 +60,13 @@ class Doctrine_Relation_Association extends Doctrine_Relation
      */
     public function getRelationDql($count, $context = 'record')
     {
+        /** @var Doctrine_Table $table */
         $table = $this->definition['refTable'];
-        $component = $this->definition['refTable']->getComponentName();
+        $component = $table->getComponentName();
         
         switch ($context) {
             case "record":
-                $sub  = substr(str_repeat("?, ", $count),0,-2);
+                $sub  = substr(str_repeat('?, ', $count),0,-2);
                 $dql  = 'FROM ' . $this->getTable()->getComponentName();
                 $dql .= '.' . $component;
                 $dql .= ' WHERE ' . $this->getTable()->getComponentName()
@@ -123,6 +127,13 @@ class Doctrine_Relation_Association extends Doctrine_Relation
      *
      * @param Doctrine_Record $record
      * @return Doctrine_Record|Doctrine_Collection
+     * @throws Doctrine_Connection_Exception
+     * @throws Doctrine_Exception
+     * @throws Doctrine_Hydrator_Exception
+     * @throws Doctrine_Manager_Exception
+     * @throws Doctrine_Query_Exception
+     * @throws Doctrine_Query_Tokenizer_Exception
+     * @throws Doctrine_Record_Exception
      */
     public function fetchRelatedFor(Doctrine_Record $record)
     {
