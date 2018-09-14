@@ -6,12 +6,6 @@ require __DIR__ . '/bootstrap.php';
 
 $test = new DoctrineTest();
 
-// Data Fixtures Tests
-$data = new GroupTest('Data exporting/importing fixtures', 'data_fixtures');
-$data->addTestCase(new Doctrine_Data_Import_TestCase());
-$data->addTestCase(new Doctrine_Data_Export_TestCase());
-$test->addTestCase($data);
-
 // Ticket Tests
 $tickets = new GroupTest('Tickets Tests', 'tickets');
 
@@ -296,7 +290,11 @@ $parser = new GroupTest('Parser Tests', 'parser');
 $parser->addTestCase(new Doctrine_Parser_TestCase());
 $test->addTestCase($parser);
 
-
+// Data Fixtures Tests
+$data = new GroupTest('Data exporting/importing fixtures', 'data_fixtures');
+$data->addTestCase(new Doctrine_Data_Import_TestCase());
+$data->addTestCase(new Doctrine_Data_Export_TestCase());
+$test->addTestCase($data);
 
 // Unsorted Tests. These need to be sorted and placed in the appropriate group
 $unsorted = new GroupTest('Unsorted Tests', 'unsorted');
