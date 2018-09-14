@@ -2,7 +2,7 @@
 class ValidatorTest_AddressModel extends Doctrine_Record {
 	public function setTableDefinition() {
 
-		$this->hasColumn("id", "integer", 11, array('autoincrement' => true,
+		$this->hasColumn('id', 'integer', 11, array('autoincrement' => true,
 													'primary'       => true
 													));
 		$this->hasColumn('address1', 'string', 255, array('notnull' => true, 'notblank'));

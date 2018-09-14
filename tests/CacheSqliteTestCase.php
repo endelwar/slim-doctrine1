@@ -1,5 +1,5 @@
 <?php
-require_once("UnitTestCase.php");
+require_once 'UnitTestCase.php';
 
 class Doctrine_Cache_SqliteTestCase extends Doctrine_UnitTestCase
 {
@@ -10,8 +10,8 @@ class Doctrine_Cache_SqliteTestCase extends Doctrine_UnitTestCase
         $this->manager->setAttribute(Doctrine_Core::ATTR_CACHE,Doctrine_Core::CACHE_NONE);
         $dir = $this->connection->getAttribute(Doctrine_Core::ATTR_CACHE_DIR);
 
-        if (file_exists($dir.DIRECTORY_SEPARATOR."stats.cache")) {
-            unlink($dir.DIRECTORY_SEPARATOR."stats.cache");
+        if (file_exists($dir.DIRECTORY_SEPARATOR. 'stats.cache')) {
+            unlink($dir.DIRECTORY_SEPARATOR. 'stats.cache');
         }
 
         $this->cache = new Doctrine_Cache_Sqlite($this->objTable);
@@ -41,7 +41,7 @@ class Doctrine_Cache_SqliteTestCase extends Doctrine_UnitTestCase
         $this->cache->store($this->objTable->find(5));
 
         $array = $this->cache->fetchMultiple(array(5,6));
-        $this->assertEqual(gettype($array), "array");
+        $this->assertEqual(gettype($array), 'array');
         $this->assertEqual(count($array), 1);
         $this->assertTrue($array[0] instanceof Doctrine_Record);
     }
@@ -92,7 +92,7 @@ class Doctrine_Cache_SqliteTestCase extends Doctrine_UnitTestCase
         $this->cache->fetchMultiple(array(5,6,7));
 
         $this->assertTrue($this->cache->saveStats());
-        $this->assertTrue(gettype($this->cache->getStats()), "array");
+        $this->assertTrue(gettype($this->cache->getStats()), 'array');
         $this->assertEqual($this->cache->getStats(),array(5 => 1, 6 => 1, 7 => 1));
 
         $this->cache->fetchMultiple(array(5,6,7));

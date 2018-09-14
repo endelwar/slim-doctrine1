@@ -84,7 +84,7 @@ class Doctrine_Query_Update_TestCase extends Doctrine_UnitTestCase
 
         $q->update('User u')->set('u.id', 'u.id + 1');
 
-        $this->assertEqual($q->getSqlQuery(), "UPDATE entity SET id = id + 1 WHERE (type = 0)");
+        $this->assertEqual($q->getSqlQuery(), 'UPDATE entity SET id = id + 1 WHERE (type = 0)');
     }
     public function testUpdateSupportsComplexExpressions()
     {

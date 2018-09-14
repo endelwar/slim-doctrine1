@@ -29,7 +29,7 @@ class Doctrine_Ticket_1205_TestCase extends Doctrine_UnitTestCase
           // Each Address has 1 User
           $q = Doctrine_Query::create()
                 ->from('Ticket1205TestAddress a')
-                ->innerjoin('a.User u')
+                ->innerJoin('a.User u')
                 ->execute(array(), Doctrine_Core::HYDRATE_ARRAY);
           $this->fail();
         } catch (Exception $e) {

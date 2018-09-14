@@ -96,9 +96,9 @@ class AdapterMock implements Doctrine_Adapter_Interface {
         $this->queries[] = 'LAST_INSERT_ID()';
         if ($this->lastInsertIdFail) {
             return null;
-        } else {
-            return 1;
         }
+
+        return 1;
     }
 
     public function beginTransaction()

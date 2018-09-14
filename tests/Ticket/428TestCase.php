@@ -43,7 +43,7 @@ class Doctrine_Ticket_428_TestCase extends Doctrine_UnitTestCase
         
         $q = new Doctrine_Query();
 
-        $q->select('a.name, COUNT(s.id) count')->from('Album a')->leftJoin('a.Song s')->groupby('a.id');
+        $q->select('a.name, COUNT(s.id) count')->from('Album a')->leftJoin('a.Song s')->groupBy('a.id');
         $albums = $q->execute();
 
         try {

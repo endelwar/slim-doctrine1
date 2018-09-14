@@ -60,7 +60,7 @@ class Doctrine_NestedSet_TimestampableMultiRoot_TestCase extends Doctrine_UnitTe
             $this->assertEqual(2, $node['rgt']);
             $this->assertNotEqual(null, $node['created_at']);
             $this->assertNotEqual(null, $node['updated_at']);
-            $child1->name = "child1";
+            $child1->name = 'child1';
             $child1->getNode()->insertAsLastChildOf($node);
         
             $node->refresh(); // ! updates lft/rgt

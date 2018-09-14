@@ -3,24 +3,24 @@ class Doctrine_Sluggable_TestCase extends Doctrine_UnitTestCase
 {    
     public function prepareTables()
     {
-        $this->tables[] = "SluggableItem";
-        $this->tables[] = "SluggableItem1";
-        $this->tables[] = "SluggableItem2";
-        $this->tables[] = "SluggableItem3";
-        $this->tables[] = "SluggableItem4";
-        $this->tables[] = "SluggableItem5";
-        $this->tables[] = "SluggableItem6";
-        $this->tables[] = "SluggableItem7";
-        $this->tables[] = "SluggableItem8";
-        $this->tables[] = "SluggableItem9";
-        $this->tables[] = "SluggableItem10";
-        $this->tables[] = "SluggableItem11";
-        $this->tables[] = "SluggableItem12";
-        $this->tables[] = "SluggableItem13";
-        $this->tables[] = "SluggableItem14";
-        $this->tables[] = "SluggableItem15";
-        $this->tables[] = "SluggableItem16";
-        $this->tables[] = "SluggableItem17";
+        $this->tables[] = 'SluggableItem';
+        $this->tables[] = 'SluggableItem1';
+        $this->tables[] = 'SluggableItem2';
+        $this->tables[] = 'SluggableItem3';
+        $this->tables[] = 'SluggableItem4';
+        $this->tables[] = 'SluggableItem5';
+        $this->tables[] = 'SluggableItem6';
+        $this->tables[] = 'SluggableItem7';
+        $this->tables[] = 'SluggableItem8';
+        $this->tables[] = 'SluggableItem9';
+        $this->tables[] = 'SluggableItem10';
+        $this->tables[] = 'SluggableItem11';
+        $this->tables[] = 'SluggableItem12';
+        $this->tables[] = 'SluggableItem13';
+        $this->tables[] = 'SluggableItem14';
+        $this->tables[] = 'SluggableItem15';
+        $this->tables[] = 'SluggableItem16';
+        $this->tables[] = 'SluggableItem17';
         parent::prepareTables();
     }
 
@@ -494,18 +494,10 @@ class SluggableItem10 extends SluggableItem10Abstract
 // Two classes that extends SluggableItem10 using column aggregation
 class SluggableItem11 extends SluggableItem10
 {
-  public function setUp()
-  {
-    parent::setUp();
-  }
 }
 
 class SluggableItem12 extends SluggableItem10
 {
-  public function setUp()
-  {
-    parent::setUp();
-  }
 }
 
 // Two classes extending SluggableItem2 using concrete inheritance
@@ -537,7 +529,11 @@ class SluggableItem15 extends Doctrine_Record
     $this->setTableName('my_item15');
     $this->hasColumn('name', 'string', 50);
     $this->hasColumn('type', 'integer',1);
+<<<<<<< HEAD
     $this->setSubClasses(array('SluggableItem16' => array('type' => 0), 'SluggableItem17' => array('type' => 1)));
+=======
+    $this->setSubclasses(array('SluggableItem16' => array('type' => 0), 'SluggableItem17' => array('type' => 1)));
+>>>>>>> Some QA on tests
   }
  
   public function setUp()
@@ -555,16 +551,8 @@ class SluggableItem15 extends Doctrine_Record
 // Two classes that extends SluggableItem15 using column aggregation
 class SluggableItem16 extends SluggableItem15
 {
-  public function setUp()
-  {
-    parent::setUp();
-  }
 }
 
 class SluggableItem17 extends SluggableItem15
 {
-  public function setUp()
-  {
-    parent::setUp();
-  }
 }

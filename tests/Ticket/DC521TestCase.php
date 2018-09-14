@@ -34,11 +34,6 @@ class DC521TestModel extends Doctrine_Record
              ));
     }
 
-    public function setUp()
-    {
-        parent::setUp();
-        
-    }
 }
 
 class DC521IdOnlyTestModel extends Doctrine_Record
@@ -53,11 +48,6 @@ class DC521IdOnlyTestModel extends Doctrine_Record
              ));
     }
 
-    public function setUp()
-    {
-        parent::setUp();
-        
-    }
 }
 
 /**
@@ -123,7 +113,7 @@ class Doctrine_Ticket_DC521_TestCase extends Doctrine_UnitTestCase
         $m = new DC521TestModel();
         $this->assertEqual($m->id, null);
         $m->id = 111111;
-        $m->data = "testdata";
+        $m->data = 'testdata';
         $m->save();
         $this->assertEqual($m->id, 111111);
     }

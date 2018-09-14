@@ -197,7 +197,7 @@ class Doctrine_Query_Cache_TestCase extends Doctrine_UnitTestCase
         $q = new Doctrine_Query();
         $q->useResultCache(true, 1234);
         $this->assertIdentical(1234, $q->getResultCacheLifeSpan());
-        $q->setResultCacheLifeSPan(4321);
+        $q->setResultCacheLifeSpan(4321);
         $this->assertIdentical(4321, $q->getResultCacheLifeSpan());
         $q->free();
     }

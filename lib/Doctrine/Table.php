@@ -1019,6 +1019,7 @@ class Doctrine_Table extends Doctrine_Configurable implements Countable, Seriali
      *
      * @param string $alias relation alias; @see hasRelation()
      * @param bool $recursive
+     * @throws Doctrine_Table_Exception
      * @return Doctrine_Relation
      */
     public function getRelation($alias, $recursive = true)

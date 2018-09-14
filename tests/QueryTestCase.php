@@ -276,8 +276,8 @@ class Doctrine_Query_TestCase extends Doctrine_UnitTestCase
             ->leftJoin('u.Phonenumber p')
             ->where("u.name = 'jon'")
             ->andWhere("u.loginname = 'jwage'")
-            ->orWhere("u.id = 4")
-            ->orWhere("u.id = 5")
+            ->orWhere('u.id = 4')
+            ->orWhere('u.id = 5')
             ->andWhere("u.name LIKE 'Arnold%'");
             
         $q2 = Doctrine_Query::create()
@@ -288,7 +288,7 @@ class Doctrine_Query_TestCase extends Doctrine_UnitTestCase
 
         $this->assertEqual(
             $q1->getSqlQuery(),
-            "SELECT e.id AS e__id FROM entity e LEFT JOIN phonenumber p ON e.id = p.entity_id " .
+            'SELECT e.id AS e__id FROM entity e LEFT JOIN phonenumber p ON e.id = p.entity_id ' .
             "WHERE (e.name = 'jon' AND e.loginname = 'jwage' OR e.id = 4 OR e.id = 5 AND e.name LIKE 'Arnold%' AND (e.type = 0))"
         );
         
@@ -307,7 +307,7 @@ class Doctrine_Query_TestCase extends Doctrine_UnitTestCase
         $q1 = Doctrine_Query::create()
             ->select('u.id')
             ->from('QueryTest_User u')
-            ->where("CURRENT_DATE() BETWEEN u.QueryTest_Subscription.begin AND u.QueryTest_Subscription.begin")
+            ->where('CURRENT_DATE() BETWEEN u.QueryTest_Subscription.begin AND u.QueryTest_Subscription.begin')
             ->addWhere( 'u.id != 5' )
             ;
             
@@ -381,7 +381,7 @@ class Doctrine_Query_TestCase extends Doctrine_UnitTestCase
                     ->distinct()
                     ->limit(1);
         
-        $this->assertEqual($q->getSqlQuery(), "SELECT DISTINCT e.id AS e__id, e.name AS e__name, e2.id AS e2__id, e2.address AS e2__address FROM entity e LEFT JOIN email e2 ON e.email_id = e2.id LEFT JOIN phonenumber p ON e.id = p.entity_id WHERE (e.type = 0) LIMIT 1");
+        $this->assertEqual($q->getSqlQuery(), 'SELECT DISTINCT e.id AS e__id, e.name AS e__name, e2.id AS e2__id, e2.address AS e2__address FROM entity e LEFT JOIN email e2 ON e.email_id = e2.id LEFT JOIN phonenumber p ON e.id = p.entity_id WHERE (e.type = 0) LIMIT 1');
     }
 }
 

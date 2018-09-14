@@ -19,23 +19,23 @@ class Doctrine_Ticket_1195_TestCase extends Doctrine_UnitTestCase
     public function prepareData()
     {
         $item = new T1195_Item();
-        $item->col1 = "a";
-        $item->col2 = "a";
+        $item->col1 = 'a';
+        $item->col2 = 'a';
         $item->save();
 
         $item = new T1195_Item();
-        $item->col1 = "a";
-        $item->col2 = "b";
+        $item->col1 = 'a';
+        $item->col2 = 'b';
         $item->save();
 
         $item = new T1195_Item();
-        $item->col1 = "b";
-        $item->col2 = "a";
+        $item->col1 = 'b';
+        $item->col2 = 'a';
         $item->save();
 
         $item = new T1195_Item();
-        $item->col1 = "b";
-        $item->col2 = "b";
+        $item->col1 = 'b';
+        $item->col2 = 'b';
         $item->save();
 
         $ref = new T1195_Ref();
@@ -74,11 +74,11 @@ class Doctrine_Ticket_1195_TestCase extends Doctrine_UnitTestCase
 
 
 		$res = $q->execute(array(),Doctrine_Core::HYDRATE_ARRAY);
-		$this->assertEqual(sizeof($res), 2);
+		$this->assertEqual(count($res), 2);
 
 		$q->distinct();
 		$res = $q->execute(array(),Doctrine_Core::HYDRATE_ARRAY);
-		$this->assertEqual(sizeof($res), 1);
+		$this->assertEqual(count($res), 1);
     }
 
 	public function testRawSQLCount()

@@ -82,7 +82,7 @@ class Doctrine_Query_AggregateValue_TestCase extends Doctrine_UnitTestCase
         $q = new Doctrine_Query();
 
         $q->select('COUNT(u.id) count')->from('User u');
-        $this->assertEqual($q->getSqlQuery(), "SELECT COUNT(e.id) AS e__0 FROM entity e WHERE (e.type = 0)");
+        $this->assertEqual($q->getSqlQuery(), 'SELECT COUNT(e.id) AS e__0 FROM entity e WHERE (e.type = 0)');
 
         $users = $q->execute();
 
@@ -95,7 +95,7 @@ class Doctrine_Query_AggregateValue_TestCase extends Doctrine_UnitTestCase
     {
         $q = new Doctrine_Query();
 
-        $q->select('u.name, COUNT(u.id) count')->from('User u')->groupby('u.name');
+        $q->select('u.name, COUNT(u.id) count')->from('User u')->groupBy('u.name');
 
         $users = $q->execute();
 
@@ -112,7 +112,7 @@ class Doctrine_Query_AggregateValue_TestCase extends Doctrine_UnitTestCase
     {
         $q = new Doctrine_Query();
 
-        $q->select('u.name, COUNT(u.id) count')->from('User u')->groupby('u.name')->orderby('count');
+        $q->select('u.name, COUNT(u.id) count')->from('User u')->groupBy('u.name')->orderBy('count');
 
         $users = $q->execute();
 
@@ -129,7 +129,7 @@ class Doctrine_Query_AggregateValue_TestCase extends Doctrine_UnitTestCase
     {
         $q = new Doctrine_Query();
 
-        $q->select('u.name, COUNT(p.id) count')->from('User u')->leftJoin('u.Phonenumber p')->groupby('u.id');
+        $q->select('u.name, COUNT(p.id) count')->from('User u')->leftJoin('u.Phonenumber p')->groupBy('u.id');
 
         $users = $q->execute();   
 
@@ -145,7 +145,7 @@ class Doctrine_Query_AggregateValue_TestCase extends Doctrine_UnitTestCase
     {
         $q = new Doctrine_Query();
 
-        $q->select('MAX(u.name), u.*, p.*')->from('User u')->leftJoin('u.Phonenumber p')->groupby('u.id');
+        $q->select('MAX(u.name), u.*, p.*')->from('User u')->leftJoin('u.Phonenumber p')->groupBy('u.id');
 
         $this->assertEqual($q->getSqlQuery(), 'SELECT e.id AS e__id, e.name AS e__name, e.loginname AS e__loginname, e.password AS e__password, e.type AS e__type, e.created AS e__created, e.updated AS e__updated, e.email_id AS e__email_id, p.id AS p__id, p.phonenumber AS p__phonenumber, p.entity_id AS p__entity_id, MAX(e.name) AS e__0 FROM entity e LEFT JOIN phonenumber p ON e.id = p.entity_id WHERE (e.type = 0) GROUP BY e.id');
         $users = $q->execute();
@@ -157,7 +157,7 @@ class Doctrine_Query_AggregateValue_TestCase extends Doctrine_UnitTestCase
     {
         $q = new Doctrine_Query();
 
-        $q->select('u.name, COUNT(p.id) count, MAX(p.id) max')->from('User u')->innerJoin('u.Phonenumber p')->groupby('u.id');
+        $q->select('u.name, COUNT(p.id) count, MAX(p.id) max')->from('User u')->innerJoin('u.Phonenumber p')->groupBy('u.id');
 
         $users = $q->execute();
         $this->assertEqual($users[0]->max, 3);
@@ -168,7 +168,7 @@ class Doctrine_Query_AggregateValue_TestCase extends Doctrine_UnitTestCase
     {
         $q = new Doctrine_Query();
 
-        $q->select('COUNT(u.id) count, MAX(p.id) max')->from('User u')->innerJoin('u.Phonenumber p')->groupby('u.id');
+        $q->select('COUNT(u.id) count, MAX(p.id) max')->from('User u')->innerJoin('u.Phonenumber p')->groupBy('u.id');
 
         $users = $q->execute();
 
@@ -180,7 +180,7 @@ class Doctrine_Query_AggregateValue_TestCase extends Doctrine_UnitTestCase
     {
         $q = new Doctrine_Query();
 
-        $q->select('u.name, COUNT(p.id) count')->from('User u')->innerJoin('u.Phonenumber p')->groupby('u.id');
+        $q->select('u.name, COUNT(p.id) count')->from('User u')->innerJoin('u.Phonenumber p')->groupBy('u.id');
 
         $users = $q->execute();
 
@@ -224,6 +224,6 @@ class Doctrine_Query_AggregateValue_TestCase extends Doctrine_UnitTestCase
         $q->select('SUM(i.price * i.quantity)')
           ->from('QueryTest_Item i');
 
-        $this->assertEqual($q->getSqlQuery(), "SELECT SUM(q.price * q.quantity) AS q__0 FROM query_test__item q");
+        $this->assertEqual($q->getSqlQuery(), 'SELECT SUM(q.price * q.quantity) AS q__0 FROM query_test__item q');
     }
 }

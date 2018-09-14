@@ -10,6 +10,6 @@ class ValidatorTest_ClientModel extends Doctrine_Record {
 	}
 
 	public function setUp() {
-		$this->hasMany("ValidatorTest_AddressModel", array('local' => 'client_id', 'foreign' => 'address_id', 'refClass' => 'ValidatorTest_ClientToAddressModel'));
+		$this->hasMany('ValidatorTest_AddressModel', array('local' => 'client_id', 'foreign' => 'address_id', 'refClass' => 'ValidatorTest_ClientToAddressModel'));
 	}
 }

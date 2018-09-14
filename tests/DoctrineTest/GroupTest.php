@@ -42,7 +42,7 @@ class GroupTest extends UnitTestCase
         }
         foreach($filter as $subFilter) {
             $name = strtolower(get_class($testCase));
-            $pos = strpos($name, strtolower($subFilter));
+            $pos = stripos($name, $subFilter);
             //it can be 0 so we have to use === to see if false
             if ($pos === false) {
                 return false;
@@ -51,7 +51,7 @@ class GroupTest extends UnitTestCase
         return true;
     }
 
-    public function run(DoctrineTest_Reporter $reporter, $filter = null)
+    public function run(DoctrineTest_Reporter $reporter = null, $filter = null)
     {
         set_time_limit(900);
 

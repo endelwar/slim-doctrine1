@@ -44,15 +44,15 @@ class Doctrine_CustomResultSetOrder_TestCase extends Doctrine_UnitTestCase {
         $this->connection->clear();
         $cat1 = new CategoryWithPosition();
         $cat1->position = 0;
-        $cat1->name = "First";
+        $cat1->name = 'First';
         
         $cat2 = new CategoryWithPosition();
         $cat2->position = 0; // same 'priority' as the first
-        $cat2->name = "Second";
+        $cat2->name = 'Second';
         
         $cat3 = new CategoryWithPosition();
         $cat3->position = 1;
-        $cat3->name = "Third";
+        $cat3->name = 'Third';
         
         $board1 = new BoardWithPosition();
         $board1->position = 0;
@@ -81,8 +81,8 @@ class Doctrine_CustomResultSetOrder_TestCase extends Doctrine_UnitTestCase {
      * Prepares the tables.
      */
     public function prepareTables() {
-        $this->tables[] = "CategoryWithPosition";
-        $this->tables[] = "BoardWithPosition";
+        $this->tables[] = 'CategoryWithPosition';
+        $this->tables[] = 'BoardWithPosition';
         parent::prepareTables();
     }
 
@@ -119,8 +119,8 @@ class Doctrine_CustomResultSetOrder_TestCase extends Doctrine_UnitTestCase {
                 break;
                 case 'Second':
                     // The second category should have 1 board, but it got 3 now
-                    $this->assertEqual(1, count($category['Boards']));;
-                break;
+                    $this->assertEqual(1, count($category['Boards']));
+                    break;
                 case 'Third':
                     // The third has no boards as expected.
                     //print $category->Boards[0]->position;

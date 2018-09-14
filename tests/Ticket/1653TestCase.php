@@ -53,7 +53,7 @@ class Doctrine_Ticket_1653_TestCase extends Doctrine_UnitTestCase
         $mail = new Ticket_1653_Email();
         
         $user->id = 1;
-        $user->name = "floriank";
+        $user->name = 'floriank';
         $user->emails[] = $mail;
         
         //explicit call of isValid() should return false since $mail->address is null
@@ -97,8 +97,8 @@ class Ticket_1653_User extends Doctrine_Record
     
     protected function validate()
     {
-        if ($this->name == "test") {
-            $this->getErrorStack()->add("badName", "No testnames allowed!");
+        if ($this->name === 'test') {
+            $this->getErrorStack()->add('badName', 'No testnames allowed!');
             return false;
         }
     }

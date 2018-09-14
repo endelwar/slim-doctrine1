@@ -43,11 +43,11 @@ class Doctrine_Ticket_1622_TestCase extends Doctrine_UnitTestCase
     public function prepareData()
     {
             $user = new Ticket_1622_User();
-            $user->name = "floriank";
+            $user->name = 'floriank';
             $user->save();
             
             $user2 = new Ticket_1622_User();
-            $user2->name = "test";
+            $user2->name = 'test';
             $user2->parents[] = $user;
             $user2->save();
     }

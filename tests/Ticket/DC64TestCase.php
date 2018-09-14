@@ -60,6 +60,12 @@ class Doctrine_Ticket_DC64_TestCase extends Doctrine_UnitTestCase
     }
 }
 
+/**
+ * Class Ticket_DC64_Article
+ *
+ * @property string title
+ * @property string content
+ */
 class Ticket_DC64_Article extends Doctrine_Record
 {
     public function setTableDefinition()

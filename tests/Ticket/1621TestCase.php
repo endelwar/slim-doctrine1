@@ -62,27 +62,27 @@ class Doctrine_Ticket_1621_TestCase extends Doctrine_UnitTestCase
             $group2->save();
             
             $user = new Ticket_1621_User();
-            $user->name = "floriank";
+            $user->name = 'floriank';
             $user->groups[] = $group;
-            $user->emailAddresses[0]->address = "floriank@localhost";
+            $user->emailAddresses[0]->address = 'floriank@localhost';
             $user->save();
             
             $user2 = new Ticket_1621_User();
-            $user2->name = "test2";
-            $user2->emailAddresses[0]->address = "test2@localhost";
+            $user2->name = 'test2';
+            $user2->emailAddresses[0]->address = 'test2@localhost';
             $user2->save();
             
             $user3 = new Ticket_1621_User();
-            $user3->name = "test3";
-            $user3->emailAddresses[0]->address = "test3@localhost";
+            $user3->name = 'test3';
+            $user3->emailAddresses[0]->address = 'test3@localhost';
             $user3->save();
     
             $user4 = new Ticket_1621_User();
-            $user4->name = "test";
+            $user4->name = 'test';
             $user4->groups[] = $group2;
             $user4->children[] = $user2;
             $user4->parents[] = $user3;
-            $user4->emailAddresses[0]->address = "test@localhost";
+            $user4->emailAddresses[0]->address = 'test@localhost';
             $user4->save();
         } catch (Exception $e) {
             $this->fail($e);

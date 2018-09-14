@@ -113,7 +113,7 @@ class Doctrine_NestedSet_MultiRoot_TestCase extends Doctrine_UnitTestCase
         
         // now a child for root1
         $child1 = new NestedSet_MultiRootNode();
-        $child1->name = "child1";
+        $child1->name = 'child1';
         $child1->getNode()->insertAsLastChildOf($root1);
         
         $root1->refresh(); // ! updates lft/rgt
@@ -128,7 +128,7 @@ class Doctrine_NestedSet_MultiRoot_TestCase extends Doctrine_UnitTestCase
         
         // now a child for root2
         $child2 = new NestedSet_MultiRootNode();
-        $child2->name = "child2";
+        $child2->name = 'child2';
         $child2->getNode()->insertAsLastChildOf($root2);
         
         $root2->refresh(); // ! updates lft/rgt

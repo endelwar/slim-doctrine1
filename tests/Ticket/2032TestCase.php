@@ -39,7 +39,7 @@ class Doctrine_Ticket_2032_TestCase extends Doctrine_UnitTestCase
         $q = Doctrine_Query::create() 
                 ->select('u.*') 
                 ->from('User u') 
-                ->orderby('u.name,u.id,u.password'); 
+                ->orderBy('u.name,u.id,u.password');
  
         try { 
             $u = $q->execute(); 

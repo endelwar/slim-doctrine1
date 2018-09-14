@@ -33,7 +33,7 @@
 class Doctrine_DataType_Boolean_TestCase extends Doctrine_UnitTestCase {
     public function prepareData() { }
     public function prepareTables() {
-        $this->tables = array("BooleanTest");
+        $this->tables = array('BooleanTest');
         parent::prepareTables();
     }
    

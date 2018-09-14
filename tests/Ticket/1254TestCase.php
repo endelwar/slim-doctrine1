@@ -34,8 +34,8 @@ class Doctrine_Ticket_1254_TestCase extends Doctrine_UnitTestCase
 {
     public function prepareTables()
     {
-        $this->tables[] = "RelX";
-        $this->tables[] = "RelY";
+        $this->tables[] = 'RelX';
+        $this->tables[] = 'RelY';
         parent::prepareTables();
     }
 
@@ -51,12 +51,12 @@ class Doctrine_Ticket_1254_TestCase extends Doctrine_UnitTestCase
             $x = new RelX();
 	        $x->name = "x $i";
 		    $x->category = $cats[$i % 2];
-		    $x->set('created_at', strftime("%Y-%m-%d %H:%M:%S", $age));
+		    $x->set('created_at', strftime('%Y-%m-%d %H:%M:%S', $age));
 	        $x->save();
         
 	        for ($j = 0; $j < 10; $j++) {
 		        $y = new RelY();
-		        $y->name = "y ".($i * 10 + $j);
+		        $y->name = 'y ' .($i * 10 + $j);
 		        $y->rel_x_id = $x->id;
 		        $y->save();
 		    }
@@ -96,7 +96,7 @@ class RelX extends Doctrine_Record {
   }
 
   public function setUp() {
-    $this->HasMany('RelY as y', array('local' => 'id', 'foreign' => 'rel_x_id'));
+    $this->hasMany('RelY as y', array('local' => 'id', 'foreign' => 'rel_x_id'));
   }
 
 }

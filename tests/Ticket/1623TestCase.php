@@ -59,7 +59,7 @@ class Doctrine_Ticket_1623_TestCase extends Doctrine_UnitTestCase
         }
 
         $user = new Ticket_1623_User();
-        $user->name = "floriank";
+        $user->name = 'floriank';
         foreach ($floriankChilds as $child) {
             $user->children[] = $child;
         }
@@ -139,13 +139,13 @@ class Ticket_1623_User extends Doctrine_Record
         // we do not want any child or parent to have the name 'caesar'
         $unwantedName = false; 
         foreach ($this->children as $child) {
-            if ($child->name == 'caesar') {
+            if ($child->name === 'caesar') {
                 $unwantedName = true;
             }
         }
         
         foreach ($this->children as $child) {
-            if ($child->name == 'caesar') {
+            if ($child->name === 'caesar') {
                 $unwantedName = true;
             }
         }

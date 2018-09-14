@@ -61,11 +61,6 @@ class DoctrineTest_Reporter_Html extends DoctrineTest_Reporter
             $this->paintSummary();
     }
 
-    public function paintMessages()
-    {
-        parent::paintMessages();
-    }
-
     public function paintSummary()
     {
         print '<div id="summary">';

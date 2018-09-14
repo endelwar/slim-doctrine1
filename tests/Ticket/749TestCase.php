@@ -60,6 +60,7 @@ class Doctrine_Ticket_749_TestCase extends Doctrine_UnitTestCase
     /**
      * This method is used by both tests, as the collection of records should
      * be identical for both of them if things are working properly.
+     * @param Record749[] $records
      */
     private function verifyRecords ($records) {
         $expected_values = array(

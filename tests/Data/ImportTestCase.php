@@ -332,7 +332,7 @@ END;
 
     public function testMany2ManyManualDataFixtures()
     {
-        self::prepareTables();
+        $this->prepareTables();
         $yml = <<<END
 ---
 User:

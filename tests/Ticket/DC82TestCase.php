@@ -39,7 +39,7 @@ class Doctrine_Ticket_DC82_TestCase extends Doctrine_UnitTestCase
         
         $sql = $this->conn->export->exportClassesSql(array('Ticket_DC82_Article'));
         $this->assertEqual($sql, array(
-            "CREATE UNIQUE INDEX model_unique_title ON ticket__d_c82__article (title) WHERE deleted = false",
+            'CREATE UNIQUE INDEX model_unique_title ON ticket__d_c82__article (title) WHERE deleted = false',
             "CREATE TABLE ticket__d_c82__article (id BIGSERIAL, title VARCHAR(128) NOT NULL UNIQUE, deleted BOOLEAN DEFAULT 'false' NOT NULL, PRIMARY KEY(id))"
         ));
     }

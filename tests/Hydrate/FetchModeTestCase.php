@@ -37,8 +37,8 @@ class Doctrine_Hydrate_FetchMode_TestCase extends Doctrine_UnitTestCase
     {
         $q = new Doctrine_Query();
 
-        $q->select('u.*, p.*')->from('User u')->innerJoin('u.Phonenumber p')->where("u.name = 'zYne'");;
-        
+        $q->select('u.*, p.*')->from('User u')->innerJoin('u.Phonenumber p')->where("u.name = 'zYne'");
+
         $users = $q->execute(array(), Doctrine_Core::HYDRATE_ARRAY);
 
         $this->assertTrue(is_array($users));
@@ -151,7 +151,7 @@ class Doctrine_Hydrate_FetchMode_TestCase extends Doctrine_UnitTestCase
     public function testFetchArrayNull()
     {
         $u = new User();
-        $u->name = "fetch_array_test";
+        $u->name = 'fetch_array_test';
         $u->created = null;
         $u->save();
   
@@ -164,7 +164,7 @@ class Doctrine_Hydrate_FetchMode_TestCase extends Doctrine_UnitTestCase
     public function testHydrateNone()
     {
         $u = new User();
-        $u->name = "fetch_array_test";
+        $u->name = 'fetch_array_test';
         $u->created = null;
         $u->save();
   

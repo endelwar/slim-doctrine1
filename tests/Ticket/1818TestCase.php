@@ -87,7 +87,7 @@ class Ticket_1818_Bar extends Doctrine_Record
     {
         $this->hasColumn('type', 'string', null, array('type' => 'string'));
 
-        $this->setSubClasses(array('Ticket_1818_BarA' => array('type' => 'A'), 'Ticket_1818_BarB' => array('type' => 'B')));
+        $this->setSubclasses(array('Ticket_1818_BarA' => array('type' => 'A'), 'Ticket_1818_BarB' => array('type' => 'B')));
     }
 
     public function setUp()

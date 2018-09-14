@@ -57,7 +57,7 @@ class Doctrine_Ticket_1134_TestCase extends Doctrine_UnitTestCase
     public function testAfterModification()
     {
         $user = Doctrine_Query::create()->from('Ticket_1134_User u')->fetchOne();
-		$user->is_pimp = "1";
+		$user->is_pimp = '1';
 		$this->assertEqual($user->getModified(), FALSE);    
     }	
 	

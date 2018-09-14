@@ -161,7 +161,7 @@ class Doctrine_Search_TestCase extends Doctrine_UnitTestCase
         
         $coll = Doctrine_Query::create()
                 ->from('SearchTestIndex s')
-                ->orderby('s.id DESC')
+                ->orderBy('s.id DESC')
                 ->limit(1)
                 ->setHydrationMode(Doctrine_Core::HYDRATE_ARRAY)
                 ->fetchOne();

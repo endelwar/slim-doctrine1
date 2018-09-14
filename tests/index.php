@@ -1,3 +1,3 @@
 <?php
-chdir(dirname(__FILE__));
-require_once dirname(__FILE__) . '/run.php';
+chdir(__DIR__);
+require_once __DIR__ . '/run.php';

@@ -107,18 +107,18 @@ class Doctrine_Table_TestCase extends Doctrine_UnitTestCase
 
     public function testGetForeignKey()
     {
-        $fk = $this->objTable->getRelation("Group");
+        $fk = $this->objTable->getRelation('Group');
         $this->assertTrue($fk instanceof Doctrine_Relation_Association);
         $this->assertTrue($fk->getTable() instanceof Doctrine_Table);
         $this->assertTrue($fk->getType() == Doctrine_Relation::MANY);
-        $this->assertTrue($fk->getLocal() == "user_id");
-        $this->assertTrue($fk->getForeign() == "group_id");
+        $this->assertTrue($fk->getLocal() === 'user_id');
+        $this->assertTrue($fk->getForeign() === 'group_id');
 
-        $fk = $this->objTable->getRelation("Email");
+        $fk = $this->objTable->getRelation('Email');
         $this->assertTrue($fk instanceof Doctrine_Relation_LocalKey);
         $this->assertTrue($fk->getTable() instanceof Doctrine_Table);
         $this->assertTrue($fk->getType() == Doctrine_Relation::ONE);
-        $this->assertTrue($fk->getLocal() == "email_id");
+        $this->assertTrue($fk->getLocal() === 'email_id');
         $this->assertTrue($fk->getForeign() == $fk->getTable()->getIdentifier());
 
 
@@ -127,18 +127,18 @@ class Doctrine_Table_TestCase extends Doctrine_UnitTestCase
         $this->assertTrue($fk->getTable() instanceof Doctrine_Table);
         $this->assertTrue($fk->getType() == Doctrine_Relation::MANY);
         $this->assertTrue($fk->getLocal() == $this->objTable->getIdentifier());
-        $this->assertTrue($fk->getForeign() == 'entity_id');
+        $this->assertTrue($fk->getForeign() === 'entity_id');
 
 
     }
     public function testGetComponentName()
     {
-        $this->assertTrue($this->objTable->getComponentName() == 'User');
+        $this->assertTrue($this->objTable->getComponentName() === 'User');
     }
 
     public function testGetTableName()
     {
-        $this->assertTrue($this->objTable->tableName == 'entity');
+        $this->assertTrue($this->objTable->tableName === 'entity');
     }
 
     public function testGetConnection()
@@ -258,6 +258,6 @@ class Doctrine_Table_TestCase extends Doctrine_UnitTestCase
 
     public function testApplyInheritance()
     {
-        $this->assertEqual($this->objTable->applyInheritance("id = 3"), "id = 3 AND type = ?");
+        $this->assertEqual($this->objTable->applyInheritance('id = 3'), 'id = 3 AND type = ?');
     }
 }

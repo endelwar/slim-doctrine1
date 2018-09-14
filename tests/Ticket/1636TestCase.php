@@ -91,7 +91,7 @@ class Doctrine_Ticket_1636_TestCase extends Doctrine_UnitTestCase
         $executeQueryCount = 0;
 
         foreach ($profiler as $event) {
-            if ($event->getName() == 'execute') {
+            if ($event->getName() === 'execute') {
                 $executeQueryCount++;
                 //echo $event->getQuery(), "\n";
             }

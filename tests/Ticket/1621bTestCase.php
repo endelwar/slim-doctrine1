@@ -32,7 +32,7 @@
  */
 class Doctrine_Ticket_1621b_TestCase extends Doctrine_UnitTestCase 
 {
-	const LANG = "deu";
+	const LANG = 'deu';
 	
     public function prepareTables()
     {
@@ -71,15 +71,15 @@ class Doctrine_Ticket_1621b_TestCase extends Doctrine_UnitTestCase
         
                 
         $plant = new Ticket_1621b_Concept(); 
-        $plant->identifier = "1";
+        $plant->identifier = '1';
         
         $pref_de = new Ticket_1621b_PrefTerm();
-        $pref_de->lexicalValue = "Pflanze";
-        $pref_de->langId = "deu";
+        $pref_de->lexicalValue = 'Pflanze';
+        $pref_de->langId = 'deu';
         
         $pref_en = new Ticket_1621b_PrefTerm();
-        $pref_en->lexicalValue = "plant";
-        $pref_en->langId = "eng";
+        $pref_en->lexicalValue = 'plant';
+        $pref_en->langId = 'eng';
         
         $plant->preferedTerm = $pref_de;
         $plant->preferedTerms[] = $pref_en;
@@ -90,19 +90,19 @@ class Doctrine_Ticket_1621b_TestCase extends Doctrine_UnitTestCase
         
         
         $tree = new Ticket_1621b_Concept(); 
-        $tree->identifier = "1.1";
+        $tree->identifier = '1.1';
         
         $pref_de = new Ticket_1621b_PrefTerm();
-        $pref_de->lexicalValue = "Baum";
-        $pref_de->langId = "deu";
+        $pref_de->lexicalValue = 'Baum';
+        $pref_de->langId = 'deu';
         
         $pref_en = new Ticket_1621b_PrefTerm();
-        $pref_en->lexicalValue = "tree";
-        $pref_en->langId = "eng";
+        $pref_en->lexicalValue = 'tree';
+        $pref_en->langId = 'eng';
         
         $alt = new Ticket_1621b_AltTerm();
-        $alt->lexicalValue = "bush";
-        $alt->langId = "eng";
+        $alt->lexicalValue = 'bush';
+        $alt->langId = 'eng';
         
         $tree->preferedTerm = $pref_de;
         $tree->preferedTerms[] = $pref_en;
@@ -116,15 +116,15 @@ class Doctrine_Ticket_1621b_TestCase extends Doctrine_UnitTestCase
         
         
         $oak = new Ticket_1621b_Concept(); 
-        $oak->identifier = "1.1";
+        $oak->identifier = '1.1';
         
         $pref_de = new Ticket_1621b_PrefTerm();
-        $pref_de->lexicalValue = "Eiche";
-        $pref_de->langId = "deu";
+        $pref_de->lexicalValue = 'Eiche';
+        $pref_de->langId = 'deu';
         
         $pref_en = new Ticket_1621b_PrefTerm();
-        $pref_en->lexicalValue = "oak";
-        $pref_en->langId = "eng";
+        $pref_en->lexicalValue = 'oak';
+        $pref_en->langId = 'eng';
         
         $oak->preferedTerm = $pref_de;
         $oak->preferedTerms[] = $pref_en;
@@ -138,13 +138,13 @@ class Doctrine_Ticket_1621b_TestCase extends Doctrine_UnitTestCase
     {
         try {
 	        $q = Doctrine_Query::create()
-	                ->from("Ticket_1621b_Concept c")
+	                ->from('Ticket_1621b_Concept c')
 	                ->innerJoin('c.preferedTerm p')
 	                ->leftJoin('c.narrowerConcepts n')
 	                ->where('c.id = ?', 2);
 	        $rs = $q->fetchOne();  
 	        
-	        $this->assertEqual($rs->preferedTerm->lexicalValue, "Baum");
+	        $this->assertEqual($rs->preferedTerm->lexicalValue, 'Baum');
         } catch (Exception $e) {
         	$this->fail($e);
         }
@@ -199,7 +199,7 @@ class Ticket_1621b_Term extends Doctrine_Record
     $this->hasColumn('type', 'string', 20, array('notnull' => true, 'type' => 'string', 'length' => '20'));
     $this->hasColumn('lang_id as langId', 'string', 3, array('notnull' => true, 'type' => 'string', 'length' => '3'));
 
-    $this->setSubClasses(array('Ticket_1621b_AltTerm' => array('type' => 'alt'), 'Ticket_1621b_PrefTerm' => array('type' => 'pref'), 'Ticket_1621b_CurrentLanguagePrefTerm' => array('langId' => Doctrine_Ticket_1621b_TestCase::LANG)));
+    $this->setSubclasses(array('Ticket_1621b_AltTerm' => array('type' => 'alt'), 'Ticket_1621b_PrefTerm' => array('type' => 'pref'), 'Ticket_1621b_CurrentLanguagePrefTerm' => array('langId' => Doctrine_Ticket_1621b_TestCase::LANG)));
   }
 
   public function setUp()
@@ -214,29 +214,17 @@ class Ticket_1621b_Term extends Doctrine_Record
 
 class Ticket_1621b_AltTerm extends Ticket_1621b_Term
 {
-  public function setUp()
-  {
-    parent::setUp();
-  }
 }
 
 
 
 class Ticket_1621b_PrefTerm extends Ticket_1621b_Term
 {
-  public function setUp()
-  {
-    parent::setUp();
-  }
 }
 
 
 class Ticket_1621b_CurrentLanguagePrefTerm extends Ticket_1621b_PrefTerm
 {
-  public function setUp()
-  {
-    parent::setUp();
-  }
 }
 
 

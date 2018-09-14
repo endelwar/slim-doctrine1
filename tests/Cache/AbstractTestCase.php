@@ -65,7 +65,7 @@ abstract class Doctrine_Cache_Abstract_TestCase extends Doctrine_UnitTestCase
                 ->useResultCache($cache, 3600, 'hans_query')
                 ->execute();
             $this->assertEqual(1, count($u));
-            $this->assertEqual("Hans", $u[0]->name);
+            $this->assertEqual('Hans', $u[0]->name);
         }
 
         // Just 1 query should be run

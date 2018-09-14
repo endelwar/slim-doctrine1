@@ -85,7 +85,7 @@ class Ticket_DC187_User extends Doctrine_Record
 
         $this->unique(
             array('username', 'email'),
-            array('where' => "deleted_at IS NULL"),
+            array('where' => 'deleted_at IS NULL'),
             false
         );
     }

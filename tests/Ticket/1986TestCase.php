@@ -51,7 +51,7 @@ class Doctrine_Ticket_1986_TestCase extends Doctrine_UnitTestCase
 		try {
 			$t1->get('others');
 		} catch(Doctrine_Exception $e) {
-			$this->fail("after save".$e->getMessage());
+			$this->fail('after save' .$e->getMessage());
 		}
 		// this not: relation is not accessed before save and is gone afterwards
 		$t2 = new Testing_Ticket_1986_1();

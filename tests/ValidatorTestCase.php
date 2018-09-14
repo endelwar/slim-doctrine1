@@ -119,7 +119,7 @@ class Doctrine_Validator_TestCase extends Doctrine_UnitTestCase
     public function testValidate2() 
     {
         $test = new ValidatorTest();
-        $test->mymixed = "message";
+        $test->mymixed = 'message';
         $test->myrange = 1;
         $test->myregexp = '123a';
         
@@ -185,15 +185,15 @@ class Doctrine_Validator_TestCase extends Doctrine_UnitTestCase
 
         $validator = new Doctrine_Validator_Email();
 
-        $this->assertFalse($validator->validate("example@example"));
-        $this->assertFalse($validator->validate("example@@example"));
-        $this->assertFalse($validator->validate("example@example."));
-        $this->assertFalse($validator->validate("example@e.."));
+        $this->assertFalse($validator->validate('example@example'));
+        $this->assertFalse($validator->validate('example@@example'));
+        $this->assertFalse($validator->validate('example@example.'));
+        $this->assertFalse($validator->validate('example@e..'));
 
-        $this->assertTrue($validator->validate("null+doctrine@pookey.co.uk"));
-        $this->assertTrue($validator->validate("null@pookey.co.uk"));
-        $this->assertTrue($validator->validate("null@pookey.com"));
-        $this->assertTrue($validator->validate("null@users.doctrine.pengus.net"));
+        $this->assertTrue($validator->validate('null+doctrine@pookey.co.uk'));
+        $this->assertTrue($validator->validate('null@pookey.co.uk'));
+        $this->assertTrue($validator->validate('null@pookey.com'));
+        $this->assertTrue($validator->validate('null@users.doctrine.pengus.net'));
     }
 
     /**
@@ -202,9 +202,9 @@ class Doctrine_Validator_TestCase extends Doctrine_UnitTestCase
     public function testSave() 
     {
         $this->manager->setAttribute(Doctrine_Core::ATTR_VALIDATE, Doctrine_Core::VALIDATE_ALL);
-        $user = $this->connection->getTable("User")->find(4);
+        $user = $this->connection->getTable('User')->find(4);
         try {
-            $user->name = "this is an example of too long name not very good example but an example nevertheless";
+            $user->name = 'this is an example of too long name not very good example but an example nevertheless';
             $user->save();
         } catch(Doctrine_Validator_Exception $e) {
             $this->assertEqual($e->count(), 1);
@@ -215,9 +215,9 @@ class Doctrine_Validator_TestCase extends Doctrine_UnitTestCase
         }
 
         try {
-            $user = $this->connection->create("User");
-            $user->Email->address = "jackdaniels@drinkmore.info...";
-            $user->name = "this is an example of too long user name not very good example but an example nevertheless";
+            $user = $this->connection->create('User');
+            $user->Email->address = 'jackdaniels@drinkmore.info...';
+            $user->name = 'this is an example of too long user name not very good example but an example nevertheless';
             $user->save();
             $this->fail();
         } catch (Doctrine_Validator_Exception $e) {
@@ -247,7 +247,7 @@ class Doctrine_Validator_TestCase extends Doctrine_UnitTestCase
         $user = new User();
          try {
             $user->name = "I'm not The Saint";
-            $user->password = "1234";
+            $user->password = '1234';
             $user->save();
         } catch(Doctrine_Validator_Exception $e) {
             $this->assertEqual($e->count(), 1);
@@ -262,11 +262,11 @@ class Doctrine_Validator_TestCase extends Doctrine_UnitTestCase
         }
         
         // Tests validateOnUpdate()
-        $user = $this->connection->getTable("User")->find(4);
+        $user = $this->connection->getTable('User')->find(4);
         try {
-            $user->name = "The Saint";  // Set correct name
-            $user->password = "Top Secret"; // Set correct password
-            $user->loginname = "Somebody"; // Wrong login name!
+            $user->name = 'The Saint';  // Set correct name
+            $user->password = 'Top Secret'; // Set correct password
+            $user->loginname = 'Somebody'; // Wrong login name!
             $user->save();
             $this->fail();
         } catch(Doctrine_Validator_Exception $e) {
@@ -291,7 +291,7 @@ class Doctrine_Validator_TestCase extends Doctrine_UnitTestCase
         $this->manager->setAttribute(Doctrine_Core::ATTR_VALIDATE, Doctrine_Core::VALIDATE_ALL);
         
         $user = new User();
-        $user->password = "1234";
+        $user->password = '1234';
         
         try {
             $user->save();
@@ -345,7 +345,7 @@ class Doctrine_Validator_TestCase extends Doctrine_UnitTestCase
            $r->save();
         }
         catch (Doctrine_Validator_Exception $e) {
-           $this->fail("Validator exception raised without reason!");
+           $this->fail('Validator exception raised without reason!');
         }
         
         $r->delete(); // clean up
@@ -365,7 +365,7 @@ class Doctrine_Validator_TestCase extends Doctrine_UnitTestCase
         $r->identifier = 1234;
         try {
             $r->save();
-            $this->fail("No validator exception thrown on unique validation.");
+            $this->fail('No validator exception thrown on unique validation.');
         } catch (Doctrine_Validator_Exception $e) {
             $this->pass();
         }
@@ -477,7 +477,7 @@ class Doctrine_Validator_TestCase extends Doctrine_UnitTestCase
         $r->identifier = 5678;
         try {
             $this->conn->flush();
-            $this->fail("No validator exception thrown on unique validation, triggered by flush().");
+            $this->fail('No validator exception thrown on unique validation, triggered by flush().');
         } catch (Doctrine_Validator_Exception $e) {
             $this->pass();
         }

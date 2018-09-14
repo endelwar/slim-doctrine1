@@ -144,7 +144,7 @@ class Doctrine_Record_CascadingDelete_TestCase extends Doctrine_UnitTestCase
             $owner->delete();
             $this->pass();
         } catch (Doctrine_Exception $e) {
-            $this->fail("Failed to delete record. Message:" . $e->getMessage());
+            $this->fail('Failed to delete record. Message:' . $e->getMessage());
         }
         
     }

@@ -4,7 +4,7 @@ class Doctrine_Ticket_932_TestCase extends Doctrine_UnitTestCase
 {
 	public function prepareTables()
 	{
-		$this->tables[] = "UserNoAutoIncrement";
+		$this->tables[] = 'UserNoAutoIncrement';
 		parent::prepareTables();
 	}
 
@@ -23,7 +23,7 @@ class Doctrine_Ticket_932_TestCase extends Doctrine_UnitTestCase
 	{
 		$newUser = new UserNoAutoIncrement();
 		$newUser->id = 1;
-		$newUser->display_name = "Mah Name";
+		$newUser->display_name = 'Mah Name';
 		$newUser->save();
 		$this->assertEqual(Doctrine_Record::STATE_CLEAN, $newUser->state());
 		$this->assertEqual(1, $newUser->id);

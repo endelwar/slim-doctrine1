@@ -113,7 +113,8 @@ class DoctrineTest_Coverage
     /**
      * Return the revision the coverage was made against
      *
-     *@param int The revision number
+     * @param int The revision number
+     * @return string
      */
     public function getRevision()
     {

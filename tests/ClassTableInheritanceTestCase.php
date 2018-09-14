@@ -207,7 +207,7 @@ class Doctrine_ClassTableInheritance_TestCase extends Doctrine_UnitTestCase
         $this->conn->setAttribute(Doctrine_Core::ATTR_VALIDATE, Doctrine_Core::VALIDATE_ALL);
         $record = $this->conn->getTable('CTITest')->find(1);
         try {
-            $record->name = "winston";
+            $record->name = 'winston';
             $this->assertTrue($record->isValid());
             $this->pass();
         } catch (Exception $e) {

@@ -43,8 +43,8 @@ class Doctrine_Query_MysqlSubquery_TestCase extends Doctrine_UnitTestCase
         $q = new Doctrine_Query();
         $q->select('u.name, COUNT(DISTINCT a.id) num_albums');
         $q->from('User u, u.Album a');
-        $q->orderby('num_albums');
-        $q->groupby('u.id');
+        $q->orderBy('num_albums');
+        $q->groupBy('u.id');
         $q->limit(5);
 
         $q->execute();
@@ -58,8 +58,8 @@ class Doctrine_Query_MysqlSubquery_TestCase extends Doctrine_UnitTestCase
         $q = new Doctrine_Query();
         $q->select('u.name, COUNT(DISTINCT a.id) num_albums');
         $q->from('User u, u.Album a');
-        $q->orderby('num_albums DESC, u.name');
-        $q->groupby('u.id');
+        $q->orderBy('num_albums DESC, u.name');
+        $q->groupBy('u.id');
         $q->limit(5);
 
         $q->execute();
@@ -73,8 +73,8 @@ class Doctrine_Query_MysqlSubquery_TestCase extends Doctrine_UnitTestCase
         $q = new Doctrine_Query();
         $q->select('u.name, COUNT(DISTINCT a.id) num_albums');
         $q->from('User u, u.Album a');
-        $q->orderby('num_albums, u.name');
-        $q->groupby('u.id');
+        $q->orderBy('num_albums, u.name');
+        $q->groupBy('u.id');
         $q->limit(5);
 
         $q->execute();
@@ -88,9 +88,9 @@ class Doctrine_Query_MysqlSubquery_TestCase extends Doctrine_UnitTestCase
         $q = new Doctrine_Query();
         $q->select('u.name, COUNT(DISTINCT a.id) num_albums');
         $q->from('User u, u.Album a');
-        $q->orderby('num_albums DESC');
+        $q->orderBy('num_albums DESC');
         $q->having('num_albums > 0');
-        $q->groupby('u.id');
+        $q->groupBy('u.id');
         $q->limit(5);
 
         $q->execute();
@@ -105,7 +105,7 @@ class Doctrine_Query_MysqlSubquery_TestCase extends Doctrine_UnitTestCase
         $q->select('u.name, COUNT(DISTINCT a.id) num_albums');
         $q->from('User u, u.Album a');
         $q->having('num_albums > 0');
-        $q->groupby('u.id');
+        $q->groupBy('u.id');
         $q->limit(5);
 
         $q->execute();

@@ -91,7 +91,7 @@ class UnitTestCase
 
     public function assertNull($expr)
     {
-        if (is_null($expr)) {
+        if ($expr === null) {
             $this->pass();
         } else {
             $this->fail();
@@ -100,7 +100,7 @@ class UnitTestCase
 
     public function assertNotNull($expr)
     {
-        if (is_null($expr)) {
+        if ($expr === null) {
             $this->fail();
         } else {
             $this->pass();
@@ -184,8 +184,7 @@ class UnitTestCase
             mkdir($dir, 0777, true);
         }
 
-        $path = $dir . '/' . md5(serialize(array_keys($this->_testCases)));
-        return $path;
+        return $dir . '/' . md5(serialize(array_keys($this->_testCases)));
     }
 
     public function cachePassesAndFails()

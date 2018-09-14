@@ -10,9 +10,9 @@ error_reporting(E_ALL | E_STRICT);
 ini_set('max_execution_time', 900);
 ini_set('date.timezone', 'GMT+0');
 
-define('DOCTRINE_DIR', $_SERVER['DOCTRINE_DIR']);
+define('DOCTRINE_DIR', realpath(dirname(__DIR__) . '/'));
 
-require_once dirname(__FILE__) . '/../vendor/autoload.php';
+require_once __DIR__ . '/../vendor/autoload.php';
 require_once DOCTRINE_DIR . '/lib/Doctrine/Core.php';
 
 spl_autoload_register(array('Doctrine_Core', 'autoload'));

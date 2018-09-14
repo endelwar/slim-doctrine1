@@ -1,10 +1,16 @@
 <?php
 
-$_SERVER['DOCTRINE_DIR'] = realpath(dirname(__FILE__) . '/../');
+$_SERVER['DOCTRINE_DIR'] = dirname(__DIR__) . '/';
 
-require dirname(__FILE__) . '/bootstrap.php';
+require __DIR__ . '/bootstrap.php';
 
 $test = new DoctrineTest();
+
+// Data Fixtures Tests
+$data = new GroupTest('Data exporting/importing fixtures', 'data_fixtures');
+$data->addTestCase(new Doctrine_Data_Import_TestCase());
+$data->addTestCase(new Doctrine_Data_Export_TestCase());
+$test->addTestCase($data);
 
 // Ticket Tests
 $tickets = new GroupTest('Tickets Tests', 'tickets');
@@ -21,7 +27,7 @@ $excludeTickets = array(
     'DC521' // PostgreSQL specific error
 );
 
-$ticketTestCases = glob(dirname(__FILE__) . '/Ticket/*TestCase.php');
+$ticketTestCases = glob(__DIR__ . '/Ticket/*TestCase.php');
 
 foreach ($ticketTestCases as $testCase)
 {
@@ -290,11 +296,7 @@ $parser = new GroupTest('Parser Tests', 'parser');
 $parser->addTestCase(new Doctrine_Parser_TestCase());
 $test->addTestCase($parser);
 
-// Data Fixtures Tests
-$data = new GroupTest('Data exporting/importing fixtures', 'data_fixtures');
-$data->addTestCase(new Doctrine_Data_Import_TestCase());
-$data->addTestCase(new Doctrine_Data_Export_TestCase());
-$test->addTestCase($data);
+
 
 // Unsorted Tests. These need to be sorted and placed in the appropriate group
 $unsorted = new GroupTest('Unsorted Tests', 'unsorted');

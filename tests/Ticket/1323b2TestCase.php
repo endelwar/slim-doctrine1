@@ -3,8 +3,8 @@
 class Doctrine_Ticket_1323b2_TestCase extends Doctrine_UnitTestCase {
     public function prepareTables() {
     	$this->tables = array();
-        $this->tables[] = "Concept";
-        $this->tables[] = "ConceptRelation";
+        $this->tables[] = 'Concept';
+        $this->tables[] = 'ConceptRelation';
         parent::prepareTables();
     }
 
@@ -16,36 +16,36 @@ class Doctrine_Ticket_1323b2_TestCase extends Doctrine_UnitTestCase {
     public function resetData()
     {
         $q = Doctrine_Query::create();
-        $q->delete()->from("ConceptRelation")->execute();
+        $q->delete()->from('ConceptRelation')->execute();
         $q = Doctrine_Query::create();
-        $q->delete()->from("Concept")->execute();
+        $q->delete()->from('Concept')->execute();
 
-        $concepts = array("Woodworking", "Metalworking",  
-                        "Submetalworking 1", "Submetalworking 2",  
-                        "Subwoodworking 1", "Subwoodworking 2",
-                        "Surfaceworking", 
-                        "drilled", "welded", "turned");
+        $concepts = array('Woodworking', 'Metalworking',
+            'Submetalworking 1', 'Submetalworking 2',
+            'Subwoodworking 1', 'Subwoodworking 2',
+            'Surfaceworking',
+            'drilled', 'welded', 'turned');
 
         foreach ($concepts as $concept) { 
             $c = new Concept();
             $c->identifier = $concept;
-            $c->status = "approved";
-            $c->source = "test";
-            $c->created = "today";
-            $c->creator = "me";
-            $c->creationIdentifier = "nothing";
+            $c->status = 'approved';
+            $c->source = 'test';
+            $c->created = 'today';
+            $c->creator = 'me';
+            $c->creationIdentifier = 'nothing';
             $c->save();
         }
-        $w = Doctrine_Core::getTable("Concept")->findOneByIdentifier("Woodworking");
-        $sw1 = Doctrine_Core::getTable("Concept")->findOneByIdentifier("Subwoodworking 1");
-        $sw2 = Doctrine_Core::getTable("Concept")->findOneByIdentifier("Subwoodworking 2");
-        $m = Doctrine_Core::getTable("Concept")->findOneByIdentifier("Metalworking");
-        $sm1 = Doctrine_Core::getTable("Concept")->findOneByIdentifier("Submetalworking 1");
-        $sm2 = Doctrine_Core::getTable("Concept")->findOneByIdentifier("Submetalworking 2");
-        $d = Doctrine_Core::getTable("Concept")->findOneByIdentifier("drilled");
-        $wd = Doctrine_Core::getTable("Concept")->findOneByIdentifier("welded");
-        $t = Doctrine_Core::getTable("Concept")->findOneByIdentifier("turned");
-        $s =  Doctrine_Core::getTable("Concept")->findOneByIdentifier("Surfaceworking");
+        $w = Doctrine_Core::getTable('Concept')->findOneByIdentifier('Woodworking');
+        $sw1 = Doctrine_Core::getTable('Concept')->findOneByIdentifier('Subwoodworking 1');
+        $sw2 = Doctrine_Core::getTable('Concept')->findOneByIdentifier('Subwoodworking 2');
+        $m = Doctrine_Core::getTable('Concept')->findOneByIdentifier('Metalworking');
+        $sm1 = Doctrine_Core::getTable('Concept')->findOneByIdentifier('Submetalworking 1');
+        $sm2 = Doctrine_Core::getTable('Concept')->findOneByIdentifier('Submetalworking 2');
+        $d = Doctrine_Core::getTable('Concept')->findOneByIdentifier('drilled');
+        $wd = Doctrine_Core::getTable('Concept')->findOneByIdentifier('welded');
+        $t = Doctrine_Core::getTable('Concept')->findOneByIdentifier('turned');
+        $s =  Doctrine_Core::getTable('Concept')->findOneByIdentifier('Surfaceworking');
         
         $w->narrowerConcepts[] = $sw1;
         $w->narrowerConcepts[] = $sw2;
@@ -85,8 +85,8 @@ class Doctrine_Ticket_1323b2_TestCase extends Doctrine_UnitTestCase {
         //lets count all relations
         $relCount = ConceptRelation::countAll();
         
-        $oRecord = Doctrine_Core::getTable("Concept")->findOneByIdentifier("Surfaceworking");
-        $oRecord->identifier = "MySurfaceworking";
+        $oRecord = Doctrine_Core::getTable('Concept')->findOneByIdentifier('Surfaceworking');
+        $oRecord->identifier = 'MySurfaceworking';
         $oRecord->save();
         
         ConceptRelation::showAllRelations();
@@ -106,8 +106,8 @@ class Doctrine_Ticket_1323b2_TestCase extends Doctrine_UnitTestCase {
         //lets count all relations
         $relCount = ConceptRelation::countAll();
         
-        $oRecord = Doctrine_Core::getTable("Concept")->findOneByIdentifier("Surfaceworking");
-        $oRecord->identifier = "MySurfaceworking";
+        $oRecord = Doctrine_Core::getTable('Concept')->findOneByIdentifier('Surfaceworking');
+        $oRecord->identifier = 'MySurfaceworking';
         // $oRecord->save();  --> only this line differs !!!
         
         ConceptRelation::showAllRelations();
@@ -210,7 +210,7 @@ class ConceptRelation extends BaseConceptRelation
     }
     
     public static function countAll() {
-        return Doctrine_Core::getTable("ConceptRelation")->count();
+        return Doctrine_Core::getTable('ConceptRelation')->count();
     }
 }
 ?>

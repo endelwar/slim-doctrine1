@@ -63,7 +63,7 @@ class Doctrine_Plugin_TestCase extends Doctrine_UnitTestCase
 
         $fi = $wiki->Translation['FI'];
         $fi->title = 'Michael Jeffrey Jordan';
-        $fi->content = "Michael Jeffrey Jordan (s. 17. helmikuuta 1963, Brooklyn, New York) on yhdysvaltalainen entinen NBA-koripalloilija, jota pidet��n yleisesti kaikkien aikojen parhaana pelaajana.";
+        $fi->content = 'Michael Jeffrey Jordan (s. 17. helmikuuta 1963, Brooklyn, New York) on yhdysvaltalainen entinen NBA-koripalloilija, jota pidet��n yleisesti kaikkien aikojen parhaana pelaajana.';
 
         $fi->save();
         $this->assertEqual($fi->version, 1);
@@ -100,7 +100,7 @@ class Doctrine_Plugin_TestCase extends Doctrine_UnitTestCase
 
         $t = Doctrine_Core::getTable('WikiTranslationIndex');
         $oQuery = new Doctrine_Search_Query($t);
-        $oQuery->query("jordan");
+        $oQuery->query('jordan');
         $out = $this->conn->fetchAll($oQuery->getSqlQuery(), $oQuery->getParams());
 
         $this->assertEqual($out[0]['relevance'], 2);
@@ -118,7 +118,7 @@ class Doctrine_Plugin_TestCase extends Doctrine_UnitTestCase
         $wiki->save();
         $fi = $wiki->Translation['FI'];
         $fi->title = 'This is the title';
-        $fi->content = "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Nulla sed.";
+        $fi->content = 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Nulla sed.';
 
         $fi->save();
         $this->assertEqual($fi->slug, 'this-is-the-title');

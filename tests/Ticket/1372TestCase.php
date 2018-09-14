@@ -115,7 +115,7 @@ class Ticket_1372_ParentClass extends Doctrine_Record
 
         $this->setAttribute(Doctrine_Core::ATTR_EXPORT, Doctrine_Core::EXPORT_ALL);
 
-        $this->setSubClasses(array('Child_1' => array('type' => 1), 'Child_2' => array('type' => 2)));
+        $this->setSubclasses(array('Child_1' => array('type' => 1), 'Child_2' => array('type' => 2)));
     }
 }
 

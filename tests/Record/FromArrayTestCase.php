@@ -32,11 +32,6 @@
  */
 class Doctrine_Record_FromArray_TestCase extends Doctrine_UnitTestCase
 {
-    public function prepareTables()
-    {
-        parent::prepareTables();
-    }
-    
     public function prepareData()
     {
         # Create an existing group
@@ -72,7 +67,7 @@ class Doctrine_Record_FromArray_TestCase extends Doctrine_UnitTestCase
         try {
           $user->save();
         } catch (Exception $e ) {
-          $this->fail("Failed saving with " . $e->getMessage());
+          $this->fail('Failed saving with ' . $e->getMessage());
         }
     }
 

@@ -205,7 +205,7 @@ class Doctrine_RawSql_TestCase extends Doctrine_UnitTestCase
         $query->parseDqlQuery('SELECT {entity.name} FROM entity ORDER BY entity.name');
         $query->addComponent('entity', 'User');
 
-        $this->assertEqual($query->getSqlQuery(), "SELECT entity.name AS entity__name, entity.id AS entity__id FROM entity WHERE entity.type = 0 ORDER BY entity.name");
+        $this->assertEqual($query->getSqlQuery(), 'SELECT entity.name AS entity__name, entity.id AS entity__id FROM entity WHERE entity.type = 0 ORDER BY entity.name');
 
 
         $coll = $query->execute();
@@ -256,41 +256,41 @@ class Doctrine_RawSql_TestCase extends Doctrine_UnitTestCase
     public function testParseQueryPartShouldAddPartIfNotSelectAndAppend()
     {
       $query = new Doctrine_Rawsql();
-      $query->parseDqlQueryPart("test", "test", true);
+      $query->parseDqlQueryPart('test', 'test', true);
       $parts = $query->getSqlParts();
-      $this->assertTrue(isset($parts["test"]));
-      $this->assertTrue(is_array($parts["test"]));
-      $this->assertTrue(isset($parts["test"][0]));
-      $this->assertEqual("test", $parts["test"][0]);
+      $this->assertTrue(isset($parts['test']));
+      $this->assertTrue(is_array($parts['test']));
+      $this->assertTrue(isset($parts['test'][0]));
+      $this->assertEqual('test', $parts['test'][0]);
     }
     
     public function testParseQueryShouldExtractGroupBy()
     {
         $query = new Doctrine_RawSql();
-        $query->parseDqlQuery("having group");
+        $query->parseDqlQuery('having group');
         $parts = $query->getSqlParts();
-        $this->assertEqual($parts["having"][0], "group");
+        $this->assertEqual($parts['having'][0], 'group');
     }
 
     public function testThrowExceptionIfFieldNameIsOnWrongForm()
     {  
       $query = new Doctrine_RawSql();
-      $query->parseDqlQueryPart("select", "{test}");
+      $query->parseDqlQueryPart('select', '{test}');
       try{
           $query->getSqlQuery();
-          $this->fail("Should throw exception");
+          $this->fail('Should throw exception');
       } catch(Doctrine_RawSql_Exception $exception) {
-          $this->assertEqual($exception->getMessage(), "All selected fields in Sql query must be in format tableAlias.fieldName"); 
+          $this->assertEqual($exception->getMessage(), 'All selected fields in Sql query must be in format tableAlias.fieldName');
       }
     }
 
     public function testThrowExceptionIfAliasDoesNotExist()
     {  
       $query = new Doctrine_RawSql();
-      $query->parseDqlQueryPart("select", "{test.test}");
+      $query->parseDqlQueryPart('select', '{test.test}');
       try {
           $query->getSqlQuery();
-          $this->fail("Should throw exception");
+          $this->fail('Should throw exception');
       } catch(Doctrine_RawSql_Exception $exception) {
           $this->assertEqual($exception->getMessage(), "The associated component for table alias test couldn't be found.");
       }

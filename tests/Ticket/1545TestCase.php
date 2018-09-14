@@ -75,16 +75,18 @@ class Ticket_1545_FooFilter extends Doctrine_Record_Filter
 
     public function filterGet(Doctrine_Record $record, $name)
     {
-        if ($name == 'b') {
+        if ($name === 'b') {
             return $record->a;
-        } else if ($name == 'custom') {
+        }
+
+        if ($name === 'custom') {
             return $record->a;
         }
     }
 
     public function filterSet(Doctrine_Record $record, $name, $value)
     {
-        if ($name == 'custom') {
+        if ($name === 'custom') {
             return $record->a = $value . '2';
         }
     }

@@ -82,7 +82,7 @@ class T1395_Listener extends Doctrine_Record_Listener
         $data = $event->data;
         
         // Calculate days since creation
-        $days = (strtotime('now') - strtotime($data['dt_created'])) / (24 * 60 * 60);
+        $days = (time() - strtotime($data['dt_created'])) / (24 * 60 * 60);
         $data['days_old'] = number_format($days, 2);
 
         self::addSomeData($data);
