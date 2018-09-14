@@ -71,6 +71,7 @@ class ExtensionBehaviorTest extends Doctrine_Record
 
     public function setUp()
     {
+        require_once __DIR__ . '/Extension/TestExtension/lib/Doctrine/Template/TestBehavior.php';
         $this->actAs('TestBehavior');
     }
 }
