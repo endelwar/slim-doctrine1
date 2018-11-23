@@ -84,6 +84,8 @@ abstract class Doctrine_Record_Abstract extends Doctrine_Access
      * setListener
      *
      * @param Doctrine_EventListener_Interface|Doctrine_Overloadable $listener
+     * @throws Doctrine_Exception
+     *
      * @return Doctrine_Record
      */
     public function setListener($listener)
@@ -107,9 +109,9 @@ abstract class Doctrine_Record_Abstract extends Doctrine_Access
     {
         if ( ! $definition) {
             return $this->_table->getIndex($name);
-        } else {
-            return $this->_table->addIndex($name, $definition);
         }
+
+        return $this->_table->addIndex($name, $definition);
     }
 
     /**
@@ -159,11 +161,11 @@ abstract class Doctrine_Record_Abstract extends Doctrine_Access
  
             $this->_table->setOption('inheritanceMap', $mapColumnNames);
             return;
-        } else {
-            // Put an index on the key column
-            $mapFieldName = array_keys(end($map));
-            $this->index($this->getTable()->getTableName().'_'.$mapFieldName[0], array('fields' => array($mapFieldName[0])));
         }
+
+        // Put an index on the key column
+        $mapFieldName = array_keys(end($map));
+        $this->index($this->getTable()->getTableName().'_'.$mapFieldName[0], array('fields' => array($mapFieldName[0])));
 
         // Set the subclasses array for the parent class
         $this->_table->setOption('subclasses', array_keys($map));
