@@ -94,7 +94,7 @@ class Parent749 extends Doctrine_Record
     $this->hasColumn('title', 'string', 255, array ());
     $this->hasColumn('type', 'integer', 11, array ());
 
-    $this->setSubclasses(array('Record749' => array('type' => 1)));
+    $this->setSubClasses(array('Record749' => array('type' => 1)));
   }
 
   public function setUp()

@@ -21,6 +21,6 @@ class Entity extends Doctrine_Record
         $this->hasColumn('created', 'integer',11);
         $this->hasColumn('updated', 'integer',11);
         $this->hasColumn('email_id', 'integer');
-        $this->setSubclasses(array("User" => array("type" => 0), "Group" => array("type" => 1)));
+        $this->setSubClasses(array('User' => array('type' => 0), 'Group' => array('type' => 1)));
     }
 }

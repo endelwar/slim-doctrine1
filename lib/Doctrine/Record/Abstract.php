@@ -33,19 +33,17 @@
 abstract class Doctrine_Record_Abstract extends Doctrine_Access
 {
     /**
-     * @param Doctrine_Table $_table     reference to associated Doctrine_Table instance
+     * @var Doctrine_Table $_table     reference to associated Doctrine_Table instance
      */
     protected $_table;
 
     public function setTableDefinition()
     {
-
     }
 
     public function setUp()
     {
-    	
-    }	
+    }
 
     /**
      * getTable
@@ -146,7 +144,7 @@ abstract class Doctrine_Record_Abstract extends Doctrine_Access
         $this->_table->setOption('inheritanceMap', $map);
     }
 
-    public function setSubclasses($map)
+    public function setSubClasses($map)
     {
         $class = get_class($this);
         // Set the inheritance map for subclasses

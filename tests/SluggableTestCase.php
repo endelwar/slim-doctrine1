@@ -475,7 +475,7 @@ abstract class SluggableItem10Abstract extends Doctrine_Record
     $this->setTableName('my_item10');
     $this->hasColumn('name', 'string', 50);
     $this->hasColumn('type', 'integer',1);
-    $this->setSubclasses(array("SluggableItem11" => array("type" => 0), "SluggableItem12" => array("type" => 1)));
+    $this->setSubClasses(array("SluggableItem11" => array("type" => 0), "SluggableItem12" => array("type" => 1)));
   }
   public function setUp()
   {
@@ -537,7 +537,7 @@ class SluggableItem15 extends Doctrine_Record
     $this->setTableName('my_item15');
     $this->hasColumn('name', 'string', 50);
     $this->hasColumn('type', 'integer',1);
-    $this->setSubclasses(array("SluggableItem16" => array("type" => 0), "SluggableItem17" => array("type" => 1)));
+    $this->setSubClasses(array('SluggableItem16' => array('type' => 0), 'SluggableItem17' => array('type' => 1)));
   }
  
   public function setUp()

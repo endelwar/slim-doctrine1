@@ -74,7 +74,7 @@ class mkNode extends Doctrine_Record
         $this->hasColumn('type', 'string', 50);
         $this->hasColumn('sub_type', 'string', 50);
         
-        $this->setSubclasses(array(
+        $this->setSubClasses(array(
             'mkOrganism' => array(
                 'type' => 'organism'
             ),
