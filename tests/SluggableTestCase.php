@@ -529,11 +529,8 @@ class SluggableItem15 extends Doctrine_Record
     $this->setTableName('my_item15');
     $this->hasColumn('name', 'string', 50);
     $this->hasColumn('type', 'integer',1);
-<<<<<<< HEAD
+
     $this->setSubClasses(array('SluggableItem16' => array('type' => 0), 'SluggableItem17' => array('type' => 1)));
-=======
-    $this->setSubclasses(array('SluggableItem16' => array('type' => 0), 'SluggableItem17' => array('type' => 1)));
->>>>>>> Some QA on tests
   }
  
   public function setUp()
