@@ -77,7 +77,7 @@ class Doctrine_Task_TestCase extends Doctrine_UnitTestCase
      */
     protected function loadPhpFixture($basename)
     {
-        require_once(dirname(__FILE__) . '/TaskTestCase/' . $basename);
+        require_once __DIR__ . '/TaskTestCase/' . $basename;
     }
 
     public function testSettasknameThrowsAnExceptionIfTheTaskNameIsInvalid()
@@ -87,7 +87,7 @@ class Doctrine_Task_TestCase extends Doctrine_UnitTestCase
         try {
             new Doctrine_Task_TestCase_TestTask006();
         } catch (InvalidArgumentException $e) {
-            if ($e->getMessage() == 'The task name "invalid_task_name", in Doctrine_Task_TestCase_TestTask006, is invalid') {
+            if ($e->getMessage() === 'The task name "invalid_task_name", in Doctrine_Task_TestCase_TestTask006, is invalid') {
                 $this->pass();
                 return;
             }
@@ -119,7 +119,7 @@ class Doctrine_Task_TestCase extends Doctrine_UnitTestCase
             try {
                 new $classWithInvalidTaskName();
             } catch (InvalidArgumentException $e) {
-                if ($e->getMessage() == "The task name \"{$invalidTaskName}\", in {$classWithInvalidTaskName}, is invalid") {
+                if ($e->getMessage() === "The task name \"{$invalidTaskName}\", in {$classWithInvalidTaskName}, is invalid") {
                     $numPasses++;
                 }
             }

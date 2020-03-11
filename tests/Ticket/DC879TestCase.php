@@ -53,7 +53,7 @@ class Doctrine_Ticket_DC879_TestCase extends Doctrine_UnitTestCase
           ->where('foo = DATE_PART("month", foo)')
           ->execute();
 
-        $expected = "SELECT [t].[model_id] AS [t__model_id], [t].[username] AS [t__username], [t].[password] AS [t__password], [t].[foo] AS [t__foo] FROM [ticket__d_c879__model] [t] WHERE ([t].[foo] = DATEPART(month, [t].[foo]))";
+        $expected = 'SELECT [t].[model_id] AS [t__model_id], [t].[username] AS [t__username], [t].[password] AS [t__password], [t].[foo] AS [t__foo] FROM [ticket__d_c879__model] [t] WHERE ([t].[foo] = DATEPART(month, [t].[foo]))';
         $sql = current(array_slice($this->dbh->getAll(), $this->sqlStackCounter++, 1));
 
         $this->assertEqual($expected, $sql);

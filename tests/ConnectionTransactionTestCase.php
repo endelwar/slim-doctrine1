@@ -197,7 +197,7 @@ class Doctrine_Connection_Transaction_TestCase extends Doctrine_UnitTestCase
 
         $this->connection->commit();
 
-        $this->assertTrue(($count + 1), count($this->dbh));
+        $this->assertTrue($count + 1, count($this->dbh));
 
         $this->assertEqual($listener->pop(), 'onTransactionCommit');
         $this->assertEqual($listener->pop(), 'onPreTransactionCommit');

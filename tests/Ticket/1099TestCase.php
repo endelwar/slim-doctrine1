@@ -45,7 +45,7 @@ class T1099_Page extends Doctrine_Record
     public function setUp()
     {
         $this->actAs('Doctrine_Template_NestedSet');
-        $this->setSubclasses(array(
+        $this->setSubClasses(array(
         'T1099_SubPage' => array('type' => 'subpage')
         ));
         parent::setUp();

@@ -32,11 +32,6 @@
  */
 class Doctrine_Ticket_1106_TestCase extends Doctrine_UnitTestCase
 {
-    public function prepareTables()
-    {
-        parent::prepareTables();
-    }
-    
     public function prepareData()
     {
         $user = new User();

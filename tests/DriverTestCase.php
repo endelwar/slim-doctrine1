@@ -96,9 +96,9 @@ class AdapterMock implements Doctrine_Adapter_Interface {
         $this->queries[] = 'LAST_INSERT_ID()';
         if ($this->lastInsertIdFail) {
             return null;
-        } else {
-            return 1;
         }
+
+        return 1;
     }
 
     public function beginTransaction()
@@ -222,8 +222,9 @@ class Doctrine_Driver_UnitTestCase extends UnitTestCase
 
             $name = $this->adapter->getName();
 
-            if ($this->adapter->getName() == 'oci')
+            if ($this->adapter->getName() === 'oci') {
                 $name = 'Oracle';
+            }
             
             $tx = 'Doctrine_Transaction_' . ucwords($name);
             $dataDict = 'Doctrine_DataDict_' . ucwords($name);

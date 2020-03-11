@@ -123,7 +123,7 @@ class Doctrine_Relation_ManyToMany_TestCase extends Doctrine_UnitTestCase {
 
         $component->save();
 
-        $this->assertEqual($this->connection->count(), ($count + 5));
+        $this->assertEqual($this->connection->count(), $count + 5);
         
         $this->assertEqual($component->RTC1->count(), 2);
         
@@ -140,7 +140,7 @@ class Doctrine_Relation_ManyToMany_TestCase extends Doctrine_UnitTestCase {
 
         $component->save();
 
-        $this->assertEqual($this->connection->count(), ($count + 4));
+        $this->assertEqual($this->connection->count(), $count + 4);
 
         $this->assertEqual($component->RTC2->count(), 2);
 
@@ -161,7 +161,7 @@ class Doctrine_Relation_ManyToMany_TestCase extends Doctrine_UnitTestCase {
 
         $component->save();
 
-        $this->assertEqual($this->connection->count(), ($count + 5));
+        $this->assertEqual($this->connection->count(), $count + 5);
         
         $this->assertEqual($component->RTC2->count(), 2);
         
@@ -178,7 +178,7 @@ class Doctrine_Relation_ManyToMany_TestCase extends Doctrine_UnitTestCase {
 
         $component->save();
 
-        $this->assertEqual($this->connection->count(), ($count + 3));
+        $this->assertEqual($this->connection->count(), $count + 3);
         
         $this->assertEqual($component->RTC1->count(), 2);
         

@@ -48,10 +48,10 @@ class Doctrine_Ticket_2298_TestCase extends Doctrine_UnitTestCase
     	$delimiters = array(' ', '+', '-', '*', '/', '<', '>', '=', '>=', '<=', '&', '|');
 
     	$res = $tokenizer->bracketExplode("(age < 20 AND age > 18) AND email LIKE 'John@example.com'", ' AND ', '(', ')');
-        $this->assertEqual($res, array("(age < 20 AND age > 18)","email LIKE 'John@example.com'"));
+        $this->assertEqual($res, array('(age < 20 AND age > 18)',"email LIKE 'John@example.com'"));
 
     	$res = $tokenizer->sqlExplode("sentence OR 'term'", ' OR ');
-        $this->assertEqual($res, array("sentence", "'term'"));
+        $this->assertEqual($res, array('sentence', "'term'"));
 
         $res = $tokenizer->clauseExplode("'a + b'+c", $delimiters);
         $this->assertEqual($res, array(array("'a + b'",'+'), array('c', '')));

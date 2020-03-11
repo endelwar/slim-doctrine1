@@ -24,10 +24,6 @@ class Doctrine_Record_Inheritance_TestCase extends Doctrine_UnitTestCase
         $this->tables = array_merge($this->tables, array('SymfonyRecord'));
         parent::prepareTables();
     }
-    public function prepareData()
-    {
-        parent::prepareData();
-    }
 
     public function testInit()
     {

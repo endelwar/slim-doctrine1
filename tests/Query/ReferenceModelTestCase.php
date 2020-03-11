@@ -33,10 +33,10 @@
 class Doctrine_Query_ReferenceModel_TestCase extends Doctrine_UnitTestCase {
     public function prepareTables() {
         $this->tables = array();
-        $this->tables[] = "Forum_Category";
-        $this->tables[] = "Forum_Entry";
-        $this->tables[] = "Forum_Board";
-        $this->tables[] = "Forum_Thread";
+        $this->tables[] = 'Forum_Category';
+        $this->tables[] = 'Forum_Entry';
+        $this->tables[] = 'Forum_Board';
+        $this->tables[] = 'Forum_Thread';
 
         parent::prepareTables();
         $this->connection->clear();
@@ -78,7 +78,7 @@ class Doctrine_Query_ReferenceModel_TestCase extends Doctrine_UnitTestCase {
         $query = new Doctrine_Query();
         
         $query->from('Forum_Category.Subcategory.Subcategory');
-        $query->orderby('Forum_Category.id ASC, Forum_Category.Subcategory.name DESC');
+        $query->orderBy('Forum_Category.id ASC, Forum_Category.Subcategory.name DESC');
 
         $coll = $query->execute();
         

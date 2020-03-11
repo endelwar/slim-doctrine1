@@ -43,7 +43,7 @@ class Doctrine_Ticket_1213_TestCase extends Doctrine_UnitTestCase
     {
         $guid = md5(microtime());
         $person = new Doctrine_Ticket_1213_Person();
-        $person->Name	= "Frank Zappa ".time();
+        $person->Name	= 'Frank Zappa ' .time();
         $person->guid	= $guid;
         $person->Birthday->Bday = '1940-12-21';
         $person->Birthday->person_guid = $guid;

@@ -10,7 +10,7 @@ class GroupTest extends UnitTestCase
     {
         $this->_title = $title;
         $this->_name =  $name;
-        if ( PHP_SAPI != 'cli' && ! defined('STDOUT')) {
+        if ( PHP_SAPI !== 'cli' && ! defined('STDOUT')) {
             define('STDOUT', '');
         }
         $this->_formatter = new Doctrine_Cli_AnsiColorFormatter();
@@ -28,7 +28,7 @@ class GroupTest extends UnitTestCase
 
     public function addTestCase(UnitTestCase $testCase)
     {
-        if ($testCase instanceOf GroupTest) {
+        if ($testCase instanceOf self) {
             $this->_testCases = array_merge($this->_testCases, $testCase->getTestCases());
          } else {
             $this->_testCases[get_class($testCase)] = $testCase;
@@ -42,7 +42,7 @@ class GroupTest extends UnitTestCase
         }
         foreach($filter as $subFilter) {
             $name = strtolower(get_class($testCase));
-            $pos = strpos($name, strtolower($subFilter));
+            $pos = stripos($name, $subFilter);
             //it can be 0 so we have to use === to see if false
             if ($pos === false) {
                 return false;
@@ -50,6 +50,7 @@ class GroupTest extends UnitTestCase
         }
         return true;
     }
+
     public function run(DoctrineTest_Reporter $reporter = null, $filter = null)
     {
         set_time_limit(900);
@@ -74,7 +75,7 @@ class GroupTest extends UnitTestCase
             try {
                 $testCase->run();
             } catch (Exception $e) {
-                $this->_failed += 1;
+                ++$this->_failed;
                 $message = 'Unexpected ' . get_class($e) . ' thrown in [' . get_class($testCase) . '] with message [' . $e->getMessage() . '] in ' . $e->getFile() . ' on line ' . $e->getLine() . "\n\nTrace\n-------------\n\n" . $e->getTraceAsString();
                 $testCase->addMessage($message);
             }

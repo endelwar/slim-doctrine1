@@ -67,7 +67,7 @@ class Ticket_1383_Image extends Doctrine_Record
         $this->hasColumn('owner_type', 'integer', 5, array('notnull' => true));
         $this->hasColumn('name', 'string', 128, array('notnull' => true, 'unique' => true));
 
-        $this->setSubclasses(array(
+        $this->setSubClasses(array(
             'Ticket_1383_Brand_Image'           => array('owner_type' => 0)
         ));
     }

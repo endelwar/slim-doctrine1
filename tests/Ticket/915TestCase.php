@@ -60,7 +60,7 @@ END;
 
         file_put_contents('test.yml', $yml);
         $import = new Doctrine_Data_Import('test.yml');
-        $import->setFormat("yml");
+        $import->setFormat('yml');
 
         // try to import garbled records (with incorrect field names,
         // e.g. "Amount" instead of "amount") and expect that doctrine

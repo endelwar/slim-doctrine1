@@ -36,7 +36,7 @@ class Doctrine_DataType_Enum_TestCase extends Doctrine_UnitTestCase
     { }
     public function prepareTables() 
     {
-        $this->tables = array("EnumTest", "EnumTest2", "EnumTest3");
+        $this->tables = array('EnumTest', 'EnumTest2', 'EnumTest3');
         parent::prepareTables();
     }
 
@@ -101,7 +101,7 @@ class Doctrine_DataType_Enum_TestCase extends Doctrine_UnitTestCase
 
         try {
             $query = new Doctrine_Query($this->connection);
-            $ret = $query->parseDqlQuery("FROM EnumTest WHERE EnumTest.status = ?")
+            $ret = $query->parseDqlQuery('FROM EnumTest WHERE EnumTest.status = ?')
               ->count(array('open'));
             $this->assertEqual($ret, 1);
         } catch (Exception $e) {

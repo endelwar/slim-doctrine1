@@ -110,8 +110,6 @@ class Doctrine_PessimisticLocking_TestCase extends Doctrine_UnitTestCase
     /**
      * Tests the retrieving of a lock's owner.
      * This test implicitly tests getLock().
-     *
-     * @param Doctrine_Record $lockedRecord
      */
     public function testGetLockOwner()
     {

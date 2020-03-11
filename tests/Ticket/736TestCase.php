@@ -13,7 +13,7 @@ class Doctrine_Ticket_736_TestCase extends Doctrine_UnitTestCase
     public function prepareData() 
     { 
         $delegate = new T736_ModuleDelegate();
-        $delegate->content = "Lorem Ipsum and so on...";
+        $delegate->content = 'Lorem Ipsum and so on...';
         $delegate->save();
 
         $module = new T736_Module();
@@ -33,10 +33,10 @@ class Doctrine_Ticket_736_TestCase extends Doctrine_UnitTestCase
 
     public function testForHydrationOverwrintingLocalInstancesWhenItShouldnt()
     {
-        $module = Doctrine_Core::getTable("T736_Module")->find(1);
-        $module->moduledata->content = "foo";
+        $module = Doctrine_Core::getTable('T736_Module')->find(1);
+        $module->moduledata->content = 'foo';
         $module->moduledata->save();
-	    $this->assertTrue($module->moduledata->content == "foo"); // should be "foo" is "Lorem Ipsum and so on..."
+	    $this->assertTrue($module->moduledata->content === 'foo'); // should be "foo" is "Lorem Ipsum and so on..."
 	    
     }
 }
@@ -61,19 +61,19 @@ class T736_ModuleDelegate extends Doctrine_Record
 {
     public function setTableDefinition()
     {
-        $this->hasColumn("moduleid", "integer", 4, array());
-        $this->hasColumn("content", "string", 2000);
+        $this->hasColumn('moduleid', 'integer', 4, array());
+        $this->hasColumn('content', 'string', 2000);
     }
     
     public function setUp()
     {
-        $this->hasOne("T736_Module as parent", array('local' => 'moduleid', 'foreign' => 'id'));
+        $this->hasOne('T736_Module as parent', array('local' => 'moduleid', 'foreign' => 'id'));
     }
     
     
     public function preUpdate($event)
     {
-        $this->parent->lastchange = date('Y-m-d H:i:s', time());
+        $this->parent->lastchange = date('Y-m-d H:i:s');
         $this->parent->save();
     }
 }
@@ -84,13 +84,13 @@ class T736_ModuleLoaderListener extends Doctrine_Record_Listener
     public function postHydrate(Doctrine_Event $event)
     {
         $contents = $event->data;
-        $delegate = Doctrine_Core::getTable("T736_ModuleDelegate")->find($contents["moduledelegateid"], ($contents instanceof Doctrine_Record) ? Doctrine_Core::HYDRATE_RECORD :Doctrine_Core::HYDRATE_ARRAY );
+        $delegate = Doctrine_Core::getTable('T736_ModuleDelegate')->find($contents['moduledelegateid'], ($contents instanceof Doctrine_Record) ? Doctrine_Core::HYDRATE_RECORD :Doctrine_Core::HYDRATE_ARRAY );
         if ($contents instanceof Doctrine_Record)
         {
-            $contents->mapValue("moduledata", $delegate);
+            $contents->mapValue('moduledata', $delegate);
             $delegate->parent = $contents;
         } else {
-            $contents["moduledata"] = $delegate;
+            $contents['moduledata'] = $delegate;
         }
         $event->data = $contents;
     }

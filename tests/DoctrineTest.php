@@ -32,10 +32,10 @@
  * @version     $Revision$
  */
 
-require_once dirname(__FILE__) . '/DoctrineTest/UnitTestCase.php';
-require_once dirname(__FILE__) . '/DoctrineTest/GroupTest.php';
-require_once dirname(__FILE__) . '/DoctrineTest/Doctrine_UnitTestCase.php';
-require_once dirname(__FILE__) . '/DoctrineTest/Reporter.php';
+require_once __DIR__ . '/DoctrineTest/UnitTestCase.php';
+require_once __DIR__ . '/DoctrineTest/GroupTest.php';
+require_once __DIR__ . '/DoctrineTest/Doctrine_UnitTestCase.php';
+require_once __DIR__ . '/DoctrineTest/Reporter.php';
 
 class DoctrineTest
 {
@@ -75,13 +75,13 @@ class DoctrineTest
     {
         $testGroup = $this->testGroup;
         if (PHP_SAPI === 'cli') {
-            require_once(dirname(__FILE__) . '/DoctrineTest/Reporter/Cli.php');
+            require_once __DIR__ . '/DoctrineTest/Reporter/Cli.php';
             $reporter = new DoctrineTest_Reporter_Cli();
             $argv = $_SERVER['argv'];
             array_shift($argv);
             $options = $this->parseOptions($argv);
         } else {
-            require_once(dirname(__FILE__) . '/DoctrineTest/Reporter/Html.php');
+            require_once __DIR__ . '/DoctrineTest/Reporter/Html.php';
             $options = $_GET;
             if (isset($options['filter'])) {
                 if ( ! is_array($options['filter'])) {
@@ -170,8 +170,8 @@ class DoctrineTest
             $ret = $testGroup->run($reporter, $filter);
             $result['coverage'] = xdebug_get_code_coverage();
             xdebug_stop_code_coverage();
-            file_put_contents(dirname(__FILE__) . '/coverage/coverage.txt', serialize($result));
-            require_once dirname(__FILE__) . '/DoctrineTest/Coverage.php';
+            file_put_contents(__DIR__ . '/coverage/coverage.txt', serialize($result));
+            require_once __DIR__ . '/DoctrineTest/Coverage.php';
             $coverageGeneration = new DoctrineTest_Coverage();
             $coverageGeneration->generateReport();
             return $ret;
@@ -189,9 +189,9 @@ class DoctrineTest
         $time = $endTime - $startTime;
 
         if (PHP_SAPI === 'cli') {
-          echo "\nTests ran in " . $time . " seconds and used " . (memory_get_peak_usage() / 1024) . " KB of memory\n\n";
+          echo "\nTests ran in " . $time . ' seconds and used ' . (memory_get_peak_usage() / 1024) . " KB of memory\n\n";
         } else {
-          echo "<p>Tests ran in " . $time . " seconds and used " . (memory_get_peak_usage() / 1024) . " KB of memory</p>";
+          echo '<p>Tests ran in ' . $time . ' seconds and used ' . (memory_get_peak_usage() / 1024) . ' KB of memory</p>';
         }
 
         return $result;
@@ -203,11 +203,11 @@ class DoctrineTest
      */
     public function requireModels()
     {
-        $models = new DirectoryIterator(dirname(__FILE__) . '/models/');
+        $models = new DirectoryIterator(__DIR__ . '/models/');
 
         foreach($models as $key => $file) {
             if ($file->isFile() && ! $file->isDot()) {
-                $e = explode('.', $file->getFileName());
+                $e = explode('.', $file->getFilename());
 
                 if (end($e) === 'php') {
                     require_once $file->getPathname();
@@ -236,7 +236,7 @@ class DoctrineTest
                 }
             } else {
                 $values = $options[$currentName];
-                array_push($values, $name);
+                $values[] = $name;
                 $options[$currentName] = $values;
             }
         }
@@ -267,12 +267,12 @@ class DoctrineTest
         }
 
         $dir = array_shift($e);
-        $file = $dir . '_' . substr(implode('_', $e), 0, -(strlen('_TestCase'))) . 'TestCase.php';
+        $file = $dir . '_' . substr(implode('_', $e), 0, -strlen('_TestCase')) . 'TestCase.php';
         $file = str_replace('_', (($count > 3) ? DIRECTORY_SEPARATOR : ''), $file);
 
         // create a test case file if it doesn't exist
         if ( ! file_exists($file)) {
-            $contents = file_get_contents(DOCTRINE_DIR.'/tests/template.tpl');
+            $contents = file_get_contents(DOCTRINE_DIR . '/tests/template.tpl');
             $contents = sprintf($contents, $class, $class);
 
             if ( ! file_exists($dir)) {
@@ -282,7 +282,7 @@ class DoctrineTest
             file_put_contents($file, $contents);
         }
 
-        require_once($file);
+        require_once $file;
 
         return true;
     }

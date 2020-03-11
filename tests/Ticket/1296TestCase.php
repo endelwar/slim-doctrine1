@@ -53,7 +53,7 @@ class Doctrine_Ticket_1296_TestCase extends Doctrine_UnitTestCase
         try {
             $this->conn->beginTransaction();
         } catch (Exception $e) {
-            $this->fail("Transaction failed to start.");
+            $this->fail('Transaction failed to start.');
         }
         
         $this->assertEqual(1, $this->conn->transaction->getTransactionLevel());
@@ -63,7 +63,7 @@ class Doctrine_Ticket_1296_TestCase extends Doctrine_UnitTestCase
         $org->name = 'Inc.';
         try {
             $org->save();
-            $this->fail("Unique violation not reported.");
+            $this->fail('Unique violation not reported.');
         } catch (Exception $e) {
             $this->assertEqual(1, $this->conn->transaction->getTransactionLevel());
             $this->assertEqual(0, $this->conn->transaction->getInternalTransactionLevel());
@@ -94,7 +94,7 @@ class Doctrine_Ticket_1296_TestCase extends Doctrine_UnitTestCase
         try {
             $this->conn->beginTransaction();
         } catch (Exception $e) {
-            $this->fail("Transaction failed to start.");
+            $this->fail('Transaction failed to start.');
         }
         
         $this->assertEqual(1, $this->conn->transaction->getTransactionLevel());

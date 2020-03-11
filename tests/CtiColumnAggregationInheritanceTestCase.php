@@ -52,7 +52,7 @@ class CTICATestParent2 extends CTICATestParent1
         $this->hasColumn('verified', 'boolean', 1);
         $this->hasColumn('type', 'integer', 2);
         
-        $this->setSubclasses(array(
+        $this->setSubClasses(array(
             'CTICATest'  => array('type' => 1),
             'CTICATest2' => array('type' => 2)
             ));

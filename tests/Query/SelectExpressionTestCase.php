@@ -101,7 +101,7 @@ class Doctrine_Query_SelectExpression_TestCase extends Doctrine_UnitTestCase
         $query = new Doctrine_Query();
         $query->select('u.*, (u.id * u.id) multiplication');
         $query->from('User u');
-        $query->orderby('multiplication asc');
+        $query->orderBy('multiplication asc');
         
         try {
             $users = $query->execute();

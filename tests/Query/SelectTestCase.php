@@ -60,7 +60,7 @@ class Doctrine_Query_Select_TestCase extends Doctrine_UnitTestCase
         
         $q->distinct()->select('u.name')->from('User u');
 
-        $this->assertEqual($q->getSqlQuery(), "SELECT DISTINCT e.id AS e__id, e.name AS e__name FROM entity e WHERE (e.type = 0)");
+        $this->assertEqual($q->getSqlQuery(), 'SELECT DISTINCT e.id AS e__id, e.name AS e__name FROM entity e WHERE (e.type = 0)');
     }
 
     public function testSelectDistinctIsSupported2()
@@ -69,7 +69,7 @@ class Doctrine_Query_Select_TestCase extends Doctrine_UnitTestCase
         
         $q->select('DISTINCT u.name')->from('User u');
 
-        $this->assertEqual($q->getSqlQuery(), "SELECT DISTINCT e.id AS e__id, e.name AS e__name FROM entity e WHERE (e.type = 0)");
+        $this->assertEqual($q->getSqlQuery(), 'SELECT DISTINCT e.id AS e__id, e.name AS e__name FROM entity e WHERE (e.type = 0)');
     }
 
     public function testAggregateFunctionWithDistinctKeyword() 

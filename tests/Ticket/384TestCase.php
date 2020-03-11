@@ -37,8 +37,8 @@ class Doctrine_Ticket_384_TestCase extends Doctrine_UnitTestCase
 	    $oResume = new ticket384_Resume;
 	    $oResume->title = 'titre';
 	    $oResume->KnownLanguages[0]->comments = 'foo';
-	    $oResume->KnownLanguages[0]->Language->label = "Enlish";
-	    $oResume->KnownLanguages[0]->Level->label = "Fluent";
+	    $oResume->KnownLanguages[0]->Language->label = 'Enlish';
+	    $oResume->KnownLanguages[0]->Level->label = 'Fluent';
 	    $oResume->save();
     }
 

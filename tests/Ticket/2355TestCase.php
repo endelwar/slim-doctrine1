@@ -84,18 +84,18 @@ END;
             $query = new Doctrine_Query();
             $query->from('Episode e, e.Directors, e.Writers');
 
-            $e = $query->execute();
+            $execute = $query->execute();
 
-            $this->assertEqual($e->count(), 1);
-            $this->assertEqual($e[0]->season, 1);
-            $this->assertEqual($e[0]->number, 1);
-            $this->assertEqual($e[0]->title_us, 'Pilot');
-            $this->assertEqual($e[0]->title_fr, 'Bienvenue sur Terre');
-            $this->assertEqual($e[0]->Directors->count(), 1);
-            $this->assertEqual($e[0]->Directors[0]->name, 'David Nutter');
-            $this->assertEqual($e[0]->Writers->count(), 2);
-            $this->assertEqual($e[0]->Writers[0]->name, 'Alfred Gough');
-            $this->assertEqual($e[0]->Writers[1]->name, 'Miles Millar');
+            $this->assertEqual($execute->count(), 1);
+            $this->assertEqual($execute[0]->season, 1);
+            $this->assertEqual($execute[0]->number, 1);
+            $this->assertEqual($execute[0]->title_us, 'Pilot');
+            $this->assertEqual($execute[0]->title_fr, 'Bienvenue sur Terre');
+            $this->assertEqual($execute[0]->Directors->count(), 1);
+            $this->assertEqual($execute[0]->Directors[0]->name, 'David Nutter');
+            $this->assertEqual($execute[0]->Writers->count(), 2);
+            $this->assertEqual($execute[0]->Writers[0]->name, 'Alfred Gough');
+            $this->assertEqual($execute[0]->Writers[1]->name, 'Miles Millar');
 
             $query = new Doctrine_Query();
             $query->from('News n');

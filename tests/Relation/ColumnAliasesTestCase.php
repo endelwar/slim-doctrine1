@@ -4,8 +4,8 @@ class Doctrine_Relation_ColumnAliases_TestCase extends Doctrine_UnitTestCase
     public function prepareTables() 
     {
         $this->tables = array(
-            "ColumnAliasTest2", 
-            "ColumnAliasTest3"
+            'ColumnAliasTest2',
+            'ColumnAliasTest3'
         ); 
         
         parent::prepareTables();

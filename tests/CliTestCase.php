@@ -57,7 +57,7 @@ class Doctrine_Cli_TestCase extends Doctrine_UnitTestCase
     protected function getFixturesPath()
     {
         if (! isset($this->fixturesPath)) {
-            $this->fixturesPath = dirname(__FILE__) . '/CliTestCase';
+            $this->fixturesPath = __DIR__ . '/CliTestCase';
         }
 
         return $this->fixturesPath;
@@ -69,7 +69,7 @@ class Doctrine_Cli_TestCase extends Doctrine_UnitTestCase
 
     public function testTheNameOfTheTaskBaseClassNameIsStoredInAClassConstant()
     {
-        $this->assertFalse(is_null(constant('Doctrine_Cli::TASK_BASE_CLASS')));
+        $this->assertFalse(constant('Doctrine_Cli::TASK_BASE_CLASS') === null);
     }
 
     public function testGetconfigReturnsTheArrayUsedToConstructTheInstance()
@@ -154,7 +154,7 @@ class Doctrine_Cli_TestCase extends Doctrine_UnitTestCase
         try {
             $cli->getConfigValue($key);
         } catch (OutOfBoundsException $e) {
-            if ($e->getMessage() == "The element \"{$key}\" does not exist in the config") {
+            if ($e->getMessage() === "The element \"{$key}\" does not exist in the config") {
                 $this->pass();
                 return;
             }
@@ -241,7 +241,7 @@ class Doctrine_Cli_TestCase extends Doctrine_UnitTestCase
 
         $this->assertFalse($cli->taskClassIsRegistered('Doctrine_Cli_TestCase_TestTask02'));
 
-        require_once($this->getFixturesPath() . '/TestTask02.php');
+        require_once $this->getFixturesPath() . '/TestTask02.php';
         $cli->registerTaskClass('Doctrine_Cli_TestCase_TestTask02');
         $this->assertTrue($cli->taskClassIsRegistered('Doctrine_Cli_TestCase_TestTask02'));
 
@@ -257,7 +257,7 @@ class Doctrine_Cli_TestCase extends Doctrine_UnitTestCase
         try {
             $cli->registerTaskClass('anything');
         } catch (InvalidArgumentException $e) {
-            if ($e->getMessage() == 'The task class "anything" does not exist') {
+            if ($e->getMessage() === 'The task class "anything" does not exist') {
                 $this->pass();
                 return;
             }
@@ -275,7 +275,7 @@ class Doctrine_Cli_TestCase extends Doctrine_UnitTestCase
         try {
             $cli->registerTaskClass($thisClassName);
         } catch (DomainException $e) {
-            if ($e->getMessage() == "The class \"{$thisClassName}\" is not a Doctrine Task") {
+            if ($e->getMessage() === "The class \"{$thisClassName}\" is not a Doctrine Task") {
                 $this->pass();
                 return;
             }
@@ -296,7 +296,7 @@ class Doctrine_Cli_TestCase extends Doctrine_UnitTestCase
         try {
             $cli->loadTasks($directory);
         } catch (InvalidArgumentException $e) {
-            if ($e->getMessage() == "The directory \"{$directory}\" does not exist") {
+            if ($e->getMessage() === "The directory \"{$directory}\" does not exist") {
                 $this->pass();
                 return;
             }

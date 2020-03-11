@@ -97,7 +97,7 @@ abstract class Doctrine_Query_Abstract
     /**
      * @var integer $_state   The current state of this query.
      */
-    protected $_state = Doctrine_Query::STATE_CLEAN;
+    protected $_state = self::STATE_CLEAN;
 
     /**
      * @var array $_params  The parameters of this query.
@@ -1676,7 +1676,7 @@ abstract class Doctrine_Query_Abstract
      * sets the SET part of the query
      *
      * @param null|array|string $key
-     * @param null|int|string $value
+     * @param null|int|bool|string $value
      * @param null|int|bool|string|array $params
      * @return $this
      * @throws Doctrine_Query_Exception

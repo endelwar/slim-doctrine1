@@ -47,7 +47,7 @@ class Doctrine_Collection_Snapshot_TestCase extends Doctrine_UnitTestCase
 
     public function testDiffForSimpleCollection()
     {
-        $q = Doctrine_Query::create()->from('User u')->orderby('u.id');
+        $q = Doctrine_Query::create()->from('User u')->orderBy('u.id');
 
         $coll = $q->execute();
         $this->assertEqual($coll->count(), 8);

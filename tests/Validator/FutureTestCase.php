@@ -72,7 +72,7 @@ class Doctrine_Validator_Future_TestCase extends Doctrine_UnitTestCase
         $user1->death = date('Y-m-d', 42);
         $this->assertFalse($user1->trySave());
         
-        $user1->death = date('Y-m-d', time());
+        $user1->death = date('Y-m-d');
         $this->assertFalse($user1->trySave());
         
         $user1->death = date('Y-m-d', time() + 60);

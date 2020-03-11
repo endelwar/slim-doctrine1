@@ -78,7 +78,7 @@ class Doctrine_Cache_Db_TestCase extends Doctrine_Cache_Abstract_TestCase
                 ->useResultCache($cache, 3600, 'hans_query')
                 ->execute();
             $this->assertEqual(1, count($u));
-            $this->assertEqual("Hans", $u[0]->name);
+            $this->assertEqual('Hans', $u[0]->name);
         }
 
         $this->assertTrue($cache->contains('hans_query'));

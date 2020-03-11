@@ -5,8 +5,8 @@ class Doctrine_Record_Filter_TestCase extends Doctrine_UnitTestCase {
 
     public function testValueWrapper() {
         $e = new RecordFilterTest;
-        $e->name = "something";
-        $e->password = "123";
+        $e->name = 'something';
+        $e->password = '123';
 
 
         $this->assertEqual($e->get('name'), 'SOMETHING');

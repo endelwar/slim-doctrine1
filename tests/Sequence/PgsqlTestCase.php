@@ -35,7 +35,7 @@ class Doctrine_Sequence_Pgsql_TestCase extends Doctrine_UnitTestCase
      public function testCurrIdExecutesSql() 
      {
         $this->sequence->currId('user');
-        $q = "SELECT last_value FROM user_seq";
+        $q = 'SELECT last_value FROM user_seq';
 
         $this->assertEqual($this->adapter->pop(), $q);
     }

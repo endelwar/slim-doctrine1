@@ -53,7 +53,7 @@ class Doctrine_Query_Subquery_TestCase extends Doctrine_UnitTestCase
         $q = new Doctrine_Query();
         $q->from('User u')->where('u.id NOT IN (SELECT g.user_id FROM Groupuser g)');
 
-        $this->assertEqual($q->getSqlQuery(), "SELECT e.id AS e__id, e.name AS e__name, e.loginname AS e__loginname, e.password AS e__password, e.type AS e__type, e.created AS e__created, e.updated AS e__updated, e.email_id AS e__email_id FROM entity e WHERE (e.id NOT IN (SELECT g.user_id AS g__user_id FROM groupuser g) AND (e.type = 0))");
+        $this->assertEqual($q->getSqlQuery(), 'SELECT e.id AS e__id, e.name AS e__name, e.loginname AS e__loginname, e.password AS e__password, e.type AS e__type, e.created AS e__created, e.updated AS e__updated, e.email_id AS e__email_id FROM entity e WHERE (e.id NOT IN (SELECT g.user_id AS g__user_id FROM groupuser g) AND (e.type = 0))');
     }
 
     public function testSubqueryInSelectPart()
@@ -110,8 +110,8 @@ class Doctrine_Query_Subquery_TestCase extends Doctrine_UnitTestCase
         $q = new Doctrine_Query();
         $q->select('u.name, COUNT(DISTINCT a.id) num_albums');
         $q->from('User u, u.Album a');
-        $q->orderby('num_albums');
-        $q->groupby('u.id');
+        $q->orderBy('num_albums');
+        $q->groupBy('u.id');
 
         try {
             // this causes getLimitSubquery() to be used, and it fails
@@ -134,8 +134,8 @@ class Doctrine_Query_Subquery_TestCase extends Doctrine_UnitTestCase
         $q->select('u.*, COUNT(a.id) num_albums')
           ->from('User u')
           ->leftJoin('u.Album a')
-          ->orderby('num_albums desc')
-          ->groupby('u.id')
+          ->orderBy('num_albums desc')
+          ->groupBy('u.id')
           ->having('num_albums > 0')
           ->limit(5);
         

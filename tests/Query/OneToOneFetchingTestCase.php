@@ -51,18 +51,18 @@ class Doctrine_Query_OneToOneFetching_TestCase extends Doctrine_UnitTestCase
 
         $cat->rootCategoryId = 0;
         $cat->parentCategoryId = 0;
-        $cat->name = "Testcat";
+        $cat->name = 'Testcat';
         $cat->position = 0;
         $cat->save();
         
         $board = new QueryTest_Board();
-        $board->name = "Testboard";
+        $board->name = 'Testboard';
         $board->categoryId = $cat->id;
         $board->position = 0;
         $board->save();
         
         $author = new QueryTest_User();
-        $author->username = "romanbb";
+        $author->username = 'romanbb';
         $author->save();
         
         $lastEntry = new QueryTest_Entry();
@@ -75,9 +75,9 @@ class Doctrine_Query_OneToOneFetching_TestCase extends Doctrine_UnitTestCase
         $board->save();
         
         $visibleRank = new QueryTest_Rank();
-        $visibleRank->title = "Freak";
-        $visibleRank->color = "red";
-        $visibleRank->icon = "freak.png";
+        $visibleRank->title = 'Freak';
+        $visibleRank->color = 'red';
+        $visibleRank->icon = 'freak.png';
         $visibleRank->save();
         
         // grant him a rank
@@ -101,12 +101,12 @@ class Doctrine_Query_OneToOneFetching_TestCase extends Doctrine_UnitTestCase
     {
         $query = new Doctrine_Query($this->connection);
         try {
-            $categories = $query->select("c.*, b.*, le.*, a.username, vr.title, vr.color, vr.icon")
-                    ->from("QueryTest_Category c")
-                    ->leftJoin("c.boards b")
-                    ->leftJoin("b.lastEntry le")
-                    ->leftJoin("le.author a")
-                    ->leftJoin("a.visibleRank vr")
+            $categories = $query->select('c.*, b.*, le.*, a.username, vr.title, vr.color, vr.icon')
+                    ->from('QueryTest_Category c')
+                    ->leftJoin('c.boards b')
+                    ->leftJoin('b.lastEntry le')
+                    ->leftJoin('le.author a')
+                    ->leftJoin('a.visibleRank vr')
                     ->execute(array(), Doctrine_Core::HYDRATE_ARRAY);
 
             // --> currently quits here with a fatal error! <--
@@ -149,19 +149,19 @@ class Doctrine_Query_OneToOneFetching_TestCase extends Doctrine_UnitTestCase
     public function testOneToOneArrayFetchingWithEmptyRelations()
     {
         // temporarily remove the relation to fake a non-existant one
-        $board = $this->connection->query("FROM QueryTest_Board b WHERE b.name = ?", array('Testboard'))->getFirst();
+        $board = $this->connection->query('FROM QueryTest_Board b WHERE b.name = ?', array('Testboard'))->getFirst();
         $lastEntryId = $board->lastEntryId;
         $board->lastEntryId = 0;
         $board->save();
         
         $query = new Doctrine_Query($this->connection);
         try {
-            $categories = $query->select("c.*, b.*, le.*, a.username, vr.title, vr.color, vr.icon")
-                    ->from("QueryTest_Category c")
-                    ->leftJoin("c.boards b")
-                    ->leftJoin("b.lastEntry le")
-                    ->leftJoin("le.author a")
-                    ->leftJoin("a.visibleRank vr")
+            $categories = $query->select('c.*, b.*, le.*, a.username, vr.title, vr.color, vr.icon')
+                    ->from('QueryTest_Category c')
+                    ->leftJoin('c.boards b')
+                    ->leftJoin('b.lastEntry le')
+                    ->leftJoin('le.author a')
+                    ->leftJoin('a.visibleRank vr')
                     ->execute(array(), Doctrine_Core::HYDRATE_ARRAY);
 
 
@@ -189,12 +189,12 @@ class Doctrine_Query_OneToOneFetching_TestCase extends Doctrine_UnitTestCase
     {
         $query = new Doctrine_Query($this->connection);
         try {
-            $categories = $query->select("c.*, b.*, le.date, a.username, vr.title, vr.color, vr.icon")
-                    ->from("QueryTest_Category c")
-                    ->leftJoin("c.boards b")
-                    ->leftJoin("b.lastEntry le")
-                    ->leftJoin("le.author a")
-                    ->leftJoin("a.visibleRank vr")
+            $categories = $query->select('c.*, b.*, le.date, a.username, vr.title, vr.color, vr.icon')
+                    ->from('QueryTest_Category c')
+                    ->leftJoin('c.boards b')
+                    ->leftJoin('b.lastEntry le')
+                    ->leftJoin('le.author a')
+                    ->leftJoin('a.visibleRank vr')
                     ->execute();
  
             // check boards/categories
@@ -226,7 +226,7 @@ class Doctrine_Query_OneToOneFetching_TestCase extends Doctrine_UnitTestCase
     public function testOneToOneRecordFetchingWithEmptyRelations()
     {
         // temporarily remove the relation to fake a non-existant one
-        $board = $this->connection->query("FROM QueryTest_Board b WHERE b.name = ?", array('Testboard'))->getFirst();
+        $board = $this->connection->query('FROM QueryTest_Board b WHERE b.name = ?', array('Testboard'))->getFirst();
         $lastEntryId = $board->lastEntryId;
         $board->lastEntryId = null;
         $board->lastEntry = null;
@@ -234,12 +234,12 @@ class Doctrine_Query_OneToOneFetching_TestCase extends Doctrine_UnitTestCase
         
         $query = new Doctrine_Query($this->connection);
         try {
-            $categories = $query->select("c.*, b.*, le.*, a.username, vr.title, vr.color, vr.icon")
-                    ->from("QueryTest_Category c")
-                    ->leftJoin("c.boards b")
-                    ->leftJoin("b.lastEntry le")
-                    ->leftJoin("le.author a")
-                    ->leftJoin("a.visibleRank vr")
+            $categories = $query->select('c.*, b.*, le.*, a.username, vr.title, vr.color, vr.icon')
+                    ->from('QueryTest_Category c')
+                    ->leftJoin('c.boards b')
+                    ->leftJoin('b.lastEntry le')
+                    ->leftJoin('le.author a')
+                    ->leftJoin('a.visibleRank vr')
                     ->execute();
 
             // check boards/categories

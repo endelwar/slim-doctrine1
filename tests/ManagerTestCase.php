@@ -41,17 +41,17 @@ class Doctrine_Manager_TestCase extends Doctrine_UnitTestCase {
         $this->assertTrue($this->manager->getIterator() instanceof ArrayIterator);
     }
     public function testCount() {
-        $this->assertTrue(is_integer(count($this->manager)));
+        $this->assertTrue(is_int(count($this->manager)));
     }
     public function testGetCurrentConnection() {
         $this->assertTrue($this->manager->getCurrentConnection() === $this->connection);
     }
     public function testGetConnections() {
-        $this->assertTrue(is_integer(count($this->manager->getConnections())));
+        $this->assertTrue(is_int(count($this->manager->getConnections())));
     }
     public function testClassifyTableize() {
-        $name = "Forum_Category";
-        $this->assertEqual(Doctrine_Inflector::tableize($name), "forum__category");
+        $name = 'Forum_Category';
+        $this->assertEqual(Doctrine_Inflector::tableize($name), 'forum__category');
         $this->assertEqual(Doctrine_Inflector::classify(Doctrine_Inflector::tableize($name)), $name);
         
         
@@ -68,16 +68,16 @@ class Doctrine_Manager_TestCase extends Doctrine_UnitTestCase {
         try {
             $res = $manager->parseDsn($mysql);
             $expectedMysqlDsn = array(
-                "scheme" => "mysql",
-                "host" => "localhost",
-                "user" => "user",
-                "pass" => "pass",
-                "path" => "/dbname",
-                "dsn" => "mysql:host=localhost;dbname=dbname",
-                "port" => NULL,
-                "query" => NULL, 
-                "fragment" => NULL,
-                "database" => "dbname");
+                'scheme' => 'mysql',
+                'host' => 'localhost',
+                'user' => 'user',
+                'pass' => 'pass',
+                'path' => '/dbname',
+                'dsn' => 'mysql:host=localhost;dbname=dbname',
+                'port' => NULL,
+                'query' => NULL,
+                'fragment' => NULL,
+                'database' => 'dbname');
             $this->assertEqual($expectedMysqlDsn, $res);
         } catch (Exception $e) {
             $this->fail($e->getMessage());
@@ -85,16 +85,16 @@ class Doctrine_Manager_TestCase extends Doctrine_UnitTestCase {
         
         try {
             $expectedDsn = array(
-                "scheme" => "sqlite",
-                "host" => NULL,
-                "user" => NULL,
-                "pass" => NULL,
-                "path" => "/full/unix/path/to/file.db",
-                "dsn" => "sqlite:/full/unix/path/to/file.db",
-                "port" => NULL,
-                "query" => NULL, 
-                "fragment" => NULL,
-                "database" => "/full/unix/path/to/file.db");
+                'scheme' => 'sqlite',
+                'host' => NULL,
+                'user' => NULL,
+                'pass' => NULL,
+                'path' => '/full/unix/path/to/file.db',
+                'dsn' => 'sqlite:/full/unix/path/to/file.db',
+                'port' => NULL,
+                'query' => NULL,
+                'fragment' => NULL,
+                'database' => '/full/unix/path/to/file.db');
               
             $res = $manager->parseDsn($sqlite);
             $this->assertEqual($expectedDsn, $res);
@@ -104,16 +104,16 @@ class Doctrine_Manager_TestCase extends Doctrine_UnitTestCase {
         
         try {
              $expectedDsn = array(
-                "scheme" => "sqlite",
-                "host" => NULL,
-                "path" => "c:/full/windows/path/to/file.db",
-                "dsn" => "sqlite:c:/full/windows/path/to/file.db",
-                "port" => NULL,
-                "user" => NULL,
-                "pass" => NULL,
-                "query" => NULL, 
-                "fragment" => NULL,
-                "database" => "c:/full/windows/path/to/file.db");
+                'scheme' => 'sqlite',
+                'host' => NULL,
+                'path' => 'c:/full/windows/path/to/file.db',
+                'dsn' => 'sqlite:c:/full/windows/path/to/file.db',
+                'port' => NULL,
+                'user' => NULL,
+                'pass' => NULL,
+                'query' => NULL,
+                'fragment' => NULL,
+                'database' => 'c:/full/windows/path/to/file.db');
             $res = $manager->parseDsn($sqlitewin);
             $this->assertEqual($expectedDsn, $res);
         } catch (Exception $e) {
@@ -122,16 +122,16 @@ class Doctrine_Manager_TestCase extends Doctrine_UnitTestCase {
 
         try {
              $expectedDsn = array(
-                "scheme" => "sqlite",
-                "host" => NULL,
-                "path" => 'D:/full/windows/path/to/file.db',
-                "dsn" => 'sqlite:D:/full/windows/path/to/file.db',
-                "port" => NULL,
-                "user" => NULL,
-                "pass" => NULL,
-                "query" => NULL, 
-                "fragment" => NULL,
-                "database" => 'D:/full/windows/path/to/file.db');
+                'scheme' => 'sqlite',
+                'host' => NULL,
+                'path' => 'D:/full/windows/path/to/file.db',
+                'dsn' => 'sqlite:D:/full/windows/path/to/file.db',
+                'port' => NULL,
+                'user' => NULL,
+                'pass' => NULL,
+                'query' => NULL,
+                'fragment' => NULL,
+                'database' => 'D:/full/windows/path/to/file.db');
             $res = $manager->parseDsn($sqlitewin2);
             $this->assertEqual($expectedDsn, $res);
         } catch (Exception $e) {
@@ -144,10 +144,10 @@ class Doctrine_Manager_TestCase extends Doctrine_UnitTestCase {
         // We need to know if we're under Windows or *NIX 
         $OS = strtoupper(substr(PHP_OS, 0,3)); 
 
-        $tmp_dir = ($OS == 'WIN') ? str_replace('\\','/',sys_get_temp_dir()) : '/tmp';
+        $tmp_dir = ($OS === 'WIN') ? str_replace('\\','/',sys_get_temp_dir()) : '/tmp';
        
-        $this->conn1_database = $tmp_dir . "/doctrine1.db";
-        $this->conn2_database = $tmp_dir . "/doctrine2.db";
+        $this->conn1_database = $tmp_dir . '/doctrine1.db';
+        $this->conn2_database = $tmp_dir . '/doctrine2.db';
 
         $this->conn1 = Doctrine_Manager::connection('sqlite:///' . $this->conn1_database, 'doctrine1');
         $this->conn2 = Doctrine_Manager::connection('sqlite:///' . $this->conn2_database, 'doctrine2');

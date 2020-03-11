@@ -359,7 +359,7 @@ class Doctrine_Table extends Doctrine_Configurable implements Countable, Seriali
             }
             $ref = new ReflectionClass($parent);
 
-            if ($ref->isAbstract() || !$class->isSubClassOf($parent)) {
+            if ($ref->isAbstract() || !$class->isSubclassOf($parent)) {
                 continue;
             }
             $parentTable = $this->_conn->getTable($parent);
@@ -828,6 +828,8 @@ class Doctrine_Table extends Doctrine_Configurable implements Countable, Seriali
      * It has no effect on other options.
      *
      * @param array $options keys are option names
+     * @throws Doctrine_Table_Exception
+     *
      * @return void
      */
     public function setOptions($options)
@@ -861,7 +863,7 @@ class Doctrine_Table extends Doctrine_Configurable implements Countable, Seriali
      * @param $definition
      * @param mixed $name if string used as name for the constraint.
      *                      Otherwise it is indexed numerically.
-     * @return void
+     * @return Doctrine_Table
      */
     public function addCheckConstraint($definition, $name)
     {
@@ -923,7 +925,7 @@ class Doctrine_Table extends Doctrine_Configurable implements Countable, Seriali
     /**
      * Defines a n-uple of fields that must be unique for every record.
      *
-     * This method Will automatically add UNIQUE index definition
+     * This method will automatically add UNIQUE index definition
      * and validate the values on save. The UNIQUE index is not created in the
      * database until you use @see export().
      *
@@ -952,14 +954,16 @@ class Doctrine_Table extends Doctrine_Configurable implements Countable, Seriali
      *
      * @param array $args first value is a string, name of related component;
      *                          second value is array, options for the relation.
-     * @see Doctrine_Relation::_$definition
      * @param integer $type Doctrine_Relation::ONE or Doctrine_Relation::MANY
-     * @return void
+     * @throws Doctrine_Relation_Exception
+     * @see Doctrine_Relation::_$definition
      * @todo Name proposal: addRelation
+     *
+     * @return void
      */
     public function bind($args, $type)
     {
-        $options = (!isset($args[1])) ? array() : $args[1];
+        $options = !isset($args[1]) ? array() : $args[1];
         $options['type'] = $type;
 
         $this->_parser->bind($args[0], $options);
@@ -967,10 +971,12 @@ class Doctrine_Table extends Doctrine_Configurable implements Countable, Seriali
 
     /**
      * Binds One-to-One aggregate relation
-     * @return Doctrine_Record this object
      * @internal param string $componentName the name of the related component
      * @internal param string $options relation options
      * @see Doctrine_Relation::_$definition
+     * @throws Doctrine_Relation_Exception
+     *
+     * @return void
      */
     public function hasOne()
     {
@@ -979,10 +985,12 @@ class Doctrine_Table extends Doctrine_Configurable implements Countable, Seriali
 
     /**
      * Binds One-to-Many / Many-to-Many aggregate relation
-     * @return Doctrine_Record this object
+     * @return void this object
      * @internal param string $componentName the name of the related component
      * @internal param string $options relation options
      * @see Doctrine_Relation::_$definition
+     *
+     * @throws Doctrine_Relation_Exception
      */
     public function hasMany()
     {
@@ -998,7 +1006,8 @@ class Doctrine_Table extends Doctrine_Configurable implements Countable, Seriali
      * side.
      *
      * @param string $alias the relation alias to search for.
-     * @return boolean           true if the relation exists. Otherwise false.
+     *
+     * @return boolean      true if the relation exists. Otherwise false.
      */
     public function hasRelation($alias)
     {
@@ -1010,6 +1019,7 @@ class Doctrine_Table extends Doctrine_Configurable implements Countable, Seriali
      *
      * @param string $alias relation alias; @see hasRelation()
      * @param bool $recursive
+     * @throws Doctrine_Table_Exception
      * @return Doctrine_Relation
      */
     public function getRelation($alias, $recursive = true)
@@ -1039,6 +1049,8 @@ class Doctrine_Table extends Doctrine_Configurable implements Countable, Seriali
      * </code>
      *
      * @param string $alias name for component aliasing
+     * @throws Doctrine_Query_Exception
+     *
      * @return Doctrine_Query
      */
     public function createQuery($alias = '')
@@ -1072,7 +1084,6 @@ class Doctrine_Table extends Doctrine_Configurable implements Countable, Seriali
      * @see Doctrine_Table::$_options   for available options
      * @param string $name the name of the option to set
      * @param mixed $value the value of the option
-     * @return Doctrine_Table this object
      * @throws Doctrine_Table_Exception
      */
     public function setOption($name, $value)
@@ -1128,7 +1139,7 @@ class Doctrine_Table extends Doctrine_Configurable implements Countable, Seriali
      * field names converted to column names if the 3rd argument is true.
      *
      * @param string $alias The alias to prefix columns with
-     * @param string $orderBy The order by to process
+     * @param string|array $orderBy The order by to process
      * @param bool|string $columnNames Whether or not to convert field names to column names
      * @return string $orderBy
      */
@@ -1190,7 +1201,9 @@ class Doctrine_Table extends Doctrine_Configurable implements Countable, Seriali
      * Retrieves a column definition from this table schema.
      *
      * @param string $columnName
-     * @return array              column definition; @see $_columns
+     * @see $_columns
+     *
+     * @return array|false column definition;
      */
     public function getColumnDefinition($columnName)
     {
@@ -1206,7 +1219,7 @@ class Doctrine_Table extends Doctrine_Configurable implements Countable, Seriali
      * If no alias can be found the column name is returned.
      *
      * @param string $columnName column name
-     * @return string               column alias
+     * @return string            column alias
      */
     public function getFieldName($columnName)
     {
@@ -1279,6 +1292,8 @@ class Doctrine_Table extends Doctrine_Configurable implements Countable, Seriali
      * Set multiple column definitions at once
      *
      * @param array $definitions
+     * @throws Doctrine_Table_Exception
+     *
      * @return void
      */
     public function setColumns(array $definitions)
@@ -1300,7 +1315,6 @@ class Doctrine_Table extends Doctrine_Configurable implements Countable, Seriali
      * @param mixed $options
      * @param boolean $prepend Whether to prepend or append the new column to the column list.
      *                          By default the column gets appended.
-     * @throws Doctrine_Table_Exception     if trying use wrongly typed parameter
      * @return void
      */
     public function setColumn($name, $type = null, $length = null, $options = array(), $prepend = false)
@@ -1398,7 +1412,7 @@ class Doctrine_Table extends Doctrine_Configurable implements Countable, Seriali
         $options['type'] = $type;
         $options['length'] = $length;
 
-        if (strtolower($fieldName) != $name) {
+        if (strtolower($fieldName) !== $name) {
             $options['alias'] = $fieldName;
         }
 
@@ -1452,9 +1466,9 @@ class Doctrine_Table extends Doctrine_Configurable implements Countable, Seriali
         }
         if (isset($this->_columns[$columnName]['default'])) {
             return $this->_columns[$columnName]['default'];
-        } else {
-            return null;
         }
+
+        return null;
     }
 
     /**
@@ -1558,7 +1572,7 @@ class Doctrine_Table extends Doctrine_Configurable implements Countable, Seriali
      *
      * This methods register a query object with a name to use in the future.
      * @see createNamedQuery()
-     * @param $queryKey                       query key name to use for storage
+     * @param string $queryKey             query key name to use for storage
      * @param string|Doctrine_Query $query DQL string or object
      * @return void
      */
@@ -2719,6 +2733,8 @@ class Doctrine_Table extends Doctrine_Configurable implements Countable, Seriali
                 || $name === 'fixed'
                 || $name === 'comment'
                 || $name === 'alias'
+                || $name === 'charset'
+                || $name === 'collation'
                 || $name === 'extra') {
                 continue;
             }
@@ -2902,11 +2918,13 @@ class Doctrine_Table extends Doctrine_Configurable implements Countable, Seriali
         $fieldName = Doctrine_Inflector::tableize($name);
         if ($this->hasColumn($name) || $this->hasField($name)) {
             return $this->getFieldName($this->getColumnName($name));
-        } else if ($this->hasColumn($fieldName) || $this->hasField($fieldName)) {
-            return $this->getFieldName($this->getColumnName($fieldName));
-        } else {
-            return false;
         }
+
+        if ($this->hasColumn($fieldName) || $this->hasField($fieldName)) {
+            return $this->getFieldName($this->getColumnName($fieldName));
+        }
+
+        return false;
     }
 
     /**
@@ -2995,17 +3013,17 @@ class Doctrine_Table extends Doctrine_Configurable implements Countable, Seriali
      *
      * @param $method
      * @param $arguments
-     * @return the result of the finder
+     * @return mixed the result of the finder
      * @throws Doctrine_Table_Exception
      */
     public function __call($method, $arguments)
     {
         $lcMethod = strtolower($method);
 
-        if (substr($lcMethod, 0, 6) === 'findby') {
+        if (strpos($lcMethod, 'findby') === 0) {
             $by = substr($method, 6, strlen($method));
             $method = 'findBy';
-        } else if (substr($lcMethod, 0, 9) === 'findoneby') {
+        } else if (strpos($lcMethod, 'findoneby') === 0) {
             $by = substr($method, 9, strlen($method));
             $method = 'findOneBy';
         }

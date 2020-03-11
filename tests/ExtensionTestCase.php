@@ -34,7 +34,7 @@ class Doctrine_Extension_TestCase extends Doctrine_UnitTestCase
 {
     public function prepareTables()
     {
-        Doctrine_Core::setExtensionsPath(dirname(__FILE__).'/Extension');
+        Doctrine_Core::setExtensionsPath(__DIR__ .'/Extension');
         spl_autoload_register(array('Doctrine_Core', 'extensionsAutoload'));
 
         Doctrine_Manager::getInstance()
@@ -71,6 +71,7 @@ class ExtensionBehaviorTest extends Doctrine_Record
 
     public function setUp()
     {
+        require_once __DIR__ . '/Extension/TestExtension/lib/Doctrine/Template/TestBehavior.php';
         $this->actAs('TestBehavior');
     }
 }

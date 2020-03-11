@@ -30,22 +30,22 @@ class Doctrine_Ticket_Njero_TestCase extends Doctrine_UnitTestCase
     {
       $policy_code = new PolicyCodeN();
       $policy_code->code = 1;
-      $policy_code->description = "Special Policy";
+      $policy_code->description = 'Special Policy';
       $policy_code->save();
       
       $coverage_code = new CoverageCodeN();
       $coverage_code->code = 1;
-      $coverage_code->description = "Full Coverage";
+      $coverage_code->description = 'Full Coverage';
       $coverage_code->save();
       
       $coverage_code = new CoverageCodeN();
       $coverage_code->code = 3; # note we skip 2
-      $coverage_code->description = "Partial Coverage";
+      $coverage_code->description = 'Partial Coverage';
       $coverage_code->save();
 
       $liability_code = new LiabilityCodeN();
       $liability_code->code = 1;
-      $liability_code->description = "Limited Territory";
+      $liability_code->description = 'Limited Territory';
       $liability_code->save();
 
       $rate = new RateN();
@@ -57,7 +57,7 @@ class Doctrine_Ticket_Njero_TestCase extends Doctrine_UnitTestCase
       
       $policy = new PolicyN();
       $policy->rate_id = 1;
-      $policy->policy_number = "123456789";  
+      $policy->policy_number = '123456789';
       $policy->save();
         
       $q = new Doctrine_Query();

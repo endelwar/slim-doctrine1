@@ -43,7 +43,7 @@ class Doctrine_Ticket_1652_TestCase extends Doctrine_UnitTestCase
     {
             $user = new Ticket_1652_User();
             $user->id = 1;
-            $user->name = "floriank";
+            $user->name = 'floriank';
             $user->save();
     }
 
@@ -61,7 +61,7 @@ class Doctrine_Ticket_1652_TestCase extends Doctrine_UnitTestCase
         }
 
         $user = Doctrine_Core::getTable('Ticket_1652_User')->findOneById(1);
-        $user->name = "test";
+        $user->name = 'test';
         if ($user->isValid()) {
             try {
                 $user->save();
@@ -87,8 +87,8 @@ class Ticket_1652_User extends Doctrine_Record
     }
 
     protected function validate() {
-        if ($this->name == "test") {
-            $this->getErrorStack()->add("badName", "No testnames allowed!");
+        if ($this->name === 'test') {
+            $this->getErrorStack()->add('badName', 'No testnames allowed!');
             return false;
         }
     }

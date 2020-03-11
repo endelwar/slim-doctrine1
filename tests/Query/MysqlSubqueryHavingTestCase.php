@@ -43,9 +43,9 @@ class Doctrine_Query_MysqlSubqueryHaving_TestCase extends Doctrine_UnitTestCase
         $q = new Doctrine_Query();
         $q->select('u.name, COUNT(DISTINCT a.id) num_albums');
         $q->from('User u, u.Album a');
-        $q->orderby('num_albums DESC');
+        $q->orderBy('num_albums DESC');
         $q->having('num_albums > 0');
-        $q->groupby('u.id');
+        $q->groupBy('u.id');
         $q->limit(5);
 
         $q->execute();
@@ -60,9 +60,9 @@ class Doctrine_Query_MysqlSubqueryHaving_TestCase extends Doctrine_UnitTestCase
         $q = new Doctrine_Query();
         $q->select('u.name, COUNT(a.id) num_albums');
         $q->from('User u, u.Album a');
-        $q->orderby('num_albums DESC');
+        $q->orderBy('num_albums DESC');
         $q->having('num_albums > 0');
-        $q->groupby('u.id');
+        $q->groupBy('u.id');
         $q->limit(5);
 
         $q->execute();

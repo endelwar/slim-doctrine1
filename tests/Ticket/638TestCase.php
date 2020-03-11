@@ -88,7 +88,7 @@ class Doctrine_Ticket_638_TestCase extends Doctrine_UnitTestCase
         $this->pass();
       }
 
-      if ($course1->get('id') != 'MATH001')
+      if ($course1->get('id') !== 'MATH001')
       {
         $this->fail('Course Id is not correct after assignment!');
       }
@@ -135,10 +135,6 @@ class T638_Course extends Doctrine_Record
   {
   }
 
-  public function set($fieldName, $value, $load = true)
-  {
-    parent::set($fieldName, $value, $load);
-  }
 }
 
 class T638_StudentCourse extends Doctrine_Record

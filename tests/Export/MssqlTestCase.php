@@ -71,7 +71,7 @@ class Doctrine_Export_Mssql_TestCase extends Doctrine_UnitTestCase
             )
         ));
 
-        $this->assertEqual($this->adapter->pop(), "ALTER TABLE user DROP COLUMN file_limit, time_limit;");
+        $this->assertEqual($this->adapter->pop(), 'ALTER TABLE user DROP COLUMN file_limit, time_limit;');
     }
     public function testAlterTableChange()
     {
@@ -87,7 +87,7 @@ class Doctrine_Export_Mssql_TestCase extends Doctrine_UnitTestCase
             )
         ));
 
-        $this->assertEqual($this->adapter->pop(), "ALTER TABLE user ALTER COLUMN name VARCHAR(20) NULL;");
+        $this->assertEqual($this->adapter->pop(), 'ALTER TABLE user ALTER COLUMN name VARCHAR(20) NULL;');
     }
     public function testAlterTableThrowsExceptionWithoutValidTableName()
     {

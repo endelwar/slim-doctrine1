@@ -60,6 +60,7 @@ class Doctrine_Ticket_749_TestCase extends Doctrine_UnitTestCase
     /**
      * This method is used by both tests, as the collection of records should
      * be identical for both of them if things are working properly.
+     * @param Record749[] $records
      */
     private function verifyRecords ($records) {
         $expected_values = array(
@@ -94,7 +95,7 @@ class Parent749 extends Doctrine_Record
     $this->hasColumn('title', 'string', 255, array ());
     $this->hasColumn('type', 'integer', 11, array ());
 
-    $this->setSubclasses(array('Record749' => array('type' => 1)));
+    $this->setSubClasses(array('Record749' => array('type' => 1)));
   }
 
   public function setUp()

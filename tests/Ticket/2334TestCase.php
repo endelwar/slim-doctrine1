@@ -60,8 +60,4 @@ class Ticket_2334_TestMSSQLUnsignedInt extends Doctrine_Record
                 $this->hasColumn('test_int', 'int', null, array('unsigned' => true));
         }
 
-        public function setUp()
-        {
-            parent::setUp();
-        }
 }

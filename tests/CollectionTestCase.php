@@ -71,19 +71,19 @@ class Doctrine_Collection_TestCase extends Doctrine_UnitTestCase
         $count = $this->connection->count();
 
         $coll->loadRelated('Group');
-        $this->assertEqual(($count + 1), $this->connection->count());
+        $this->assertEqual($count + 1, $this->connection->count());
         $this->assertEqual($coll[0]->Group->count(), 2);
-        $this->assertEqual(($count + 1), $this->connection->count());
+        $this->assertEqual($count + 1, $this->connection->count());
         $this->assertEqual($coll[1]->Group->count(), 1);
 
-        $this->assertEqual(($count + 1), $this->connection->count());
+        $this->assertEqual($count + 1, $this->connection->count());
 
         $this->assertEqual($coll[2]->Group->count(), 3);
 
-        $this->assertEqual(($count + 1), $this->connection->count());
+        $this->assertEqual($count + 1, $this->connection->count());
         $this->assertEqual($coll[5]->Group->count(), 3);
 
-        $this->assertEqual(($count + 1), $this->connection->count());
+        $this->assertEqual($count + 1, $this->connection->count());
 
         $this->connection->clear();
     }
@@ -118,16 +118,16 @@ class Doctrine_Collection_TestCase extends Doctrine_UnitTestCase
         $count = $this->connection->count();
         $resources->loadRelated('Type');
 
-        $this->assertEqual(($count + 1), $this->connection->count());
+        $this->assertEqual($count + 1, $this->connection->count());
         $this->assertEqual($resources[0]->name, 'resource 1');
         $this->assertEqual($resource[0]->Type[0]->type, 'type 1');
         $this->assertEqual($resource[0]->Type[1]->type, 'type 2');
-        $this->assertEqual(($count + 1), $this->connection->count());
+        $this->assertEqual($count + 1, $this->connection->count());
 
         $this->assertEqual($resource[1]->name, 'resource 2');
         $this->assertEqual($resource[1]->Type[0]->type, 'type 3');
         $this->assertEqual($resource[1]->Type[1]->type, 'type 4');
-        $this->assertEqual(($count + 1), $this->connection->count());
+        $this->assertEqual($count + 1, $this->connection->count());
     }
     
     public function testAdd() 
@@ -175,11 +175,11 @@ class Doctrine_Collection_TestCase extends Doctrine_UnitTestCase
         $count = $this->connection->count();
         $coll->loadRelated('Email');
 
-        $this->assertEqual(($count + 1), $this->connection->count());
+        $this->assertEqual($count + 1, $this->connection->count());
 
         $this->assertEqual($coll[0]->Email->address, 'zYne@example.com');
 
-        $this->assertEqual(($count + 1), $this->connection->count());
+        $this->assertEqual($count + 1, $this->connection->count());
 
         $this->assertEqual($coll[2]->Email->address, 'caine@example.com');
 
@@ -187,41 +187,41 @@ class Doctrine_Collection_TestCase extends Doctrine_UnitTestCase
 
         $this->assertEqual($coll[4]->Email->address, 'stallone@example.com');
 
-        $this->assertEqual(($count + 1), $this->connection->count());
+        $this->assertEqual($count + 1, $this->connection->count());
 
         $this->connection->clear();
     }
 
     public function testLoadRelatedForForeignKey() 
     {
-        $coll = $this->connection->query("FROM User");
+        $coll = $this->connection->query('FROM User');
         $this->assertEqual($coll->count(), 8);
         
         $count = $this->connection->count();
-        $coll->loadRelated("Phonenumber");
+        $coll->loadRelated('Phonenumber');
 
-        $this->assertEqual(($count + 1), $this->connection->count());
+        $this->assertEqual($count + 1, $this->connection->count());
 
-        $this->assertEqual($coll[0]->Phonenumber[0]->phonenumber, "123 123");
+        $this->assertEqual($coll[0]->Phonenumber[0]->phonenumber, '123 123');
 
-        $this->assertEqual(($count + 1), $this->connection->count());
+        $this->assertEqual($count + 1, $this->connection->count());
 
         $coll[0]->Phonenumber[1]->phonenumber;
 
-        $this->assertEqual(($count + 1), $this->connection->count());
+        $this->assertEqual($count + 1, $this->connection->count());
 
-        $this->assertEqual($coll[4]->Phonenumber[0]->phonenumber, "111 555 333");
-        $this->assertEqual($coll[4]["Phonenumber"][1]->phonenumber, "123 213");
-        $this->assertEqual($coll[4]["Phonenumber"][2]->phonenumber, "444 555");
+        $this->assertEqual($coll[4]->Phonenumber[0]->phonenumber, '111 555 333');
+        $this->assertEqual($coll[4]['Phonenumber'][1]->phonenumber, '123 213');
+        $this->assertEqual($coll[4]['Phonenumber'][2]->phonenumber, '444 555');
 
-        $this->assertEqual($coll[5]->Phonenumber[0]->phonenumber, "111 222 333");
+        $this->assertEqual($coll[5]->Phonenumber[0]->phonenumber, '111 222 333');
 
 
-        $this->assertEqual($coll[6]->Phonenumber[0]->phonenumber, "111 222 333");
-        $this->assertEqual($coll[6]["Phonenumber"][1]->phonenumber, "222 123");
-        $this->assertEqual($coll[6]["Phonenumber"][2]->phonenumber, "123 456");
+        $this->assertEqual($coll[6]->Phonenumber[0]->phonenumber, '111 222 333');
+        $this->assertEqual($coll[6]['Phonenumber'][1]->phonenumber, '222 123');
+        $this->assertEqual($coll[6]['Phonenumber'][2]->phonenumber, '123 456');
         
-        $this->assertEqual(($count + 1), $this->connection->count());
+        $this->assertEqual($count + 1, $this->connection->count());
         
         $this->connection->clear();
     }
@@ -240,15 +240,15 @@ class Doctrine_Collection_TestCase extends Doctrine_UnitTestCase
         $coll->setKeyColumn('name');
 
         $user = new User();
-        $user->name = "name";
+        $user->name = 'name';
         $coll->add($user);
 
-        $this->assertTrue($coll["name"] === $user);
+        $this->assertTrue($coll['name'] === $user);
 
-        $this->connection->getTable("email")->setAttribute(Doctrine_Core::ATTR_COLL_KEY,"address");
-        $emails = $this->connection->getTable("email")->findAll();
+        $this->connection->getTable('email')->setAttribute(Doctrine_Core::ATTR_COLL_KEY, 'address');
+        $emails = $this->connection->getTable('email')->findAll();
         foreach($emails as $k => $v) {
-            $this->assertTrue(gettype($k), "string");
+            $this->assertTrue(gettype($k), 'string');
         }
 
     }

@@ -34,20 +34,20 @@ class Doctrine_Ticket_1277_TestCase extends Doctrine_UnitTestCase
 {
     public function prepareTables()
     {
-        $this->tables = array("T1277_User");
+        $this->tables = array('T1277_User');
         parent::prepareTables();
     }
 
     public function prepareData() 
     {
 	     $user1 = new T1277_User();
-	     $user1->username = "User1";
+	     $user1->username = 'User1';
 	     $user1->email = null;
 	     $user1->save();
 	     
 	     $user2 = new T1277_User();
-	     $user2->username = "User2";
-	     $user2->email = "some@email";
+	     $user2->username = 'User2';
+	     $user2->email = 'some@email';
 	     $user2->save();
 	     
     }
@@ -78,8 +78,8 @@ class Doctrine_Ticket_1277_TestCase extends Doctrine_UnitTestCase
             $u->username = 'new username' . $u->id;
             $u->email = 'some' . $u->id . '@email';
             
-            $this->assertEqual("new username" . $u->id, $u->username);
-            $this->assertEqual("some" . $u->id . "@email", $u->email);
+            $this->assertEqual('new username' . $u->id, $u->username);
+            $this->assertEqual('some' . $u->id . '@email', $u->email);
         }
     }
     
@@ -112,8 +112,8 @@ class Doctrine_Ticket_1277_TestCase extends Doctrine_UnitTestCase
             $u->username = 'new username' . $u->id; // modify
             $u->email = 'some' . $u->id . '@email'; // triggers load() to fill uninitialized props
             
-            $this->assertEqual("new username" . $u->id, $u->username);
-            $this->assertEqual("some" . $u->id . "@email", $u->email);
+            $this->assertEqual('new username' . $u->id, $u->username);
+            $this->assertEqual('some' . $u->id . '@email', $u->email);
             
             $this->assertEqual(Doctrine_Record::STATE_DIRTY, $u->state());
         }
@@ -145,11 +145,11 @@ class Doctrine_Ticket_1277_TestCase extends Doctrine_UnitTestCase
             $this->assertEqual(Doctrine_Record::STATE_PROXY, $u->state());
             
             if ($u->id == 1) {
-                $this->assertEqual("User1", $u->username);
+                $this->assertEqual('User1', $u->username);
                 $u->email; // triggers load()
             } else {
-                $this->assertEqual("User2", $u->username);
-                $this->assertEqual("some@email", $u->email);
+                $this->assertEqual('User2', $u->username);
+                $this->assertEqual('some@email', $u->email);
             }
             
             $this->assertEqual(Doctrine_Record::STATE_CLEAN, $u->state());
@@ -203,7 +203,7 @@ class T1277_User extends Doctrine_Record
 {
     public function setTableDefinition ()
     {
-        $this->setTableName("t1277_users");
+        $this->setTableName('t1277_users');
 
         $this->hasColumns (array(
 

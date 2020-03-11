@@ -119,7 +119,7 @@ class Doctrine_TreeStructure_TestCase extends Doctrine_UnitTestCase
         $q->select('l.*, c.*')
           ->from('TreeLeaf l, l.Children c')
           ->where('l.parent_id IS NULL')
-          ->groupby('l.id, c.id');
+          ->groupBy('l.id, c.id');
 
         $coll = $q->execute();
 

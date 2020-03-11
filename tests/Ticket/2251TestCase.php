@@ -80,8 +80,4 @@ class Ticket_2251_TestStringLength extends Doctrine_Record
             $this->hasColumn('test_string', 'string');
     }
 
-    public function setUp()
-    {
-        parent::setUp();
-    }
 }

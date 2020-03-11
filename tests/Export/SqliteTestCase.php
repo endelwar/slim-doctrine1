@@ -93,7 +93,7 @@ class Doctrine_Export_Sqlite_TestCase extends Doctrine_UnitTestCase
         //and then the index so i replaced it with the ones below
         //$this->assertEqual($var, 'CREATE TABLE sometable (id INTEGER PRIMARY KEY AUTOINCREMENT, name VARCHAR(4), INDEX myindex (id, name))');
 
-        $this->assertEqual($this->adapter->pop(),"CREATE INDEX myindex_idx ON sometable (id, name)");
+        $this->assertEqual($this->adapter->pop(), 'CREATE INDEX myindex_idx ON sometable (id, name)');
 
         $this->assertEqual($this->adapter->pop(), 'CREATE TABLE sometable (id INTEGER PRIMARY KEY AUTOINCREMENT, name VARCHAR(4))');
     }
@@ -168,7 +168,7 @@ class Doctrine_Export_Sqlite_TestCase extends Doctrine_UnitTestCase
         //removed this assertion and inserted the two below
 //        $this->assertEqual($this->adapter->pop(), 'CREATE TABLE sometable (id INTEGER PRIMARY KEY AUTOINCREMENT, name VARCHAR(4), INDEX myindex (id ASC, name DESC))');
 
-        $this->assertEqual($this->adapter->pop(),"CREATE INDEX myindex_idx ON sometable (id ASC, name DESC)");
+        $this->assertEqual($this->adapter->pop(), 'CREATE INDEX myindex_idx ON sometable (id ASC, name DESC)');
 
         $this->assertEqual($this->adapter->pop(), 'CREATE TABLE sometable (id INTEGER PRIMARY KEY AUTOINCREMENT, name VARCHAR(4))');
 

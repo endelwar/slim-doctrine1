@@ -2441,10 +2441,12 @@ abstract class Doctrine_Record extends Doctrine_Record_Abstract implements Count
      * removes links from this record to given records
      * if no ids are given, it removes all links
      *
-     * @param string $alias     related component alias
-     * @param array $ids        the identifiers of the related records
-     * @param boolean $now      whether or not to execute now or set as pending unlinks
+     * @param string $alias related component alias
+     * @param array|int $ids the identifiers of the related records
+     * @param boolean $now whether or not to execute now or set as pending unlinks
      * @return Doctrine_Record  this object (fluent interface)
+     * @throws Doctrine_Record_Exception
+     * @throws Doctrine_Table_Exception
      */
     public function unlink($alias, $ids = array(), $now = false)
     {
@@ -2472,7 +2474,7 @@ abstract class Doctrine_Record extends Doctrine_Record_Abstract implements Count
             }
         }
 
-        if ( ! $this->exists() || $now === false) {
+        if ( $now === false || ! $this->exists()) {
             if ( ! $ids) {
                 $ids = $allIds;
             }
@@ -2480,16 +2482,22 @@ abstract class Doctrine_Record extends Doctrine_Record_Abstract implements Count
                 $this->_pendingUnlinks[$alias][$id] = true;
             }
             return $this;
-        } else {
-            return $this->unlinkInDb($alias, $ids);
         }
+
+        return $this->unlinkInDb($alias, $ids);
     }
 
     /**
      * unlink now the related components, querying the db
-     * @param string $alias     related component alias
-     * @param array $ids        the identifiers of the related records
+     *
+     * @param string $alias related component alias
+     * @param array $ids the identifiers of the related records
      * @return Doctrine_Record  this object (fluent interface)
+     * @throws Doctrine_Connection_Exception
+     * @throws Doctrine_Exception
+     * @throws Doctrine_Hydrator_Exception
+     * @throws Doctrine_Query_Exception
+     * @throws Doctrine_Table_Exception
      */
     public function unlinkInDb($alias, $ids = array())
     {

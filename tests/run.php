@@ -1,8 +1,8 @@
 <?php
 
-$_SERVER['DOCTRINE_DIR'] = realpath(dirname(__FILE__).'/../');
+$_SERVER['DOCTRINE_DIR'] = dirname(__DIR__) . '/';
 
-require 'bootstrap.php';
+require __DIR__ . '/bootstrap.php';
 
 $test = new DoctrineTest();
 
@@ -10,6 +10,9 @@ $test = new DoctrineTest();
 $tickets = new GroupTest('Tickets Tests', 'tickets');
 
 $excludeTickets = array(
+    // Skipped tests
+    '1289', '1674', '1725', '1783', 'DC825',
+
     '1830', // MySQL specific error
     '1876b',
     '1935',
@@ -18,14 +21,14 @@ $excludeTickets = array(
     'DC521' // PostgreSQL specific error
 );
 
-$ticketTestCases = glob(dirname(__FILE__) . '/Ticket/*TestCase.php');
+$ticketTestCases = glob(__DIR__ . '/Ticket/*TestCase.php');
 
 foreach ($ticketTestCases as $testCase)
 {
     $fileInfo = pathinfo($testCase);
     $name = str_replace('TestCase', '', $fileInfo['filename']);
 
-    if ( ! in_array($name, $excludeTickets)) {
+    if ( ! in_array($name, $excludeTickets, true)) {
         $name = sprintf('Doctrine_Ticket_%s_TestCase', $name);
         $tickets->addTestCase(new $name());
     }

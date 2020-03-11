@@ -1,4 +1,17 @@
 <?php
+
+/**
+ * Class Entity
+ *
+ * @property int id
+ * @property string name
+ * @property string loginname
+ * @property string password
+ * @property int type
+ * @property int created
+ * @property int updated
+ * @property int email_id
+ */
 class Entity extends Doctrine_Record 
 {
     public function setUp() 
@@ -21,6 +34,6 @@ class Entity extends Doctrine_Record
         $this->hasColumn('created', 'integer',11);
         $this->hasColumn('updated', 'integer',11);
         $this->hasColumn('email_id', 'integer');
-        $this->setSubclasses(array("User" => array("type" => 0), "Group" => array("type" => 1)));
+        $this->setSubClasses(array('User' => array('type' => 0), 'Group' => array('type' => 1)));
     }
 }

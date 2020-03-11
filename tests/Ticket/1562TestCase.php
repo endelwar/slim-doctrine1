@@ -56,7 +56,7 @@ class Doctrine_Ticket_1562_TestCase extends Doctrine_UnitTestCase
         try {
             $table->getTestAccessor2();
         } catch (Exception $e) {
-            if ($e->getMessage() == 'Test') {
+            if ($e->getMessage() === 'Test') {
                 $this->pass();
             } else {
                 $this->fail('Exception thrown should have had a message of test');

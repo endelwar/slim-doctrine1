@@ -82,7 +82,7 @@ class Doctrine_Ticket_1077_TestCase extends Doctrine_UnitTestCase
 
 class Ticket_1077_User extends Doctrine_Record
 {
-    public $phonenumbersTest = null;
+    public $phonenumbersTest;
 
     public function setTableDefinition()
     {

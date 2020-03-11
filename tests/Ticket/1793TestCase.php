@@ -122,7 +122,7 @@ class Ticket_1793_Order extends Doctrine_Record
     $this->hasColumn('id', 'integer', 4, array('type' => 'integer', 'unsigned' => '1', 'primary' => true, 'autoincrement' => true, 'length' => '4'));
     $this->hasColumn('status', 'enum', null, array('type' => 'enum', 'values' => array(0 => 'new', 1 => 'completed', 2 => 'shipped')));
 
-    $this->setSubClasses(array('Ticket_1793_OrdersNew' => array('status' => 'new'), 'Ticket_1793_OrdersCompleted' => array('status' => 'completed')));
+    $this->setSubclasses(array('Ticket_1793_OrdersNew' => array('status' => 'new'), 'Ticket_1793_OrdersCompleted' => array('status' => 'completed')));
   }
 
 }

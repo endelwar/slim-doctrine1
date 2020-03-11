@@ -83,7 +83,7 @@ class Doctrine_Ticket_DC841_TestCase extends Doctrine_UnitTestCase
             ->createQuery('t')
             ->where('t.username = ?', 'foo')
             ->andWhere("t.foo = 't.foo = ?'")
-            ->andWhere("t.password = ?", 'test')
+            ->andWhere('t.password = ?', 'test')
             ->execute();
 
         $expected = "SELECT [t].[id] AS [t__id], [t].[username] AS [t__username], [t].[password] AS [t__password], [t].[foo] AS [t__foo] FROM [ticket__d_c841__model] [t] WHERE ([t].[username] = 'foo' AND [t].[foo] = 't.foo = ?' AND [t].[password] = 'test')";
@@ -117,7 +117,7 @@ class Doctrine_Ticket_DC841_TestCase extends Doctrine_UnitTestCase
             // Ignore: Couldn't get last insert identifier.
         }
 
-        $this->sqlStackCounter += 1;
+        ++$this->sqlStackCounter;
         
         $expected = "INSERT INTO [ticket__d_c841__model] ([username], [password], [foo]) VALUES ('abc', 'abc', 'abc')";
         $sql = current(array_slice($this->dbh->getAll(), $this->sqlStackCounter++, 1));
@@ -158,7 +158,7 @@ class Doctrine_Ticket_DC841_TestCase extends Doctrine_UnitTestCase
             
         $o->delete();
 
-        $expected = "DELETE FROM [ticket__d_c841__model] WHERE [id] = 33";
+        $expected = 'DELETE FROM [ticket__d_c841__model] WHERE [id] = 33';
         $sql = current(array_slice($this->dbh->getAll(), $this->sqlStackCounter++, 1));
 
         $this->assertEqual($expected, $sql);

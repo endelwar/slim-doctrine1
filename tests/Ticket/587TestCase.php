@@ -19,10 +19,6 @@ class Doctrine_Ticket_587_TestCase extends Doctrine_UnitTestCase
         $this->tables = array_merge($this->tables, array('BookmarkUser', 'Bookmark', 'Page'));
         parent::prepareTables();
     }
-    public function prepareData()
-    {
-        parent::prepareData();
-    }
 
     public function testInit()
     {

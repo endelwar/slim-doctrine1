@@ -41,8 +41,8 @@ class Doctrine_Ticket_912_TestCase extends Doctrine_UnitTestCase {
 	    $oResume->title = 'titre';
 	    $oResume->Person->name = 'David';
 	    $oResume->KnownLanguages[0]->comments = 'foo';
-	    $oResume->KnownLanguages[0]->Language->label = "Enlish";
-	    $oResume->KnownLanguages[0]->Level->label = "Fluent";
+	    $oResume->KnownLanguages[0]->Language->label = 'Enlish';
+	    $oResume->KnownLanguages[0]->Level->label = 'Fluent';
 	    $oResume->save();
     }
     

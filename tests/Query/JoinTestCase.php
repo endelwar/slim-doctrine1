@@ -194,7 +194,7 @@ class Doctrine_Query_Join_TestCase extends Doctrine_UnitTestCase
           ->from('Record_Country c')->leftJoin('c.City c2')->leftJoin('c2.District d')
           ->where('c.id = ?', array(1));
 
-        $this->assertEqual($q->getSqlQuery(), "SELECT r.id AS r__id, r.name AS r__name, r2.id AS r2__id, r2.name AS r2__name, r2.country_id AS r2__country_id, r2.district_id AS r2__district_id, r3.id AS r3__id, r3.name AS r3__name FROM record__country r LEFT JOIN record__city r2 ON r.id = r2.country_id LEFT JOIN record__district r3 ON r2.district_id = r3.id WHERE (r.id = ?)");
+        $this->assertEqual($q->getSqlQuery(), 'SELECT r.id AS r__id, r.name AS r__name, r2.id AS r2__id, r2.name AS r2__name, r2.country_id AS r2__country_id, r2.district_id AS r2__district_id, r3.id AS r3__id, r3.name AS r3__name FROM record__country r LEFT JOIN record__city r2 ON r.id = r2.country_id LEFT JOIN record__district r3 ON r2.district_id = r3.id WHERE (r.id = ?)');
 
         $countries = $q->execute();
 

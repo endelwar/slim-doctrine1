@@ -48,18 +48,18 @@ class Doctrine_Query_MultiJoin2_TestCase extends Doctrine_UnitTestCase
 
         $cat->rootCategoryId = 0;
         $cat->parentCategoryId = 0;
-        $cat->name = "Cat1";
+        $cat->name = 'Cat1';
         $cat->position = 0;
         $cat->save();
         
         $board = new QueryTest_Board();
-        $board->name = "B1";
+        $board->name = 'B1';
         $board->categoryId = $cat->id;
         $board->position = 0;
         $board->save();
         
         $author = new QueryTest_User();
-        $author->username = "romanb";
+        $author->username = 'romanb';
         $author->save();
 
         $lastEntry = new QueryTest_Entry();

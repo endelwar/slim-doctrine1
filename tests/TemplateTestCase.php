@@ -73,7 +73,7 @@ class Doctrine_Template_TestCase extends Doctrine_UnitTestCase
     public function testShouldCallMethodInTemplate()
     {
         $user = new ConcreteUser();
-        $this->assertEqual("foo", $user->foo());
+        $this->assertEqual('foo', $user->foo());
     }
 
 }
@@ -97,7 +97,7 @@ class UserTemplate extends Doctrine_Template
     
     public function foo()
     {
-        return "foo";
+        return 'foo';
     }
 }
 class EmailTemplate extends Doctrine_Template

@@ -42,7 +42,7 @@ class Parent1713 extends Doctrine_Record
     $this->hasColumn('title', 'string', 255, array ());
     $this->hasColumn('PHP_TYPE as phpType', 'integer', 11, array ());
 
-    $this->setSubclasses(
+    $this->setSubClasses(
     	array('Child1713A' => array('phpType' => 1))
     );
   }

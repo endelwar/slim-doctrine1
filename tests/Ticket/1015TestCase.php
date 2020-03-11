@@ -42,7 +42,7 @@ class Doctrine_Ticket_1015_TestCase extends Doctrine_UnitTestCase {
     public function prepareData()
     {
         $person = new T1015_Person();
-        $person['name'] = "James";
+        $person['name'] = 'James';
         $person['T1015_Points']['total'] = 15;
         $person->save();
     }

@@ -114,7 +114,7 @@ class Doctrine_Query_Where_TestCase extends Doctrine_UnitTestCase
        try
        {
             Doctrine_Query::create()->delete('User')->whereIn('User.id', null)->execute();
-            $this->fail("Should throw exception");
+            $this->fail('Should throw exception');
         } catch(Doctrine_Query_Exception $e) {
             $this->pass();
         }

@@ -42,7 +42,7 @@ class Doctrine_EventListener_Chain_TestCase extends Doctrine_UnitTestCase
     public function testAccessorInvokerChain() 
     {
         $e = new EventListenerChainTest;
-        $e->name = "something";
+        $e->name = 'something';
 
     }
 

@@ -49,7 +49,7 @@ class Doctrine_Hook_TestCase extends Doctrine_UnitTestCase
 
         $a['orderby'] = array('u.name ASC');
 
-        $hook->hookOrderBy($a['orderby']);
+        $hook->hookOrderby($a['orderby']);
         $this->assertEqual($hook->getQuery()->getSqlQuery(), 'SELECT e.id AS e__id, e.name AS e__name FROM entity e LEFT JOIN phonenumber p ON e.id = p.entity_id WHERE (e.type = 0) ORDER BY e.name ASC');
     }
 
@@ -59,7 +59,7 @@ class Doctrine_Hook_TestCase extends Doctrine_UnitTestCase
 
         $a['orderby'] = array('u.name DESC');
 
-        $hook->hookOrderBy($a['orderby']);
+        $hook->hookOrderby($a['orderby']);
         $this->assertEqual($hook->getQuery()->getSqlQuery(), 'SELECT e.id AS e__id, e.name AS e__name FROM entity e LEFT JOIN phonenumber p ON e.id = p.entity_id WHERE (e.type = 0) ORDER BY e.name DESC');
     }
 
@@ -69,7 +69,7 @@ class Doctrine_Hook_TestCase extends Doctrine_UnitTestCase
 
         $a['orderby'] = array('u.unknown DESC');
 
-        $hook->hookOrderBy($a['orderby']);
+        $hook->hookOrderby($a['orderby']);
         $this->assertEqual($hook->getQuery()->getSqlQuery(), 'SELECT e.id AS e__id, e.name AS e__name FROM entity e LEFT JOIN phonenumber p ON e.id = p.entity_id WHERE (e.type = 0)');
     }
 
@@ -79,7 +79,7 @@ class Doctrine_Hook_TestCase extends Doctrine_UnitTestCase
 
         $a['orderby'] = array('u.name ASC', 'u.id DESC');
 
-        $hook->hookOrderBy($a['orderby']);
+        $hook->hookOrderby($a['orderby']);
         $this->assertEqual($hook->getQuery()->getSqlQuery(), 'SELECT e.id AS e__id, e.name AS e__name FROM entity e LEFT JOIN phonenumber p ON e.id = p.entity_id WHERE (e.type = 0) ORDER BY e.name ASC, e.id DESC');
 
         $users =  $hook->getQuery()->execute();

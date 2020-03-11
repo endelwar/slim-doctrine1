@@ -34,8 +34,8 @@ class Doctrine_Ticket_889_TestCase extends Doctrine_UnitTestCase
 {
     public function prepareTables()
     {
-        $this->tables[] = "Ticket_889";
-        $this->tables[] = "Ticket_889_Relationship";
+        $this->tables[] = 'Ticket_889';
+        $this->tables[] = 'Ticket_889_Relationship';
         parent::prepareTables();
     }
 

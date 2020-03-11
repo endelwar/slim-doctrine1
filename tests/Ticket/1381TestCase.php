@@ -113,7 +113,7 @@ class Doctrine_Ticket_1381_TestCase extends Doctrine_UnitTestCase
             
             // Assert that our existent component still has the column, even after new hydration on same object
             $this->assertTrue(array_key_exists('ArticleTitle', $comment));
-            $this->assertTrue($comment, 'When cleanData worked as expected!');
+            $this->assertTrue($comment['ArticleTitle'] === 'When cleanData worked as expected!');
         } catch (Doctrine_Exception $e) {
             $this->fail($e->getMessage());
         }

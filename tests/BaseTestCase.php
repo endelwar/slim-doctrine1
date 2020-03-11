@@ -39,9 +39,9 @@ class Doctrine_Base_TestCase extends Doctrine_UnitTestCase
         $models = Doctrine_Core::loadModels($path, Doctrine_Core::MODEL_LOADING_AGGRESSIVE);
 
         // Ensure the correct model names were returned
-        $this->assertTrue(isset($models['AggressiveModelLoadingUser']) && $models['AggressiveModelLoadingUser'] == 'AggressiveModelLoadingUser');
-        $this->assertTrue(isset($models['AggressiveModelLoadingProfile']) && $models['AggressiveModelLoadingProfile'] == 'AggressiveModelLoadingProfile');
-        $this->assertTrue(isset($models['AggressiveModelLoadingContact']) && $models['AggressiveModelLoadingContact'] == 'AggressiveModelLoadingContact');
+        $this->assertTrue(isset($models['AggressiveModelLoadingUser']) && $models['AggressiveModelLoadingUser'] === 'AggressiveModelLoadingUser');
+        $this->assertTrue(isset($models['AggressiveModelLoadingProfile']) && $models['AggressiveModelLoadingProfile'] === 'AggressiveModelLoadingProfile');
+        $this->assertTrue(isset($models['AggressiveModelLoadingContact']) && $models['AggressiveModelLoadingContact'] === 'AggressiveModelLoadingContact');
 
         // Make sure it does not include the base classes
         $this->assertTrue( ! isset($models['BaseAggressiveModelLoadingUser']));

@@ -32,11 +32,6 @@
  */
 class Doctrine_Record_Synchronize_TestCase extends Doctrine_UnitTestCase
 {
-    public function prepareTables()
-    {
-        parent::prepareTables();
-    }
-    
     public function prepareData()
     {
         $user = new User();
@@ -90,7 +85,7 @@ class Doctrine_Record_Synchronize_TestCase extends Doctrine_UnitTestCase
         try {
           $user->save();
         } catch (Exception $e ) {
-          $this->fail("Failed saving with " . $e->getMessage());
+          $this->fail('Failed saving with ' . $e->getMessage());
         }
     }
 

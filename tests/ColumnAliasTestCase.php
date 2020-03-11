@@ -144,7 +144,7 @@ class Doctrine_ColumnAlias_TestCase extends Doctrine_UnitTestCase
 
         $q->select('c.alias2')
           ->from('ColumnAliasTest c')
-          ->groupby('c.id')
+          ->groupBy('c.id')
           ->having('c.alias2 > 123');
 
         $coll = $q->execute();
