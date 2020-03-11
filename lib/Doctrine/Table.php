@@ -359,7 +359,7 @@ class Doctrine_Table extends Doctrine_Configurable implements Countable, Seriali
             }
             $ref = new ReflectionClass($parent);
 
-            if ($ref->isAbstract() || !$class->isSubClassOf($parent)) {
+            if ($ref->isAbstract() || !$class->isSubclassOf($parent)) {
                 continue;
             }
             $parentTable = $this->_conn->getTable($parent);
@@ -2733,6 +2733,8 @@ class Doctrine_Table extends Doctrine_Configurable implements Countable, Seriali
                 || $name === 'fixed'
                 || $name === 'comment'
                 || $name === 'alias'
+                || $name === 'charset'
+                || $name === 'collation'
                 || $name === 'extra') {
                 continue;
             }

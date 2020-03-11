@@ -76,7 +76,7 @@ class Doctrine_Query_Tokenizer
                     $p = $token;
                     //$parts[$token] = array();
                     $parts[$token] = '';
-                break;
+                    break;
 
                 case 'order':
                 case 'group':
@@ -89,10 +89,10 @@ class Doctrine_Query_Tokenizer
                         $parts[$p] .= "$token ";
                         //$parts[$p][] = $token;
                     }
-                break;
+                    break;
 
                 case 'by':
-                    continue;
+                    break;
 
                 default:
                     if ( ! isset($p)) {
@@ -122,9 +122,9 @@ class Doctrine_Query_Tokenizer
     {
         if (substr($str, 0, 1) === $e1 && substr($str, -1) === $e2) {
             return substr($str, 1, -1);
-        } else {
-            return $str;
         }
+
+        return $str;
     }
 
     /**
@@ -142,7 +142,7 @@ class Doctrine_Query_Tokenizer
      * </code>
      *
      * @param string $str String to be bracket exploded
-     * @param string $d   Delimeter which explodes the string
+     * @param string|array $d   Delimeter which explodes the string
      * @param string $e1  First bracket, usually '('
      * @param string $e2  Second bracket, usually ')'
      *
@@ -183,7 +183,7 @@ class Doctrine_Query_Tokenizer
      *     array("email", "LIKE", "'John@example.com'")
      *
      * @param string $str String to be quote exploded
-     * @param string $d   Delimeter which explodes the string
+     * @param string|array $d   Delimeter which explodes the string
      *
      * @return array
      */
@@ -229,7 +229,7 @@ class Doctrine_Query_Tokenizer
      *     );
      *
      * @param string $str String to be SQL exploded
-     * @param string $d   Delimeter which explodes the string
+     * @param string|array $d   Delimeter which explodes the string
      * @param string $e1  First bracket, usually '('
      * @param string $e2  Second bracket, usually ')'
      *
@@ -275,7 +275,7 @@ class Doctrine_Query_Tokenizer
      *     );
      *
      * @param string $str String to be clause exploded
-     * @param array|string $d Delimeter which explodes the string
+     * @param string|array $d Delimeter which explodes the string
      * @param string $e1 First bracket, usually '('
      * @param string $e2 Second bracket, usually ')'
      * @return array
@@ -291,7 +291,7 @@ class Doctrine_Query_Tokenizer
      * Builds regular expression for split from array. Return regular
      * expression to be applied
      *
-     * @param $d
+     * @param array $d
      *
      * @return string
      */
@@ -505,7 +505,7 @@ class Doctrine_Query_Tokenizer
      *
      * Note the trailing empty string. In the result, all even elements are quoted strings.
      *
-     * @param $str the string to split
+     * @param string $str the string to split
      *
      * @return array
      */

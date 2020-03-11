@@ -112,7 +112,7 @@ class Doctrine_RawSql extends Doctrine_Query_Abstract
     /**
      * Add select parts to fields.
      *
-     * @param $queryPart sting The name of the querypart
+     * @param string $queryPart The name of the querypart
      */
     private function _parseSelectFields($queryPart)
     {
@@ -165,7 +165,7 @@ class Doctrine_RawSql extends Doctrine_Query_Abstract
                     }
                     break;
                 case 'by':
-                    continue;
+                    break;
                 default:
                     //not a keyword so we add it to the previous type.
                     if ( ! isset($parts[$type][0])) {
@@ -190,8 +190,9 @@ class Doctrine_RawSql extends Doctrine_Query_Abstract
      * builds the sql query.
      *
      * @param array $params
-     * @return string the built sql query
+     * @throws Doctrine_Query_Exception
      * @throws Doctrine_RawSql_Exception
+     * @return string the built sql query
      */
     public function getSqlQuery($params = array())
     {        
@@ -297,6 +298,7 @@ class Doctrine_RawSql extends Doctrine_Query_Abstract
      * builds the count query.
      *
      * @param array $params
+     * @throws Doctrine_Query_Exception
      * @return string the built sql query
      */
 	public function getCountSqlQuery($params = array())
@@ -336,7 +338,7 @@ class Doctrine_RawSql extends Doctrine_Query_Abstract
         return $q;
     }
 
-	/**
+    /**
      * count
      * fetches the count of the query
      *
@@ -345,9 +347,12 @@ class Doctrine_RawSql extends Doctrine_Query_Abstract
      *
      * This is an exact copy of the Dql Version
      *
-     * @see Doctrine_Query::count()
-     * @param array $params        an array of prepared statement parameters
+     * @param array $params an array of prepared statement parameters
+     * @throws Doctrine_Connection_Exception
+     * @throws Doctrine_Exception
+     * @throws Doctrine_Query_Exception
      * @return integer             the count of this query
+     * @see Doctrine_Query::count()
      */
     public function count($params = array())
     {
@@ -384,7 +389,10 @@ class Doctrine_RawSql extends Doctrine_Query_Abstract
      * addComponent
      *
      * @param string $tableAlias
-     * @param $path
+     * @param string $path
+     * @throws Doctrine_Connection_Exception
+     * @throws Doctrine_Exception
+     * @throws Doctrine_Manager_Exception
      * @return Doctrine_RawSql
      * @internal param string $componentName
      */
@@ -449,6 +457,8 @@ class Doctrine_RawSql extends Doctrine_Query_Abstract
      * calculate hash key for result cache
      *
      * @param array $params
+     * @throws Doctrine_Query_Exception
+     * @throws Doctrine_RawSql_Exception
      * @return string    the hash
      */
     public function calculateResultCacheHash($params = array())

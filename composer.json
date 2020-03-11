@@ -21,7 +21,8 @@
   "require": {
     "php": ">=5.2.3",
     "ext-pdo": "*",
-    "ext-posix": "*"
+    "ext-posix": "*",
+    "ext-mbstring": "*"
   },
   "require-dev": {
     "ext-redis": "*",
