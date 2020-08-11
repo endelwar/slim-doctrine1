@@ -30,7 +30,7 @@
  * @version     $Revision: 3884 $
  * @author      Mark Pearson <mark.pearson0@googlemail.com>
  */
-class Doctrine_Validator_Timestamp extends Doctrine_Validator_Driver
+class Doctrine_Validator_Timestamp extends Doctrine_Validator_Driver implements Doctrine_Validator_Interface
 {
     /**
      * checks if given value is a valid timestamp

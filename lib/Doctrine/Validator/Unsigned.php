@@ -30,7 +30,7 @@
  * @version     $Revision: 1080 $
  * @author      Konsta Vesterinen <kvesteri@cc.hut.fi>
  */
-class Doctrine_Validator_Unsigned extends Doctrine_Validator_Driver
+class Doctrine_Validator_Unsigned extends Doctrine_Validator_Driver implements Doctrine_Validator_Interface
 {
     /**
      * checks if given value is a valid unsigned integer or float

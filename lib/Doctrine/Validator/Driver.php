@@ -124,8 +124,8 @@ class Doctrine_Validator_Driver
         $className = get_class($this);
         if (strpos($className, 'Doctrine_Validator_') === 0) { 
             return strtolower(substr($className, 19));
-        } else {
-            return $className;
         }
+
+        return (string)$className;
     }
 }
