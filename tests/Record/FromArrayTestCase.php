@@ -32,6 +32,8 @@
  */
 class Doctrine_Record_FromArray_TestCase extends Doctrine_UnitTestCase
 {
+    private $previous_group;
+
     public function prepareData()
     {
         # Create an existing group
