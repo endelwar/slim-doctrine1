@@ -383,7 +383,7 @@ abstract class Doctrine_Record extends Doctrine_Record_Abstract implements Count
             return true;
         }
 
-        if ($this->_state == self::STATE_LOCKED || $this->_state == self::STATE_TLOCKED) {
+        if ($this->_state === self::STATE_LOCKED || $this->_state === self::STATE_TLOCKED) {
             return true;
         }
 

@@ -372,13 +372,13 @@ class Doctrine_Table extends Doctrine_Configurable implements Countable, Seriali
                     if (isset($this->_columns[$columnName])) {
                         $found = true;
                         break;
-                    } else {
-                        if (!isset($parentColumns[$columnName]['owner'])) {
-                            $parentColumns[$columnName]['owner'] = $parentTable->getComponentName();
-                        }
-
-                        $this->_options['joinedParents'][] = $parentColumns[$columnName]['owner'];
                     }
+
+                    if (!isset($parentColumns[$columnName]['owner'])) {
+                        $parentColumns[$columnName]['owner'] = $parentTable->getComponentName();
+                    }
+
+                    $this->_options['joinedParents'][] = $parentColumns[$columnName]['owner'];
                 } else {
                     unset($parentColumns[$columnName]);
                 }
@@ -616,7 +616,7 @@ class Doctrine_Table extends Doctrine_Configurable implements Countable, Seriali
      * getMethodOwner
      *
      * @param string $method
-     * @return void
+     * @return false|mixed
      */
     public function getMethodOwner($method)
     {
@@ -2830,7 +2830,9 @@ class Doctrine_Table extends Doctrine_Configurable implements Countable, Seriali
      */
     private function isGreaterThan($a, $b)
     {
-        if (strlen($a) == strlen($b)) return 0;
+        if (strlen($a) == strlen($b)) {
+            return 0;
+        }
         return (strlen($a) > strlen($b)) ? 1 : -1;
     }
 

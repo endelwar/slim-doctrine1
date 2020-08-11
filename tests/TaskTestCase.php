@@ -125,7 +125,7 @@ class Doctrine_Task_TestCase extends Doctrine_UnitTestCase
             }
         }
 
-        if ($numPasses == count($aClassWithInvalidTaskName)) {
+        if ($numPasses === count($aClassWithInvalidTaskName)) {
             $this->pass();
         }
         else {

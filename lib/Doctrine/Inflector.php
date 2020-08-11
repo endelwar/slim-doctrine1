@@ -87,20 +87,37 @@ class Doctrine_Inflector
      */
     public static function seemsUtf8($string)
     {
-      for ($i = 0, $iMax = strlen($string); $i < $iMax; $i++) {
-        if (ord($string[$i]) < 0x80) continue; # 0bbbbbbb
-        elseif ((ord($string[$i]) & 0xE0) == 0xC0) $n=1; # 110bbbbb
-        elseif ((ord($string[$i]) & 0xF0) == 0xE0) $n=2; # 1110bbbb
-        elseif ((ord($string[$i]) & 0xF8) == 0xF0) $n=3; # 11110bbb
-        elseif ((ord($string[$i]) & 0xFC) == 0xF8) $n=4; # 111110bb
-        elseif ((ord($string[$i]) & 0xFE) == 0xFC) $n=5; # 1111110b
-        else return false; # Does not match any model
-        for ($j=0; $j<$n; $j++) { # n bytes matching 10bbbbbb follow ?
-          if ((++$i == strlen($string)) || ((ord($string[$i]) & 0xC0) != 0x80))
-          return false;
+        for ($i = 0, $iMax = strlen($string); $i < $iMax; $i++) {
+            if (ord($string[$i]) < 0x80) {
+                continue;
+            }
+
+            if ((ord($string[$i]) & 0xE0) == 0xC0) {
+                $n = 1;
+            } # 0bbbbbbb
+            # 110bbbbb
+            elseif ((ord($string[$i]) & 0xF0) == 0xE0) {
+                $n = 2;
+            } # 1110bbbb
+            elseif ((ord($string[$i]) & 0xF8) == 0xF0) {
+                $n = 3;
+            } # 11110bbb
+            elseif ((ord($string[$i]) & 0xFC) == 0xF8) {
+                $n = 4;
+            } # 111110bb
+            elseif ((ord($string[$i]) & 0xFE) == 0xFC) {
+                $n = 5;
+            } # 1111110b
+            else {
+                return false;
+            } # Does not match any model
+            for ($j = 0; $j < $n; $j++) { # n bytes matching 10bbbbbb follow ?
+                if ((++$i == strlen($string)) || ((ord($string[$i]) & 0xC0) != 0x80)) {
+                    return false;
+                }
+            }
         }
-      }
-      return true;
+        return true;
     }
 
     /**

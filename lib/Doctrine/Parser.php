@@ -66,7 +66,7 @@ abstract class Doctrine_Parser
      * @return object
      * @author Jonathan H. Wage
      */
-    static public function getParser($type)
+    public static function getParser($type)
     {
         $class = 'Doctrine_Parser_'.ucfirst($type);
 
@@ -84,7 +84,7 @@ abstract class Doctrine_Parser
      * @return array
      * @author Jonathan H. Wage
      */
-    static public function load($path, $type = 'xml', $charset = 'UTF-8')
+    public static function load($path, $type = 'xml', $charset = 'UTF-8')
     {
         $parser = self::getParser($type);
 

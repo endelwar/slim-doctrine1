@@ -134,7 +134,7 @@ abstract class Doctrine_Task
      * @return void
      * @abstract
      */
-    abstract function execute();
+    abstract public function execute();
 
     /**
      * validate

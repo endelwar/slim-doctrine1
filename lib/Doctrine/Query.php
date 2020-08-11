@@ -776,7 +776,7 @@ class Doctrine_Query extends Doctrine_Query_Abstract implements Countable
                                 }
 
                                 if (isset($def['owner'])) {
-                                    $componentAlias = $componentAlias . '.' . $def['owner'];
+                                    $componentAlias .= '.' . $def['owner'];
                                 }
 
                                 $tableAlias = $this->getSqlTableAlias($componentAlias);
@@ -813,7 +813,7 @@ class Doctrine_Query extends Doctrine_Query_Abstract implements Countable
 
 
                                     if (isset($def['owner'])) {
-                                        $componentAlias = $componentAlias . '.' . $def['owner'];
+                                        $componentAlias .= '.' . $def['owner'];
                                     }
 
                                     $tableAlias = $this->getSqlTableAlias($componentAlias);
@@ -1125,7 +1125,7 @@ class Doctrine_Query extends Doctrine_Query_Abstract implements Countable
                 $string = $this->getInheritanceCondition($componentAlias);
 
                 if ($string) {
-                    $part = $part . ' AND ' . $string;
+                    $part .= ' AND ' . $string;
                 }
                 $q .= ' ' . $part;
             }

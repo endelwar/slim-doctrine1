@@ -74,7 +74,7 @@ class Doctrine_Relation_Association_Self extends Doctrine_Relation_Association
                       . '.' . $this->definition['local'] . ' IN (' . $sub . ')';
 
                 $dql .= $this->getOrderBy($this->definition['refTable']->getComponentName(), false);
-        };
+        }
 
         return $dql;
     }

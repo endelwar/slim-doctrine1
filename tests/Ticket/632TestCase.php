@@ -69,6 +69,11 @@ class Doctrine_Ticket_632_TestCase extends Doctrine_UnitTestCase
     }
 }
 
+/**
+ * @property string username
+ * @property string password
+ * @property array Groups
+ */
 class Ticket_632_User extends Doctrine_Record
 {
     public function setTableDefinition()

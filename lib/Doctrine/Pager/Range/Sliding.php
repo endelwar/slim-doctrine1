@@ -110,12 +110,12 @@ class Doctrine_Pager_Range_Sliding extends Doctrine_Pager_Range
             if ($chunkStart < 1) {
                 $adjust = 1 - $chunkStart;
                 $chunkStart = 1;
-                $chunkEnd = $chunkEnd + $adjust;
+                $chunkEnd += $adjust;
             }
 
             if ($chunkEnd > $pages) {
                 $adjust = $chunkEnd - $pages;
-                $chunkStart = $chunkStart - $adjust;
+                $chunkStart -= $adjust;
                 $chunkEnd = $pages;
             }
 

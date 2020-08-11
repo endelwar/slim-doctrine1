@@ -130,8 +130,9 @@ class Doctrine_DataDict_Mssql extends Doctrine_DataDict
         // todo: unsigned handling seems to be missing
         $unsigned = $fixed = null;
 
-        if ( ! isset($field['name']))
+        if ( ! isset($field['name'])) {
             $field['name'] = '';
+        }
 
         switch ($db_type) {
             case 'bit':
