@@ -19,7 +19,7 @@
     }
   ],
   "require": {
-    "php": ">=5.2.3",
+    "php": "^5.6||^7.2||^7.3",
     "ext-pdo": "*",
     "ext-posix": "*",
     "ext-mbstring": "*"
@@ -42,5 +42,6 @@
   },
   "scripts": {
     "psalm": "./vendor/bin/psalm",
+    "runtests": "cd tests && php -dshort_open_tag=Off -dmagic_quotes_gpc=Off index.php"
   }
 }

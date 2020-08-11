@@ -1,31 +1,24 @@
-sudo: false
+os: linux
 language: php
-dist: trusty
+dist: xenial
 
 cache:
   directories:
     - $HOME/.composer/cache
 
 php:
-  - '5.4'
-  - '5.5'
   - '5.6'
   - '7.0'
   - '7.1'
   - '7.2'
   - '7.3'
+  - '7.4'
   - nightly
 
 matrix:
-  include:
-    - php: '5.3'
-      dist: precise
   fast_finish: true
   allow_failures:
-    - php: '5.3'
-    - php: '5.4'
-    - php: '5.5'
-    - php: '7.0'
+    - php: '7.4'
     - php: nightly
 
 before_install:
@@ -33,8 +26,8 @@ before_install:
 
 before_script:
   - travis_retry composer self-update
-  - travis_retry composer install --no-interaction --prefer-source
-  - if [[ "$(phpenv version-name)" != "hhvm" ]]; then echo 'error_reporting = E_ALL' >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini; fi
+  - travis_retry composer install --no-interaction --prefer-source --no-progress --no-suggest -o
+  - echo 'error_reporting = E_ALL' >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
 
 script:
   - cd tests && php -dshort_open_tag=Off -dmagic_quotes_gpc=Off index.php
