@@ -55,7 +55,7 @@ class Doctrine_Node implements IteratorAggregate
     /**
      * The tree to which the node belongs.
      *
-     * @var unknown_type
+     * @var Doctrine_Tree|false
      */
     protected $_tree;
 

@@ -1100,19 +1100,20 @@ abstract class Doctrine_Connection extends Doctrine_Configurable implements Coun
                 $stmt->execute($params);
 
                 return $stmt->rowCount();
-            } else {
-                $event = new Doctrine_Event($this, Doctrine_Event::CONN_EXEC, $query, $params);
-
-                $this->getAttribute(Doctrine_Core::ATTR_LISTENER)->preExec($event);
-                if ( ! $event->skipOperation) {
-                    $count = $this->dbh->exec($query);
-
-                    $this->_count++;
-                }
-                $this->getAttribute(Doctrine_Core::ATTR_LISTENER)->postExec($event);
-
-                return $count;
             }
+
+            $event = new Doctrine_Event($this, Doctrine_Event::CONN_EXEC, $query, $params);
+
+            $this->getAttribute(Doctrine_Core::ATTR_LISTENER)->preExec($event);
+            $count = 0;
+            if ( ! $event->skipOperation) {
+                $count = $this->dbh->exec($query);
+
+                $this->_count++;
+            }
+            $this->getAttribute(Doctrine_Core::ATTR_LISTENER)->postExec($event);
+
+            return $count;
         } catch (Doctrine_Adapter_Exception $e) {
         } catch (PDOException $e) { }
 

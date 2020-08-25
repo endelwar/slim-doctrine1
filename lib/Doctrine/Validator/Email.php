@@ -30,7 +30,7 @@
  * @version     $Revision: 7490 $
  * @author      Konsta Vesterinen <kvesteri@cc.hut.fi>
  */
-class Doctrine_Validator_Email extends Doctrine_Validator_Driver
+class Doctrine_Validator_Email extends Doctrine_Validator_Driver implements Doctrine_Validator_Interface
 {
     /**
      * checks if given value is a valid email address
@@ -95,7 +95,7 @@ class Doctrine_Validator_Email extends Doctrine_Validator_Driver
     private function _checkMX($host)
     {
         // We have different behavior here depending of OS and PHP version
-        if (strtolower(substr(PHP_OS, 0, 3)) === 'win' && version_compare(PHP_VERSION, '5.3.0', '<')) {
+        if (PHP_VERSION_ID < 50300 && stripos(PHP_OS, 'win') === 0) {
             $output = array();
             
             @exec('nslookup -type=MX '.escapeshellcmd($host) . ' 2>&1', $output);
@@ -111,10 +111,12 @@ class Doctrine_Validator_Email extends Doctrine_Validator_Driver
             }
             
             return false;
-        } else if (function_exists('checkdnsrr')) {
+        }
+
+        if (function_exists('checkdnsrr')) {
             return checkdnsrr($host, 'MX');
         }
-        
+
         throw new Doctrine_Exception('Could not retrieve DNS record information. Remove check_mx = true to prevent this warning');
     }
 }

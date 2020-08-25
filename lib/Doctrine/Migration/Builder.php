@@ -457,7 +457,7 @@ END;
      * @param string $tableName
      * @param string $indexName
      * @param string $index
-     * @return sgtring $code
+     * @return string $code
      */
     public function buildAddIndex($tableName, $indexName, $index)
     {

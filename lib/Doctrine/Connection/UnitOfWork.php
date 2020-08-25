@@ -531,7 +531,7 @@ class Doctrine_Connection_UnitOfWork extends Doctrine_Connection_Module
      */
     public function update(Doctrine_Record $record)
     {
-        $event = $record->invokeSaveHooks('pre', 'update');;
+        $event = $record->invokeSaveHooks('pre', 'update');
 
         if ($record->isValid(false, false)) {
             $table = $record->getTable();

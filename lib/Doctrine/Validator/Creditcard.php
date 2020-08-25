@@ -30,7 +30,7 @@
  * @version     $Revision: 7490 $
  * @author      Konsta Vesterinen <kvesteri@cc.hut.fi>
  */
-class Doctrine_Validator_Creditcard extends Doctrine_Validator_Driver
+class Doctrine_Validator_Creditcard extends Doctrine_Validator_Driver implements Doctrine_Validator_Interface
 {                                                         
     /**
      * checks if given value is a valid credit card number
@@ -73,13 +73,9 @@ class Doctrine_Validator_Creditcard extends Doctrine_Validator_Driver
             /* Split digits and add. */
             $checksum += $currentNum % 10;
             if ($currentNum > 9) {
-                 $checksum += 1;
+                 ++$checksum;
             }
         }
-        if ($checksum % 10 == 0) {
-            return true;
-        } else {
-            return false;
-        }
+        return $checksum % 10 === 0;
     }
 }

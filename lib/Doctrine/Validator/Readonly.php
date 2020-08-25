@@ -26,7 +26,7 @@
  * @link        www.doctrine-project.org
  * @author      Adam Huttler <ahuttler@geminisbs.com>
  */
-class Doctrine_Validator_Readonly extends Doctrine_Validator_Driver
+class Doctrine_Validator_Readonly extends Doctrine_Validator_Driver implements Doctrine_Validator_Interface
 {
     /**
      * checks if value has been modified

@@ -295,8 +295,9 @@ class Doctrine_Expression_Driver extends Doctrine_Connection_Module
     public function substring($value, $from, $len = null)
     {
         $value = $this->getIdentifier($value);
-        if ($len === null)
+        if ($len === null) {
             return 'SUBSTRING(' . $value . ' FROM ' . $from . ')';
+        }
         else {
             $len = $this->getIdentifier($len);
             return 'SUBSTRING(' . $value . ' FROM ' . $from . ' FOR ' . $len . ')';
@@ -316,7 +317,7 @@ class Doctrine_Expression_Driver extends Doctrine_Connection_Module
     {
         $args = func_get_args();
 
-        return 'CONCAT(' . implode(', ', (array) $args) . ')';
+        return 'CONCAT(' . implode(', ', $args) . ')';
     }
 
     /**
@@ -645,7 +646,7 @@ class Doctrine_Expression_Driver extends Doctrine_Connection_Module
     {
         $args = func_get_args();
 
-	    return 'COALESCE(' . implode(', ', (array) $args) . ')';
+	    return 'COALESCE(' . implode(', ', $args) . ')';
     }
 
     /**

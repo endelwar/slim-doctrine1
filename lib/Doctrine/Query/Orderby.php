@@ -97,7 +97,7 @@ class Doctrine_Query_Orderby extends Doctrine_Query_Part
                                 }
 
                                 if (isset($def['owner'])) {
-                                    $componentAlias = $componentAlias . '.' . $def['owner'];
+                                    $componentAlias .= '.' . $def['owner'];
                                 }
 
                                 $tableAlias = $this->query->getSqlTableAlias($componentAlias);
@@ -145,7 +145,7 @@ class Doctrine_Query_Orderby extends Doctrine_Query_Part
 
 
                                     if (isset($def['owner'])) {
-                                        $componentAlias = $componentAlias . '.' . $def['owner'];
+                                        $componentAlias .= '.' . $def['owner'];
                                     }
 
                                     $tableAlias = $this->query->getSqlTableAlias($componentAlias);

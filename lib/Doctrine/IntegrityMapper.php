@@ -146,7 +146,7 @@ class Doctrine_IntegrityMapper
 
             if (isset($deleteActions[$componentName])) {
                 if (isset($aliases[$alias])) {
-                    $alias = $alias . ++$indexes[$alias];
+                    $alias .= ++$indexes[$alias];
                 }
                 $aliases[$alias] = $relation->getAlias();
 

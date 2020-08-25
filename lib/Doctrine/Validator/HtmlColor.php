@@ -1,6 +1,6 @@
 <?php
 /*
- *  $Id: Htmlcolor.php 7490 2010-03-29 19:53:27Z jwage $
+ *  $Id: HtmlColor.php 7490 2010-03-29 19:53:27Z jwage $
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -30,7 +30,7 @@
  * @version     $Revision: 7490 $
  * @author      Konsta Vesterinen <kvesteri@cc.hut.fi>
  */
-class Doctrine_Validator_HtmlColor extends Doctrine_Validator_Driver
+class Doctrine_Validator_HtmlColor extends Doctrine_Validator_Driver implements Doctrine_Validator_Interface
 {
     /**
      * checks if given value is a valid html color code

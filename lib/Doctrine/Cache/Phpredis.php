@@ -151,7 +151,7 @@ class Doctrine_Cache_Phpredis extends Doctrine_Cache_Driver
      */
     protected function _doDelete($id)
     {
-        return $this->_redis->delete(array($id, $id . ':timestamp')) >= 0;
+        return $this->_redis->del(array($id, $id . ':timestamp')) >= 0;
     }
 
     /**

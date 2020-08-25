@@ -100,8 +100,9 @@ abstract class Doctrine_Configurable extends Doctrine_Locator_Injectable
                 }
                 break;
             case Doctrine_Core::ATTR_FIELD_CASE:
-                if ($value != 0 && $value != CASE_LOWER && $value != CASE_UPPER)
+                if ($value != 0 && $value != CASE_LOWER && $value != CASE_UPPER) {
                     throw new Doctrine_Exception('Field case attribute should be either 0, CASE_LOWER or CASE_UPPER constant.');
+                }
                 break;
             case Doctrine_Core::ATTR_SEQNAME_FORMAT:
             case Doctrine_Core::ATTR_IDXNAME_FORMAT:
