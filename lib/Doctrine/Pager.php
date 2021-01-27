@@ -96,7 +96,7 @@ class Doctrine_Pager
      *
      * Initialize Pager object calculating number of results
      *
-     * @param array|Optional $params Optional parameters to Doctrine_Query::execute
+     * @param array $params Optional parameters to Doctrine_Query::execute
      * @return void
      */
     protected function _initialize($params = array())
@@ -149,7 +149,7 @@ class Doctrine_Pager
      *
      * Defines if Pager was already executed
      *
-     * @param $executed       Pager was executed
+     * @param bool $executed       Pager was executed?
      * @return void
      */
     protected function _setExecuted($executed)
@@ -534,8 +534,8 @@ class Doctrine_Pager
      *
      * Executes the query, populates the collection and then return it
      *
-     * @param array|Optional $params Optional parameters to Doctrine_Query::execute
-     * @param $hydrationMode        Hydration Mode of Doctrine_Query::execute returned ResultSet.
+     * @param array $params        Optional parameters to Doctrine_Query::execute
+     * @param int|null $hydrationMode       Hydration Mode of Doctrine_Query::execute returned ResultSet.
      * @return Doctrine_Collection The root collection
      */
     public function execute($params = array(), $hydrationMode = null)

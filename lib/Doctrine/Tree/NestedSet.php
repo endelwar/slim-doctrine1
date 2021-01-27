@@ -243,8 +243,8 @@ class Doctrine_Tree_NestedSet extends Doctrine_Tree implements Doctrine_Tree_Int
     /**
      * returns parsed query with root id where clause added if applicable
      *
-     * @param object $query Doctrine_Query
-     * @param int $rootId
+     * @param Doctrine_Query $query Doctrine_Query
+     * @param int|array $rootId
      * @return Doctrine_Query
      * @internal param int $root_id id of destination root
      */
@@ -264,7 +264,7 @@ class Doctrine_Tree_NestedSet extends Doctrine_Tree implements Doctrine_Tree_Int
 
     /**
      * Enter description here...
-     * @return unknown
+     * @return Doctrine_Query|null
      * @internal param array $options
      */
     public function getBaseQuery()

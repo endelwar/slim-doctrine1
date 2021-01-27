@@ -118,8 +118,8 @@ class Doctrine_Pager_Layout
      *
      * Handy method to execute the query without need to retrieve the Pager instance
      *
-     * @param array|Optional $params Optional parameters to Doctrine_Query::execute
-     * @param $hydrationMode        Hydration Mode of Doctrine_Query::execute returned ResultSet.
+     * @param array $params Optional parameters to Doctrine_Query::execute
+     * @param int|null $hydrationMode        Hydration Mode of Doctrine_Query::execute returned ResultSet.
      * @return Doctrine_Collection The root collection
      */
     public function execute($params = array(), $hydrationMode = null)
@@ -263,7 +263,7 @@ class Doctrine_Pager_Layout
      *
      * @param $oldMask       Mask to be replaced
      * @param $newMask       Mask or Value that will be defined after replacement
-     * @param bool|Optional $asValue Optional value (default false) that if defined as true,
+     * @param bool $asValue Optional value (default false) that if defined as true,
      *                       changes the bahavior of replacement mask to replacement
      *                       value
      * @return void
@@ -407,7 +407,7 @@ class Doctrine_Pager_Layout
      * Parse the url mask to return the correct template depending of the options sent.
      * Already process the mask replacements assigned.
      *
-     * @param array|Optional $options Optional parameters to be applied in template and url mask
+     * @param array $options Optional parameters to be applied in template and url mask
      * @return string
      */
     protected function _parseUrlTemplate($options = array())
@@ -432,7 +432,7 @@ class Doctrine_Pager_Layout
      *
      * Parse the mask replacements of a given page
      *
-     * @param array|Optional $options Optional parameters to be applied in template and url mask
+     * @param array $options Optional parameters to be applied in template and url mask
      * @return string
      */
     protected function _parseReplacementsTemplate($options = array())
@@ -454,7 +454,7 @@ class Doctrine_Pager_Layout
      *
      * Parse the url mask of a given page and return the processed url
      *
-     * @param array|Optional $options Optional parameters to be applied in template and url mask
+     * @param array $options Optional parameters to be applied in template and url mask
      * @return string
      */
     protected function _parseUrl($options = array())

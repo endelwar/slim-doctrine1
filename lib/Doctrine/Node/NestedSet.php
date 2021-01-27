@@ -605,8 +605,8 @@ class Doctrine_Node_NestedSet extends Doctrine_Node implements Doctrine_Node_Int
      * Used by the move* methods if the root values of the two nodes are different.
      *
      * @param Doctrine_Record $dest
-     * @param unknown_type $newLeftValue
-     * @param unknown_type $moveType
+     * @param int $newLeftValue
+     * @param string $moveType
      * @return bool
      * @throws Exception
      * @todo Better exception handling/wrapping

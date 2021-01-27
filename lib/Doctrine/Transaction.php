@@ -433,8 +433,8 @@ class Doctrine_Transaction extends Doctrine_Connection_Module
      * removes a savepoint from the internal savePoints array of this transaction object
      * and all its children savepoints
      *
-     * @param sring $savepoint      name of the savepoint to remove
-     * @return integer              removed savepoints
+     * @param string $savepoint      name of the savepoint to remove
+     * @return integer               removed savepoints
      */
     private function removeSavePoints($savepoint)
     {

@@ -89,7 +89,7 @@ abstract class Doctrine_Record extends Doctrine_Record_Abstract implements Count
 
 
     /**
-     * @var Doctrine_Node_<TreeImpl>        node object
+     * @var Doctrine_Node_Interface         node object
      */
     protected $_node;
 
