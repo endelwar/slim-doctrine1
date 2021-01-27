@@ -138,7 +138,7 @@ class Doctrine_Core
     const ATTR_CASE                 = 8;
     const ATTR_CURSOR_NAME          = 9;
     const ATTR_CURSOR               = 10;
-    const ATTR_ORACLE_NULLS         = 11;
+    //const ATTR_ORACLE_NULLS         = 11;
     const ATTR_PERSISTENT           = 12;
     const ATTR_STATEMENT_CLASS      = 13;
     const ATTR_FETCH_TABLE_NAMES    = 14;

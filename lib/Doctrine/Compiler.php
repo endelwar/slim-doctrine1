@@ -44,7 +44,7 @@ class Doctrine_Compiler
      * @throws Doctrine_Compiler_Exception if something went wrong during the compile operation
      * @throws ReflectionException
      */
-    public static function compile($target = null, $includedDrivers = array())
+    public static function compile($target = null, $includedDrivers = [])
     {
         if ( ! is_array($includedDrivers)) {
             $includedDrivers = array($includedDrivers);
@@ -54,12 +54,10 @@ class Doctrine_Compiler
         
         // If we have an array of specified drivers then lets determine which drivers we should exclude
         if ( ! empty($includedDrivers)) {
-            $drivers = array('db2',
-                             'mssql',
-                             'mysql',
-                             'oracle',
-                             'pgsql',
-                             'sqlite');
+            $drivers = [
+                'mysql',
+                'sqlite'
+            ];
             
             $excludedDrivers = array_diff($drivers, $includedDrivers);
         }

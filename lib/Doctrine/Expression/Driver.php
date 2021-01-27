@@ -298,10 +298,9 @@ class Doctrine_Expression_Driver extends Doctrine_Connection_Module
         if ($len === null) {
             return 'SUBSTRING(' . $value . ' FROM ' . $from . ')';
         }
-        else {
-            $len = $this->getIdentifier($len);
-            return 'SUBSTRING(' . $value . ' FROM ' . $from . ' FOR ' . $len . ')';
-        }
+
+        $len = $this->getIdentifier($len);
+        return 'SUBSTRING(' . $value . ' FROM ' . $from . ' FOR ' . $len . ')';
     }
 
     /**

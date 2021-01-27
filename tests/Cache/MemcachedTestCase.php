@@ -20,9 +20,10 @@
  */
 
 /**
- * Doctrine_Expression_Pgsql_TestCase
+ * Doctrine_Cache_Memcache_TestCase
  *
  * @package     Doctrine
+ * @subpackage  Doctrine_Cache
  * @author      Konsta Vesterinen <kvesteri@cc.hut.fi>
  * @license     http://www.opensource.org/licenses/lgpl-license.php LGPL
  * @category    Object Relational Mapping
@@ -30,5 +31,21 @@
  * @since       1.0
  * @version     $Revision$
  */
-class Doctrine_Expression_Pgsql_TestCase extends Doctrine_UnitTestCase {
+class Doctrine_Cache_Memcached_TestCase extends Doctrine_UnitTestCase
+{
+    public function prepareTables() 
+    { }
+    public function prepareData()
+    { }
+}
+class Doctrine_Cache_Memcache_Mock extends Doctrine_Cache_Memcached
+{
+}
+
+if ( ! class_exists('Memcached'))
+{
+    class Memcached
+    {
+
+    }
 }

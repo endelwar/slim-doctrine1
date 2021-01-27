@@ -104,12 +104,8 @@ class Doctrine_Formatter extends Doctrine_Connection_Module
      *
      * Delimited identifiers are known to generally work correctly under
      * the following drivers:
-     *   + mssql
      *   + mysql
      *   + mysqli
-     *   + oci8
-     *   + pgsql
-     *   + sqlite
      *
      * InterBase doesn't seem to be able to use delimited identifiers
      * via PHP 4.  They work fine under PHP 5.

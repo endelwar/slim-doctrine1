@@ -30,24 +30,26 @@
  * @since       1.0
  * @version     $Revision$
  */
-class Doctrine_Ticket_1372_TestCase extends Doctrine_UnitTestCase 
+class Doctrine_Ticket_1372_TestCase extends Doctrine_UnitTestCase
 {
     /* Test array of SQL queries to ensure uniqueness of queries */
     public function testExportSql()
     {
-        $drivers = array('mysql',
-                         'sqlite',
-                         'pgsql',
-                         'oracle',
-                         'mssql');
+        $drivers = array(
+            'mysql',
+            'sqlite',
+        );
 
-        foreach ($drivers as $driver)
-        {
+        foreach ($drivers as $driver) {
             $dbh = new Doctrine_Adapter_Mock($driver);
 
             $conn = Doctrine_Manager::getInstance()->connection($dbh, $driver);
 
-            $sql = $conn->export->exportSortedClassesSql(array('Ticket_1372_ParentClass', 'Ticket_1372_Child_1', 'Ticket_1372_Child_2'), false);
+            $sql = $conn->export->exportSortedClassesSql(array(
+                'Ticket_1372_ParentClass',
+                'Ticket_1372_Child_1',
+                'Ticket_1372_Child_2'
+            ), false);
 
             $this->assertEqual($sql, array_unique($sql));
 
@@ -105,7 +107,8 @@ class Ticket_1372_ParentClass extends Doctrine_Record
     {
         $this->setTableName('parent_class');
 
-        $this->hasColumn('id', 'integer', 4, array('primary' => true, 'autoincrement' => true, 'type' => 'integer', 'length' => '4'));
+        $this->hasColumn('id', 'integer', 4,
+            array('primary' => true, 'autoincrement' => true, 'type' => 'integer', 'length' => '4'));
         $this->hasColumn('type', 'integer', null, array('unique' => true, 'notnull' => true, 'type' => 'integer'));
         $this->hasColumn('value_1', 'integer', 4, array('type' => 'integer', 'length' => '4'));
         $this->hasColumn('value_2', 'integer', 4, array('type' => 'integer', 'length' => '4'));

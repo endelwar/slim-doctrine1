@@ -1340,15 +1340,6 @@ class Doctrine_Query extends Doctrine_Query_Abstract implements Countable
                     $subquery = implode(', ', $list);
 
                     break;
-
-                case 'pgsql':
-                    $subqueryAlias = $this->_conn->quoteIdentifier('doctrine_subquery_alias');
-
-                    // pgsql needs special nested LIMIT subquery
-                    $subquery = 'SELECT ' . $subqueryAlias . '.' . $this->_conn->quoteIdentifier($idColumnName)
-                            . ' FROM (' . $subquery . ') AS ' . $subqueryAlias;
-
-                    break;
             }
 
             $field = $this->getSqlTableAlias($rootAlias) . '.' . $idColumnName;
@@ -1458,46 +1449,11 @@ class Doctrine_Query extends Doctrine_Query_Abstract implements Countable
 
         // initialize the base of the subquery
         $subquery = 'SELECT DISTINCT ';
-        if (($driverName === 'oracle' || $driverName === 'oci' || $driverName === 'oci8') && $this->_isOrderedByJoinedColumn()) {
-            $subquery = 'SELECT ';
-        }
         $subquery .= $this->_conn->quoteIdentifier($primaryKey);
-
-        // pgsql & oracle need the order by fields to be preserved in select clause
-        if ($driverName === 'pgsql' || $driverName === 'oracle' || $driverName === 'oci' || $driverName === 'oci8' || $driverName === 'mssql' || $driverName === 'odbc') {
-            foreach ($this->_sqlParts['orderby'] as $part) {
-                // Remove identifier quoting if it exists
-                $e = $this->_tokenizer->bracketExplode($part, ' ');
-                foreach ($e as $f) {
-                    if ($f == 0 || $f % 2 == 0) {
-                        $partOriginal = str_replace(',', '', trim($f));
-                        $e = explode('.', $partOriginal);
-                        foreach ($e as &$v) {
-                            $v = trim($v, '[]`"');
-                        }
-                        $part = trim(implode('.', $e));
-
-                        if (strpos($part, '.') === false) {
-                            continue;
-                        }
-
-                        // don't add functions
-                        if (strpos($part, '(') !== false) {
-                            continue;
-                        }
-
-                        // don't add primarykey column (its already in the select clause)
-                        if ($part !== $primaryKey) {
-                            $subquery .= ', ' . $partOriginal;
-                        }
-                    }
-                }
-            }
-        }
 
         $orderby = $this->_sqlParts['orderby'];
         $having = $this->_sqlParts['having'];
-        if ($driverName === 'mysql' || $driverName === 'pgsql') {
+        if ($driverName === 'mysql') {
             foreach ($this->_expressionMap as $dqlAlias => $expr) {
                 if (isset($expr[1])) {
                     $subquery .= ', ' . $expr[0] . ' AS ' . $this->_aggregateAliasMap[$dqlAlias];
@@ -1546,19 +1502,6 @@ class Doctrine_Query extends Doctrine_Query_Abstract implements Countable
         $subquery .= ( ! empty($this->_sqlParts['groupby']))? ' GROUP BY ' . implode(', ', $this->_sqlParts['groupby'])   : '';
         $subquery .= ( ! empty($having))?  ' HAVING '   . implode(' AND ', $having) : '';
         $subquery .= ( ! empty($orderby))? ' ORDER BY ' . implode(', ', $orderby)  : '';
-
-        if (($driverName === 'oracle' || $driverName === 'oci' || $driverName === 'oci8') && $this->_isOrderedByJoinedColumn()) {
-            // When using "ORDER BY x.foo" where x.foo is a column of a joined table,
-            // we may get duplicate primary keys because all columns in ORDER BY must appear
-            // in the SELECT list when using DISTINCT. Hence we need to filter out the
-            // primary keys with an additional DISTINCT subquery.
-            // #1038
-            $quotedIdentifierColumnName = $this->_conn->quoteIdentifier($table->getColumnName($table->getIdentifier()));
-            $subquery = 'SELECT doctrine_subquery_alias.' . $quotedIdentifierColumnName
-                    . ' FROM (' . $subquery . ') doctrine_subquery_alias'
-                    . ' GROUP BY doctrine_subquery_alias.' . $quotedIdentifierColumnName
-                    . ' ORDER BY MIN(ROWNUM)';
-        }
 
         // add driver specific limit clause
         $subquery = $this->_conn->modifyLimitSubquery($table, $subquery, $this->_sqlParts['limit'], $this->_sqlParts['offset']);
@@ -1610,7 +1553,7 @@ class Doctrine_Query extends Doctrine_Query_Abstract implements Countable
             }
         }
 
-        if ($driverName === 'mysql' || $driverName === 'pgsql') {
+        if ($driverName === 'mysql') {
             foreach ($parts as $k => $part) {
                 if (strpos($part, "'") !== false) {
                     continue;

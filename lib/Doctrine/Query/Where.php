@@ -76,31 +76,12 @@ class Doctrine_Query_Where extends Doctrine_Query_Condition
                     $map = $this->query->load($reference, false);
                     $alias = $this->query->getSqlTableAlias($reference);
                 }
-
-                // DC-843 Modifiy operator for MSSQL
-                // @TODO apply database dependent parsing
-                //       list($leftExpr, $operator, $rightExpr) = $conn->modifyWhereCondition($leftExpr, $operator, $rightExpr);
-                $driverName = strtolower($conn->getDriverName());
-                if ($driverName === 'mssql' && !empty($reference)) {
-                    $cmp = $this->query->getQueryComponent($reference);
-                    $table = $cmp['table'];
-
-                    /* @var $table Doctrine_Table */
-                    $column = $table->getColumnName($fieldname);
-                    $columndef = $table->getColumnDefinition($column);
-
-                    if ($columndef['type'] === 'string' && ($columndef['length'] == NULL || $columndef['length'] > $conn->varchar_max_length) && strtoupper($rightExpr) !== 'NULL') {
-                        $operator = 'LIKE';
-                    }
-                }
             }
 
-            $sql = $this->_buildSql($leftExpr, $operator, $rightExpr);
-
-            return $sql;
-        } else {
-            return $where;
+            return $this->_buildSql($leftExpr, $operator, $rightExpr);
         }
+
+        return $where;
     }
 
 
