@@ -1,4 +1,4 @@
-name: "PHP Composer"
+name: "Tests"
 
 on:
     push:
@@ -32,7 +32,7 @@ jobs:
                     tools: flex,pecl
 
             -   name: "Lint PHP files"
-                run: "find app/ src/ -type f -name '*.php' -print0 | xargs -0 -L1 -P4 -- php -l -f"
+                run: "find lib/ tools/ -type f -name '*.php' -print0 | xargs -0 -L1 -P4 -- php -l -f"
 
             -   name: Validate composer.json and composer.lock
                 run: composer validate
