@@ -85,7 +85,7 @@ class Doctrine_Expression_Mysql extends Doctrine_Expression_Driver
                     $match = $field.'LIKE BINARY ';
                     break;
                 default:
-                    throw new Doctrine_Expression_Mysql_Exception('not a supported operator type:'. $operator);
+                    throw new Doctrine_Expression_Exception('not a supported operator type:'. $operator);
             }
         }
         $match.= "'";
