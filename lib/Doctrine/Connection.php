@@ -1246,7 +1246,7 @@ abstract class Doctrine_Connection extends Doctrine_Configurable implements Coun
      * addTable
      * adds a Doctrine_Table object into connection registry
      *
-     * @param a|Doctrine_Table $table a Doctrine_Table object to be added into registry
+     * @param Doctrine_Table $table a Doctrine_Table object to be added into registry
      * @return bool
      */
     public function addTable(Doctrine_Table $table)
