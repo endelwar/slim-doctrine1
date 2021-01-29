@@ -305,7 +305,7 @@ class Doctrine_Export_Sqlite extends Doctrine_Export
             // Handle error    
 
             try {
-                $result = $db->exec('DROP TABLE ' . $sequenceName);
+                $result = $this->conn->exec('DROP TABLE ' . $sequenceName);
             } catch(Doctrine_Connection_Exception $e) {
                 throw new Doctrine_Export_Exception('could not drop inconsistent sequence table');
             }
