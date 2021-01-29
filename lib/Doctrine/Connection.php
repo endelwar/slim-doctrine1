@@ -770,7 +770,7 @@ abstract class Doctrine_Connection extends Doctrine_Configurable implements Coun
      *
      * This method takes care of that conversion
      *
-     * @param array $item
+     * @param array|bool $item
      * @return array|int
      */
     public function convertBooleans($item)
