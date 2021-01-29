@@ -73,15 +73,13 @@ class Doctrine_Search extends Doctrine_Record_Generator
 
     public function buildTable()
     {
-        $result = parent::buildTable();
+        parent::buildTable();
 
         if ( ! isset($this->_options['connection'])) {
             $manager = Doctrine_Manager::getInstance();
             $this->_options['connection'] = $manager->getConnectionForComponent($this->_options['table']->getComponentName());
             $manager->bindComponent($this->_options['className'], $this->_options['connection']->getName());
         }
-
-        return $result;
     }
 
     /**
