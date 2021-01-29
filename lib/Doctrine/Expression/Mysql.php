@@ -97,7 +97,7 @@ class Doctrine_Expression_Mysql extends Doctrine_Expression_Driver
             }
         }
         $match.= "'";
-        $match.= $this->patternEscapeString();
+        //$match.= $this->patternEscapeString();
         return $match;
     }
 

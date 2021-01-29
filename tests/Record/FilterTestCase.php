@@ -79,8 +79,9 @@ class Doctrine_Record_Filter_TestCase extends Doctrine_UnitTestCase
             $this->assertEqual($u->name, 'someone');
             $this->assertEqual($u->address, 'something');
             $this->assertEqual($u->Related->address, 'something');
+            $this->pass();
         } catch (Doctrine_Record_Exception $e) {
-            $this->fail();
+            $this->fail($e->getMessage());
         }
     }
 }

@@ -48,7 +48,7 @@ class Doctrine_Cli_Formatter
     /**
      * __construct
      *
-     * @param int|string $maxLineSize
+     * @param int $maxLineSize
      */
     public function __construct($maxLineSize = 65)
     {
@@ -81,7 +81,7 @@ class Doctrine_Cli_Formatter
      */
     public function formatSection($section, $text, $size = null)
     {
-        return sprintf('>> %-$9s %s', $section, $this->excerpt($text, $size));
+        return sprintf('>> %-9s %s', $section, $this->excerpt($text, $size));
     }
 
     /**

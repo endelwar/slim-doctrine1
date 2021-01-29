@@ -436,7 +436,7 @@ abstract class Doctrine_Record_Generator extends Doctrine_Record_Abstract
         $definition['tableName'] = $table->getTableName();
         $definition['actAs'] = $table->getTemplates();
 
-        return $this->generateClass($definition);
+        $this->generateClass($definition);
     }
 
     /**
@@ -451,7 +451,7 @@ abstract class Doctrine_Record_Generator extends Doctrine_Record_Abstract
     public function generateClass(array $definition = array())
     {
         $definition['className'] = $this->_options['className'];
-        $definition['toString'] = isset($this->_options['toString']) ? $this->_options['toString'] : false;
+        $definition['toString'] = $this->_options['toString'] ?? false;
         if (isset($this->_options['listeners'])) {
             $definition['listeners'] = $this->_options['listeners'];
         }

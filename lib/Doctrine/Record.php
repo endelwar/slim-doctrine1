@@ -1956,22 +1956,26 @@ abstract class Doctrine_Record extends Doctrine_Record_Abstract implements Count
      * merges this record with an array of values
      * or with another existing instance of this object
      *
-     * @see fromArray()
-     * @link http://www.doctrine-project.org/documentation/manual/1_1/en/working-with-models
-     * @param $data
-     * @param bool $deep whether or not to merge relations
-     * @return void
-     * @internal param string $array array of data to merge, see link for documentation
+     * @param array|Doctrine_Record $data
+     * @param bool                  $deep whether or not to merge relations
+     * @return Doctrine_Record
+     * @throws Doctrine_Exception
+     * @internal param array $array array of data to merge, see link for documentation
+     * @see      fromArray()
      */
     public function merge($data, $deep = true)
     {
         if ($data instanceof $this) {
             $array = $data->toArray($deep);
-        } else if (is_array($data)) {
-            $array = $data;
+            return $this->fromArray($array, $deep);
         }
 
-        return $this->fromArray($array, $deep);
+        if (is_array($data)) {
+            $array = $data;
+            return $this->fromArray($array, $deep);
+        }
+
+        throw new Doctrine_Exception('$data must be array or Doctrine_Record');
     }
 
     /**
@@ -2059,7 +2063,6 @@ abstract class Doctrine_Record extends Doctrine_Record_Abstract implements Count
                         $this->link($key, $value, false);
                     } else {
                         $this->$key->synchronizeWithArray($value);
-                        $this->$key = $this->$key;
                     }
                 }
             } else if ($this->getTable()->hasField($key) || array_key_exists($key, $this->_values)) {
@@ -2092,9 +2095,9 @@ abstract class Doctrine_Record extends Doctrine_Record_Abstract implements Count
     {
         if ($type === 'array') {
             return $this->toArray($deep);
-        } else {
-            return Doctrine_Parser::dump($this->toArray($deep, true), $type);
         }
+
+        return Doctrine_Parser::dump($this->toArray($deep, true), $type);
     }
 
     /**
@@ -2103,15 +2106,15 @@ abstract class Doctrine_Record extends Doctrine_Record_Abstract implements Count
      * @param string $type Format type: xml, yml, json
      * @param string $data Data to be parsed and imported
      * @param bool $deep
-     * @return void
+     * @return Doctrine_Record
      */
     public function importFrom($type, $data, $deep = true)
     {
         if ($type === 'array') {
             return $this->fromArray($data, $deep);
-        } else {
-            return $this->fromArray(Doctrine_Parser::load($data, $type), $deep);
         }
+
+        return $this->fromArray(Doctrine_Parser::load($data, $type), $deep);
     }
 
     /**

@@ -2125,8 +2125,9 @@ class Doctrine_Table extends Doctrine_Configurable implements Countable, Seriali
      * @see Doctrine_Core::ATTR_VALIDATE
      *
      * @param string $fieldName
-     * @param string $value
-     * @param Doctrine_Record $record record to consider; if it does not exists, it is created
+     * @param string|null $value
+     * @param Doctrine_Record|null $record record to consider; if it does not exists, it is created
+     *
      * @return Doctrine_Validator_ErrorStack $errorStack
      * @throws Doctrine_Exception
      */

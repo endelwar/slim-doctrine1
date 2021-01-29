@@ -853,14 +853,15 @@ class Doctrine_Collection extends Doctrine_Access implements Countable, Iterator
      *
      * @param array $array
      * @param bool $deep
-     * @return void
+     * @return Doctrine_Collection
      */
-    public function fromArray($array, $deep = true)
+    public function fromArray($array, $deep = true): Doctrine_Collection
     {
-        $data = array();
         foreach ($array as $rowKey => $row) {
             $this[$rowKey]->fromArray($row, $deep);
         }
+
+        return $this;
     }
 
     /**
@@ -914,8 +915,8 @@ class Doctrine_Collection extends Doctrine_Access implements Countable, Iterator
      * Import data to a Doctrine_Collection from one of the supported Doctrine_Parser formats
      *
      * @param string $type
-     * @param string $data
-     * @return void
+     * @param array|string $data
+     * @return self
      */
     public function importFrom($type, $data)
     {

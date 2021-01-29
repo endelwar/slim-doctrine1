@@ -70,7 +70,7 @@ class Doctrine_Export extends Doctrine_Connection_Module
      * (this method is implemented by the drivers)
      *
      * @param $database
-     * @return void
+     * @return array
      * @throws Doctrine_Export_Exception
      * @internal param string $name name of the database that should be dropped
      */
