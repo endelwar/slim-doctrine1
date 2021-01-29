@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<files psalm-version="4.4.1@9fd7a7d885b3a216cff8dec9d8c21a132f275224">
+  <file src="lib/Doctrine/Adapter/Mock.php">
+    <InvalidThrow occurrences="2">
+      <code>throw new $name($e[1], $e[2]);</code>
+      <code>throw new $name($e[1], $e[2]);</code>
+    </InvalidThrow>
+  </file>
+  <file src="lib/Doctrine/Cli.php">
+    <InvalidThrow occurrences="1">
+      <code>throw new $exception($this-&gt;formatExceptionMessage($exception));</code>
+    </InvalidThrow>
+    <UndefinedClass occurrences="1">
+      <code>new $exception($this-&gt;formatExceptionMessage($exception))</code>
+    </UndefinedClass>
+  </file>
+  <file src="lib/Doctrine/Collection.php">
+    <ParamNameMismatch occurrences="3">
+      <code>$key</code>
+      <code>$record</code>
+      <code>$record</code>
+    </ParamNameMismatch>
+    <UndefinedClass occurrences="1">
+      <code>new $class($table, $keyColumn)</code>
+    </UndefinedClass>
+  </file>
+  <file src="lib/Doctrine/Column.php">
+    <ParamNameMismatch occurrences="1">
+      <code>$name</code>
+    </ParamNameMismatch>
+  </file>
+  <file src="lib/Doctrine/Connection.php">
+    <InvalidThrow occurrences="1">
+      <code>throw $exc;</code>
+    </InvalidThrow>
+  </file>
+  <file src="lib/Doctrine/Connection/Statement.php">
+    <ParamNameMismatch occurrences="2">
+      <code>$fetchMode</code>
+      <code>$fetchMode</code>
+    </ParamNameMismatch>
+  </file>
+  <file src="lib/Doctrine/Data/Import.php">
+    <UndefinedClass occurrences="1">
+      <code>new $className()</code>
+    </UndefinedClass>
+  </file>
+  <file src="lib/Doctrine/EventListener/Chain.php">
+    <ParamNameMismatch occurrences="3">
+      <code>$key</code>
+      <code>$listener</code>
+      <code>$listener</code>
+    </ParamNameMismatch>
+  </file>
+  <file src="lib/Doctrine/Export/Mysql.php">
+    <ParamNameMismatch occurrences="1">
+      <code>$sequenceName</code>
+    </ParamNameMismatch>
+  </file>
+  <file src="lib/Doctrine/Expression/Sqlite.php">
+    <ParamNameMismatch occurrences="2">
+      <code>$length</code>
+      <code>$position</code>
+    </ParamNameMismatch>
+  </file>
+  <file src="lib/Doctrine/File.php">
+    <ParamNameMismatch occurrences="1">
+      <code>$name</code>
+    </ParamNameMismatch>
+  </file>
+  <file src="lib/Doctrine/Hydrator/Graph.php">
+    <EmptyArrayAccess occurrences="1">
+      <code>$identifierMap[$rootAlias][$id[$rootAlias]]</code>
+    </EmptyArrayAccess>
+  </file>
+  <file src="lib/Doctrine/Manager.php">
+    <DuplicateArrayKey occurrences="1">
+      <code>Doctrine_Core::ATTR_RESULT_CACHE                 =&gt; null</code>
+    </DuplicateArrayKey>
+  </file>
+  <file src="lib/Doctrine/Node/NestedSet.php">
+    <ParamNameMismatch occurrences="1">
+      <code>$includeRecord</code>
+    </ParamNameMismatch>
+  </file>
+  <file src="lib/Doctrine/Parser/Json.php">
+    <ParamNameMismatch occurrences="1">
+      <code>$path</code>
+    </ParamNameMismatch>
+  </file>
+  <file src="lib/Doctrine/Parser/Serialize.php">
+    <ParamNameMismatch occurrences="1">
+      <code>$path</code>
+    </ParamNameMismatch>
+  </file>
+  <file src="lib/Doctrine/Parser/Xml.php">
+    <ParamNameMismatch occurrences="1">
+      <code>$path</code>
+    </ParamNameMismatch>
+  </file>
+  <file src="lib/Doctrine/Parser/Yml.php">
+    <ParamNameMismatch occurrences="1">
+      <code>$path</code>
+    </ParamNameMismatch>
+  </file>
+  <file src="lib/Doctrine/Query.php">
+    <UndefinedClass occurrences="1">
+      <code>new $class($conn)</code>
+    </UndefinedClass>
+  </file>
+  <file src="lib/Doctrine/Record.php">
+    <ParamNameMismatch occurrences="2">
+      <code>$fieldName</code>
+      <code>$fieldName</code>
+    </ParamNameMismatch>
+  </file>
+  <file src="lib/Doctrine/Record/Listener/Chain.php">
+    <ParamNameMismatch occurrences="3">
+      <code>$key</code>
+      <code>$listener</code>
+      <code>$listener</code>
+    </ParamNameMismatch>
+  </file>
+  <file src="lib/Doctrine/Relation/LocalKey.php">
+    <ParadoxicalCondition occurrences="1">
+      <code>! $related || empty($related)</code>
+    </ParadoxicalCondition>
+  </file>
+  <file src="lib/Doctrine/Sequence/Mysql.php">
+    <ParamNameMismatch occurrences="1">
+      <code>$onDemand</code>
+    </ParamNameMismatch>
+  </file>
+  <file src="lib/Doctrine/Sequence/Sqlite.php">
+    <ParamNameMismatch occurrences="1">
+      <code>$onDemand</code>
+    </ParamNameMismatch>
+  </file>
+  <file src="lib/Doctrine/Table.php">
+    <ParamNameMismatch occurrences="2">
+      <code>$args</code>
+      <code>$type</code>
+    </ParamNameMismatch>
+  </file>
+  <file src="lib/Doctrine/Template.php">
+    <ParamNameMismatch occurrences="1">
+      <code>$name</code>
+    </ParamNameMismatch>
+  </file>
+  <file src="lib/Doctrine/Validator/ErrorStack.php">
+    <ParamNameMismatch occurrences="3">
+      <code>$errorCode</code>
+      <code>$fieldName</code>
+      <code>$invalidFieldName</code>
+    </ParamNameMismatch>
+  </file>
+</files>
